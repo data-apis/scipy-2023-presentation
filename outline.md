@@ -165,21 +165,121 @@ Here is the outline from the talk proposal:
         to the array dtype. Cross-kind promotion is allowed in this specific
         instance (e.g., `float64_array + 1`).
 
-    * Extensions
+    * Extensions (optional)
 
       * Linear algebra
 
       * FFT
 
 * Current status of implementations:
+
     * Two versions of the standard have been released, 2021.12 and 2022.12.
-    * The standard includes all important core array functionality and extensions for linear algebra and Fast Fourier Transforms.
-    * NumPy and CuPy have complete reference implementations in submodules (numpy.array_api).
-    * NumPy, CuPy, and PyTorch have near full compliance and have plans to approach full compliance
-    * array-api-compat is a wrapper library designed to be vendored by consuming libraries like scikit-learn that makes NumPy, CuPy, and PyTorch use a uniform API.
-    * The array-api-tests package is a rigorous and complete test suite for testing against the array API and can be used to determine where an array API library follows the specification and where it doesn’t.
+      * 2021.12 is usable subset of array functionalities.
+      * 2022.12 highlights are complex number support and fft extension.
+
+    * The standard includes all important core array functionality and
+      extensions for linear algebra and Fast Fourier Transforms.
+
+      * Somehow list all functions? (can do for talk. Not sure about paper)
+
+    * NumPy and CuPy have complete reference implementations in submodules
+      (numpy.array_api).
+
+      * numpy.array_api is a standalone, **strict** implementation of the
+        standard (meaning functionality that is not guaranteed by the spec
+        raises an exception). It uses a separate Array object from np.ndarray.
+        It's not to be used by end users, but rather by libraries to test that
+        their array API usage is portable.
+
+      * cupy.array_api is similar
+
+    * NumPy, CuPy, and PyTorch have near full compliance and have plans to
+      approach full compliance
+
+      * NumPy 2.0 (to be released late 2023), will have full array API
+        compliance, including some breaking changes.
+
+      * CuPy will follow NumPy.
+
+      * PyTorch has open issues to address any dependencies between array
+        API.
+
+    * array-api-compat is a wrapper library designed to be vendored by
+      consuming libraries like scikit-learn that makes NumPy, CuPy, and
+      PyTorch use a uniform API.
+
+      * To be used by array consumer libraries like scipy or scikit-learn.
+
+      * `import array_api_compat.numpy as np` is just like NumPy except all
+        array API functions are wrapped to ensure full spec compliance.
+
+      * Non-spec functions are also included in the compat (there are no
+        strictness constraints, unlike with `numpy.array_api`).
+
+      * Primary usage is like
+
+        ```py
+        from array_api_compat import array_namespace
+
+        def your_function(x, y):
+            xp = array_api_compat.array_namespace(x, y)
+            # Now use xp as the array library namespace
+            return xp.mean(x, axis=0) + 2*xp.std(y, axis=0)
+        ```
+
+      * Supports vendoring. No hard dependencies.
+
+      * Compat wrappers for NumPy, CuPy, and PyTorch. Support for other
+        libraries planned (JAX, Dask, ...)
+
+      * Currently successfully used in scikit-learn's
+        `LinearDiscriminantAnalysis` API
+        (https://github.com/scikit-learn/scikit-learn/pull/22554)
+
+        * TODO: Get benchmarks from Thomas
+
+    * The array-api-tests package is a rigorous and complete test suite for
+      testing against the array API and can be used to determine where an
+      array API library follows the specification and where it doesn’t.
+
+      * All behavior specified by the spec is rigorously tested.
+
+      * Implemented with pytest + hypothesis. Test cases are generated
+        automatically to ensure all corner cases are tested.
+        `hypothesis.extra.array_api` has been implemented to support
+        generating array for any array API compatible library.
+
+      * First known example of a full featured Python test suite that
+        functions against multiple different libraries.
+
 * Future work
+
     * Add full compliance to NumPy, as part of NumPy 2.0.
-    * Focus on improving adoption by consuming libraries, such as SciPy and scikit-learn.
+
+      * Planned for late 2023.
+
+      * NumPy development team is fully on board, including breaking changes.
+
+      * NEP 50 fixes type promotion issues (no more value-based casting).
+
+      * Will also use opportunity to apply spec principles to non-specified
+        functions (e.g., using positional-only arguments throughout the NumPy
+        API).
+
+    * Focus in 2023 is on improving adoption by consuming libraries, such as
+      SciPy and scikit-learn.
+
+      * SciPy 2.0 discussion for fully supporting array API.
+        https://github.com/scipy/scipy/issues/18286
+
+      * Scikit-learn added support to `LinearDiscriminantAnalysis`. More
+        functions planned.
+
     * Reporting website that lists array API compliance by library.
-    * Work is being done to create a similar standard for dataframe libraries. This work has already produced a common dataframe interchange API.
+
+      * TODO (Athan)
+
+    * Work is being done to create a similar standard for dataframe libraries.
+      This work has already produced a common dataframe interchange API.
+
+      * [Minimal to no discussion of this in paper. One slide for talk]
