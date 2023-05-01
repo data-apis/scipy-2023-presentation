@@ -21,17 +21,17 @@ Here is the outline from the talk proposal:
 * The scope and general design principles of the specification.
   * Scope (copied from standard):
 
-    - Functionality which needs to be included in an array library for it to adhere
-      to this standard.
+    - Functionality which needs to be included in an array library for it to
+      adhere to this standard.
     - Names of functions, methods, classes and other objects.
     - Function signatures, including type annotations.
-    - Semantics of functions and methods. I.e. expected outputs including precision
-      for and dtypes of numerical results.
+    - Semantics of functions and methods. I.e. expected outputs including
+      precision for and dtypes of numerical results.
     - Semantics in the presence of `nan`'s, `inf`'s, empty arrays (i.e. arrays
       including one or more dimensions of size `0`).
     - Casting rules, broadcasting, indexing
-    - Data interchange. I.e. protocols to convert one type of array into another
-      type, potentially sharing memory.
+    - Data interchange. I.e. protocols to convert one type of array into
+      another type, potentially sharing memory.
     - Device support.
 
     Furthermore, meta-topics included in this standard include:
@@ -44,24 +44,27 @@ Here is the outline from the talk proposal:
     - Verification of API standard conformance
 
   * Out of scope (copied from standard, note standard also has rationales for
-    all of these https://data-apis.org/array-api/latest/purpose_and_scope.html#out-of-scope)
+    all of these
+    https://data-apis.org/array-api/latest/purpose_and_scope.html#out-of-scope)
 
     1. Implementations of the standard are out of scope.
 
     2. Execution semantics are out of scope. This includes single-threaded vs.
-       parallel execution, task scheduling and synchronization, eager vs. delayed
-       evaluation, performance characteristics of a particular implementation of the
-       standard, and other such topics.
+       parallel execution, task scheduling and synchronization, eager vs.
+       delayed evaluation, performance characteristics of a particular
+       implementation of the standard, and other such topics.
 
     3. Non-Python API standardization (e.g., Cython or NumPy C APIs)
 
-    4. Standardization of these dtypes is out of scope: bfloat16, complex, extended
-       precision floating point, datetime, string, object and void dtypes.
+    4. Standardization of these dtypes is out of scope: bfloat16, complex,
+       extended precision floating point, datetime, string, object and void
+       dtypes.
 
-    5. The following topics are out of scope: I/O, polynomials, error handling,
-       testing routines, building and packaging related functionality, methods of
-       binding compiled code (e.g., `cffi`, `ctypes`), subclassing of an array
-       class, masked arrays, and missing data.
+    5. The following topics are out of scope: I/O, polynomials, error
+       handling, testing routines, building and packaging related
+       functionality, methods of binding compiled code (e.g., `cffi`,
+       `ctypes`), subclassing of an array class, masked arrays, and missing
+       data.
 
     6. NumPy (generalized) universal functions, i.e. ufuncs and gufuncs.
 
@@ -69,22 +72,25 @@ Here is the outline from the talk proposal:
 
   * Goals (copied from standard)
 
-    - Make it possible for array-consuming libraries to start using multiple types
-      of arrays as inputs.
-    - Enable more sharing and reuse of code built on top of the core functionality
-      in the API standard.
+    - Make it possible for array-consuming libraries to start using multiple
+      types of arrays as inputs.
+
+    - Enable more sharing and reuse of code built on top of the core
+      functionality in the API standard.
+
     - For authors of new array libraries, provide a concrete API that can be
-      adopted as is, rather than each author having to decide what to borrow from
-      where and where to deviate.
-    - Make the learning curve for users less steep when they switch from one array
-      library to another one.
+      adopted as is, rather than each author having to decide what to borrow
+      from where and where to deviate.
+
+    - Make the learning curve for users less steep when they switch from one
+      array library to another one.
 
   * Non-goals (copied from standard. Note standard also has rationales)
 
     - Making array libraries identical so they can be merged.
 
-    - Implement a backend or runtime switching system to be able to switch from one
-      array library to another with a single setting or line of code.
+    - Implement a backend or runtime switching system to be able to switch
+      from one array library to another with a single setting or line of code.
 
     - Making it possible to mix multiple array libraries in function calls.
 
@@ -99,7 +105,8 @@ Here is the outline from the talk proposal:
       array libraries.
 
     * No value-based casting. The output data type of any function or
-      operation should depend only on the input data type(s), not the array values.
+      operation should depend only on the input data type(s), not the array
+      values.
 
     * No dimension dependent casting. The output data type of any function or
       operation should function independently of the input array
@@ -114,9 +121,9 @@ Here is the outline from the talk proposal:
       guaranteed by the spec. The `out` keyword is omitted from API
       definitions.
 
-    * Data-dependent output shapes. Since graph-based libraries (JAX, Dask) cannot easily
-      implement them support is optional. Functions: boolean indexing,
-      `nonzero`, and `unique_*`.
+    * Data-dependent output shapes. Since graph-based libraries (JAX, Dask)
+      cannot easily implement them support is optional. Functions: boolean
+      indexing, `nonzero`, and `unique_*`.
 
     * Static typing. Type annotations are defined in a basic way in the spec,
       but libraries may extend. Input types are designed to be simple (e.g.,
@@ -240,7 +247,7 @@ Here is the outline from the talk proposal:
 
     * The array-api-tests package is a rigorous and complete test suite for
       testing against the array API and can be used to determine where an
-      array API library follows the specification and where it doesn’t.
+      array API library follows the specification and where it doesn't.
 
       * All behavior specified by the spec is rigorously tested.
 
