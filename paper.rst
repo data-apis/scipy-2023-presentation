@@ -1,3 +1,6 @@
+.. Make single backticks produce code
+.. default-role:: code
+
 :author: Aaron Meurer
 :email: asmeurer@quansight.com
 :institution: Quansight
