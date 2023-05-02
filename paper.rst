@@ -70,6 +70,22 @@ The standard has been developed with following core principles:
 * In a similar vein, APIs should support JIT compilers. For example, the type
   of any function's output should only depend on the types of the inputs.
 
+* The API is primarily functional (e.g., `xp.any(x)` instead of `x.any()`).
+  Outside of Python dunder operators, there are only a few method defined on
+  the array object. Functional APIs are already preferred for must array
+  libraries. Functional code is easier to read, especially for expressions
+  with many mathematical functions and operations. Additionally, functions
+  make it clearer that an operation returns a new array rather than mutating
+  the input array in-place, which is avoided in the specification (see the
+  next bullet point).
+
+* Copy-view behavior and mutability is not required. Array libraries may
+  implement mutation but the behavior of in-place mutation with views is not
+  guaranteed by the spec. Operations producing "views" on existing data is
+  considered an implementation detail and should not be relied on for
+  portability across libraries. The `out` keyword is omitted from API
+  definitions.
+
 * No value-based casting. The output data type of any function or
   operation should depend only on the input data type(s), not the array
   values.
@@ -81,10 +97,6 @@ The standard has been developed with following core principles:
 
 * Functions that can easily be implemented in terms of existing standardized
   functions do not necessarily need to be standardized.
-
-* Copy-view behavior and mutability is not required. Array libraries may
-  implement mutation but the behavior of in-place mutation with views is not
-  guaranteed by the spec. The `out` keyword is omitted from API definitions.
 
 * Functions with data-dependent output shapes are optional, since Graph-based
   libraries like JAX and Dask cannot easily support them. This includes
@@ -162,6 +174,281 @@ this.
 
 Features
 ========
+
+Data Interchange
+----------------
+
+Device Support
+--------------
+
+Functions and Methods
+---------------------
+
+Signatures
+~~~~~~~~~~
+
+All function signatures in the specification make use of `PEP 570
+<https://peps.python.org/pep-0570/>`_ positional-only arguments for arguments
+that are arrays. It should not matter if one library defines, for instance
+`def atan2(y, x): ...` and another library defines `def atan2(x1, x2): ...`.
+With positional-only arguments, the only way to call the function is by
+passing the arguments by position, like `atan2(a, b)`. The specific name given
+the arguments by the library becomes separate from the API.
+
+Additionally, most keyword arguments are keyword-only. For example, `ones((3,
+3), int64)` is not allowed---it must be called as `ones((3, 3), dtype=int64)`.
+This makes user code more readable, and future-proofs the API by allowing
+additional keyword arguments to be added without breaking existing function
+calls.
+
+All signatures in the specification include type annotations. These type
+annotations use generic types like `array` and `dtype` type to represent a
+library's array or dtype objects. These type annotations represent the minimal
+types that are required to be supported by the specification. A library may
+choose to accept additional types, although any use of this functionality will
+be non-portable. Functionally, type annotations serve no purpose other than
+documentation. Libraries are not required to implement any sort of runtime
+type checking, or to actually include such annotations in their own function
+signatures. The array API specification does attempt to make any extensions of
+type annotations beyond what is already specified by PEPs and supported by
+popular type checkers such as Mypy. For instance, including dtype or shape
+information in the annotated type signatures is out-of-scope.
+
+Here is an example type signature in the specification
+
+.. code:: python
+
+   def asarray(
+       obj: Union[
+           array, bool, int, float, complex, NestedSequence, SupportsBufferProtocol
+       ],
+       /,
+       *,
+       dtype: Optional[dtype] = None,
+       device: Optional[device] = None,
+       copy: Optional[bool] = None,
+   ) -> array:
+       ...
+
+
+Array Methods and Attributes
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+All relevant Python "dunder" methods (e.g., `__add__`, `__mul__`, etc.) are
+specified for the array object, so that people can write array code in a
+natural way using operators. Every dunder method has a corresponding
+functional form (e.g., `__add__` <-> `xp.add()`). For consistency, this is
+done even for "useless" operators like `__pos__` <-> `positive()`. Operators
+and the corresponding functions behave identically, with the exception that
+operators accept Python scalars (see "type promotion" below), and functions
+are only required to accept arrays.
+
+In addition to the standard Python dunder methods, the standard adds a some
+new dunder methods:
+
+- `x.__array_namespace__()` returns the corresponding
+  array API compliant namespace for the array `x`. This solves the problem of
+  how array consumer libraries determine which namespace to use for a given
+  input. A function that accepts input `x` can call `xp =
+  x.__array_namespace__()` at the top to get the corresponding array API
+  namespace `xp`, whose functions are then used on `x` to compute the result,
+  which will typically be another array from the `xp` library.
+
+- `__dlpack__()` and `__dlpack_device__()` (see the "data interchange" section above).
+
+Functions
+~~~~~~~~~
+
+Aside from dunder methods, the only methods/attributes defined on the array
+object are `x.to_device()`, `x.dtype`, `x.device`, `x.mT`, `x.ndim`,
+`x.shape`, `x.size`, and `x.T`. All other functions in the specification are
+defined as functions. These functions include
+
+- Elementwise functions. These include functional forms of the Python
+  operators (like `add()`) as well as common numerical functions like `exp()`
+  and `sqrt()`. Elementwise functions do not have any additional keyword
+  arguments.
+
+- Creation functions. This includes standard array creation functions
+  including `ones()`, `linspace`, `arange`, and `full`, as well as the
+  `asarray()` function, which converts "array like" inputs like lists of
+  floats and object supporting the buffer protocol to array objects. Creation
+  functions all include a `dtype` and `device` keywords (see the "Device"
+  section above). The `array` type is not specified anywhere in the spec,
+  since different libraries use different types for their array objects,
+  meaning `asarray()` and the other creation functions serve as the effective
+  "array constructor".
+
+- Data type functions are basic functions to manipulate and introspect dtype
+  objects.
+
+- Linear algebra functions. Only basic manipulation functions like `matmul()`
+  are required by the specification. Additional linear algebra functions are
+  included in an optional `linalg` extension (see below).
+
+- Manipulation functions such as `reshape()`, `stack()`, and `squeeze()`.
+
+- Reduction functions such as `sum()`, `any()`, `all()`, and `mean()`.
+
+- Four new functions `unique_all()`, `unique_counts()`, `unique_inverse()`,
+  and `unique_values()`. These are based on the `np.unique()` function but
+  have been split into separate functions. This is because `np.unique()`
+  returns a different number of arguments depending on the values of keyword
+  arguments. Functions like this whose output type depends on more than just
+  the input types are hard for JIT compilers to handle, and they are also
+  harder for users to reason about.
+
+Note that the `unique_*` functions, as well as `nonzero()` have a
+data-dependent output shape, which makes them difficult to implement in graph
+libraries. Therefore, such libraries may choose to not implement these
+functions.
+
+Data Types
+~~~~~~~~~~
+
+Data types are defined as named dtype objects in the array namespace, e.g.,
+`xp.float64`. Nothing is specified about what these objects actually are
+beyond that they should obey basic equality testing. Introspection on these
+objects can be done with the data type functions (see above).
+
+The following dtypes are defined:
+
+- Boolean: `bool`.
+- Integer: `int8`, `int16`, `int32`, `int64`, `uint8`, `uint16`, `uint32`, and
+  `uint64`.
+- Real floating-point: `float32` and `float64`.
+- Complex floating-point: `complex64` and `complex128`.
+
+Additionally, a conforming library should have "default" integer and
+floating-point dtypes, which is consistent across platforms. This is used in
+contexts where the result data type is otherwise ambiguous, for example, in
+creation functions when no dtype is specified. This allows libraries to
+default to 64-bit or 32-bit data types depending on the use-cases they are
+aiming for. For example, NumPy's default integer and float dtypes are `int64`
+and `float64`, whereas, PyTorch's defaults are `int64` and `float32`.
+
+See also the "Type Promotion" section below for information on how dtypes
+combine with each other.
+
+Broadcasting
+------------
+
+All elementwise functions and operations that accept more than one array input
+apply broadcasting rules. The broadcasting rules match the commonly used
+semantics of NumPy, where a broadcasted shape is constructed from the input
+shapes by prepending size-1 dimensions and broadcasting size-1 dimensions to
+otherwise equal non-size-1 dimensions. Broadcasting rules are independent of
+the input array data types or values.
+
+
+Indexing
+--------
+
+Arrays should support indexing operations using the standard Python getitem
+syntax, `x[idx]`. The indexing semantics defined are based on the common NumPy
+array indexing semantics, but restricted to a subset that is common across
+array libraries and does not impose difficulties for array libraries
+implemented on accelerators. Basic integer and slice indexing is defined as
+usual, except behavior on out-of-bounds indices is left unspecified. Multiaxis
+tuple indices are defined, but only specified when all axes are indexed (e.g.,
+if `x` is 2-dimensional, `x[0, :]` is defined but `x[0]` may not be
+supported). A `None` index may be used in a multiaxis index to insert size-1
+dimensions (`xp.newaxis` is specified as a shorthand for `None`). Boolean
+array indexing (also sometimes called "masking") is specified, but only for
+instances where the boolean index has the same dimensionality as the indexed
+array. The result of a boolean array indexing is data-dependent, and thus
+graph-based libraries may choose to not implement this behavior.
+
+Integer array indexing is not specified, however a basic `take()` is specified
+and `put()` will be added in the 2023 version of the spec.
+
+Note that views are not required in the specification. Libraries may choose to
+implement indexed arrays as views, but this should be treated as an
+implementation detail by array consumers. In particular, any mutation behavior
+that affects more than one array object is considered an implementation detail
+that should not be relied on for portability.
+
+As with other APIs, extensions of these indexing semantics, e.g., by
+supporting the full range of NumPy indexing rules, is allowed. Array consumers
+using these will only need to be aware that their code may not be portable
+across libraries.
+
+It should be noted that both 0-D arrays (i.e., "scalar" arrays with shape `()`
+consisting of a single value), and size-0 arrays (i.e., arrays with `0` in
+their shape with no values) are fully supported by the specification. The
+specification does not have any notion of "array scalars" like NumPy's
+`np.float64(0.)`, only 0-D arrays. Scalars are a NumPy-only thing, and it is
+unnecessary from the point of view of the specification to have them as a
+separate concept from 0-D arrays.
+
+Type Promotion
+--------------
+
+.. TODO: Add promotion table here
+
+Elementwise functions and operators that accept more than one argument perform
+type promotion on their inputs, if the input dtypes are compatible.
+
+The specification requires that all type promotion should happen independently
+of the input array values and shapes. This is a break from the historical
+NumPy behavior where type promotion could vary for 0-D arrays depending on
+their values. For example (in NumPy 1.24):
+
+.. code:: python
+
+   >>> a = np.asarray(0., dtype=np.float64)
+   >>> b = np.asarray([0.], dtype=np.float32)
+   >>> (a + b).dtype
+   dtype('float32')
+   >>> a2 = np.asarray(1e50, dtype=np.float64)
+   >>> (a2 + b).dtype
+   dtype('float64')
+
+
+This behavior is and bug prone and confusing to reason about. In the array API
+specification, any `float32` array and any `float64` array would promote to a
+`float64` array, regardless of their shapes or values. NumPy is planning to
+deprecate its value-based casting behavior for NumPy 2.0 (see below).
+
+Additionally, automatic cross-kind casting is not specified. This means that
+dtypes like `int64` and `float64` are not required to promote together. It
+also means that functions that return floating-point values, like `exp()` or
+`sin()` are not required to accept integer dtypes. Array libraries are not
+required to error in these situations, but array consumers should not rely on
+cross-kind casting in portable code. Cross-kind casting is better done
+explicitly using the `astype()` function. Automatic cross-kind casting can
+result in loss of precision, and often when it happens it indicates a bug in
+the code.
+
+Single argument functions and operators should maintain the same dtype when
+relevant, for example, if the input to `exp()` is a `float32` array, the
+output should also be a `float32` array.
+
+For Python operators like `+` or `*`, Python scalars are allowed. Python
+scalars cast to the dtype of the corresponding array's dtype. Cross-kind
+casting of the scalar is allowed in this specific instance for convenience
+(for example, `float64_array + 1` is allowed, and is equivalent to
+`float64_array + asarray(1., dtype=float64)`).
+
+Optional Extensions
+-------------------
+
+In addition to the above required functions, there are two optional extension
+sub-namespaces. Array libraries may chose to implement or not implement these
+extensions. These extensions are optional as they typically require linking
+against a numerical library such as a linear algebra library.
+
+- `linalg` contains basic linear algebra functions, such as `eigh`, `solve`,
+  and `qr`. These functions are designed to support "batching" (i.e.,
+  functions that accept matrices also accept stacks of matrices as a single
+  array with more than 2 dimensions). The specification for the `linalg`
+  extension is designed to be implementation agnostic. This means that things
+  like keyword arguments that are specific to backends like LAPACK are omitted
+  from the specified signatures (for example, NumPy’s use of `UPLO` in
+  `eigh`). BLAS and LAPACK no longer hold a complete monopoly over linear
+  algebra operations given the existence of specialized accelerated hardware.
+
+- `fft` contains functions for performing Fast Fourier transformations.
 
 Current Status of Implementations
 =================================
