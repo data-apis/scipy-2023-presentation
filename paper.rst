@@ -453,5 +453,227 @@ against a numerical library such as a linear algebra library.
 Current Status of Implementations
 =================================
 
+Two versions of the array API specification have been released, v2021.12 and
+v2022.12. v2021.12 was the initial release with all important core array
+functionality. The v2022.12 release added complex number support to all APIs
+and the `fft` extension. A v2023 version is in the works, although no
+significant changes are planned so far. Most of the work around the array API
+in 2023 has been to focus on implementation and adoption.
+
+
+Strict Minimal Implementation (`numpy.array_api`)
+---------------------------------------------------
+
+The experimental `numpy.array_api` submodule is a standalone, strict
+implementation of the standard. It is not intended to be used by end users,
+but rather by array consumer libraries to test that their array API usage is
+portable.
+
+The strictness of `numpy.array_api` means it will raise an exception for code
+that is not portable, even if it would work in the base `numpy`. For example,
+here we see that `numpy.array_api.sin(x)` fails for an integral array `x`,
+because in the array API spec, `sin()` is only required to work with
+floating-point arrays.
+
+.. code:: python
+
+   >>> import numpy.array_api as xp
+   <stdin>:1: UserWarning: The numpy.array_api submodule is still experimental. See NEP 47.
+   >>> x = xp.asarray([1, 2, 3])
+   >>> xp.sin(x)
+   Traceback (most recent call last):
+   ...
+   TypeError: Only floating-point dtypes are allowed in sin
+
+In order to implement this strictness, `numpy.array_api` uses a separate
+`Array` object from `np.ndarray`.
+
+.. code:: python
+
+   >>> a
+   Array([1, 2, 3], dtype=int64)
+
+This makes it difficult to use `numpy.array_api` alongside normal `numpy`. For
+example, if a consumer library wanted to implement the array API for NumPy by
+using `numpy.array_api`, they would have to first convert the user's input
+`numpy.ndarray` to `numpy.array_api.Array`, perform the calculation, then
+convert back. This is in conflict with the fundamental design of the array API
+specification, which is for array libraries to implement the API and for array
+consumers to use that API directly in a library agnostic way, without
+converting between different array libraries.
+
+As such, the `numpy.array_api` module is only useful as a testing library for
+array consumers, to check that their code is portable. If code runs in
+`numpy.array_api`, it should work in any conforming array API namespace.
+
+array-api-compat
+----------------
+
+As discussed above, `numpy.array_api` is not a suitable way for libraries to
+use `numpy` in an array API compliant way. However, NumPy, as of 1.24, still
+has many discrepancies from the array API. A few of the biggest ones are:
+
+- Several elementwise functions are renamed from NumPy. For example, NumPy has
+  `arccos()`, etc., but the standard uses `acos()`.
+
+- The spec contains some new functions that are not yet included in NumPy.
+  These clean up some messy parts of the NumPy API. These include:
+
+  .. TODO: How complete do we need to be here?
+
+  - `np.unique` is replaced with four different `unique_*` functions so that
+    they always have a consistent return type.
+
+  - `np.transpose` is renamed to `permute_dims`.
+
+  - `matrix_transpose` is a new function that only transposes the last two
+    dimensions of an array.
+
+  - `np.norm` is replaced with separate `matrix_norm` and `vector_norm`
+    functions in the `linalg` extension.
+
+  - `np.trace` operates on the first two axes of an array but the spec
+    `linalg.trace` operates on the last two.
+
+There are plans in NumPy 2.0 to fully adopt the spec, including changing the
+above behaviors to be spec-compliant. But in order to facilitate adoption, a
+new library `array-api-compat` has been written. `array-api-compat` is a
+small, pure Python library with no hard dependencies that wraps array
+libraries to make the spec complaint. Currently `NumPy`, `CuPy`, and `PyTorch`
+are supported.
+
+`array-api-compat` is to be used by array consumer libraries like scipy or
+scikit-learn. The primary usage is like
+
+.. code:: python
+
+   from array_api_compat import array_namespace
+
+   def some_array_function(x, y):
+       xp = array_api_compat.array_namespace(x, y)
+
+       # Now use xp as the array library namespace
+       return xp.mean(x, axis=0) + 2*xp.std(y, axis=0)
+
+`array_namespace` is a wrapper around `x.__array_namespace__()`, except
+whenever `x` is a NumPy, CuPy, or PyTorch array, it returns a wrapped module
+that has functions that are array API compliant. Unlike `numpy.array_api`,
+`array_api_compat` does not wrap the array objects. So in the above example,
+the if the input arrays are `np.ndarray`, the return array will be a
+`np.ndarray`, even though `xp.mean` and `xp.std` are wrapped functions.
+
+While the long-term goal is for array libraries to be completely array API
+compliant, `array-api-compat` allows consumer libraries to use the array API
+in the shorter term against libraries like NumPy, CuPy, and PyTorch that are
+"nearly complaint".
+
+`array-api-compat` has already been successfully used in scikit-learn's
+`LinearDiscriminantAnalysis` API
+(https://github.com/scikit-learn/scikit-learn/pull/22554).
+
+Compliance Testing
+------------------
+
+The array API specification contains over 200 function and method definitions,
+each with its own signature and specification for behaviors for things like
+type promotion, broadcasting, and special case values.
+
+In order to facilitate adoption by array libraries, as well as to aid in the
+development of the reference `numpy.array_api` implementation. A test suite
+has been developed. The `array-api-tests` test suite is a fully featured test
+suite that can be run against any array library to check its compliance
+against the array API. The test suite does not depend on any array
+library---testing against something like NumPy would be circular when it comes
+time to test NumPy itself. Instead, array-api-tests tests the behavior
+specified by the spec directly.
+
+The array library is specified using the `ARRAY_API_TESTS_MODULE` environment
+variable when running the tests.
+
+This is done by making use of the hypothesis Python library. The consortium
+team has upstreamed array API support to hypothesis in the form of the new
+`hypothesis.extra.array_api` submodule, which supports generating arrays from
+any array API compliant library. The test suite uses these hypothesis
+strategies to generate inputs to tests, which then check the behaviors
+outlined by the spec automatically. An (abridged and annotated) example is the
+test for `flip` shown below:
+
+.. code:: python
+
+   @given(
+       x=xps.arrays(dtype=xps.scalar_dtypes(), shape=hh.shapes()),
+       data=st.data(),
+   )
+   def test_flip(x, data):
+       # Generate input arguments for flip(x, /, axis=None)
+       if x.ndim == 0:
+           axis_strat = st.none()
+       else:
+           axis_strat = (
+               st.none() | st.integers(-x.ndim, x.ndim - 1) | xps.valid_tuple_axes(x.ndim)
+           )
+       kw = data.draw(hh.kwargs(axis=axis_strat), label="kw")
+
+       # Call xp.flip. xp is the array library specified by ARRAY_API_TESTS_MODULE
+       out = xp.flip(x, **kw)
+
+       # Check that the output dtype is the same as the input dtype
+       ph.assert_dtype("flip", in_dtype=x.dtype, out_dtype=out.dtype)
+
+       # Test that the values of the array are actually flipped along the
+       # given axis by testing each element of the array directly
+       _axes = sh.normalise_axis(kw.get("axis", None), x.ndim)
+       for indices in sh.axes_ndindex(x.shape, _axes):
+           reverse_indices = indices[::-1]
+           assert_array_ndindex("flip", x, x_indices=indices, out=out,
+                                out_indices=reverse_indices, kw=kw)
+
+
+Behavior that is not specified by the spec is not checked by the test suite,
+for example the exact numeric output of floating-point functions.
+
+The use of hypothesis has several advantages. Firstly, it allows writing tests
+in a way that more or less corresponds to a direct translation of the spec
+into code. This is because hypothesis is a property-based testing library, and
+the behaviors required by the spec are easily written as properties. Secondly,
+it makes it easy to test all input combinations without missing any corner
+cases. Hypothesis automatically handles generating "interesting" examples from
+its strategies. For example, behaviors on 0-D or size-0 arrays are always
+checked because hypothesis will always generate inputs that match these corner
+cases. Thirdly, hypothesis automatically shrinks inputs that lead to test
+failures, producing the minimal input to reproduce the issue. This leads to
+test failures that are more understandable because they do not incorporate
+details that are unrelated to the problem. Lastly, because hypothesis
+generates inputs based on a random seed, a large number of examples can be
+tested without any additional work. For instance, the test suite can be run
+with `pytest --max-examples=10000` to run each test with 10000 different
+examples (the default is 100). These things would all be difficult to achieve
+with an old-fashioned "manual" test suite, where explicit examples are chosen
+by hand.
+
+The array-api-tests test suite is the first example known to these authors of
+a full featured Python test suite that runs against multiple different
+libraries. It has already been invaluable in practice for implementing the
+reference `numpy.array_api` implementation, the `array-api-compat` library,
+and for finding presidencies from the spec in array libraries including NumPy,
+CuPy, and PyTorch.
+
 Future Work
 ===========
+
+The focus of the consortium for 2023 is on implementation and adoption.
+
+NumPy 2.0, which is planned for the Q4 2023, will have full array API support.
+This will include several small breaking changes to bring NumPy inline with
+the specification. This also includes, NEP 50, which fixes NumPy's type
+promotion by removing all value-based casting. A NEP for full array API
+specification support will be announced later this year.
+
+SciPy 2.0 is also planned, and will include full support for the array API
+across the different functions. For end-users this means that they can use
+CuPy arrays or PyTorch tensors instead of NumPy arrays in SciPy functions, and
+they will just work as expected, performing the calculation with the
+underlying array library and returning an array from the same library.
+
+Scikit-learn has implemented array API specification support in
+`LinearDiscriminantAnalysis` and plans to add support to more functions.
