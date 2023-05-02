@@ -108,10 +108,10 @@ The standard has been developed with following core principles:
   of any function's output should only depend on the types of the inputs.
 
 * The API is primarily functional (e.g., `xp.any(x)` instead of `x.any()`).
-  Outside of Python dunder operators, there are only a few method defined on
+  Outside of Python "dunder" operators, there are only a few method defined on
   the array object. Functional APIs are already preferred for must array
-  libraries. Functional code is easier to read, especially for expressions
-  with many mathematical functions and operations. Additionally, functions
+  libraries, functional code is easier to read, especially for expressions
+  with many mathematical functions and operations, and functions
   make it clearer that an operation returns a new array rather than mutating
   the input array in-place, which is avoided in the specification (see the
   next bullet point).
@@ -135,18 +135,18 @@ The standard has been developed with following core principles:
 * Functions that can easily be implemented in terms of existing standardized
   functions do not necessarily need to be standardized.
 
-* Functions with data-dependent output shapes are optional, since Graph-based
+* Functions with data-dependent output shapes are optional, since graph-based
   libraries like JAX and Dask cannot easily support them. This includes
   boolean indexing, `nonzero()`, and the `unique_*` functions.
 
 * Type annotations are defined in a basic way in the spec, but libraries may
-  extend them. Input types are designed to be simple. For example, functions
-  are only required to accept `array` objects. Accepting "array like" types
-  like lists of numbers, as NumPy does, is problematic because it complicates
-  type signatures, and calling `asarray()` at the top of every function adds
-  additional overhead. However, these type signatures are not strict:
-  libraries may choose to accept additional input types outside of those that
-  are specified.
+  extend them. Input types are designed to be as simple as possible. For
+  example, functions are only required to accept `array` objects. Accepting
+  "array like" types like lists of numbers, as NumPy does, is problematic
+  because it complicates type signatures, and calling `asarray()` at the top
+  of every function adds additional overhead. However, these type signatures
+  are not strict:  libraries may choose to accept additional input types
+  outside of those that are specified.
 
 * The accuracy and precision of numerical functions are not specified beyond
   very basic IEEE 754 rules.
@@ -620,7 +620,7 @@ each with its own signature and specification for behaviors for things like
 type promotion, broadcasting, and special case values.
 
 In order to facilitate adoption by array libraries, as well as to aid in the
-development of the reference `numpy.array_api` implementation. A test suite
+development of the minimal `numpy.array_api` implementation. A test suite
 has been developed. The `array-api-tests` test suite is a fully featured test
 suite that can be run against any array library to check its compliance
 against the array API. The test suite does not depend on any array
@@ -695,7 +695,7 @@ by hand.
 The array-api-tests test suite is the first example known to these authors of
 a full featured Python test suite that runs against multiple different
 libraries. It has already been invaluable in practice for implementing the
-reference `numpy.array_api` implementation, the `array-api-compat` library,
+minimal `numpy.array_api` implementation, the `array-api-compat` library,
 and for finding presidencies from the spec in array libraries including NumPy,
 CuPy, and PyTorch.
 
