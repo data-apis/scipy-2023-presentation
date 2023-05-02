@@ -421,7 +421,11 @@ separate concept from 0-D arrays.
 Type Promotion
 --------------
 
-.. TODO: Add promotion table here
+.. figure:: dtype_promotion_lattice.png
+
+   The dtypes specified in the spec with required type promotions, including
+   promotions for Python scalars in operators. Cross-kind promotion is not
+   required and is discouraged.
 
 Elementwise functions and operators that accept more than one argument perform
 type promotion on their inputs, if the input dtypes are compatible.
