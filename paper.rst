@@ -87,6 +87,20 @@ libraries.
 
 The standard has been developed with following core principles:
 
+* Don't assume any dependency other than Python itself. Different array
+  libraries have independent codebase, and link against varying backend
+  libraries depending on what hardware they support. There is no common array
+  layer and array libraries do not need to know about each other. Data can be
+  interchanged between libraries using a protocol which does not require a
+  dependency.
+
+* Libraries may implement behaviors beyond what is specified. Except in a few
+  special instances where avoiding bad behavior is desired, the spec does not
+  disallow libraries to implement additional functions, methods, keyword
+  arguments, and allow additional input types. The onus is on array library
+  consumers to ensure they write portable code (the strict minimal
+  `numpy.array_api` module is designed to help here).
+
 * APIs should support accelerators. This means not either not specifying or
   making optional behaviors that are difficult to implement performantly.
 
