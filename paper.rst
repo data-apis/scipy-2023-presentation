@@ -27,10 +27,55 @@
 
 .. class:: keywords
 
-   Python, Arrays, NumPy, CuPy, PyTorch, JAX, Dask
+   Python, Arrays, Tensors, NumPy, CuPy, PyTorch, JAX, Dask
 
 Introduction
 ============
+
+The design of array API considers three primary stakeholders: Array libraries,
+array library consumers, and end users. *Array libraries* are Python libraries
+that implement an array object and a namespace that conforms to the array API
+standard. Examples of array libraries are NumPy, CuPy, and PyTorch. *Array
+library consumers* are libraries that implement functionality against the array
+API, consuming any conforming array library. Examples of array library
+consumers are SciPy and scikit-learn. *End users* are people such as
+scientists, data scientists, machine learning practitioners, as well as other
+higher level libraries, which make use of array libraries and array consuming
+libraries to solve problems with their data.
+
+In the present paradigm, array library consumers are written against a single
+array library (typically NumPy). Using the algorithms they provide with other
+array libraries is impossible. This is because, firstly, the array library is
+hard-coded into the functions with things like `np.<function>`, where `np` is
+`numpy`. Secondly, even if `np` could be swapped out with a different array
+library, different libraries provide different APIs, so the code would be
+unlikely to run without modification.
+
+However, if we examine the three stakeholders, we see that each stakeholder
+adds its own value to the workflow. Array libraries provide an array object
+and corresponding functions that are optimized against a certain set of
+use-cases and hardware. Array consumer libraries provide useful
+implementations of higher level algorithms. End-users provide the actual data
+and problem to be solved. The current paradigm is misaligned, because it is
+end-users who are the best suited to choose which array library best fits
+their needs. The may prefer a battle-tested, highly portable library like
+NumPy, or a library that has been optimized for deep learning workflows like
+PyTorch, or a library that can scale to multiple machines like Dask. But if
+they also want to make use of a high level array consumer library, that choice
+of array library will be forced on them by whatever array library it is
+implemented against.
+
+The array API specification corrects this misalignment by specifying a uniform
+API for array libraries to provide. Array consumer libraries can then be
+written against this one uniform API, allowing their functionality to work
+with arrays from any conforming array library. End users are then able to
+chose their array library without that choice restricting their choices of
+array consumer libraries. The usability improvement from different array
+libraries themselves having more consistent APIs and semantics additionally
+provides a benefit to the whole ecosystem.
+
+Motivating Example
+------------------
 
 History of the Consortium
 =========================
@@ -69,7 +114,7 @@ Additionally, the specification has several non-goals:
 - Making it possible to mix multiple array libraries in function calls. Most
   array libraries do not know about other libraries, and the functions they
   implement may try to convert "foreign" input, or raise an exception. This
-  behavior is hard to specify. It is better to require the end-user to use a
+  behavior is hard to specify. It is better to require the end user to use a
   single array library that best fits their needs. Note that specification of
   an interchange protocol is within scope, but interchange between array
   libraries is only done explicitly in the specification.
@@ -711,7 +756,7 @@ promotion by removing all value-based casting. A NEP for full array API
 specification support will be announced later this year.
 
 SciPy 2.0 is also planned, and will include full support for the array API
-across the different functions. For end-users this means that they can use
+across the different functions. For end users this means that they can use
 CuPy arrays or PyTorch tensors instead of NumPy arrays in SciPy functions, and
 they will just work as expected, performing the calculation with the
 underlying array library and returning an array from the same library.
