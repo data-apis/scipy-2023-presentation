@@ -310,7 +310,8 @@ Here is an example type signature in the specification
 
    def asarray(
        obj: Union[
-           array, bool, int, float, complex, NestedSequence, SupportsBufferProtocol
+           array, bool, int, float, complex,
+           NestedSequence, SupportsBufferProtocol
        ],
        /,
        *,
@@ -569,15 +570,17 @@ here we see that `numpy.array_api.sin(x)` fails for an integral array `x`,
 because in the array API spec, `sin()` is only required to work with
 floating-point arrays.
 
-.. code:: python
+.. code:: pycon
 
    >>> import numpy.array_api as xp
-   <stdin>:1: UserWarning: The numpy.array_api submodule is still experimental. See NEP 47.
+   <stdin>:1: UserWarning: The numpy.array_api submodule
+   is still experimental. See NEP 47.
    >>> x = xp.asarray([1, 2, 3])
    >>> xp.sin(x)
    Traceback (most recent call last):
    ...
-   TypeError: Only floating-point dtypes are allowed in sin
+   TypeError: Only floating-point dtypes are allowed in
+   sin
 
 In order to implement this strictness, `numpy.array_api` uses a separate
 `Array` object from `np.ndarray`.
