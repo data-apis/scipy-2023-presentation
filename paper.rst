@@ -82,7 +82,12 @@ TODO
 History of the Consortium
 =========================
 
-TODO
+.. TODO: Distill this blog post
+   https://data-apis.org/blog/announcing_the_consortium/, as well as more
+   recent history like the standard releases.
+
+The Data APIs Consortium was formed in 2020, with the goal of unifying
+API standards for Python array and dataframe libraries.
 
 Goals and Non-Goals
 ===================
