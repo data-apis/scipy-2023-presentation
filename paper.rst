@@ -32,7 +32,7 @@
 Introduction
 ============
 
-The design of array API considers three primary stakeholders: Array libraries,
+The array API is designed around three primary stakeholders: Array libraries,
 array library consumers, and end users. *Array libraries* are Python libraries
 that implement an array object and a namespace that conforms to the array API
 standard. Examples of array libraries are NumPy, CuPy, and PyTorch. *Array
@@ -269,7 +269,71 @@ TODO
 Device Support
 --------------
 
-TODO
+The standard supports specifying what device an array should live on. This is
+implemented by explicit `device` keywords in creation functions, with the
+convention that execution takes place on the same device where all argument
+arrays are allocated. This method of specifying devices was chosen because it
+is the most granular, although it can be verbose. Other methods of specifying
+devices such as context managers are not included, but may be added in future
+versions of the spec.
+
+The primary intended usage of device support in the specification is for array
+consuming libraries. End users who create arrays from a specific array library
+may use that library's specific syntax for specifying the device relative to
+their specific hardware configuration. For an array consuming library, the
+important things they need to be able to do are
+
+- Create new arrays on the same device as an array that's passed in.
+
+- Determine whether two input arrays are present on the same device or not.
+
+- Move an array from one device to another.
+
+- Create output arrays on the same device as the input arrays.
+
+- Pass on a specified device to other library code.
+
+Consequently, the specified device syntax focuses primarily on get the device
+from an array and setting the device to the same device as another array. The
+specifics of how to specify actual devices is left unspecified. These
+specifics differ significantly between existing implementations, e.g., CuPy
+and PyTorch.
+
+The syntax that is specified is
+
+- A `.device` property on the array object, which returns a device object
+  representing the device the data in the array is stored on. Nothing is
+  specified about the device object other than that it must support basic `==`
+  equality comparison within the same library.
+
+- A `device=None` keyword for array creation functions, which takes an
+  instance of a device object.
+
+- A `.to_device()` method on the array object to copy an array to a different
+  device.
+
+In other words, the only specified way to access a device object is via the
+`.device` property of an existing array object. The specifics of how to
+specify an actual device depends on the actual array library used, and is
+something that will be done by end-users, not array library consumers.
+
+This also means that the following are currently considered out-of-scope for
+the array API specification:
+
+- Identifying a specific physical or logical device across libraries
+
+- Setting a default device globally
+
+- Stream/queue control
+
+- Distributed allocation
+
+- Memory pinning
+
+- A context manager for device control
+
+All functions should respect explicit `device=` assignment, preserve the
+device whenever possible, and avoid implicit data transfer between devices.
 
 Functions and Methods
 ---------------------
