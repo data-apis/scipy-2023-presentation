@@ -77,8 +77,12 @@ provides a benefit to the whole ecosystem.
 Motivating Example
 ------------------
 
+TODO
+
 History of the Consortium
 =========================
+
+TODO
 
 Goals and Non-Goals
 ===================
@@ -260,8 +264,12 @@ Features
 Data Interchange
 ----------------
 
+TODO
+
 Device Support
 --------------
+
+TODO
 
 Functions and Methods
 ---------------------
@@ -763,3 +771,9 @@ underlying array library and returning an array from the same library.
 
 Scikit-learn has implemented array API specification support in
 `LinearDiscriminantAnalysis` and plans to add support to more functions.
+
+Work is being done on a array API compliance website. (TODO)
+
+There is a similar effort being done by the same Data APIs Consortium to
+standardize Python dataframe libraries. This work will be discussed in a
+future paper and conference talk.
