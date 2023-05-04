@@ -474,7 +474,7 @@ separate concept from 0-D arrays.
 Type Promotion
 --------------
 
-.. figure:: dtype_promotion_lattice.png
+.. figure:: dtype_promotion_lattice.pdf
 
    The dtypes specified in the spec with required type promotions, including
    promotions for Python scalars in operators. Cross-kind promotion is not
