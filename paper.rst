@@ -689,42 +689,9 @@ team has upstreamed array API support to hypothesis in the form of the new
 `hypothesis.extra.array_api` submodule, which supports generating arrays from
 any array API compliant library. The test suite uses these hypothesis
 strategies to generate inputs to tests, which then check the behaviors
-outlined by the spec automatically. An (abridged and annotated) example is the
-test for `flip` shown below:
-
-.. code:: python
-
-   @given(
-       x=xps.arrays(dtype=xps.scalar_dtypes(), shape=hh.shapes()),
-       data=st.data(),
-   )
-   def test_flip(x, data):
-       # Generate input arguments for flip(x, /, axis=None)
-       if x.ndim == 0:
-           axis_strat = st.none()
-       else:
-           axis_strat = (
-               st.none() | st.integers(-x.ndim, x.ndim - 1) | xps.valid_tuple_axes(x.ndim)
-           )
-       kw = data.draw(hh.kwargs(axis=axis_strat), label="kw")
-
-       # Call xp.flip. xp is the array library specified by ARRAY_API_TESTS_MODULE
-       out = xp.flip(x, **kw)
-
-       # Check that the output dtype is the same as the input dtype
-       ph.assert_dtype("flip", in_dtype=x.dtype, out_dtype=out.dtype)
-
-       # Test that the values of the array are actually flipped along the
-       # given axis by testing each element of the array directly
-       _axes = sh.normalise_axis(kw.get("axis", None), x.ndim)
-       for indices in sh.axes_ndindex(x.shape, _axes):
-           reverse_indices = indices[::-1]
-           assert_array_ndindex("flip", x, x_indices=indices, out=out,
-                                out_indices=reverse_indices, kw=kw)
-
-
-Behavior that is not specified by the spec is not checked by the test suite,
-for example the exact numeric output of floating-point functions.
+outlined by the spec automatically. Behavior that is not specified by the spec
+is not checked by the test suite, for example the exact numeric output of
+floating-point functions.
 
 The use of hypothesis has several advantages. Firstly, it allows writing tests
 in a way that more or less corresponds to a direct translation of the spec
