@@ -264,7 +264,57 @@ Features
 Data Interchange
 ----------------
 
-TODO
+As discussed in the non-goals section, array libraries are not expected to
+support mixing arrays from other libraries. Instead, there is an interchange
+protocol that allows converting an array from one library to another.
+
+To be useful, any such protocol must satisfy some basic requirements:
+
+- Interchange must be specified as a protocol, rather than requiring a
+  specific dependent package. The protocol should describe the memory layout
+  of an array in an implementation-independent manner.
+
+- Support for all dtypes in this API standard (see Data Types below).
+
+- It must be possible to determine on what device the array that is to be
+  converted lives (see Device Support below). Using a single protocol is
+  preferable to having per-device protocols. With separate per-device
+  protocols it’s hard to figure out unambiguous rules for which protocol gets
+  used, and the situation will get more complex over time as TPU’s and other
+  accelerators become more widely available.
+
+- The protocol must have zero-copy semantics where possible, making a copy
+  only if needed (e.g. when data is not contiguous in memory).
+
+- There must be both a Python-side and a C-side interface, the latter with a
+  stable C ABI. All prominent existing array libraries are implemented in
+  C/C++, and are released independently from each other. Hence a stable C ABI
+  is required for packages to work well together. The protocol must support
+  low level access to be usable by libraries that use JIT or AOT compilation,
+  and it must be usable from any language.
+
+To satisfy these requirements, DLPack was chosen as the data interchange
+protocol. DLPack is a standalone protocol with a header-only C implementation
+that is ABI stable, meaning it can be used from any language. It is designed
+with multi-device support and supports all the data types specified by the
+standard. It also has several considerations for high performance. DLPack
+support has already been to all the major array libraries, and is the most
+widely supported interchange protocol across different array libraries.
+
+The array API specifies the following syntax for DLPack support:
+
+- A `.__dlpack__()` method on the array object, which exports the array as a
+  DLPack capsule.
+
+- A `.__dlpack__device__()` method on the array object, which returns the device
+  type and device ID in DLPack format.
+
+- A `from_dlpack()` function, which converts an object with a `__dlpack__`
+  method into an array for the given array library.
+
+Note that `asarray()` also supports the buffer protocol for libraries that
+already implement it, like NumPy. But the buffer protocol is CPU-only, meaning
+it is not sufficient for the above requirements.
 
 Device Support
 --------------
