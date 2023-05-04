@@ -747,3 +747,5 @@ Work is being done on a array API compliance website. (TODO)
 There is a similar effort being done by the same Data APIs Consortium to
 standardize Python dataframe libraries. This work will be discussed in a
 future paper and conference talk.
+
+.. TODO: Add references
