@@ -32,38 +32,40 @@
 Introduction
 ============
 
-The array API is designed around three primary stakeholders: Array libraries,
-array library consumers, and end users. *Array libraries* are Python libraries
-that implement an array object and a namespace that conforms to the array API
-standard. Examples of array libraries are NumPy, CuPy, and PyTorch. *Array
-library consumers* are libraries that implement functionality against the array
-API, consuming any conforming array library. Examples of array library
+*TODO: Need more for the intro here, including a motivating example.*
+
+There are three primary stakeholders involved in Python code making use of
+arrays: array libraries, array library consumers, and end users. *Array
+libraries* are Python libraries that implement an array object and a namespace
+that conforms to the array API standard. Examples of array libraries are
+NumPy, CuPy, and PyTorch. *Array library consumers* are libraries that
+implement functionality on top of array libraries. Examples of array library
 consumers are SciPy and scikit-learn. *End users* are people such as
 scientists, data scientists, machine learning practitioners, as well as other
 higher level libraries, which make use of array libraries and array consuming
 libraries to solve problems with their data.
 
-In the present paradigm, array library consumers are written against a single
-array library (typically NumPy). Using the algorithms they provide with other
-array libraries is impossible. This is because, firstly, the array library is
-hard-coded into the functions with things like `np.<function>`, where `np` is
-`numpy`. Secondly, even if `np` could be swapped out with a different array
-library, different libraries provide different APIs, so the code would be
-unlikely to run without modification.
+In the present paradigm, array library consuming codes are written against a
+single array library (typically NumPy). Using the algorithms they provide with
+other array libraries is impossible. This is because, firstly, the array
+library is hard-coded into the functions with things like `np.<function>`,
+where `np` is `numpy`. Secondly, even if `np` could be swapped out with a
+different array library, different libraries provide different APIs, so the
+code would be unlikely to run without modification.
 
 However, if we examine the three stakeholders, we see that each stakeholder
-adds its own value to the workflow. Array libraries provide an array object
-and corresponding functions that are optimized against a certain set of
-use-cases and hardware. Array consumer libraries provide useful
-implementations of higher level algorithms. End-users provide the actual data
-and problem to be solved. The current paradigm is misaligned, because it is
-end-users who are the best suited to choose which array library best fits
-their needs. The may prefer a battle-tested, highly portable library like
-NumPy, or a library that has been optimized for deep learning workflows like
-PyTorch, or a library that can scale to multiple machines like Dask. But if
-they also want to make use of a high level array consumer library, that choice
-of array library will be forced on them by whatever array library it is
-implemented against.
+adds its own set of strengths to the ecosystem. Array libraries provide an
+array object and corresponding functions that are optimized against a certain
+set of use-cases and hardware. Array consumer libraries provide useful
+implementations of higher level algorithms. End users provide the actual data
+and define the problem to be solved. The current paradigm is misaligned, as
+end users are the ones who are most suitable to choose the array library that
+best fits their needs. They may prefer a battle-tested, highly portable
+library like NumPy, or a library that has been optimized for deep learning
+workflows like PyTorch, or a library that can scale to multiple machines like
+Dask. But if they also want to make use of a high level array consumer
+library, that choice of array library will be forced on them by whatever array
+library it is implemented against.
 
 The array API specification corrects this misalignment by specifying a uniform
 API for array libraries to provide. Array consumer libraries can then be
@@ -77,14 +79,14 @@ provides a benefit to the whole ecosystem.
 Motivating Example
 ------------------
 
-TODO
+*TODO*
 
 History of the Consortium
 =========================
 
-.. TODO: Distill this blog post
-   https://data-apis.org/blog/announcing_the_consortium/, as well as more
-   recent history like the standard releases.
+*TODO: Distill this blog post
+https://data-apis.org/blog/announcing_the_consortium/, as well as more recent
+history like the standard releases.*
 
 The Data APIs Consortium was formed in 2020, with the goal of unifying
 API standards for Python array and dataframe libraries.
@@ -97,7 +99,7 @@ The array API specification has the following goals:
 - Make it possible for array-consuming libraries to start using multiple
   types of arrays as inputs.
 
-- Enable more sharing and reuse of code built on top of the core
+- Enable increased sharing and reuse of code built on top of the core
   functionality in the API standard.
 
 - For authors of new array libraries, provide a concrete API that can be
@@ -109,10 +111,10 @@ The array API specification has the following goals:
 
 Additionally, the specification has several non-goals:
 
-- Making array libraries identical so they can be merged. Each library will
-  keep having its own particular strength, whether it's offering functionality
-  beyond what's in the standard, performance advantages for a given use case,
-  specific hardware or software environment support, or more.
+- Making array libraries identical for the purpose of merging them. Each
+  library will keep having its own particular strength, whether it's offering
+  functionality beyond what's in the standard, performance advantages for a
+  given use case, specific hardware or software environment support, or more.
 
 - Implement a backend or runtime switching system to be able to switch from
   one array library to another with a single setting or line of code. This may
@@ -136,15 +138,15 @@ mind. The most important principle is that the standard only specifies
 behavior that is already widely supported by most existing array libraries.
 The goal is to minimize the number of backwards incompatible changes required
 for libraries to support the specification. This in particular leaves many
-things out of scope if they are not already supported by all major array
+things out-of-scope if they are not already supported by all major array
 libraries.
 
-The standard has been developed with following core principles:
+The standard has been developed based on the following core principles:
 
 * Don't assume any dependency other than Python itself. Different array
-  libraries have independent codebase, and link against varying backend
+  libraries have independent codebases, and link against varying backend
   libraries depending on what hardware they support. There is no common array
-  layer and array libraries do not need to know about each other. Data can be
+  layer, and array libraries do not need to know about each other. Data can be
   interchanged between libraries using a protocol which does not require a
   dependency.
 
@@ -155,15 +157,15 @@ The standard has been developed with following core principles:
   consumers to ensure they write portable code (the strict minimal
   `numpy.array_api` module is designed to help here).
 
-* APIs should support accelerators. This means not either not specifying or
-  making optional behaviors that are difficult to implement performantly.
+* APIs should support accelerators. This means either not specifying behaviors
+  that are difficult to implement performantly or making them optional.
 
-* In a similar vein, APIs should support JIT compilers. For example, the type
-  of any function's output should only depend on the types of the inputs.
+* In a similar vein, APIs should support JIT compilers. For example, the
+  output type of any function should only depend on its input types.
 
 * The API is primarily functional (e.g., `xp.any(x)` instead of `x.any()`).
   Outside of Python "dunder" operators, there are only a few method defined on
-  the array object. Functional APIs are already preferred for must array
+  the array object. Functional APIs are already preferred for most array
   libraries, functional code is easier to read, especially for expressions
   with many mathematical functions and operations, and functions
   make it clearer that an operation returns a new array rather than mutating
@@ -186,6 +188,13 @@ The standard has been developed with following core principles:
   This also means that 0-D arrays are fully supported. Scalars as a separate
   concept are not specified.
 
+* Functions are generally only added to the specification if they are already
+  implemented by a wide range of array libraries. There are only a few
+  exceptions where the consortium has decided to specify new functions that
+  are not implemented anywhere yet, because none of the existing
+  implementations were satisfactory (for example, a new `isdtype()` function;
+  see the Data Types section below).
+
 * Functions that can easily be implemented in terms of existing standardized
   functions do not necessarily need to be standardized.
 
@@ -203,14 +212,14 @@ The standard has been developed with following core principles:
   outside of those that are specified.
 
 * The accuracy and precision of numerical functions are not specified beyond
-  very basic IEEE 754 rules.
+  the basic IEEE 754 rules.
 
 Scope
 =====
 
 The scope of the array API specification includes:
 
-- Functionality which needs to be included in an array library for it to
+- Functionality that needs to be included in an array library for it to
   adhere to this standard.
 - Names of functions, methods, classes and other objects.
 - Function signatures, including type annotations.
@@ -219,11 +228,11 @@ The scope of the array API specification includes:
 - Semantics in the presence of `nan`'s, `inf`'s, and empty arrays (i.e. arrays
   including one or more dimensions of size `0`).
 - Casting rules, broadcasting, and indexing.
-- Data interchange. i.e., protocols to convert one type of array into another
+- Data interchange, i.e., protocols to convert one type of array into another
   type, potentially sharing memory.
 - Device support.
 
-To contrast, the following are considered **out of scope** for the array API
+To contrast, the following are considered **out-of-scope** for the array API
 specification
 
 - Implementations of the standard are out of scope. Members of the consortium
@@ -257,14 +266,16 @@ specification
 
 - Behavior for unexpected/invalid input to functions and methods.
 
-For out-of-scope behavior, array libraries are free to implement or to raise
-an error. It is up to array consuming libraries to ensure they write portable
-code that doesn't depend on behaviors outside of the specification. The
-`numpy.array_api` implementation, discussed below, can be a useful tool for
-this.
+For out-of-scope behavior, array libraries are free to implement it or to
+raise an error. It is up to array consuming libraries to ensure they write
+portable code that doesn't depend on behaviors outside of the specification.
+The `numpy.array_api` implementation, discussed below, can be a useful tool
+for this.
 
 Features
 ========
+
+*TODO: write an introduction here.*
 
 Data Interchange
 ----------------
@@ -281,12 +292,13 @@ To be useful, any such protocol must satisfy some basic requirements:
 
 - Support for all dtypes in this API standard (see Data Types below).
 
-- It must be possible to determine on what device the array that is to be
-  converted lives (see Device Support below). Using a single protocol is
-  preferable to having per-device protocols. With separate per-device
-  protocols it’s hard to figure out unambiguous rules for which protocol gets
-  used, and the situation will get more complex over time as TPU’s and other
-  accelerators become more widely available.
+- It must be possible to determine on which device the array to be converted
+  resides (see Device Support below). It must be possible to determine on what
+  device the array that is to be converted lives (see Device Support below).
+  A single protocol is preferable to having per-device protocols. With
+  separate per-device protocols it’s hard to figure out unambiguous rules for
+  which protocol gets used, and the situation will get more complex over time
+  as TPU’s and other accelerators become more widely available.
 
 - The protocol must have zero-copy semantics where possible, making a copy
   only if needed (e.g. when data is not contiguous in memory).
@@ -303,8 +315,8 @@ protocol. DLPack is a standalone protocol with a header-only C implementation
 that is ABI stable, meaning it can be used from any language. It is designed
 with multi-device support and supports all the data types specified by the
 standard. It also has several considerations for high performance. DLPack
-support has already been to all the major array libraries, and is the most
-widely supported interchange protocol across different array libraries.
+support has already been added to all the major array libraries, and is the
+most widely supported interchange protocol across different array libraries.
 
 The array API specifies the following syntax for DLPack support:
 
@@ -328,15 +340,15 @@ The standard supports specifying what device an array should live on. This is
 implemented by explicit `device` keywords in creation functions, with the
 convention that execution takes place on the same device where all argument
 arrays are allocated. This method of specifying devices was chosen because it
-is the most granular, although it can be verbose. Other methods of specifying
-devices such as context managers are not included, but may be added in future
-versions of the spec.
+is the most granular, despite its potential verbosity. Other methods of
+specifying devices such as context managers are not included, but may be added
+in future versions of the spec.
 
-The primary intended usage of device support in the specification is for array
-consuming libraries. End users who create arrays from a specific array library
-may use that library's specific syntax for specifying the device relative to
-their specific hardware configuration. For an array consuming library, the
-important things they need to be able to do are
+The primary intended usage of device support in the specification is geared
+towards array consuming libraries. End users who create arrays from a specific
+array library may use that library's specific syntax for specifying the device
+relative to their specific hardware configuration. For an array consuming
+library, the important things they need to be able to do are
 
 - Create new arrays on the same device as an array that's passed in.
 
@@ -348,11 +360,11 @@ important things they need to be able to do are
 
 - Pass on a specified device to other library code.
 
-Consequently, the specified device syntax focuses primarily on get the device
-from an array and setting the device to the same device as another array. The
-specifics of how to specify actual devices is left unspecified. These
-specifics differ significantly between existing implementations, e.g., CuPy
-and PyTorch.
+Consequently, the specified device syntax focuses primarily on getting the
+device of a given array and setting the device to the same device as another
+array. The specifics of how to specify actual devices are left unspecified.
+These specifics differ significantly between existing implementations, such as
+CuPy and PyTorch.
 
 The syntax that is specified is
 
@@ -370,7 +382,7 @@ The syntax that is specified is
 In other words, the only specified way to access a device object is via the
 `.device` property of an existing array object. The specifics of how to
 specify an actual device depends on the actual array library used, and is
-something that will be done by end-users, not array library consumers.
+something that will be done by end users, not array library consumers.
 
 This also means that the following are currently considered out-of-scope for
 the array API specification:
@@ -398,14 +410,14 @@ Signatures
 
 All function signatures in the specification make use of `PEP 570
 <https://peps.python.org/pep-0570/>`_ positional-only arguments for arguments
-that are arrays. It should not matter if one library defines, for instance
-`def atan2(y, x): ...` and another library defines `def atan2(x1, x2): ...`.
-With positional-only arguments, the only way to call the function is by
-passing the arguments by position, like `atan2(a, b)`. The specific name given
-the arguments by the library becomes separate from the API.
+that are arrays. It should not matter if one library defines `def atan2(y, x):
+...`, for instance, and another library defines `def atan2(x1, x2): ...`. With
+positional-only arguments, the function must be called by passing the
+arguments by position, like `atan2(a, b)`. The specific name given the
+arguments by the library becomes separate from the API.
 
 Additionally, most keyword arguments are keyword-only. For example, `ones((3,
-3), int64)` is not allowed---it must be called as `ones((3, 3), dtype=int64)`.
+3), int64)` is not allowed—it must be called as `ones((3, 3), dtype=int64)`.
 This makes user code more readable, and future-proofs the API by allowing
 additional keyword arguments to be added without breaking existing function
 calls.
@@ -415,13 +427,13 @@ annotations use generic types like `array` and `dtype` type to represent a
 library's array or dtype objects. These type annotations represent the minimal
 types that are required to be supported by the specification. A library may
 choose to accept additional types, although any use of this functionality will
-be non-portable. Functionally, type annotations serve no purpose other than
+be non-portable. Functionally, type annotations serve no purpose other than as
 documentation. Libraries are not required to implement any sort of runtime
 type checking, or to actually include such annotations in their own function
-signatures. The array API specification does attempt to make any extensions of
-type annotations beyond what is already specified by PEPs and supported by
+signatures. The array API specification does not attempt extend type
+annotation syntax beyond what is already specified by PEPs and supported by
 popular type checkers such as Mypy. For instance, including dtype or shape
-information in the annotated type signatures is out-of-scope.
+information in the annotated type signatures is considered out-of-scope.
 
 Here is an example type signature in the specification
 
@@ -444,14 +456,15 @@ Here is an example type signature in the specification
 Array Methods and Attributes
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-All relevant Python "dunder" methods (e.g., `__add__`, `__mul__`, etc.) are
-specified for the array object, so that people can write array code in a
-natural way using operators. Every dunder method has a corresponding
-functional form (e.g., `__add__` <-> `xp.add()`). For consistency, this is
-done even for "useless" operators like `__pos__` <-> `positive()`. Operators
-and the corresponding functions behave identically, with the exception that
-operators accept Python scalars (see "type promotion" below), and functions
-are only required to accept arrays.
+All relevant Python double underscore (dunder) methods (e.g., `__add__`,
+`__mul__`, etc.) are specified for the array object, so that people can write
+array code in a natural way using operators. Each dunder method has a
+corresponding functional form (e.g., `__add__` :math:`\leftrightarrow`
+`xp.add()`). For consistency, this is done even for operators that may seem
+unnecessary, like `__pos__` :math:`\leftrightarrow` `positive()`. Operators
+and their corresponding functions behave identically, except that operators
+accept Python scalars (see "type promotion" below), while functions are only
+required to accept arrays.
 
 In addition to the standard Python dunder methods, the standard adds a some
 new dunder methods:
@@ -490,7 +503,17 @@ defined as functions. These functions include
   "array constructor".
 
 - Data type functions are basic functions to manipulate and introspect dtype
-  objects.
+  objects such as `finfo()`, `can_cast()`, and `result_type()`. Notable among
+  these is a new function `isdtype()`, which is used to test if a dtype is
+  among a set of predefined dtype categories. For example, `isdtype(x.dtype,
+  "real floating")` returns `True` if `x` has a real floating-point dtype like
+  `float32` or `float64`. Such a function did not already exist in a portable
+  way across different array libraries. One existing alternative was the NumPy
+  dtype type hierarchy, but this hierarchy is complex and is not implemented
+  by other array libraries such as PyTorch. The `isdtype()` function is a rare
+  example where the consortium has specified a completely new function in the
+  array API specification—most of the specified functions are already widely
+  implemented across existing array libraries.
 
 - Linear algebra functions. Only basic manipulation functions like `matmul()`
   are required by the specification. Additional linear algebra functions are
@@ -529,6 +552,10 @@ The following dtypes are defined:
 - Real floating-point: `float32` and `float64`.
 - Complex floating-point: `complex64` and `complex128`.
 
+These dtypes were chosen because they are the most widely adopted set across
+existing array libraries. Additional dtypes may be considered for addition in
+future versions of the standard.
+
 Additionally, a conforming library should have "default" integer and
 floating-point dtypes, which is consistent across platforms. This is used in
 contexts where the result data type is otherwise ambiguous, for example, in
@@ -547,9 +574,11 @@ All elementwise functions and operations that accept more than one array input
 apply broadcasting rules. The broadcasting rules match the commonly used
 semantics of NumPy, where a broadcasted shape is constructed from the input
 shapes by prepending size-1 dimensions and broadcasting size-1 dimensions to
-otherwise equal non-size-1 dimensions. Broadcasting rules are independent of
-the input array data types or values.
-
+otherwise equal non-size-1 dimensions (for example, a shape `(3, 1)` and a
+shape `(2, 1, 4)` array would broadcast to a shape `(2, 3, 4)` array by
+virtual repetition of the array along the broadcasted dimensions).
+Broadcasting rules should be applied independently of the input array data
+types or values.
 
 Indexing
 --------
@@ -604,9 +633,9 @@ Elementwise functions and operators that accept more than one argument perform
 type promotion on their inputs, if the input dtypes are compatible.
 
 The specification requires that all type promotion should happen independently
-of the input array values and shapes. This is a break from the historical
-NumPy behavior where type promotion could vary for 0-D arrays depending on
-their values. For example (in NumPy 1.24):
+of the input array values and shapes. This differs from the historical NumPy
+behavior where type promotion could vary for 0-D arrays depending on their
+values. For example (in NumPy 1.24):
 
 .. code:: python
 
@@ -619,20 +648,22 @@ their values. For example (in NumPy 1.24):
    dtype('float64')
 
 
-This behavior is and bug prone and confusing to reason about. In the array API
+This behavior is bug prone and confusing to reason about. In the array API
 specification, any `float32` array and any `float64` array would promote to a
 `float64` array, regardless of their shapes or values. NumPy is planning to
 deprecate its value-based casting behavior for NumPy 2.0 (see below).
 
 Additionally, automatic cross-kind casting is not specified. This means that
 dtypes like `int64` and `float64` are not required to promote together. It
-also means that functions that return floating-point values, like `exp()` or
-`sin()` are not required to accept integer dtypes. Array libraries are not
-required to error in these situations, but array consumers should not rely on
-cross-kind casting in portable code. Cross-kind casting is better done
-explicitly using the `astype()` function. Automatic cross-kind casting can
-result in loss of precision, and often when it happens it indicates a bug in
-the code.
+also means that functions are not required to accept dtypes that imply a
+cross-kind cast: for instance floating-point functions like `exp()` or `sin()`
+are not required to accept integer dtypes, and arithmetic functions and
+operators like `+` and `*` are not required to accept boolean dtypes. Array
+libraries are not required to error in these situations, but array consumers
+should not rely on cross-kind casting in portable code. Cross-kind casting is
+better done explicitly using the `astype()` function. Automatic cross-kind
+casting is harder to reason about, can result in loss of precision, and often
+when it happens it indicates a bug in the user code.
 
 Single argument functions and operators should maintain the same dtype when
 relevant, for example, if the input to `exp()` is a `float32` array, the
@@ -649,8 +680,9 @@ Optional Extensions
 
 In addition to the above required functions, there are two optional extension
 sub-namespaces. Array libraries may chose to implement or not implement these
-extensions. These extensions are optional as they typically require linking
-against a numerical library such as a linear algebra library.
+extensions. These extensions are optional because they typically require
+linking against a numerical library such as a linear algebra library, and
+therefore may be difficult for some libraries to implement.
 
 - `linalg` contains basic linear algebra functions, such as `eigh`, `solve`,
   and `qr`. These functions are designed to support "batching" (i.e.,
@@ -658,9 +690,11 @@ against a numerical library such as a linear algebra library.
   array with more than 2 dimensions). The specification for the `linalg`
   extension is designed to be implementation agnostic. This means that things
   like keyword arguments that are specific to backends like LAPACK are omitted
-  from the specified signatures (for example, NumPy’s use of `UPLO` in
-  `eigh`). BLAS and LAPACK no longer hold a complete monopoly over linear
-  algebra operations given the existence of specialized accelerated hardware.
+  from the specified signatures (for example, NumPy’s use of `UPLO` in the
+  `eigh()` function). BLAS and LAPACK no longer hold a complete monopoly over
+  linear algebra operations given the existence of specialized accelerated
+  hardware, so these sorts of keywords are an impediment wide implementation
+  across all array libraries.
 
 - `fft` contains functions for performing Fast Fourier transformations.
 
@@ -671,9 +705,8 @@ Two versions of the array API specification have been released, v2021.12 and
 v2022.12. v2021.12 was the initial release with all important core array
 functionality. The v2022.12 release added complex number support to all APIs
 and the `fft` extension. A v2023 version is in the works, although no
-significant changes are planned so far. Most of the work around the array API
-in 2023 has been to focus on implementation and adoption.
-
+significant changes are planned so far. In 2023, most of the work around the
+array API has focused on implementation and adoption.
 
 Strict Minimal Implementation (`numpy.array_api`)
 ---------------------------------------------------
@@ -701,8 +734,8 @@ floating-point arrays.
    TypeError: Only floating-point dtypes are allowed in
    sin
 
-In order to implement this strictness, `numpy.array_api` uses a separate
-`Array` object from `np.ndarray`.
+In order to implement this strictness, `numpy.array_api` employs a separate
+`Array` object, distinct from `np.ndarray`.
 
 .. code:: python
 
@@ -735,7 +768,7 @@ has many discrepancies from the array API. A few of the biggest ones are:
 - The spec contains some new functions that are not yet included in NumPy.
   These clean up some messy parts of the NumPy API. These include:
 
-  .. TODO: How complete do we need to be here?
+  *TODO: How complete do we need to be here?*
 
   - `np.unique` is replaced with four different `unique_*` functions so that
     they always have a consistent return type.
@@ -774,9 +807,9 @@ scikit-learn. The primary usage is like
 `array_namespace` is a wrapper around `x.__array_namespace__()`, except
 whenever `x` is a NumPy, CuPy, or PyTorch array, it returns a wrapped module
 that has functions that are array API compliant. Unlike `numpy.array_api`,
-`array_api_compat` does not wrap the array objects. So in the above example,
-the if the input arrays are `np.ndarray`, the return array will be a
-`np.ndarray`, even though `xp.mean` and `xp.std` are wrapped functions.
+`array_api_compat` does not use separate wrapped array objects. So in the
+above example, the if the input arrays are `np.ndarray`, the return array will
+be a `np.ndarray`, even though `xp.mean` and `xp.std` are wrapped functions.
 
 While the long-term goal is for array libraries to be completely array API
 compliant, `array-api-compat` allows consumer libraries to use the array API
@@ -794,17 +827,17 @@ The array API specification contains over 200 function and method definitions,
 each with its own signature and specification for behaviors for things like
 type promotion, broadcasting, and special case values.
 
-In order to facilitate adoption by array libraries, as well as to aid in the
-development of the minimal `numpy.array_api` implementation. A test suite
-has been developed. The `array-api-tests` test suite is a fully featured test
-suite that can be run against any array library to check its compliance
-against the array API. The test suite does not depend on any array
-library---testing against something like NumPy would be circular when it comes
-time to test NumPy itself. Instead, array-api-tests tests the behavior
-specified by the spec directly.
+To facilitate adoption by array libraries, as well as to aid in the
+development of the minimal `numpy.array_api` implementation, a test suite for
+the array API has been developed. The `array-api-tests` test suite is a fully
+featured test suite that can be run against any array library to check its
+compliance against the array API specification. The test suite does not depend
+on any array library—testing against something like NumPy would be circular
+when it comes time to test NumPy itself. Instead, array-api-tests tests the
+behavior specified by the spec directly.
 
-The array library is specified using the `ARRAY_API_TESTS_MODULE` environment
-variable when running the tests.
+When running the tests, the array library is specified using the
+`ARRAY_API_TESTS_MODULE` environment variable.
 
 This is done by making use of the hypothesis Python library. The consortium
 team has upstreamed array API support to hypothesis in the form of the new
@@ -815,24 +848,24 @@ outlined by the spec automatically. Behavior that is not specified by the spec
 is not checked by the test suite, for example the exact numeric output of
 floating-point functions.
 
-The use of hypothesis has several advantages. Firstly, it allows writing tests
-in a way that more or less corresponds to a direct translation of the spec
-into code. This is because hypothesis is a property-based testing library, and
-the behaviors required by the spec are easily written as properties. Secondly,
-it makes it easy to test all input combinations without missing any corner
-cases. Hypothesis automatically handles generating "interesting" examples from
-its strategies. For example, behaviors on 0-D or size-0 arrays are always
-checked because hypothesis will always generate inputs that match these corner
-cases. Thirdly, hypothesis automatically shrinks inputs that lead to test
-failures, producing the minimal input to reproduce the issue. This leads to
-test failures that are more understandable because they do not incorporate
-details that are unrelated to the problem. Lastly, because hypothesis
-generates inputs based on a random seed, a large number of examples can be
-tested without any additional work. For instance, the test suite can be run
-with `pytest --max-examples=10000` to run each test with 10000 different
-examples (the default is 100). These things would all be difficult to achieve
-with an old-fashioned "manual" test suite, where explicit examples are chosen
-by hand.
+Utilizing hypothesis offers several advantages. Firstly, it allows writing
+tests in a way that more or less corresponds to a direct translation of the
+spec into code. This is because hypothesis is a property-based testing
+library, and the behaviors required by the spec are easily written as
+properties. Secondly, it makes it easy to test all input combinations without
+missing any corner cases. Hypothesis automatically handles generating
+"interesting" examples from its strategies. For example, behaviors on 0-D or
+size-0 arrays are always checked because hypothesis will always generate
+inputs that match these corner cases. Thirdly, hypothesis automatically
+shrinks inputs that lead to test failures, producing the minimal input to
+reproduce the issue. This leads to test failures that are more understandable
+because they do not incorporate details that are unrelated to the problem.
+Lastly, because hypothesis generates inputs based on a random seed, a large
+number of examples can be tested without any additional work. For instance,
+the test suite can be run with `pytest --max-examples=10000` to run each test
+with 10000 different examples (the default is 100). These things would all be
+difficult to achieve with an old-fashioned "manual" test suite, where explicit
+examples are chosen by hand.
 
 The array-api-tests test suite is the first example known to these authors of
 a full featured Python test suite that runs against multiple different
@@ -846,25 +879,26 @@ Future Work
 
 The focus of the consortium for 2023 is on implementation and adoption.
 
-NumPy 2.0, which is planned for the Q4 2023, will have full array API support.
-This will include several small breaking changes to bring NumPy inline with
-the specification. This also includes, NEP 50, which fixes NumPy's type
-promotion by removing all value-based casting. A NEP for full array API
+NumPy 2.0, which is planned for release in late 2023, will have full array API
+support. This will include several small breaking changes to bring NumPy
+inline with the specification. This also includes, NEP 50, which fixes NumPy's
+type promotion by removing all value-based casting. A NEP for full array API
 specification support will be announced later this year.
 
-SciPy 2.0 is also planned, and will include full support for the array API
-across the different functions. For end users this means that they can use
-CuPy arrays or PyTorch tensors instead of NumPy arrays in SciPy functions, and
-they will just work as expected, performing the calculation with the
-underlying array library and returning an array from the same library.
+SciPy 2.0, which is also being planned, and will include full support for the
+array API across the different functions. For end users this means that they
+can use CuPy arrays or PyTorch tensors instead of NumPy arrays in SciPy
+functions, and they will just work as expected, performing the calculation
+with the underlying array library and returning an array from the same
+library.
 
-Scikit-learn has implemented array API specification support in
-`LinearDiscriminantAnalysis` and plans to add support to more functions.
+Scikit-learn has implemented array API specification support in its
+`LinearDiscriminantAnalysis` class and plans to add support to more functions.
 
-Work is being done on a array API compliance website. (TODO)
+Work is underway on an array API compliance website. (*TODO*)
 
 There is a similar effort being done by the same Data APIs Consortium to
 standardize Python dataframe libraries. This work will be discussed in a
 future paper and conference talk.
 
-.. TODO: Add references
+*TODO: Add references*
