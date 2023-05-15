@@ -9,7 +9,7 @@
  Array API Specification
 =========================
 
-.. Does the abstract have a word or character limit?
+.. TODO: Does the abstract have a word or character limit?
 
 .. class:: abstract
 
@@ -38,15 +38,27 @@
 Introduction
 ============
 
-*TODO: Need more for the intro here, including a motivating example.*
+Today, Python users have a wealth of choice for libraries and frameworks for
+numerical computing, data science, machine learning, and deep learning. New
+frameworks pushing forward the state of the art in these fields appear every
+year. One unintended consequence of all this activity has been fragmentation in
+the fundamental building blocks--multidimensional arrays (a.k.a. tensors)--that
+underpin the Python data ecosystem.
 
-Today, Python users have a wealth of choice for libraries and frameworks for numerical computing, data science, machine learning, and deep learning. New frameworks pushing forward the state of the art in these fields appear every year. One unintended consequence of all this activity has been fragmentation in the fundamental building blocks--multidimensional arrays (a.k.a. tensors)--that underpin the Python data ecosystem.
+This fragmentation comes with significant costs, from reinvention and
+implementation of arrays and associated APIs to siloed technical stacks
+targeting only one array library to the proliferation of user guides providing
+guidance on how to convert between, and interoperate among, libraries. Too
+often, the APIs of each library are largely similar, but each have enough
+differences that end users have to relearn and rewrite code in order to work
+with multiple libraries. This process can be very painful as the transition is
+far from seamless.
 
-This fragmentation comes with significant costs, from reinvention and implementation of arrays and associated APIs to siloed technical stacks targeting only one array library to the proliferation of user guides providing guidance on how to convert between, and interoperate among, libraries. Too often, the APIs of each library are largely similar, but each have enough differences that end users have to relearn and rewrite code in order to work with multiple libraries. This process can be very painful as the transition is far from seamless.
+.. TODO: Consider inserting Figure 2 from Year 1 report
 
-.. Consider inserting Figure 2 from Year 1 report
-
-The Python Data APIs Consortium aims to address this problem by standardizing a fundamental array data structure and an associated set of common APIs for working with arrays, thus facilitating interchange and interoperation.
+The Python Data APIs Consortium aims to address this problem by standardizing a
+fundamental array data structure and an associated set of common APIs for
+working with arrays, thus facilitating interchange and interoperation.
 
 Motivating Example
 ------------------
@@ -56,12 +68,49 @@ Motivating Example
 History of the Consortium
 =========================
 
-*TODO: Distill this blog post
-https://data-apis.org/blog/announcing_the_consortium/, as well as more recent
-history like the standard releases.*
+While the Python programming language was not designed for numerical computing,
+the language gained initial popularity in the scientific and engineering
+community soon after its release. The first array computing library for
+numerical and scientific computing in Python was Numeric, developed in the mid-
+1990s. To better accommodate this library and its use cases, Python’s syntax was
+extended to include indexing syntax.
 
-The Data APIs Consortium was formed in 2020, with the goal of unifying
-API standards for Python array and dataframe libraries.
+In the early 2000s, a similar library, Numarray, introduced a more flexible data
+structure. Numarray had faster operations for large arrays. However, the library
+was slower for small arrays. Subsequently, both Numeric and Numarray coexisted
+to satisfy different use cases.
+
+In early 2005, NumPy was written to unify Numeric and Numarray as a single array
+package by porting Numarray’s features to Numeric. This effort was largely
+successful and resolved the fragmentation at the time, and, for roughly a
+decade, NumPy was the only widely used array library. Building on NumPy, pandas
+was subsequently introduced in 2008 in order to address the need for a high
+performance, flexible tool for performing quantitative analysis on labeled
+tabular data.
+
+Over the past 10 years, the rise of deep learning and the emergence of new
+hardware has led to a proliferation of new libraries and a corresponding
+fragmentation within the PyData array and dataframe ecosystem. These
+libraries often borrowed concepts from, or entirely copied, the APIs of older
+libraries, such as NumPy, and then modified and evolved those APIs to address
+new needs and use cases. While the communities of each individual library
+discussed interchange and interoperation, until the founding of the Python Data APIs
+Consortium, no process for coordination among libraries arose to avoid further
+fragmentation and to arrive at a common set of API standards.
+
+.. TODO: consider inserting Figure 1 from year 1 report
+
+The genesis for the consortium grew out of many conversations among maintainers
+during 2019-2020. During those conversations, it quickly became clear that any
+attempt to write a new reference library to fix the current fragmentation was
+infeasible. Unlike in 2005, too many different use cases and varying
+stakeholders now exist. Furthermore, the speed of innovation of both hardware
+and software is simply too great.
+
+In May 2020, an initial group of maintainers and industry stakeholders assembled
+to form the Consortium for Python Data API Standards to begin drafting
+specifications for array and dataframe APIs, which could then be adopted by each
+of the existing array and dataframe libraries and by any new libraries which arose.
 
 Goals and Non-Goals
 ===================
