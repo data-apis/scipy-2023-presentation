@@ -18,7 +18,7 @@
    as commonly found in libraries such as NumPy, PyTorch, TensorFlow, Dask, and
    CuPy.
 
-   The establishment and subsequent adoption of the standard will reduce
+   The establishment and subsequent adoption of the standard aims to reduce
    ecosystem fragmentation and facilitate array library interoperation in user
    code and among array-consuming libraries, such as scikit-learn and SciPy.
    
@@ -117,39 +117,26 @@ Goals and Non-Goals
 
 The array API specification has the following goals:
 
-- Make it possible for array-consuming libraries to start using multiple
-  types of arrays as inputs.
+- Increase interoperability such that array-consuming libraries can accept and
+  operate on any specification-conforming array library.
 
-- Enable increased sharing and reuse of code built on top of the core
-  functionality in the API standard.
+- Reduce reinvention and facilitate sharing and code reuse by establishing a
+  common set of standardized APIs and behavior.
 
-- For authors of new array libraries, provide a concrete API that can be
-  adopted as is, rather than each author having to decide what to borrow
-  from where and where to deviate.
+- Reduce barriers to new array library creation by providing an API that can be
+  adopted as is.
 
-- Make the learning curve for users less steep when they switch from one
-  array library to another one.
+- Reduce the learning curve and friction for users as they switch between array
+  libraries.
 
-Additionally, the specification has several non-goals:
+The specification has the following non-goals:
 
-- Making array libraries identical for the purpose of merging them. Each
-  library will keep having its own particular strength, whether it's offering
-  functionality beyond what's in the standard, performance advantages for a
-  given use case, specific hardware or software environment support, or more.
+- Make array libraries identical for the purpose of merging them.
 
 - Implement a backend or runtime switching system to be able to switch from
-  one array library to another with a single setting or line of code. This may
-  be feasible, however it’s assumed that when an array-consuming library
-  switches from one array type to another, some testing and possibly code
-  adjustment for performance or other reasons may be needed.
+  one array library to another with a single setting or line of code.
 
-- Making it possible to mix multiple array libraries in function calls. Most
-  array libraries do not know about other libraries, and the functions they
-  implement may try to convert "foreign" input, or raise an exception. This
-  behavior is hard to specify. It is better to require the end user to use a
-  single array library that best fits their needs. Note that specification of
-  an interchange protocol is within scope, but interchange between array
-  libraries is only done explicitly in the specification.
+- Support mixing multiple array libraries in function calls.
 
 Design Principles
 =================
