@@ -40,47 +40,13 @@ Introduction
 
 *TODO: Need more for the intro here, including a motivating example.*
 
-There are three primary stakeholders involved in Python code making use of
-arrays: array libraries, array library consumers, and end users. *Array
-libraries* are Python libraries that implement an array object and a namespace
-that conforms to the array API standard. Examples of array libraries are
-NumPy, CuPy, and PyTorch. *Array library consumers* are libraries that
-implement functionality on top of array libraries. Examples of array library
-consumers are SciPy and scikit-learn. *End users* are people such as
-scientists, data scientists, machine learning practitioners, as well as other
-higher level libraries, which make use of array libraries and array consuming
-libraries to solve problems with their data.
+Today, Python users have a wealth of choice for libraries and frameworks for numerical computing, data science, machine learning, and deep learning. New frameworks pushing forward the state of the art in these fields appear every year. One unintended consequence of all this activity has been fragmentation in the fundamental building blocks--multidimensional arrays (a.k.a. tensors)--that underpin the Python data ecosystem.
 
-In the present paradigm, array library consuming codes are written against a
-single array library (typically NumPy). Using the algorithms they provide with
-other array libraries is impossible. This is because, firstly, the array
-library is hard-coded into the functions with things like `np.<function>`,
-where `np` is `numpy`. Secondly, even if `np` could be swapped out with a
-different array library, different libraries provide different APIs, so the
-code would be unlikely to run without modification.
+This fragmentation comes with significant costs, from reinvention and implementation of arrays and associated APIs to siloed technical stacks targeting only one array library to the proliferation of user guides providing guidance on how to convert between, and interoperate among, libraries. Too often, the APIs of each library are largely similar, but each have enough differences that end users have to relearn and rewrite code in order to work with multiple libraries. This process can be very painful as the transition is far from seamless.
 
-However, if we examine the three stakeholders, we see that each stakeholder
-adds its own set of strengths to the ecosystem. Array libraries provide an
-array object and corresponding functions that are optimized against a certain
-set of use-cases and hardware. Array consumer libraries provide useful
-implementations of higher level algorithms. End users provide the actual data
-and define the problem to be solved. The current paradigm is misaligned, as
-end users are the ones who are most suitable to choose the array library that
-best fits their needs. They may prefer a battle-tested, highly portable
-library like NumPy, or a library that has been optimized for deep learning
-workflows like PyTorch, or a library that can scale to multiple machines like
-Dask. But if they also want to make use of a high level array consumer
-library, that choice of array library will be forced on them by whatever array
-library it is implemented against.
+.. Consider inserting Figure 2 from Year 1 report
 
-The array API specification corrects this misalignment by specifying a uniform
-API for array libraries to provide. Array consumer libraries can then be
-written against this one uniform API, allowing their functionality to work
-with arrays from any conforming array library. End users are then able to
-chose their array library without that choice restricting their choices of
-array consumer libraries. The usability improvement from different array
-libraries themselves having more consistent APIs and semantics additionally
-provides a benefit to the whole ecosystem.
+The Python Data APIs Consortium aims to address this problem by standardizing a fundamental array data structure and an associated set of common APIs for working with arrays, thus facilitating interchange and interoperation.
 
 Motivating Example
 ------------------
