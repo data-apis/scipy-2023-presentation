@@ -9,21 +9,27 @@
  Array API Specification
 =========================
 
+.. Does the abstract have a word or character limit?
+
 .. class:: abstract
 
-   The array API standard (https://data-apis.org/array-api/) is a common
-   specification for Python array libraries, such as NumPy, PyTorch, CuPy,
-   Dask, and JAX.
+   The Python array API standard (https://data-apis.org/array-api/) specifies
+   standardized APIs and behavior for array and tensor objects and operations
+   as commonly found in libraries such as NumPy, PyTorch, TensorFlow, Dask, and
+   CuPy.
 
-   This standard will make it straightforward for array-consuming libraries,
-   like scikit-learn and SciPy, to write code that uniformly supports all of
-   these libraries. This will allow, for instance, running the same code on
-   the CPU and GPU.
+   The establishment and subsequent adoption of the standard will reduce
+   ecosystem fragmentation and facilitate array library interoperation in user
+   code and among array-consuming libraries, such as scikit-learn and SciPy.
+   
+   A key benefit of array interoperability for downstream consumers of the
+   standard is device agnosticism, whereby previously CPU-bound implementations
+   can more readily leverage hardware acceleration via GPUs, TPUs, and other
+   accelerator devices.
 
-   This proceedings paper will cover the scope of the array API standard,
-   supporting tooling which includes a library-independent test suite and
-   compatibility layer, what work has been completed so far, and the plans
-   going forward.
+   This proceedings paper will cover the scope of the array API standard, work
+   completed thus far, supporting tooling (including a library-independent test
+   suite and compatibility layer), and plans for future work.
 
 .. class:: keywords
 
