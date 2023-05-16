@@ -165,9 +165,9 @@ process, the Consortium established the following set of design principles:
   and should have a minimal set of magic methods (a.k.a. dunder methods) to
   support operator overloading.
 
-- *No dependencies.* Apart from data interchange (DLPack; discussed below), the
-  array API standard and its implementation should be possible in pure Python,
-  without the need for any external dependency outside of Python itself.
+- *No dependencies.* The array API standard and its implementation should be
+  possible in pure Python, without the need for any external dependency outside
+  of Python itself.
 
 - *Accelerator support.* Standardized APIs and behavior should be possible to
   implement for both CPUs and hardware-accelerated devices, such as GPUs and
@@ -180,6 +180,9 @@ process, the Consortium established the following set of design principles:
   extensions. Moreover, copy-view mutation semantics, as, e.g., supported by
   NumPy, should be considered an implementation detail and, thus, not suitable
   for standardization.
+
+- *Distributed support.* Standardized APIs and behavior should be amenable to
+  implementation in array libraries supporting distributed computing.
 
 - *Consistency.* Except in scenarios involving backward compatibility concerns,
   naming conventions and design patterns should be consistent across
