@@ -136,10 +136,10 @@ The standard has the following non-goals:
   support, and tailored use cases, such as deep learning), and merging into a
   single array library is neither practical nor realistic.
 
-- Implement a backend or runtime switching system to be able to switch from
-  one array library to another with a single setting or line of code. While
-  potentially feasible, array consumers may need to modify code in order to
-  ensure optimal performance and behavior.
+- Implement a backend or runtime switching system in order to switch from
+  one array library to another via a single setting or line of code. While
+  potentially feasible, array consumers are likely to need to modify code in
+  order to ensure optimal performance and behavior.
 
 - Support mixing multiple array libraries in function calls. Mixing array
   libraries requires defining hierarchies and specifying rules for device
