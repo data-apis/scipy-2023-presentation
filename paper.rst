@@ -115,7 +115,7 @@ of the existing array and dataframe libraries and by any new libraries which aro
 Goals and Non-Goals
 ===================
 
-The array API specification has the following goals:
+The array API standard has the following goals:
 
 - Increase interoperability such that array-consuming libraries can accept and
   operate on any specification-conforming array library.
@@ -129,14 +129,22 @@ The array API specification has the following goals:
 - Reduce the learning curve and friction for users as they switch between array
   libraries.
 
-The specification has the following non-goals:
+The standard has the following non-goals:
 
-- Make array libraries identical for the purpose of merging them.
+- Make array libraries identical for the purpose of merging them. Different array
+  libraries have different strengths (e.g., performance characteristics, hardware
+  support, and tailored use cases, such as deep learning), and merging into a
+  single array library is neither practical nor realistic.
 
 - Implement a backend or runtime switching system to be able to switch from
-  one array library to another with a single setting or line of code.
+  one array library to another with a single setting or line of code. While
+  potentially feasible, array consumers may need to modify code in order to
+  ensure optimal performance and behavior.
 
-- Support mixing multiple array libraries in function calls.
+- Support mixing multiple array libraries in function calls. Mixing array
+  libraries requires defining hierarchies and specifying rules for device
+  synchronization and data localization. Such rules are likely to be specific to
+  individual use cases and beyond the scope of the array API standard.
 
 Design Principles
 =================
