@@ -71,8 +71,8 @@ History of the Consortium
 While the Python programming language was not designed for numerical computing,
 the language gained initial popularity in the scientific and engineering
 community soon after its release. The first array computing library for
-numerical and scientific computing in Python was Numeric, developed in the mid-
-1990s. To better accommodate this library and its use cases, Python’s syntax was
+numerical and scientific computing in Python was Numeric, developed in the mid-1990s.
+To better accommodate this library and its use cases, Python’s syntax was
 extended to include indexing syntax.
 
 In the early 2000s, a similar library, Numarray, introduced a more flexible data
@@ -110,7 +110,7 @@ and software is simply too great.
 In May 2020, an initial group of maintainers and industry stakeholders assembled
 to form the Consortium for Python Data API Standards to begin drafting
 specifications for array and dataframe APIs, which could then be adopted by each
-of the existing array and dataframe libraries and by any new libraries which arose.
+of the existing array and dataframe libraries and by any new libraries which arise.
 
 Goals and Non-Goals
 ===================
@@ -120,7 +120,7 @@ The array API standard has the following goals:
 - Increase interoperability such that array-consuming libraries can accept and
   operate on any specification-conforming array library.
 
-- Reduce reinvention and facilitate sharing and code reuse by establishing a
+- Reduce reinvention and facilitate code sharing and reuse by establishing a
   common set of standardized APIs and behavior.
 
 - Reduce barriers to new array library creation by providing an API that can be
@@ -149,144 +149,60 @@ The standard has the following non-goals:
 Design Principles
 =================
 
-The array API standard has been developed with several design principles in
-mind. The most important principle is that the standard only specifies
-behavior that is already widely supported by most existing array libraries.
-The goal is to minimize the number of backwards incompatible changes required
-for libraries to support the specification. This in particular leaves many
-things out-of-scope if they are not already supported by all major array
-libraries.
+In order to guide standardization and define the contours of the standardization
+process, the Consortium established the following set of design principles:
 
-The standard has been developed based on the following core principles:
+- *Pure functions.* Functional API design is the dominant pattern among
+  array libraries, both in Python and in other frequently used programming
+  languages supporting array computation. While method chaining and the fluent
+  interface design pattern are relatively common, especially among array
+  libraries supporting lazy evaluation and operator fusion, functional APIs are
+  generally preferred, mirroring design patterns used in underlying
+  implementations, such as those written in C/C++ and Fortran.
 
-* Don't assume any dependency other than Python itself. Different array
-  libraries have independent codebases, and link against varying backend
-  libraries depending on what hardware they support. There is no common array
-  layer, and array libraries do not need to know about each other. Data can be
-  interchanged between libraries using a protocol which does not require a
-  dependency.
+- *Minimal array object.* A standardized array object should have a minimal set
+  of attributes necessary for inspection (e.g., shape, data type, size, etc.)
+  and should have a minimal set of magic methods (a.k.a. dunder methods) to
+  support operator overloading.
 
-* Libraries may implement behaviors beyond what is specified. Except in a few
-  special instances where avoiding bad behavior is desired, the spec does not
-  disallow libraries to implement additional functions, methods, keyword
-  arguments, and allow additional input types. The onus is on array library
-  consumers to ensure they write portable code (the strict minimal
-  `numpy.array_api` module is designed to help here).
+- *No dependencies.* Apart from data interchange (DLPack; discussed below), the
+  array API standard and its implementation should be possible in pure Python,
+  without the need for any external dependency outside of Python itself.
 
-* APIs should support accelerators. This means either not specifying behaviors
-  that are difficult to implement performantly or making them optional.
+- *Accelerator support.* Standardized APIs and behavior should be possible to
+  implement for both CPUs and hardware-accelerated devices, such as GPUs and
+  TPUs.
 
-* In a similar vein, APIs should support JIT compilers. For example, the
-  output type of any function should only depend on its input types.
+- *JIT compiler support.* Standardized APIs and behavior should be amenable to
+  JIT compilation and graph-based optimization. For APIs and behavior which are
+  not amenable, such as APIs returning arrays having data-dependent output
+  shapes, the respective APIs and behavior should be specified as optional
+  extensions. Moreover, copy-view mutation semantics, as, e.g., supported by
+  NumPy, should be considered an implementation detail and, thus, not suitable
+  for standardization.
 
-* The API is primarily functional (e.g., `xp.any(x)` instead of `x.any()`).
-  Outside of Python "dunder" operators, there are only a few method defined on
-  the array object. Functional APIs are already preferred for most array
-  libraries, functional code is easier to read, especially for expressions
-  with many mathematical functions and operations, and functions
-  make it clearer that an operation returns a new array rather than mutating
-  the input array in-place, which is avoided in the specification (see the
-  next bullet point).
+- *Consistency.* Except in scenarios involving backward compatibility concerns,
+  naming conventions and design patterns should be consistent across
+  standardized APIs.
 
-* Copy-view behavior and mutability is not required. Array libraries may
-  implement mutation but the behavior of in-place mutation with views is not
-  guaranteed by the spec. Operations producing "views" on existing data is
-  considered an implementation detail and should not be relied on for
-  portability across libraries. The `out` keyword is omitted from API
-  definitions.
+- *Extensibility.* Conforming array libraries may implement functionality which
+  is not included in the array API standard. Array-consumers bear
+  responsibility for ensuring that a given API is standardized and its usage is
+  portable across specification-conforming array libraries.
 
-* No value-based casting. The output data type of any function or
-  operation should depend only on the input data type(s), not the array
-  values.
+- *Deference.* Where possible, the array API standard should defer to existing,
+  widely-used standards. For example, the accuracy and precision of numerical
+  functions should not be specified beyond the guidance included in IEEE 754.
 
-* No dimension dependent casting. The output data type of any function or
-  operation should function independently of the input array dimensionality.
-  This also means that 0-D arrays are fully supported. Scalars as a separate
-  concept are not specified.
+- *Universality.* Standardized APIs and behavior should reflect common usage
+  among a wide range of existing array libraries. Accordingly, with rare
+  exception, only APIs and behavior having prior art may be considered
+  candidates for standardization.
 
-* Functions are generally only added to the specification if they are already
-  implemented by a wide range of array libraries. There are only a few
-  exceptions where the consortium has decided to specify new functions that
-  are not implemented anywhere yet, because none of the existing
-  implementations were satisfactory (for example, a new `isdtype()` function;
-  see the Data Types section below).
+Methodology
+===========
 
-* Functions that can easily be implemented in terms of existing standardized
-  functions do not necessarily need to be standardized.
-
-* Functions with data-dependent output shapes are optional, since graph-based
-  libraries like JAX and Dask cannot easily support them. This includes
-  boolean indexing, `nonzero()`, and the `unique_*` functions.
-
-* Type annotations are defined in a basic way in the spec, but libraries may
-  extend them. Input types are designed to be as simple as possible. For
-  example, functions are only required to accept `array` objects. Accepting
-  "array like" types like lists of numbers, as NumPy does, is problematic
-  because it complicates type signatures, and calling `asarray()` at the top
-  of every function adds additional overhead. However, these type signatures
-  are not strict:  libraries may choose to accept additional input types
-  outside of those that are specified.
-
-* The accuracy and precision of numerical functions are not specified beyond
-  the basic IEEE 754 rules.
-
-Scope
-=====
-
-The scope of the array API specification includes:
-
-- Functionality that needs to be included in an array library for it to
-  adhere to this standard.
-- Names of functions, methods, classes and other objects.
-- Function signatures, including type annotations.
-- Semantics of functions and methods, i.e., expected outputs and dtypes of
-  numerical results.
-- Semantics in the presence of `nan`'s, `inf`'s, and empty arrays (i.e. arrays
-  including one or more dimensions of size `0`).
-- Casting rules, broadcasting, and indexing.
-- Data interchange, i.e., protocols to convert one type of array into another
-  type, potentially sharing memory.
-- Device support.
-
-To contrast, the following are considered **out-of-scope** for the array API
-specification
-
-- Implementations of the standard are out of scope. Members of the consortium
-  have played a role in helping libraries like NumPy, CuPy, and PyTorch
-  implement the standard, but this work has been done independently of the
-  standard. In particular, the standard is completely independent of any
-  specific implementation and does not make reference to or depend on any
-  given implementation or Python library (the `array-api-compat` library has
-  been produced as a compatibility layer on top of array libraries such as
-  NumPy, CuPy, and PyTorch, but this library is provided only as a helper tool
-  for array consumer libraries. It is not in any way required to make use of
-  the array API).
-
-- Execution semantics are out of scope. This includes single-threaded vs.
-  parallel execution, task scheduling and synchronization, eager vs. delayed
-  evaluation, performance characteristics of a particular implementation of
-  the standard, and other such topics.
-
-- Non-Python API standardization (e.g., Cython or NumPy C APIs).
-
-- Standardization of dtypes not already supported by all existing array
-  libraries is out of scope. This includes bfloat16, extended precision
-  floating point, datetime, string, object and void dtypes.
-
-- The following topics are out of scope: I/O, polynomials, error handling,
-  testing routines, building and packaging related functionality, methods of
-  binding compiled code (e.g., `cffi`, `ctypes`), subclassing of an array
-  class, masked arrays, and missing data.
-
-- NumPy (generalized) universal functions, i.e. ufuncs and gufuncs.
-
-- Behavior for unexpected/invalid input to functions and methods.
-
-For out-of-scope behavior, array libraries are free to implement it or to
-raise an error. It is up to array consuming libraries to ensure they write
-portable code that doesn't depend on behaviors outside of the specification.
-The `numpy.array_api` implementation, discussed below, can be a useful tool
-for this.
+*TODO: discuss standardization methodology.*
 
 Features
 ========
