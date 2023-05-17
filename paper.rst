@@ -414,7 +414,7 @@ new dunder methods:
   namespace `xp`, whose functions are then used on `x` to compute the result,
   which will typically be another array from the `xp` library.
 
-- `__dlpack__()` and `__dlpack_device__()` (see the `Data Interchange`_
+- `__dlpack__()` and `__dlpack_device__()` (see the `Interchange Protocol`_
   section above).
 
 Array Functions
