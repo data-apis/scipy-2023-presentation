@@ -33,6 +33,7 @@ jobs:
         packages: texlive-latex-recommended texlive-fonts-recommended texlive-fonts-extra texlive-publishers
     - name: Build the paper
       run: |
+        set -e
         cd ${GITHUB_WORKSPACE}/scipy_proceedings
         ./make_paper.sh papers/01_arrayapi/
     - name: Upload the paper as an artifact
