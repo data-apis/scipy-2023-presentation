@@ -44,7 +44,7 @@ Today, Python users have a wealth of choice for libraries and frameworks for
 numerical computing, data science, machine learning, and deep learning (TODO: citations). New
 frameworks pushing forward the state of the art in these fields appear every
 year. One unintended consequence of all this activity has been fragmentation in
-the fundamental building blocks--multidimensional arrays (a.k.a. tensors)--that
+the fundamental building blocks—multidimensional arrays (a.k.a. tensors)—that
 underpin the scientific Python ecosystem (SPE).
 
 This fragmentation comes with significant costs, from reinvention and re-implementation
