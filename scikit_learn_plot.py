@@ -17,3 +17,10 @@ ax2.set_title("predict")
 
 fig.suptitle("LinearDiscriminantAnalysis")
 fig.savefig("scikit_learn_timings.pdf")
+
+means = results.groupby(["backend", "method"]).mean()
+print("Mean durations:")
+print(means)
+print()
+print("Speedup over NumPy:")
+print(means.loc["numpy"] / means)
