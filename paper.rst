@@ -374,15 +374,21 @@ Next, we extracted public APIs for each library by analyzing module exports and
 scraping public web documentation. As an example of extracted API data, consider
 the following APIs for computing the arithmetic mean.
 
-.. code:: text
+.. code:: python
 
-   numpy.mean(a, axis=None, dtype=None, out=None, keepdims=<no value>) → ndarray
-   cupy.mean(a, axis=None, dtype=None, out=None, keepdims=False) → ndarray
-   dask.array.mean(a, axis=None, dtype=None, keepdims=False, split_every=None, out=None) → ndarray
-   jax.numpy.mean(a, axis=None, dtype=None, out=None, keepdims=False) → ndarray
-   mxnet.np.mean(a, axis=None, dtype=None, out=None, keepdims=False) → ndarray
-   torch.mean(input, dim, keepdim=False, out=None) → Tensor
-   tf.math.reduce_mean(input_tensor, axis=None, keepdims=False, name=None) → Tensor
+   numpy.mean(a, axis=None, dtype=None, out=None,
+       keepdims=<no value>)
+   cupy.mean(a, axis=None, dtype=None, out=None,
+       keepdims=False)
+   dask.array.mean(a, axis=None, dtype=None,
+       keepdims=False, split_every=None, out=None)
+   jax.numpy.mean(a, axis=None, dtype=None, out=None,
+       keepdims=False)
+   mxnet.np.mean(a, axis=None, dtype=None, out=None,
+       keepdims=False)
+   tf.math.reduce_mean(input_tensor, axis=None,
+       keepdims=False, name=None)
+   torch.mean(input, dim, keepdim=False, out=None)
 
 We then standardized the representation of the extracted public API data for
 subsequent analysis and joined individual table data using NumPy as our
@@ -395,7 +401,7 @@ names, method names, attribute names, and positional and keyword arguments.
 As an example of a derived API, consider the common API for computing the
 arithmetic mean:
 
-.. code:: text
+.. code:: python
 
    mean(a, axis=None, keepdims=False)
 
