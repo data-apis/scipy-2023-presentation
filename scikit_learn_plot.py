@@ -11,6 +11,7 @@ ax1.set_xlabel("duration (sec)")
 ax1.set_title("fit")
 
 sns.barplot(y="backend", x="duration", data=results[results["method"] == "predict"], ax=ax2)
+ax2.set_ylabel("")
 ax2.set_xlabel("duration (sec)")
 ax2.set_title("predict")
 
