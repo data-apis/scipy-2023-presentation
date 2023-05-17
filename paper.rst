@@ -153,17 +153,17 @@ Design Principles
 In order to guide standardization and define the contours of the standardization
 process, the Consortium established the following set of design principles:
 
-- *Pure functions.* Functional API design is the dominant pattern among
-  array libraries, both in Python and in other frequently used programming
-  languages supporting array computation. While method chaining and the fluent
-  interface design pattern are relatively common, especially among array
-  libraries supporting lazy evaluation and operator fusion, functional APIs are
-  generally preferred, mirroring design patterns used in underlying
-  implementations, such as those written in C/C++ and Fortran.
+- *Pure functions.* Functional API design is the dominant pattern among array
+  libraries, both in Python and in other frequently used programming languages
+  supporting array computation (e.g., MATLAB and Julia). While method chaining
+  and the fluent interface design pattern are relatively common, especially
+  among array libraries supporting lazy evaluation and operator fusion,
+  functional APIs are generally preferred, mirroring design patterns used in
+  underlying implementations, such as those written in C/C++ and Fortran.
 
 - *Minimal array object.* A standardized array object should have a minimal set
   of attributes necessary for inspection (e.g., shape, data type, size, etc.)
-  and should have a minimal set of magic methods (a.k.a. dunder methods) to
+  and should have a minimal set of magic methods (a.k.a. "dunder" methods) to
   support operator overloading.
 
 - *No dependencies.* The array API standard and its implementation should be
@@ -175,24 +175,24 @@ process, the Consortium established the following set of design principles:
   TPUs.
 
 - *JIT compiler support.* Standardized APIs and behavior should be amenable to
-  JIT compilation and graph-based optimization. For APIs and behavior which are
-  not amenable, such as APIs returning arrays having data-dependent output
-  shapes, the respective APIs and behavior should be specified as optional
-  extensions. Moreover, copy-view mutation semantics, as, e.g., supported by
-  NumPy, should be considered an implementation detail and, thus, not suitable
-  for standardization.
+  JIT compilation and graph-based optimization (e.g., PyTorch, JAX, and
+  TensorFlow). For APIs and behavior which are not amenable, such as APIs
+  returning arrays having data-dependent output shapes, the respective APIs and
+  behavior should be specified as optional extensions. Moreover, copy-view
+  mutation semantics (as, e.g., supported by NumPy) should be considered an
+  implementation detail and, thus, not suitable for standardization.
 
 - *Distributed support.* Standardized APIs and behavior should be amenable to
-  implementation in array libraries supporting distributed computing.
+  implementation in array libraries supporting distributed computing (e.g., Dask).
 
 - *Consistency.* Except in scenarios involving backward compatibility concerns,
   naming conventions and design patterns should be consistent across
   standardized APIs.
 
 - *Extensibility.* Conforming array libraries may implement functionality which
-  is not included in the array API standard. Array-consumers bear
-  responsibility for ensuring that a given API is standardized and its usage is
-  portable across specification-conforming array libraries.
+  is not included in the array API standard. As a consequence, array consumers
+  bear responsibility for ensuring that a given API is standardized and its
+  usage is portable across specification-conforming array libraries.
 
 - *Deference.* Where possible, the array API standard should defer to existing,
   widely-used standards. For example, the accuracy and precision of numerical
