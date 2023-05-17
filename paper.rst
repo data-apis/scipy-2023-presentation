@@ -374,14 +374,16 @@ Next, we extracted public APIs for each library by analyzing module exports and
 scraping public web documentation. As an example of extracted API data, consider
 the following APIs for computing the arithmetic mean.
 
+.. TODO: line wrapping makes this block harder to grok, especially when inferring common kwargs; consider an alternative presentation
+
 .. code:: python
 
    numpy.mean(a, axis=None, dtype=None, out=None,
        keepdims=<no value>)
    cupy.mean(a, axis=None, dtype=None, out=None,
        keepdims=False)
-   dask.array.mean(a, axis=None, dtype=None,
-       keepdims=False, split_every=None, out=None)
+   dask.array.mean(a, axis=None, dtype=None, out=None,
+       keepdims=False, split_every=None)
    jax.numpy.mean(a, axis=None, dtype=None, out=None,
        keepdims=False)
    mxnet.np.mean(a, axis=None, dtype=None, out=None,
