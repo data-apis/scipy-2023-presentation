@@ -296,7 +296,11 @@ arithmetic mean:
 
    mean(a, axis=None, keepdims=False)
 
-To assist in determining standardization prioritization, we leveraged usage data (discussed below) to confirm API need and to inform naming conventions, supported data types, and optional arguments. We summarized findings and provided tooling, including Jupyter notebooks (TODO: citation), for additional analysis and exploration (TODO: repo citation).
+To assist in determining standardization prioritization, we leveraged usage
+data (discussed below) to confirm API need and to inform naming conventions,
+supported data types, and optional arguments. We summarized findings and
+provided tooling, including Jupyter notebooks (TODO: citation), for additional
+analysis and exploration (TODO: repo citation).
 
 Usage
 -----
