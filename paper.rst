@@ -58,7 +58,6 @@ transition is far from seamless.
 
 .. TODO: Consider inserting Figure 2 from Year 1 report
 
-*TODO: add a motivating example*
 
 The Consortium for Python Data API Standards (hereafter referred to as "the
 Consortium" and "we") aims to address this problem by standardizing a fundamental array
@@ -81,15 +80,6 @@ array library behavior. We conclude by outlining open questions and
 opportunities for further standardization. Links to the specification and all
 current repository artifacts, including associated tooling, can be found in the
 bibliography.
-
-.. Automatic figure references won't work because they require Sphinx.
-.. _Figure 1:
-.. figure:: scikit_learn_timings.pdf
-
-   Average timings for scikit-learn's `LinearDiscriminantAnalysis` fit and
-   predict on a random classification with 500,000 samples and 300 features on
-   NumPy, Torch CPU, Torch GPU, and CuPy backends. Benchmarks were run on a
-   Nvidia GTX 3090 and an AMD 5950x.
 
 Consortium Overview
 ===================
@@ -243,6 +233,119 @@ process, we further established the following design principles:
   among a wide range of existing array libraries. Accordingly, with rare
   exception, only APIs and behavior having prior art within the ecosystem may
   be considered candidates for standardization.
+
+Example of Supporting the Standard
+==================================
+
+As a motivating example, consider the `LinearDiscriminantAnalysis` class in
+scikit-learn. This is a classifier whose code is written in pure Python
+against NumPy. In scikit-learn pull request `#22554
+<https://github.com/scikit-learn/scikit-learn/pull/22554>`__, the
+`LinearDiscriminantAnalysis` code was updated to support the array API
+standard. It provides a useful example of what array consuming libraries will
+typically require to update pure NumPy code to code that can consume any array
+API compliant library.
+
+The biggest takeaway from the pull request is that the majority of NumPy-like
+code will remains unchanged, other than renaming `np` to `xp`. `xp` is defined
+a the top of each function as  `xp = array_namespace(X)`, where `X` is the
+input argument to the function and `array_namespace()` is a function from the
+`Compatibility Layer` that returns the array namespace corresponding to `X`.
+
+Additionally, several changes to the usage of NumPy were necessary. A
+`selection from the pull request diff
+<https://github.com/scikit-learn/scikit-learn/pull/22554/files#diff-088a77600941874d633e8dbe71804c94c3b9d336a73509e6d2db5b48065d1c8bL482-R516>`__
+demonstrates the sorts of changes required:
+
+.. Note: see scikit-learn commit 2710a9e7eefd2088ce35fd2fb6651d5f97e5ef8b
+
+.. code:: diff
+
+     Xc = []
+     for idx, group in enumerate(self.classes_):
+   -     Xg = X[y == group, :]
+   -     Xc.append(Xg - self.means_[idx])
+   +     Xg = X[y == group]
+   +     Xc.append(Xg - self.means_[idx, :])
+
+   - self.xbar_ = np.dot(self.priors_, self.means_)
+   + self.xbar_ = self.priors_ @ self.means_
+
+   - Xc = np.concatenate(Xc, axis=0)
+   + Xc = xp.concat(Xc, axis=0)
+
+     # 1) within (univariate) scaling by with classes
+     # std-dev
+   - std = Xc.std(axis=0)
+   + std = xp.std(Xc, axis=0)
+     # avoid division by zero in normalization
+     std[std == 0] = 1.0
+   - fac = 1.0 / (n_samples - n_classes)
+   + fac = xp.asarray(1.0 / (n_samples - n_classes))
+
+     # 2) Within variance scaling
+   - X = np.sqrt(fac) * (Xc / std)
+   + X = xp.sqrt(fac) * (Xc / std)
+
+- The array indexing expressions `X[y == group, :]` and `self.means_[idx]` are
+  changed to `X[y == group]` and `self.means_[idx, :]`, respectively. This is
+  because the standard only guarantees support for boolean indexing when the
+  boolean index is the sole index, and multidimensional indexing only when all
+  axes are indexed.
+
+- `dot` is not included in the standard, so must be replaced with `@` (it
+  could also have been replaced with `matmul()`, or `vecdot()` if the
+  operation were a vector dot product).
+
+- Some functions are named differently in the standard. For example,
+  `np.concatenate` must be replaced with `xp.concat`.
+
+- `Xc.std()` must be replaced with `xp.std(Xc)`, because the standard uses a
+  functional API rather than array methods.
+
+- The expression `fac = 1.0 / (n_samples - n_classes)` must be wrapped with
+  `asarray()`. This is because it is later passed to `xp.sqrt()` and the
+  standard does not require support for array-like inputs to functions, only
+  actual arrays.
+
+Each of these dependencies was found by testing the code against the
+`numpy.array_api` `Strict Minimal Implementation`_. This is necessary because
+the things used in the previous version of the code are not strictly
+disallowed by the standard, but only things explicitly specified in the
+standard are guaranteed to be implemented by a conforming library. The
+`numpy.array_api` implementation errors on any code that isn't explicitly
+required by the specification.
+
+Additionally, although it is not shown in the above example, it may be
+necessary to support a function which is not included in the standard. In this
+case, the function can be added helper function in the library. For example,
+the above scikit-learn pull request added a helper function for `take()`,
+which was not yet included in the standard at the time of its writing.
+
+It may also be necessary to have special case per-library branches for
+performance purposes. For instance, code that makes use of stride
+optimizations might use separate code paths for libraries like NumPy that
+support stride manipulations and libraries like JAX which do not (stride
+manipulations are not part of the array API specification because not all
+libraries support them). Per-array library special casing allows optimizing
+for specific commonly used libraries while still keeping the code portable.
+
+The resulting code is now portable against any array API conforming library.
+`Figure 1` shows the resulting speedups from running
+`LinearDiscriminantAnalysis` against NumPy, Torch CPU and GPU (Cuda), and
+CuPy. Torch CPU gives a 5x speedup over NumPy for fitting, and Torch GPU gives
+a 72x and 37x speedup for fit and predict, respectively. CuPy gives 10x and
+17x respective speedups over NumPy.
+
+.. Automatic figure references won't work because they require Sphinx.
+.. _Figure 1:
+.. figure:: scikit_learn_timings.pdf
+
+   Average timings for scikit-learn's `LinearDiscriminantAnalysis` fit and
+   predict on a random classification with 500,000 samples and 300 features on
+   NumPy, Torch CPU, Torch GPU, and CuPy backends. Benchmarks were run on a
+   Nvidia GTX 3090 and an AMD 5950x.
+
 
 Methods
 =======
