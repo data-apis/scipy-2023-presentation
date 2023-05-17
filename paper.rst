@@ -242,8 +242,8 @@ Once we formalized goals and design principles, we sought to understand the Pyth
 
 TODO: discuss problems for standardization in more detail (in-place operations, copy-view semantics, fancy indexing); focus less on listing particular APIs; discuss at a high level "categories" of functions (e.g., stats, creation, manipulation), as otherwise the lists are likely to be stale in a few years time.
 
-Features
-========
+Array API Standard
+==================
 
 *TODO: write an introduction here.*
 
