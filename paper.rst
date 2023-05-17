@@ -222,15 +222,14 @@ To be useful, any such protocol must satisfy some basic requirements:
   specific dependent package. The protocol should describe the memory layout
   of an array in an implementation-independent manner.
 
-- Support for all dtypes in this API standard (see Data Types below).
+- Support for all dtypes in this API standard (see `Data Types`_ below).
 
 - It must be possible to determine on which device the array to be converted
-  resides (see Device Support below). It must be possible to determine on what
-  device the array that is to be converted lives (see Device Support below).
-  A single protocol is preferable to having per-device protocols. With
-  separate per-device protocols it’s hard to figure out unambiguous rules for
-  which protocol gets used, and the situation will get more complex over time
-  as TPU’s and other accelerators become more widely available.
+  resides (see `Device Support`_ below). A single protocol is preferable to
+  having per-device protocols. With separate per-device protocols it’s hard to
+  figure out unambiguous rules for which protocol gets used, and the situation
+  will get more complex over time as TPU’s and other accelerators become more
+  widely available.
 
 - The protocol must have zero-copy semantics where possible, making a copy
   only if needed (e.g. when data is not contiguous in memory).
@@ -392,7 +391,7 @@ corresponding functional form (e.g., `__add__` :math:`\leftrightarrow`
 `xp.add()`). For consistency, this is done even for operators that may seem
 unnecessary, like `__pos__` :math:`\leftrightarrow` `positive()`. Operators
 and their corresponding functions behave identically, except that operators
-accept Python scalars (see "type promotion" below), while functions are only
+accept Python scalars (see `Type Promotion`_ below), while functions are only
 required to accept arrays.
 
 In addition to the standard Python dunder methods, the standard adds a some
@@ -406,7 +405,8 @@ new dunder methods:
   namespace `xp`, whose functions are then used on `x` to compute the result,
   which will typically be another array from the `xp` library.
 
-- `__dlpack__()` and `__dlpack_device__()` (see the "data interchange" section above).
+- `__dlpack__()` and `__dlpack_device__()` (see the `Data Interchange`_
+  section above).
 
 Array Functions
 ---------------
@@ -425,9 +425,9 @@ defined as functions. These functions include
   including `ones()`, `linspace`, `arange`, and `full`, as well as the
   `asarray()` function, which converts "array like" inputs like lists of
   floats and object supporting the buffer protocol to array objects. Creation
-  functions all include a `dtype` and `device` keywords (see the "Device"
-  section above). The `array` type is not specified anywhere in the spec,
-  since different libraries use different types for their array objects,
+  functions all include a `dtype` and `device` keywords (see the `Device
+  Support`_ section above). The `array` type is not specified anywhere in the
+  spec, since different libraries use different types for their array objects,
   meaning `asarray()` and the other creation functions serve as the effective
   "array constructor".
 
@@ -446,7 +446,8 @@ defined as functions. These functions include
 
 - Linear algebra functions. Only basic manipulation functions like `matmul()`
   are required by the specification. Additional linear algebra functions are
-  included in an optional `linalg` extension (see below).
+  included in an optional `linalg` extension (see `Optional Extensions`_
+  below).
 
 - Manipulation functions such as `reshape()`, `stack()`, and `squeeze()`.
 
@@ -471,7 +472,8 @@ Data Types
 Data types are defined as named dtype objects in the array namespace, e.g.,
 `xp.float64`. Nothing is specified about what these objects actually are
 beyond that they should obey basic equality testing. Introspection on these
-objects can be done with the data type functions (see above).
+objects can be done with the data type functions (see `Array Functions`_
+above).
 
 The following dtypes are defined:
 
@@ -493,7 +495,7 @@ default to 64-bit or 32-bit data types depending on the use-cases they are
 aiming for. For example, NumPy's default integer and float dtypes are `int64`
 and `float64`, whereas, PyTorch's defaults are `int64` and `float32`.
 
-See also the "Type Promotion" section below for information on how dtypes
+See also the `Type Promotion`_ section below for information on how dtypes
 combine with each other.
 
 Broadcasting
@@ -580,7 +582,8 @@ values. For example (in NumPy 1.24):
 This behavior is bug prone and confusing to reason about. In the array API
 specification, any `float32` array and any `float64` array would promote to a
 `float64` array, regardless of their shapes or values. NumPy is planning to
-deprecate its value-based casting behavior for NumPy 2.0 (see below).
+deprecate its value-based casting behavior for NumPy 2.0 (see `Future Work`_
+below).
 
 Additionally, automatic cross-kind casting is not specified. This means that
 dtypes like `int64` and `float64` are not required to promote together. It
