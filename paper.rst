@@ -45,16 +45,16 @@ numerical computing, data science, machine learning, and deep learning (TODO: ci
 frameworks pushing forward the state of the art in these fields appear every
 year. One unintended consequence of all this activity has been fragmentation in
 the fundamental building blocks--multidimensional arrays (a.k.a. tensors)--that
-underpin the Python data ecosystem.
+underpin the scientific Python ecosystem (SPE).
 
-This fragmentation comes with significant costs, from reinvention and re-
-implementation of arrays and associated application programming interfaces
-(APIs) to siloed technical stacks targeting only one array library to the
-proliferation of user guides providing guidance on how to convert between, and
-interoperate among, libraries. Too often, the APIs of each library are largely
-similar, but each have enough differences that end users have to relearn and
-rewrite code in order to work with multiple libraries. This process can be very
-painful as the transition is far from seamless.
+This fragmentation comes with significant costs, from reinvention and re-implementation
+of arrays and associated application programming interfaces (APIs) to siloed
+technical stacks targeting only one array library to the proliferation of user
+guides providing guidance on how to convert between, and interoperate among,
+libraries. Too often, the APIs of each library are largely similar, but each
+have enough differences that end users have to relearn and rewrite code in
+order to work with multiple libraries. This process can be very painful as the
+transition is far from seamless.
 
 .. TODO: Consider inserting Figure 2 from Year 1 report
 
@@ -75,12 +75,12 @@ community.
 
 After providing an overview of the Consortium, we discuss standardization
 methodology. We then discuss the current status of the array API standard and
-highlight the main standardization areas. Next, we introduce additional
-supporting tooling associated with the standard for testing compliance and
-shimming incompatible array library behavior. We conclude by outlining open
-questions and opportunities for further standardization. Links to the
-specification and all current repository artifacts, including associated
-tooling, can be found in the bibliography.
+highlight the main standardization areas. Next, we introduce additional tooling
+associated with the standard for testing compliance and shimming incompatible
+array library behavior. We conclude by outlining open questions and
+opportunities for further standardization. Links to the specification and all
+current repository artifacts, including associated tooling, can be found in the
+bibliography.
 
 Consortium Overview
 ===================
@@ -232,8 +232,8 @@ process, we further established the following design principles:
 
 - *Universality.* Standardized APIs and behavior should reflect common usage
   among a wide range of existing array libraries. Accordingly, with rare
-  exception, only APIs and behavior having prior art may be considered
-  candidates for standardization.
+  exception, only APIs and behavior having prior art within the SPE may be
+  considered candidates for standardization.
 
 Methods
 =======
