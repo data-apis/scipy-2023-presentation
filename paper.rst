@@ -73,7 +73,7 @@ standard. The aim is to provide a high-level overview of the standard and its
 continued evolution and to solicit further engagement from the Python
 community.
 
-After providing an overview of the Consortium, we discuss standardization
+After providing an overview of the Consortium, we first discuss standardization
 methodology. We then discuss the current status of the array API standard and
 highlight the main standardization areas. Next, we introduce additional tooling
 associated with the standard for testing compliance and shimming incompatible
