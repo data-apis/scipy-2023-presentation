@@ -14,9 +14,9 @@
 .. class:: abstract
 
    The Python array API standard (https://data-apis.org/array-api/) specifies
-   standardized APIs and behavior for array and tensor objects and operations
-   as commonly found in libraries such as NumPy, PyTorch, TensorFlow, Dask, and
-   CuPy.
+   standardized application programming interfaces (APIs) and behavior for array
+   and tensor objects and operations as commonly found in libraries such as NumPy,
+   PyTorch, TensorFlow, Dask, and CuPy.
 
    The establishment and subsequent adoption of the standard aims to reduce
    ecosystem fragmentation and facilitate array library interoperability in user
@@ -27,10 +27,11 @@
    can more readily leverage hardware acceleration via GPUs, TPUs, and other
    accelerator devices.
 
-   In this paper, we introduce the Consortium for Python Data API standards and
-   cover the scope of the array API standard, work completed thus far,
-   supporting tooling (including a library-independent test suite and
-   compatibility layer), and plans for future work.
+   In this paper, we first introduce the Consortium for Python Data API
+   standards and define the scope of the array API standard. We then discuss
+   the current status of standardization and associated tooling (including a
+   library-independent test suite and compatibility layer). We conclude by outlining
+   plans for future work.
 
 .. class:: keywords
 
@@ -46,26 +47,40 @@ year. One unintended consequence of all this activity has been fragmentation in
 the fundamental building blocks--multidimensional arrays (a.k.a. tensors)--that
 underpin the Python data ecosystem.
 
-This fragmentation comes with significant costs, from reinvention and
-re-implementation of arrays and associated APIs to siloed technical stacks
-targeting only one array library to the proliferation of user guides providing
-guidance on how to convert between, and interoperate among, libraries. Too
-often, the APIs of each library are largely similar, but each have enough
-differences that end users have to relearn and rewrite code in order to work
-with multiple libraries. This process can be very painful as the transition is
-far from seamless.
+This fragmentation comes with significant costs, from reinvention and re-
+implementation of arrays and associated application programming interfaces
+(APIs) to siloed technical stacks targeting only one array library to the
+proliferation of user guides providing guidance on how to convert between, and
+interoperate among, libraries. Too often, the APIs of each library are largely
+similar, but each have enough differences that end users have to relearn and
+rewrite code in order to work with multiple libraries. This process can be very
+painful as the transition is far from seamless.
 
 .. TODO: Consider inserting Figure 2 from Year 1 report
+
+*TODO: add a motivating example*
 
 The Consortium for Python Data API Standards (hereafter referred to as "the
 Consortium" and "we") aims to address this problem by standardizing a fundamental array
 data structure and an associated set of common APIs for working with arrays,
 thus facilitating interchange and interoperability.
 
-Motivating Example
-------------------
+Paper Overview
+==============
 
-*TODO*
+This paper is written as an introduction to the Consortium and the array API
+standard. The aim is to provide a high-level overview of the standard and its
+continued evolution and to solicit further engagement from the Python
+community.
+
+After providing an overview of the Consortium, we discuss standardization
+methodology. We then discuss the current status of the array API standard and
+highlight the main standardization areas. Next, we introduce additional
+supporting tooling associated with the standard for testing compliance and
+shimming incompatible array library behavior. We conclude by outlining open
+questions and opportunities for further standardization. Links to the
+specification and all current repository artifacts, including associated
+tooling, can be found in the bibliography.
 
 Consortium Overview
 ===================
@@ -80,28 +95,28 @@ numerical and scientific computing in Python was Numeric, developed in the mid-1
 To better accommodate this library and its use cases, Python’s syntax was
 extended to include indexing syntax (TODO: PEP citation).
 
-In the early 2000s, a similar library, Numarray, introduced a more flexible data
-structure (TODO: citation). Numarray had faster operations for large arrays. However, the library
-was slower for small arrays. Subsequently, both Numeric and Numarray coexisted
-to satisfy different use cases.
+In the early 2000s, a similar library, Numarray, introduced a more flexible
+data structure (TODO: citation). Numarray had faster operations for large
+arrays. However, the library was slower for small arrays. Subsequently, both
+Numeric and Numarray coexisted to satisfy different use cases.
 
-In early 2005, NumPy was written to unify Numeric and Numarray as a single array
-package by porting Numarray’s features to Numeric (TODO: citation). This effort was largely
-successful and resolved the fragmentation at the time, and, for roughly a
-decade, NumPy was the only widely used array library. Building on NumPy, pandas
-was subsequently introduced in 2008 in order to address the need for a high
-performance, flexible tool for performing quantitative analysis on labeled
-tabular data (TODO: citation).
+In early 2005, NumPy was written to unify Numeric and Numarray as a single
+array package by porting Numarray’s features to Numeric (TODO: citation). This
+effort was largely successful and resolved the fragmentation at the time, and,
+for roughly a decade, NumPy was the only widely used array library. Building on
+NumPy, pandas was subsequently introduced in 2008 in order to address the need
+for a high performance, flexible tool for performing quantitative analysis on
+labeled tabular data (TODO: citation).
 
 Over the past 10 years, the rise of deep learning and the emergence of new
 hardware has led to a proliferation of new libraries and a corresponding
-fragmentation within the PyData array and dataframe ecosystem. These
-libraries often borrowed concepts from, or entirely copied, the APIs of older
-libraries, such as NumPy, and then modified and evolved those APIs to address
-new needs and use cases. While the communities of each individual library
-discussed interchange and interoperability, until the founding of the Consortium for Python Data API
-Standards, no process for coordination among libraries arose to avoid further
-fragmentation and to arrive at a common set of API standards.
+fragmentation within the PyData array and dataframe ecosystem. These libraries
+often borrowed concepts from, or entirely copied, the APIs of older libraries,
+such as NumPy, and then modified and evolved those APIs to address new needs
+and use cases. While the communities of each individual library discussed
+interchange and interoperability, until the founding of the Consortium for
+Python Data API Standards, no process for coordination among libraries arose to
+avoid further fragmentation and to arrive at a common set of API standards.
 
 .. TODO: consider inserting Figure 1 from year 1 report
 
@@ -125,8 +140,9 @@ already exists and maintaining relevance with respect to future innovation. The
 latter aspect is particularly fraught, as relevance requires anticipating
 future needs, technological advances, and emerging use cases. Accordingly, if a
 standard is to remain relevant, the standardization process must be
-conservative in its scope and have clearly defined objectives against which
-continued success is measured.
+conservative in its scope, thorough in its consideration of current and prior
+art, and have clearly defined objectives against which continued success is
+measured.
 
 To this end, we established the following objectives for the array API standard:
 
@@ -168,11 +184,12 @@ process, we further established the following design principles:
 
 - *Pure functions.* Functional API design is the dominant pattern among array
   libraries, both in Python and in other frequently used programming languages
-  supporting array computation (e.g., MATLAB (TODO: citation) and Julia (TODO: citation)). While method chaining
-  and the fluent interface design pattern are relatively common, especially
-  among array libraries supporting lazy evaluation and operator fusion,
-  functional APIs are generally preferred, mirroring design patterns used in
-  underlying implementations, such as those written in C/C++ and Fortran.
+  supporting array computation (e.g., MATLAB (TODO: citation) and Julia (TODO: citation)).
+  While method chaining and the fluent interface design pattern are relatively
+  common, especially among array libraries supporting lazy evaluation and
+  operator fusion, functional APIs are generally preferred, mirroring design
+  patterns used in underlying implementations, such as those written in C/C++
+  and Fortran.
 
 - *Minimal array object.* A standardized array object should have a minimal set
   of attributes necessary for inspection (e.g., shape, data type, size, etc.)
@@ -184,16 +201,18 @@ process, we further established the following design principles:
   of Python itself.
 
 - *Accelerator support.* Standardized APIs and behavior should be possible to
-  implement for both CPUs and hardware-accelerated devices, such as GPUs and
-  TPUs.
+  implement for both central processing units (CPUs) and hardware-accelerated
+  devices, such as graphics processing units (GPUs), tensor processing units (TPUs),
+  and field-programmable gate arrays (FPGAs).
 
 - *JIT compiler support.* Standardized APIs and behavior should be amenable to
-  JIT compilation and graph-based optimization (e.g., PyTorch (TODO: citation), JAX (TODO: citation), and
-  TensorFlow (TODO: citation)). For APIs and behavior which are not amenable, such as APIs
-  returning arrays having data-dependent output shapes, the respective APIs and
-  behavior should be specified as optional extensions. Moreover, copy-view
-  mutation semantics (as, e.g., supported by NumPy) should be considered an
-  implementation detail and, thus, not suitable for standardization.
+  just-in-time (JIT) compilation and graph-based optimization (e.g., PyTorch (TODO: citation),
+  JAX (TODO: citation), and TensorFlow (TODO: citation)). For APIs and behavior
+  which are not amenable, such as APIs returning arrays having data-dependent
+  output shapes, the respective APIs and behavior should be specified as
+  optional extensions. Moreover, copy-view mutation semantics (as, e.g.,
+  supported by NumPy) should be considered an implementation detail and, thus,
+  not suitable for standardization.
 
 - *Distributed support.* Standardized APIs and behavior should be amenable to
   implementation in array libraries supporting distributed computing (e.g., Dask (TODO: citation)).
@@ -220,6 +239,8 @@ Methods
 =======
 
 Once we formalized goals and design principles, we sought to understand the Python data API landscape 
+
+TODO: discuss problems for standardization in more detail (in-place operations, copy-view semantics, fancy indexing); focus less on listing particular APIs; discuss at a high level "categories" of functions (e.g., stats, creation, manipulation), as otherwise the lists are likely to be stale in a few years time.
 
 Features
 ========
