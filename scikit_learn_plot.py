@@ -1,0 +1,16 @@
+import matplotlib.pyplot as plt
+import pandas as pd
+import seaborn as sns
+
+results = pd.read_csv("scikit_learn_timings.csv")
+
+sns.set_theme(context="paper", font_scale=1.4)
+fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8, 4), constrained_layout=True)
+sns.barplot(x="backend", y="duration", data=results[results["method"] == "fit"], ax=ax1)
+ax1.set_ylabel("duration (sec)")
+ax1.set_title("fit")
+
+sns.barplot(x="backend", y="duration", data=results[results["method"] == "predict"], ax=ax2)
+ax2.set_ylabel("duration (sec)")
+ax2.set_title("predict")
+fig.savefig("scikit_learn_timings.pdf")

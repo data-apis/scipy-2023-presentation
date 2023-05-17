@@ -67,6 +67,10 @@ Motivating Example
 
 *TODO*
 
+.. figure:: scikit_learn_timings.pdf
+
+   Scikit-Learn benchmarks *TODO: Get details from Thomas.*
+
 Consortium Overview
 ===================
 
@@ -219,7 +223,7 @@ process, we further established the following design principles:
 Methods
 =======
 
-Once we formalized goals and design principles, we sought to understand the Python data API landscape 
+Once we formalized goals and design principles, we sought to understand the Python data API landscape
 
 Features
 ========
