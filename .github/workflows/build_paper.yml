@@ -33,7 +33,7 @@ jobs:
         packages: texlive-latex-recommended texlive-fonts-recommended texlive-fonts-extra texlive-publishers texlive-base texlive-bibtex-extra
         execute_install_scripts: true
     - name: Fix LaTeX
-      run: sudo texhash --verbose /usr/share/texmf/
+      run: which -a pdflatex
     - name: Build the paper
       run: |
         cd ${GITHUB_WORKSPACE}/scipy_proceedings
