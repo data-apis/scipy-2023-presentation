@@ -21,7 +21,7 @@
    The establishment and subsequent adoption of the standard aims to reduce
    ecosystem fragmentation and facilitate array library interoperation in user
    code and among array-consuming libraries, such as scikit-learn and SciPy.
-   
+
    A key benefit of array interoperability for downstream consumers of the
    standard is device agnosticism, whereby previously CPU-bound implementations
    can more readily leverage hardware acceleration via GPUs, TPUs, and other
@@ -334,11 +334,8 @@ the array API specification:
 All functions should respect explicit `device=` assignment, preserve the
 device whenever possible, and avoid implicit data transfer between devices.
 
-Functions and Methods
----------------------
-
-Signatures
-~~~~~~~~~~
+Functions and Method Signatures
+-------------------------------
 
 All function signatures in the specification make use of `PEP 570
 <https://peps.python.org/pep-0570/>`_ positional-only arguments for arguments
@@ -386,7 +383,7 @@ Here is an example type signature in the specification
 
 
 Array Methods and Attributes
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+----------------------------
 
 All relevant Python double underscore (dunder) methods (e.g., `__add__`,
 `__mul__`, etc.) are specified for the array object, so that people can write
@@ -411,8 +408,8 @@ new dunder methods:
 
 - `__dlpack__()` and `__dlpack_device__()` (see the "data interchange" section above).
 
-Functions
-~~~~~~~~~
+Array Functions
+---------------
 
 Aside from dunder methods, the only methods/attributes defined on the array
 object are `x.to_device()`, `x.dtype`, `x.device`, `x.mT`, `x.ndim`,
@@ -469,7 +466,7 @@ libraries. Therefore, such libraries may choose to not implement these
 functions.
 
 Data Types
-~~~~~~~~~~
+----------
 
 Data types are defined as named dtype objects in the array namespace, e.g.,
 `xp.float64`. Nothing is specified about what these objects actually are
