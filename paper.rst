@@ -255,20 +255,20 @@ this end, the standardization process must approach the problem from two
 directions: design and usage.
 
 The former direction seeks to understand both current implementation design
-(e.g., APIs, names, signatures, classes, and objects) and implementation
-semantics (calling conventions and behavior). The latter direction seeks to
-quantify API consumers (e.g., who are the downstream users of a given API?),
-usage frequency (e.g., how often is an API consumed?), and consumption patterns
-(e.g., which optional arguments are provided and in what context?). By
-analyzing both design and usage, the standardization process grounds
-specification decisions in empirical data and analysis.
+(e.g., APIs, names, signatures, classes, and objects) and semantics (calling
+conventions and behavior). The latter direction seeks to quantify API consumers
+(e.g., who are the downstream users of a given API?), usage frequency (e.g.,
+how often is an API consumed?), and consumption patterns (e.g., which optional
+arguments are provided and in what context?). By analyzing both design and
+usage, the standardization process grounds specification decisions in empirical
+data and analysis.
 
 Design
 ------
 
 To understand API design of array libraries within the SPE, we first identified
-a representative sample of commonly used Python array libraries, which included
-the following: NumPy, Dask Array, CuPy, MXNet, JAX, TensorFlow, and PyTorch.
+a representative sample of commonly used Python array libraries. The sample included
+the following libraries: NumPy, Dask Array, CuPy, MXNet, JAX, TensorFlow, and PyTorch.
 Next, we extracted public APIs for each library by analyzing module exports and
 scraping public documentation. As an example of extracted API data, consider
 the following APIs for computing the arithmetic mean.
