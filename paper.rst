@@ -82,6 +82,8 @@ opportunities for further standardization. Links to the specification and all
 current repository artifacts, including associated tooling, can be found in the
 bibliography.
 
+.. TODO: consider moving this figure to a "Results" section closer to the end
+
 .. Automatic figure references won't work because they require Sphinx.
 .. _Figure 1:
 .. figure:: scikit_learn_timings.pdf
@@ -253,13 +255,13 @@ this end, the standardization process must approach the problem from two
 directions: design and usage.
 
 The former direction seeks to understand both current implementation design
-(e.g., APIs, names, signatures, classes, and objects) and current
-implementation semantics (calling conventions and behavior). The latter
-direction seeks to quantify API consumers (e.g., who are the downstream users
-of a given API?), usage frequency (e.g., how often is an API consumed?), and
-consumption patterns (e.g., which optional arguments are provided and in what
-context?). By analyzing both design and usage, the standardization process
-grounds specification decisions in empirical data and analysis.
+(e.g., APIs, names, signatures, classes, and objects) and implementation
+semantics (calling conventions and behavior). The latter direction seeks to
+quantify API consumers (e.g., who are the downstream users of a given API?),
+usage frequency (e.g., how often is an API consumed?), and consumption patterns
+(e.g., which optional arguments are provided and in what context?). By
+analyzing both design and usage, the standardization process grounds
+specification decisions in empirical data and analysis.
 
 Design
 ------
