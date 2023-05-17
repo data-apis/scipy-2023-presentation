@@ -30,7 +30,7 @@ jobs:
     - name: Install apt dependencies
       uses: awalsh128/cache-apt-pkgs-action@latest
       with:
-        - packages: texlive-latex-recommended texlive-fonts-recommended texlive-fonts-extra\
+        packages: texlive-latex-recommended texlive-fonts-recommended texlive-fonts-extra\
     - name: Build the paper
       run: |
         cd ${GITHUB_WORKSPACE}/scipy_proceedings
