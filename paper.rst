@@ -247,8 +247,17 @@ Features
 
 *TODO: write an introduction here.*
 
-Data Interchange
-----------------
+Array Object
+------------
+
+*TODO: introduce the array object. See NumPy paper (https://www.nature.com/articles/s41586-020-2649-2) and the section on NumPy arrays.*
+
+*TODO: consider including something akin to Fig 1 in NumPy paper. May also want to include type promotion.*
+
+Interchange Protocol
+--------------------
+
+*TODO: rephase to emphasize interoperability and the desire to convert an array of one flavor to another flavor. We should be able to cut down the content found in this section.*
 
 As discussed in the non-goals section, array libraries are not expected to
 support mixing arrays from other libraries. Instead, there is an interchange
@@ -302,8 +311,12 @@ Note that `asarray()` also supports the buffer protocol for libraries that
 already implement it, like NumPy. But the buffer protocol is CPU-only, meaning
 it is not sufficient for the above requirements.
 
+*TODO: add code example.*
+
 Device Support
 --------------
+
+*TODO: we should be able to cut down this section. Can we add a PyTorch example here to demonstrate moving an array to a different device and why this is desirable?*
 
 The standard supports specifying what device an array should live on. This is
 implemented by explicit `device` keywords in creation functions, with the
@@ -371,56 +384,10 @@ the array API specification:
 All functions should respect explicit `device=` assignment, preserve the
 device whenever possible, and avoid implicit data transfer between devices.
 
-Functions and Method Signatures
--------------------------------
-
-All function signatures in the specification make use of `PEP 570
-<https://peps.python.org/pep-0570/>`_ positional-only arguments for arguments
-that are arrays. It should not matter if one library defines `def atan2(y, x):
-...`, for instance, and another library defines `def atan2(x1, x2): ...`. With
-positional-only arguments, the function must be called by passing the
-arguments by position, like `atan2(a, b)`. The specific name given the
-arguments by the library becomes separate from the API.
-
-Additionally, most keyword arguments are keyword-only. For example, `ones((3,
-3), int64)` is not allowed—it must be called as `ones((3, 3), dtype=int64)`.
-This makes user code more readable, and future-proofs the API by allowing
-additional keyword arguments to be added without breaking existing function
-calls.
-
-All signatures in the specification include type annotations. These type
-annotations use generic types like `array` and `dtype` type to represent a
-library's array or dtype objects. These type annotations represent the minimal
-types that are required to be supported by the specification. A library may
-choose to accept additional types, although any use of this functionality will
-be non-portable. Functionally, type annotations serve no purpose other than as
-documentation. Libraries are not required to implement any sort of runtime
-type checking, or to actually include such annotations in their own function
-signatures. The array API specification does not attempt extend type
-annotation syntax beyond what is already specified by PEPs and supported by
-popular type checkers such as Mypy. For instance, including dtype or shape
-information in the annotated type signatures is considered out-of-scope.
-
-Here is an example type signature in the specification
-
-.. code:: python
-
-   def asarray(
-       obj: Union[
-           array, bool, int, float, complex,
-           NestedSequence, SupportsBufferProtocol
-       ],
-       /,
-       *,
-       dtype: Optional[dtype] = None,
-       device: Optional[device] = None,
-       copy: Optional[bool] = None,
-   ) -> array:
-       ...
-
-
 Array Methods and Attributes
 ----------------------------
+
+*TODO: consider rolling up into the "Array Object" section above.*
 
 All relevant Python double underscore (dunder) methods (e.g., `__add__`,
 `__mul__`, etc.) are specified for the array object, so that people can write
@@ -507,6 +474,8 @@ functions.
 Data Types
 ----------
 
+*TODO: consider rolling into the "Array Object" section above.*
+
 Data types are defined as named dtype objects in the array namespace, e.g.,
 `xp.float64`. Nothing is specified about what these objects actually are
 beyond that they should obey basic equality testing. Introspection on these
@@ -539,6 +508,10 @@ combine with each other.
 Broadcasting
 ------------
 
+*TODO: consider rolling into the "Array Object" section above.*
+
+*TODO: examples.*
+
 All elementwise functions and operations that accept more than one array input
 apply broadcasting rules. The broadcasting rules match the commonly used
 semantics of NumPy, where a broadcasted shape is constructed from the input
@@ -551,6 +524,10 @@ types or values.
 
 Indexing
 --------
+
+*TODO: consider rolling into the "Array Object" section above.*
+
+*TODO: examples.*
 
 Arrays should support indexing operations using the standard Python getitem
 syntax, `x[idx]`. The indexing semantics defined are based on the common NumPy
@@ -592,11 +569,17 @@ separate concept from 0-D arrays.
 Type Promotion
 --------------
 
+*TODO: I don't think we need the type promotion diagram here. Main concern is that this is likely to be stale at some point in the future if and when new dtypes are added.*
+
+*TODO: consider rolling into the "Array Object" section above.*
+
+*TODO: examples.*
+
 .. figure:: dtype_promotion_lattice.pdf
 
    The dtypes specified in the spec with required type promotions, including
    promotions for Python scalars in operators. Cross-kind promotion is not
-   required and is discouraged.
+   required.
 
 Elementwise functions and operators that accept more than one argument perform
 type promotion on their inputs, if the input dtypes are compatible.
@@ -648,6 +631,8 @@ casting of the scalar is allowed in this specific instance for convenience
 Optional Extensions
 -------------------
 
+*TODO: consuming extensions. How to check whether present?*
+
 In addition to the above required functions, there are two optional extension
 sub-namespaces. Array libraries may chose to implement or not implement these
 extensions. These extensions are optional because they typically require
@@ -678,8 +663,8 @@ and the `fft` extension. A v2023 version is in the works, although no
 significant changes are planned so far. In 2023, most of the work around the
 array API has focused on implementation and adoption.
 
-Strict Minimal Implementation (`numpy.array_api`)
----------------------------------------------------
+Strict Minimal Implementation
+-----------------------------
 
 The experimental `numpy.array_api` submodule is a standalone, strict
 implementation of the standard. It is not intended to be used by end users,
@@ -727,6 +712,8 @@ array consumers, to check that their code is portable. If code runs in
 
 Compatibility Layer
 -------------------
+
+*TODO: we don't need to go in the weeds here, listing API renames and each instance of incompat behavior. We can focus on the problems the compat layer is intended to solve, at a high level, and how it helps downstream libraries, such as sklearn and SciPy. Main point is that this is a shim layer which allows standardization consumption to be independent of individual array library release schedules.*
 
 As discussed above, `numpy.array_api` is not a suitable way for libraries to
 use `numpy` in an array API compliant way. However, NumPy, as of 1.24, still
@@ -818,6 +805,8 @@ outlined by the spec automatically. Behavior that is not specified by the spec
 is not checked by the test suite, for example the exact numeric output of
 floating-point functions.
 
+*TODO: I think we can remove the following paragraph.*
+
 Utilizing hypothesis offers several advantages. Firstly, it allows writing
 tests in a way that more or less corresponds to a direct translation of the
 spec into code. This is because hypothesis is a property-based testing
@@ -841,7 +830,7 @@ The array-api-tests test suite is the first example known to these authors of
 a full featured Python test suite that runs against multiple different
 libraries. It has already been invaluable in practice for implementing the
 minimal `numpy.array_api` implementation, the `array-api-compat` library,
-and for finding presidencies from the spec in array libraries including NumPy,
+and for finding discrepancies from the spec in array libraries including NumPy,
 CuPy, and PyTorch.
 
 Future Work
@@ -871,9 +860,12 @@ There is a similar effort being done by the same Data APIs Consortium to
 standardize Python dataframe libraries. This work will be discussed in a
 future paper and conference talk.
 
-*TODO: Add references*
-
 Conclusion
 ==========
 
 *TODO*
+
+Bibliography
+============
+
+*TODO: Add references*
