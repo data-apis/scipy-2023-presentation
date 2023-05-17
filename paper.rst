@@ -419,17 +419,17 @@ To understand usage patterns of array libraries within the SPE, we first
 identified a representative sample of commonly used Python libraries
 ("downstream libraries") which consume the sample of array libraries identified
 during design analysis. The sample of downstream libraries included the
-following libraries: pandas, Matplotlib, Xarray, scikit-learn, and scikit-
-image, among others. Next, we instrumented downstream libraries in order to
-record Python array API calls (TODO: repo citation). After instrumentation, we
+following libraries: pandas, Matplotlib, Xarray, scikit-learn, and scikit-image,
+among others. Next, we instrumented downstream libraries in order to record
+Python array API calls (TODO: repo citation). After instrumentation, we
 collected traces while running downstream library test suites. We subsequently
-transformed trace data into structured JSON data for subsequent analysis. From
+transformed trace data into structured JSON for subsequent analysis. From
 the structured data, we generated empirical APIs based on provided arguments
 and associated data types, noting which downstream library called which
 empirical API and at what frequency. We then derived a single inferred API
 which unifies the individual empirical API calling semantics. We organized the
 API results in human-readable form as type definition files and compared the
-inferred API to the publicly documented APIs (see above).
+inferred API to the publicly documented APIs obtained during design analysis.
 
 The following is an example inferred API for `numpy.arange`, with the docstring
 indicating the number of lines of code which invoked the function for each
@@ -458,13 +458,13 @@ downstream library when running downstream library test suites.
      """
      ...
 
-As a final step, we ranked each API in the common API subset (described above)
-according to relative usage using the Dowdall positional voting system (TODO:
-citation) (a variant of the Borda count (TODO: citation) which favors candidate
-APIs having high relative usage). From the rankings, we assigned
-standardization priorities, with higher ranked APIs taking precedence over
-lower ranked APIs. We published all source code, usage data, and analysis as
-public artifacts available on GitHub. (TODO: repo citations)
+As a final step, we ranked each API in the common API subset obtained during
+design analysis according to relative usage using the Dowdall positional voting
+system (TODO: citation) (a variant of the Borda count (TODO: citation) which
+favors candidate APIs having high relative usage). From the rankings, we
+assigned standardization priorities, with higher ranked APIs taking precedence
+over lower ranked APIs. We published all source code, usage data, and analysis
+as public artifacts available on GitHub. (TODO: repo citations)
 
 Array API Standard
 ==================
