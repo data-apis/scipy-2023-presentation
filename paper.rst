@@ -84,7 +84,10 @@ bibliography.
 
 .. figure:: scikit_learn_timings.pdf
 
-   Scikit-Learn benchmarks *TODO: Get details from Thomas.*
+   Average timings for scikit-learn's `LinearDiscriminantAnalysis` fit and
+   predict on a random classification with 500,000 samples and 300 features on
+   NumPy, Torch CPU, Torch GPU, and CuPy backends. Benchmarks were run on a
+   Nvidia GTX 3090 and an AMD 5950x.
 
 Consortium Overview
 ===================
