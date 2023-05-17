@@ -24,8 +24,8 @@
 
    A key benefit of array interoperability for downstream consumers of the
    standard is device agnosticism, whereby previously CPU-bound implementations
-   can more readily leverage hardware acceleration via GPUs, TPUs, and other
-   accelerator devices.
+   can more readily leverage hardware acceleration via graphics processing
+   units (GPUs), tensor processing units (TPUs), and other accelerator devices.
 
    In this paper, we first introduce the Consortium for Python Data API
    standards and define the scope of the array API standard. We then discuss
