@@ -67,8 +67,11 @@ Motivating Example
 
 *TODO*
 
-History of the Consortium
-=========================
+Consortium Overview
+===================
+
+History
+-------
 
 While the Python programming language was not designed for numerical computing,
 the language gained initial popularity in the scientific and engineering
@@ -114,11 +117,18 @@ to form the Consortium for Python Data API Standards to begin drafting
 specifications for array and dataframe APIs, which could then be adopted by each
 of the existing array and dataframe libraries and by any new libraries which arise.
 
-Goals and Non-Goals
-===================
+Objectives
+----------
 
-Upon Consortium formation, we established the following goals for the array API
-standard:
+Standardization efforts must maintain a delicate balance between codifying what
+already exists and maintaining relevance with respect to future innovation. The
+latter aspect is particularly fraught, as relevance requires anticipating
+future needs, technological advances, and emerging use cases. Accordingly, if a
+standard is to remain relevant, the standardization process must be
+conservative in its scope and have clearly defined objectives against which
+continued success is measured.
+
+To this end, we established the following objectives for the array API standard:
 
 - Increase interoperability such that array-consuming libraries can accept and
   operate on any specification-conforming array library.
@@ -132,7 +142,8 @@ standard:
 - Reduce the learning curve and friction for users as they switch between array
   libraries.
 
-as well as the following non-goals:
+Notably, of equal importance to the aforementioned objectives is the explicit
+omission of the following:
 
 - Make array libraries identical for the purpose of merging them. Different array
   libraries have different strengths (e.g., performance characteristics, hardware
@@ -150,7 +161,7 @@ as well as the following non-goals:
   individual use cases and beyond the scope of the array API standard.
 
 Design Principles
-=================
+-----------------
 
 In order to guide standardization and define the contours of the standardization
 process, we further established the following design principles:
