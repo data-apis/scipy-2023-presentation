@@ -671,7 +671,7 @@ here we see that `numpy.array_api.sin(x)` fails for an integral array `x`,
 because in the array API spec, `sin()` is only required to work with
 floating-point arrays.
 
-.. code:: pycon
+.. code:: python
 
    >>> import numpy.array_api as xp
    <stdin>:1: UserWarning: The numpy.array_api submodule
