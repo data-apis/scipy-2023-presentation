@@ -238,9 +238,61 @@ process, we further established the following design principles:
 Methods
 =======
 
-Once we formalized goals and design principles, we sought to understand the Python data API landscape 
+A foundational step in technical standardization is articulating a subset of
+established practices and defining those practices in unambiguous terms. To
+this end, the standardization process must approach the problem from two
+directions: design and usage.
 
-TODO: discuss problems for standardization in more detail (in-place operations, copy-view semantics, fancy indexing); focus less on listing particular APIs; discuss at a high level "categories" of functions (e.g., stats, creation, manipulation), as otherwise the lists are likely to be stale in a few years time.
+The former direction seeks to understand both current implementation design
+(e.g., APIs, names, signatures, classes, and objects) and current
+implementation semantics (calling conventions and behavior). The latter
+direction seeks to quantify API consumers (e.g., who are the downstream users
+of a given API?), usage frequency (e.g., how often is an API consumed?), and
+consumption patterns (e.g., which optional arguments are provided and in what
+context?). By analyzing both design and usage, the standardization process
+grounds specification decisions in empirical data and analysis.
+
+Design
+------
+
+To understand API design of array libraries within the SPE, we first identified
+a representative sample of commonly used Python array libraries, which included
+the following: NumPy, Dask Array, CuPy, MXNet, JAX, TensorFlow, and PyTorch.
+Next, we extracted public APIs for each library by analyzing module exports and
+scraping public documentation. As an example of extracted API data, consider
+the following APIs for computing the arithmetic mean.
+
+.. code:: text
+
+   numpy.mean(a, axis=None, dtype=None, out=None, keepdims=<no value>) → ndarray
+   cupy.mean(a, axis=None, dtype=None, out=None, keepdims=False) → ndarray
+   dask.array.mean(a, axis=None, dtype=None, keepdims=False, split_every=None, out=None) → ndarray
+   jax.numpy.mean(a, axis=None, dtype=None, out=None, keepdims=False) → ndarray
+   mxnet.np.mean(a, axis=None, dtype=None, out=None, keepdims=False) → ndarray
+   torch.mean(input, dim, keepdim=False, out=None) → Tensor
+   tf.math.reduce_mean(input_tensor, axis=None, keepdims=False, name=None) → Tensor
+
+We then standardized the representation of the extracted public API data for
+subsequent analysis and joined individual table data using NumPy as our
+reference relation. From the unified representation, we determined
+commonalities and differences by analyzing the intersection, and its
+complement, of available APIs across each array library. From the intersection,
+we derived a subset of common APIs suitable for standardization based on
+prevalence and ease of implementation. The common API subset included function
+names, method names, attribute names, and positional and keyword arguments.
+As an example of a derived API, consider the common API for computing the
+arithmetic mean:
+
+.. code:: text
+
+   mean(a, axis=None, keepdims=False)
+
+To assist in determining standardization prioritization, we leveraged usage data (discussed below) to confirm API need and to inform naming conventions, supported data types, and optional arguments. We summarized findings and provided tooling, including Jupyter notebooks (TODO: citation), for additional analysis and exploration (TODO: repo citation).
+
+Usage
+-----
+
+*TODO: describe usage methods.*
 
 Array API Standard
 ==================
