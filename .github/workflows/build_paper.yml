@@ -1,0 +1,38 @@
+name: Build Paper
+
+on: [push, pull_request]
+
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout scipy_proceedings
+      uses: actions/checkout@v3
+      with:
+        path: scipy_proceedings
+        repository: scipy-conference/scipy_proceedings.git
+    - name: Checkout scipy-2023-presentation
+      uses: actions/checkout@v3
+      with:
+        path: scipy_proceedings/papers/01_arrayapi/
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.11
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        python -m pip install -r ${GITHUB_WORKSPACE}/scipy_proceedings/requirements.txt
+        sudo apt-get update
+        sudo apt-get install texlive-latex-recommended texlive-fonts-recommended texlive-fonts-extra\
+    - name: Build the paper
+      run: |
+        cd ${GITHUB_WORKSPACE}/scipy_proceedings
+        ./make_papers.sh papers/01_arrayapi/
+    - name: Upload the paper as an artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: upload-paper
+        path: $(GITHUB_WORKSPACE}/scipy_proceedings/output/01_arrayapi/paper.pdf
