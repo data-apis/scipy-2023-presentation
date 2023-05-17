@@ -32,6 +32,8 @@ jobs:
       with:
         packages: texlive-latex-recommended texlive-fonts-recommended texlive-fonts-extra texlive-publishers texlive-base texlive-bibtex-extra
         execute_install_scripts: true
+    - name: Fix LaTeX
+      run: fmtutil-sys --all
     - name: Build the paper
       run: |
         cd ${GITHUB_WORKSPACE}/scipy_proceedings
