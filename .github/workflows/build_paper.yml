@@ -31,10 +31,11 @@ jobs:
       uses: awalsh128/cache-apt-pkgs-action@latest
       with:
         packages: texlive-latex-recommended texlive-fonts-recommended texlive-fonts-extra texlive-publishers
+        execute_install_scripts: true
     - name: Build the paper
       run: |
         cd ${GITHUB_WORKSPACE}/scipy_proceedings
-        bash -e make_paper.sh papers/01_arrayapi/
+        ./make_paper.sh papers/01_arrayapi/
     - name: Upload the paper as an artifact
       uses: actions/upload-artifact@v3
       with:
