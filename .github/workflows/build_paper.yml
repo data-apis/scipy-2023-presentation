@@ -40,4 +40,4 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: upload-paper
-        path: $(GITHUB_WORKSPACE}/scipy_proceedings/output/01_arrayapi/paper.pdf
+        path: ${GITHUB_WORKSPACE}/scipy_proceedings/output/01_arrayapi/paper.pdf
