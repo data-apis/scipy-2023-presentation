@@ -82,6 +82,15 @@ opportunities for further standardization. Links to the specification and all
 current repository artifacts, including associated tooling, can be found in the
 bibliography.
 
+.. Automatic figure references won't work because they require Sphinx.
+.. _Figure 1:
+.. figure:: scikit_learn_timings.pdf
+
+   Average timings for scikit-learn's `LinearDiscriminantAnalysis` fit and
+   predict on a random classification with 500,000 samples and 300 features on
+   NumPy, Torch CPU, Torch GPU, and CuPy backends. Benchmarks were run on a
+   Nvidia GTX 3090 and an AMD 5950x.
+
 Consortium Overview
 ===================
 
@@ -462,7 +471,7 @@ new dunder methods:
   namespace `xp`, whose functions are then used on `x` to compute the result,
   which will typically be another array from the `xp` library.
 
-- `__dlpack__()` and `__dlpack_device__()` (see the `Data Interchange`_
+- `__dlpack__()` and `__dlpack_device__()` (see the `Interchange Protocol`_
   section above).
 
 Array Functions
@@ -627,6 +636,8 @@ Type Promotion
 
 *TODO: examples.*
 
+.. Automatic figure references won't work because they require Sphinx.
+.. _Figure 2:
 .. figure:: dtype_promotion_lattice.pdf
 
    The dtypes specified in the spec with required type promotions, including
@@ -668,7 +679,8 @@ libraries are not required to error in these situations, but array consumers
 should not rely on cross-kind casting in portable code. Cross-kind casting is
 better done explicitly using the `astype()` function. Automatic cross-kind
 casting is harder to reason about, can result in loss of precision, and often
-when it happens it indicates a bug in the user code.
+when it happens it indicates a bug in the user code. The set of dtypes and
+promotions required by the standard are shown in `Figure 2`_
 
 Single argument functions and operators should maintain the same dtype when
 relevant, for example, if the input to `exp()` is a `float32` array, the
