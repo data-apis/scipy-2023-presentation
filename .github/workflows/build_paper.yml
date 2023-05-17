@@ -30,8 +30,9 @@ jobs:
     - name: Install apt dependencies
       uses: awalsh128/cache-apt-pkgs-action@latest
       with:
-        packages: texlive-latex-recommended texlive-fonts-recommended texlive-fonts-extra texlive-publishers texlive-base texlive-bibtex-extra
-    - name: re-run config See https://github.com/awalsh128/cache-apt-pkgs-action/issues/57
+        packages: texlive-latex-recommended texlive-fonts-recommended texlive-fonts-extra texlive-publishers texlive-latex-base texlive-bibtex-extra
+    - name: Fix LaTeX
+      # See https://github.com/awalsh128/cache-apt-pkgs-action/issues/57
       run: sudo dpkg --configure texlive-latex-base
     - name: Build the paper
       run: |
