@@ -704,8 +704,8 @@ As such, the `numpy.array_api` module is only useful as a testing library for
 array consumers, to check that their code is portable. If code runs in
 `numpy.array_api`, it should work in any conforming array API namespace.
 
-array-api-compat
-----------------
+Compatibility Layer
+-------------------
 
 As discussed above, `numpy.array_api` is not a suitable way for libraries to
 use `numpy` in an array API compliant way. However, NumPy, as of 1.24, still
