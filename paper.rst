@@ -45,7 +45,7 @@ numerical computing, data science, machine learning, and deep learning (TODO: ci
 frameworks pushing forward the state of the art in these fields appear every
 year. One unintended consequence of all this activity has been fragmentation in
 the fundamental building blocks—multidimensional arrays (a.k.a. tensors)—that
-underpin the scientific Python ecosystem (SPE).
+underpin the scientific Python ecosystem.
 
 This fragmentation comes with significant costs, from reinvention and re-implementation
 of arrays and associated application programming interfaces (APIs) to siloed
@@ -241,8 +241,8 @@ process, we further established the following design principles:
 
 - *Universality.* Standardized APIs and behavior should reflect common usage
   among a wide range of existing array libraries. Accordingly, with rare
-  exception, only APIs and behavior having prior art within the SPE may be
-  considered candidates for standardization.
+  exception, only APIs and behavior having prior art within the ecosystem may
+  be considered candidates for standardization.
 
 Methods
 =======
