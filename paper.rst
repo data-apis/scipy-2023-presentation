@@ -252,12 +252,12 @@ Array Object
 
 *TODO: introduce the array object. See NumPy paper (https://www.nature.com/articles/s41586-020-2649-2) and the section on NumPy arrays.*
 
-*TODO: consider including something akin to Fig 1 in NumPy paper. May also want to include type promotion.*
+*TODO: consider including something akin to Fig 1 in NumPy paper. In that figure, may also want to include type promotion example/schematic.*
 
 Interchange Protocol
 --------------------
 
-*TODO: rephase to emphasize interoperability and the desire to convert an array of one flavor to another flavor. We should be able to cut down the content found in this section.*
+*TODO: we can rephase to emphasize interoperability and the desire to convert an array of one flavor to another flavor. We should be able to cut down the content found in this section.*
 
 As discussed in the non-goals section, array libraries are not expected to
 support mixing arrays from other libraries. Instead, there is an interchange
