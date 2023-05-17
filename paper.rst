@@ -16,11 +16,11 @@
    The Python array API standard (https://data-apis.org/array-api/) specifies
    standardized application programming interfaces (APIs) and behavior for array
    and tensor objects and operations as commonly found in libraries such as NumPy,
-   PyTorch, TensorFlow, Dask, and CuPy.
+   PyTorch, TensorFlow, Dask, and CuPy. (TODO: citations)
 
    The establishment and subsequent adoption of the standard aims to reduce
    ecosystem fragmentation and facilitate array library interoperability in user
-   code and among array-consuming libraries, such as scikit-learn and SciPy.
+   code and among array-consuming libraries, such as scikit-learn and SciPy. (TODO: citations)
 
    A key benefit of array interoperability for downstream consumers of the
    standard is device agnosticism, whereby previously CPU-bound implementations
