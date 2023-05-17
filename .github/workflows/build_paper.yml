@@ -30,7 +30,7 @@ jobs:
     - name: Install apt dependencies
       uses: awalsh128/cache-apt-pkgs-action@latest
       with:
-        packages: texlive-latex-recommended texlive-fonts-recommended texlive-fonts-extra texlive-publishers texlive-base
+        packages: texlive-latex-recommended texlive-fonts-recommended texlive-fonts-extra texlive-publishers texlive-base texlive-bibtex-extra
         execute_install_scripts: true
     - name: Fix LaTeX
       run: sudo texconfig rehash
