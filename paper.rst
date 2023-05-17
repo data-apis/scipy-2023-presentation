@@ -260,8 +260,8 @@ conventions and behavior). The latter direction seeks to quantify API consumers
 (e.g., who are the downstream users of a given API?), usage frequency (e.g.,
 how often is an API consumed?), and consumption patterns (e.g., which optional
 arguments are provided and in what context?). By analyzing both design and
-usage, the standardization process grounds specification decisions in empirical
-data and analysis.
+usage, we sought to ground the standardization process and specification
+decisions in empirical data and analysis.
 
 Design
 ------
