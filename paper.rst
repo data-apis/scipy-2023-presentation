@@ -419,7 +419,7 @@ To understand usage patterns of array libraries within the SPE, we first
 identified a representative sample of commonly used Python libraries
 ("downstream libraries") which consume the sample of array libraries identified
 during design analysis. The sample of downstream libraries included the
-following libraries: pandas, Matplotlib, Xarray, scikit-learn, and scikit-image,
+following libraries: SciPy, pandas, Matplotlib, Xarray, scikit-learn, and scikit-image,
 among others. Next, we instrumented downstream libraries in order to record
 Python array API calls (TODO: repo citation). After instrumentation, we
 collected traces while running downstream library test suites. We subsequently
