@@ -312,14 +312,14 @@ Usage
 Array API Standard
 ==================
 
-*TODO: write an introduction here.*
+.. TODO: consider whether to include an introduction here.
 
 Array Object
 ------------
 
 *TODO: introduce the array object. See NumPy paper (https://www.nature.com/articles/s41586-020-2649-2) and the section on NumPy arrays.*
 
-*TODO: consider including something akin to Fig 1 in NumPy paper. In that figure, may also want to include type promotion example/schematic.*
+*TODO: consider including something akin to Fig 1 in NumPy paper. In that figure, may also want to include type promotion example/schematic as part of the figure.*
 
 Interchange Protocol
 --------------------
