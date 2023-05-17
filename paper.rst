@@ -463,8 +463,8 @@ design analysis according to relative usage using the Dowdall positional voting
 system (TODO: citation) (a variant of the Borda count (TODO: citation) which
 favors candidate APIs having high relative usage). From the rankings, we
 assigned standardization priorities, with higher ranked APIs taking precedence
-over lower ranked APIs. We published all source code, usage data, and analysis
-as public artifacts available on GitHub. (TODO: repo citations)
+over lower ranked APIs. All source code, usage data, and analysis are available
+as public artifacts on GitHub. (TODO: repo citations)
 
 Array API Standard
 ==================
