@@ -270,7 +270,7 @@ To understand API design of array libraries within the SPE, we first identified
 a representative sample of commonly used Python array libraries. The sample included
 the following libraries: NumPy, Dask Array, CuPy, MXNet, JAX, TensorFlow, and PyTorch.
 Next, we extracted public APIs for each library by analyzing module exports and
-scraping public documentation. As an example of extracted API data, consider
+scraping public web documentation. As an example of extracted API data, consider
 the following APIs for computing the arithmetic mean.
 
 .. code:: text
@@ -301,8 +301,8 @@ arithmetic mean:
 To assist in determining standardization prioritization, we leveraged usage
 data (discussed below) to confirm API need and to inform naming conventions,
 supported data types, and optional arguments. We summarized findings and
-provided tooling, including Jupyter notebooks (TODO: citation), for additional
-analysis and exploration (TODO: repo citation).
+published tooling (TODO: repo citation) for additional analysis and exploration,
+including Jupyter (TODO: citation) notebooks.
 
 Usage
 -----
