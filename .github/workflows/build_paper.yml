@@ -27,13 +27,12 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         python -m pip install -r ${GITHUB_WORKSPACE}/scipy_proceedings/requirements.txt
-    # - name: Install apt dependencies
-    #   uses: awalsh128/cache-apt-pkgs-action@latest
-    #   with:
-    #     packages: texlive-latex-recommended texlive-fonts-recommended texlive-fonts-extra texlive-publishers texlive-base texlive-bibtex-extra
-    #     execute_install_scripts: true
     - name: Install apt dependencies
-      run: sudo apt install texlive-latex-recommended texlive-fonts-recommended texlive-fonts-extra texlive-publishers texlive-base texlive-bibtex-extra
+      uses: awalsh128/cache-apt-pkgs-action@latest
+      with:
+        packages: texlive-latex-recommended texlive-fonts-recommended texlive-fonts-extra texlive-publishers texlive-base texlive-bibtex-extra
+    - name: re-run config See https://github.com/awalsh128/cache-apt-pkgs-action/issues/57
+      run: sudo dpkg --configure texlive-latex-base
     - name: Build the paper
       run: |
         cd ${GITHUB_WORKSPACE}/scipy_proceedings
