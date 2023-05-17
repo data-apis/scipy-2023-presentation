@@ -46,7 +46,7 @@ the fundamental building blocks--multidimensional arrays (a.k.a. tensors)--that
 underpin the Python data ecosystem.
 
 This fragmentation comes with significant costs, from reinvention and
-implementation of arrays and associated APIs to siloed technical stacks
+re-implementation of arrays and associated APIs to siloed technical stacks
 targeting only one array library to the proliferation of user guides providing
 guidance on how to convert between, and interoperate among, libraries. Too
 often, the APIs of each library are largely similar, but each have enough
@@ -56,9 +56,10 @@ far from seamless.
 
 .. TODO: Consider inserting Figure 2 from Year 1 report
 
-The Python Data APIs Consortium aims to address this problem by standardizing a
-fundamental array data structure and an associated set of common APIs for
-working with arrays, thus facilitating interchange and interoperation.
+The Consortium for Python Data API Standards (hereafter referred to as "the
+Consortium") aims to address this problem by standardizing a fundamental array
+data structure and an associated set of common APIs for working with arrays,
+thus facilitating interchange and interoperation.
 
 Motivating Example
 ------------------
@@ -100,7 +101,7 @@ fragmentation and to arrive at a common set of API standards.
 
 .. TODO: consider inserting Figure 1 from year 1 report
 
-The genesis for the consortium grew out of many conversations among maintainers
+The genesis for the Consortium grew out of many conversations among maintainers
 during 2019-2020. During those conversations, it quickly became clear that any
 attempt to write a new reference library to fix the current fragmentation was
 infeasible. Unlike in 2005, too many different use cases and varying
@@ -123,8 +124,8 @@ The array API standard has the following goals:
 - Reduce reinvention and facilitate code sharing and reuse by establishing a
   common set of standardized APIs and behavior.
 
-- Reduce barriers to new array library creation by providing an API that can be
-  adopted as is.
+- Reduce barriers to new array library creation by providing a set of APIs which
+  can be adopted as is.
 
 - Reduce the learning curve and friction for users as they switch between array
   libraries.
