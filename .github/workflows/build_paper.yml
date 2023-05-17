@@ -34,7 +34,7 @@ jobs:
     - name: Build the paper
       run: |
         cd ${GITHUB_WORKSPACE}/scipy_proceedings
-        ./make_papers.sh papers/01_arrayapi/
+        ./make_paper.sh papers/01_arrayapi/
     - name: Upload the paper as an artifact
       uses: actions/upload-artifact@v3
       with:
