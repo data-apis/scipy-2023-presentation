@@ -437,10 +437,10 @@ To be useful, any such protocol must satisfy some basic requirements:
   specific dependent package. The protocol should describe the memory layout
   of an array in an implementation-independent manner.
 
-- Support for all dtypes in this API standard (see `Data Types`_ below).
+- Support for all data types in this API standard.
 
 - It must be possible to determine on which device the array to be converted
-  resides (see `Device Support`_ below). A single protocol is preferable to
+  resides. A single protocol is preferable to
   having per-device protocols. With separate per-device protocols it’s hard to
   figure out unambiguous rules for which protocol gets used, and the situation
   will get more complex over time as TPU’s and other accelerators become more
@@ -493,7 +493,7 @@ corresponding functional form (e.g., `__add__` :math:`\leftrightarrow`
 `xp.add()`). For consistency, this is done even for operators that may seem
 unnecessary, like `__pos__` :math:`\leftrightarrow` `positive()`. Operators
 and their corresponding functions behave identically, except that operators
-accept Python scalars (see `Type Promotion`_ below), while functions are only
+accept Python scalars, while functions are only
 required to accept arrays.
 
 In addition to the standard Python dunder methods, the standard adds a some
@@ -507,8 +507,7 @@ new dunder methods:
   namespace `xp`, whose functions are then used on `x` to compute the result,
   which will typically be another array from the `xp` library.
 
-- `__dlpack__()` and `__dlpack_device__()` (see the `Interchange Protocol`_
-  section above).
+- `__dlpack__()` and `__dlpack_device__()` (see `Interchange Protocol`_).
 
 Array Functions
 ---------------
@@ -549,8 +548,7 @@ defined as functions. These functions include
 
 - **Linear algebra functions.** Only basic manipulation functions like `matmul()`
   are required by the specification. Additional linear algebra functions are
-  included in an optional `linalg` extension (see `Optional Extensions`_
-  below).
+  included in an optional `linalg` extension (see `Optional Extensions`_).
 
 - **Manipulation functions** such as `reshape()`, `stack()`, and `squeeze()`.
 
