@@ -241,20 +241,21 @@ scikit-learn. This is a classifier whose code is written in pure Python
 against NumPy. In scikit-learn pull request `#22554
 <https://github.com/scikit-learn/scikit-learn/pull/22554>`__, the
 `LinearDiscriminantAnalysis` code was updated to support the array API
-standard. It provides a useful example of what array consuming libraries will
-typically require to update pure NumPy code to code that can consume any array
-API compliant library.
+standard. This pull request provides a useful example of what array consuming
+libraries will typically require to update pure NumPy code to code that can
+consume any array API compliant library.
 
 The biggest takeaway from the pull request is that the majority of NumPy-like
-code will remains unchanged, other than renaming `np` to `xp`. `xp` is defined
-a the top of each function as  `xp = array_namespace(X)`, where `X` is the
-input argument to the function and `array_namespace()` is a function from the
-`Compatibility Layer` that returns the array namespace corresponding to `X`.
+code will remain unchanged, other than renaming `np` to `xp`. `xp` is defined
+a the top of each function as `xp = array_namespace(X, y)`, where `X` and `y`
+are the input arguments to the function and `array_namespace()` is a function
+from the `array-api-compat`_ compatibility layer that returns the array
+namespace corresponding to `X`.
 
-Additionally, several changes to the usage of NumPy were necessary. A
-`selection from the pull request diff
-<https://github.com/scikit-learn/scikit-learn/pull/22554/files#diff-088a77600941874d633e8dbe71804c94c3b9d336a73509e6d2db5b48065d1c8bL482-R516>`__
-demonstrates the sorts of changes required:
+However, some changes to the usage of NumPy were necessary. A `selection from
+the pull request diff
+<https://github.com/scikit-learn/scikit-learn/pull/22554/files#diff-088a77600941874d633e8dbe71804c94c3b9d336a73509e6d2db5b48065d1c8bR500-R516>`__
+demonstrates the sorts of changes that were required:
 
 .. Note: see scikit-learn commit 2710a9e7eefd2088ce35fd2fb6651d5f97e5ef8b
 
@@ -274,7 +275,7 @@ demonstrates the sorts of changes required:
    + Xc = xp.concat(Xc, axis=0)
 
      # 1) within (univariate) scaling by with classes
-     # std-dev
+     #    std-dev
    - std = Xc.std(axis=0)
    + std = xp.std(Xc, axis=0)
      # avoid division by zero in normalization
@@ -286,51 +287,61 @@ demonstrates the sorts of changes required:
    - X = np.sqrt(fac) * (Xc / std)
    + X = xp.sqrt(fac) * (Xc / std)
 
-- The array indexing expressions `X[y == group, :]` and `self.means_[idx]` are
+This highlights the following types of changes that are needed to support the
+array API:
+
+- **NumPy behavior only a subset of which is defined in the standard.** The
+  array indexing expressions `X[y == group, :]` and `self.means_[idx]` are
   changed to `X[y == group]` and `self.means_[idx, :]`, respectively. This is
   because the standard only guarantees support for boolean indexing when the
   boolean index is the sole index, and multidimensional indexing only when all
   axes are indexed.
 
-- `dot` is not included in the standard, so must be replaced with `@` (it
-  could also have been replaced with `matmul()`, or `vecdot()` if the
-  operation were a vector dot product).
+- **NumPy functions not included in the standard.** `dot()` is not included in
+  the standard, so must be replaced with `@` (it could also have been replaced
+  with `matmul()`).
 
-- Some functions are named differently in the standard. For example,
-  `np.concatenate` must be replaced with `xp.concat`.
+- **NumPy functions that are named differently in the standard.** Here
+  `np.concatenate()` must be replaced with `xp.concat()`.
 
-- `Xc.std()` must be replaced with `xp.std(Xc)`, because the standard uses a
-  functional API rather than array methods.
+- **Using functions instead of methods.** `Xc.std()` must be replaced with
+  `xp.std(Xc)`, because the standard is designed around a functional API
+  rather than array methods.
 
-- The expression `fac = 1.0 / (n_samples - n_classes)` must be wrapped with
-  `asarray()`. This is because it is later passed to `xp.sqrt()` and the
-  standard does not require support for array-like inputs to functions, only
-  actual arrays.
+- **No array-likes.** The expression `fac = 1.0 / (n_samples - n_classes)`
+  must be wrapped with `asarray()`. This is because it is later passed to
+  `xp.sqrt()`, and the standard only requires functions to accept actual array
+  types as inputs.
 
-Each of these dependencies was found by testing the code against the
-`numpy.array_api` `Strict Minimal Implementation`_. This is necessary because
-the things used in the previous version of the code are not strictly
-disallowed by the standard, but only things explicitly specified in the
-standard are guaranteed to be implemented by a conforming library. The
+Additional types of changes which are not demonstrated in the above example include
+
+- **Functionality that is not included in the standard at all.** This will
+  depend on the specific situation, but it will often be sufficient to add a
+  helper function to implement the desired behavior across common array
+  libraries. For example, the above scikit-learn pull request added a helper
+  function for `take()`, which was not yet included in the standard at the
+  time of its writing.
+
+- **Library specific performance optimizations.** For instance, code that
+  makes use of stride optimizations might use separate code paths for
+  libraries like NumPy that support stride manipulations and libraries like
+  JAX that do not (stride manipulations are not part of the array API
+  specification because not all libraries support them). Per-array library
+  special casing allows optimizing for specific commonly used libraries while
+  still keeping the code portable.
+
+The above scikit-learn changes were developed with the help of the strict
+minimal `numpy.array_api`_ implementation. This was necessary because the
+NumPy APIs used in the previous version of the code are not strictly
+disallowed by the standard, but using them would not be portable. The
 `numpy.array_api` implementation errors on any code that isn't explicitly
-required by the specification.
+required by the specification. By running the `LinearDiscriminantAnalysis`
+code against `numpy.array_api`, the scikit-learn developers were able to find
+which parts of the code used NumPy functionality that is not part of the
+standard.
 
-Additionally, although it is not shown in the above example, it may be
-necessary to support a function which is not included in the standard. In this
-case, the function can be added helper function in the library. For example,
-the above scikit-learn pull request added a helper function for `take()`,
-which was not yet included in the standard at the time of its writing.
-
-It may also be necessary to have special case per-library branches for
-performance purposes. For instance, code that makes use of stride
-optimizations might use separate code paths for libraries like NumPy that
-support stride manipulations and libraries like JAX which do not (stride
-manipulations are not part of the array API specification because not all
-libraries support them). Per-array library special casing allows optimizing
-for specific commonly used libraries while still keeping the code portable.
-
-The resulting code is now portable against any array API conforming library.
-`Figure 1` shows the resulting speedups from running
+The resulting code can now be run against any array API conforming library.
+`Figure 1`_ shows the resulting speedups from running
 `LinearDiscriminantAnalysis` against NumPy, Torch CPU and GPU (Cuda), and
 CuPy. Torch CPU gives a 5x speedup over NumPy for fitting, and Torch GPU gives
 a 72x and 37x speedup for fit and predict, respectively. CuPy gives 10x and
@@ -344,6 +355,30 @@ a 72x and 37x speedup for fit and predict, respectively. CuPy gives 10x and
    predict on a random classification with 500,000 samples and 300 features on
    NumPy, Torch CPU, Torch GPU, and CuPy backends. Benchmarks were run on a
    Nvidia GTX 3090 and an AMD 5950x.
+
+From an end user point of view, making use of the array API support in
+`LinearDiscriminantAnalysis` is trivial: they simply pass in arrays from
+whichever array API conforming library they wish to use. For example, a
+computation with PyTorch might look like
+
+.. code:: python
+
+   import sklearn
+   import torch
+
+   # Array API support in scikit-learn is experimental,
+   # but this will not be needed in the future.
+   sklearn.set_config(array_api_dispatch=True)
+
+   lda = LinearDiscriminantAnalysis()
+
+   # X and y are data provided by the end user
+   X = torch.Tensor(...)
+   y = torch.Tensor(...)
+
+   # fitted is a torch Tensor. The computation is done
+   # entirely with PyTorch functions.
+   fitted = lda.fit(X, y)
 
 
 Methods
@@ -894,6 +929,8 @@ and the `fft` extension. A v2023 version is in the works, although no
 significant changes are planned so far. In 2023, most of the work around the
 array API has focused on implementation and adoption.
 
+.. _numpy.array_api:
+
 Strict Minimal Implementation
 -----------------------------
 
@@ -940,6 +977,8 @@ converting between different array libraries.
 As such, the `numpy.array_api` module is only useful as a testing library for
 array consumers, to check that their code is portable. If code runs in
 `numpy.array_api`, it should work in any conforming array API namespace.
+
+.. _array-api-compat:
 
 Compatibility Layer
 -------------------
