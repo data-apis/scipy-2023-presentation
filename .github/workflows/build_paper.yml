@@ -23,10 +23,6 @@ jobs:
       with:
         python-version: 3.11
         cache: 'pip' # caching pip dependencies
-    - name: Install Python dependencies
-      run: |
-        python -m pip install --upgrade pip
-        python -m pip install -r ${GITHUB_WORKSPACE}/scipy_proceedings/requirements.txt
     # This doesn't actually work with latex unfortunately
     # - name: Install apt dependencies
     #   uses: awalsh128/cache-apt-pkgs-action@latest
@@ -39,6 +35,8 @@ jobs:
       uses: xu-cheng/texlive-action/full@v1
       with:
         run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r ${GITHUB_WORKSPACE}/scipy_proceedings/requirements.txt
           cd ${GITHUB_WORKSPACE}/scipy_proceedings
           ./make_paper.sh papers/01_arrayapi/
     - name: Upload the paper as an artifact
