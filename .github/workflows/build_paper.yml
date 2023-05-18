@@ -42,6 +42,6 @@ jobs:
     - name: Upload the paper as an artifact
       uses: actions/upload-artifact@v3
       with:
-        name: upload-paper
-        path: ${GITHUB_WORKSPACE}/scipy_proceedings/output/01_arrayapi/paper.pdf
+        name: built-paper
+        path: ${{ github.workspace }}/scipy_proceedings/output/01_arrayapi/paper.pdf
         if-no-files-found: error
