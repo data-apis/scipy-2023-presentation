@@ -575,8 +575,8 @@ therefore may be difficult for some libraries to implement.
 
 - `fft` contains functions for performing Fast Fourier transformations.
 
-Current Status of Implementations
-=================================
+Specification Status
+====================
 
 Two versions of the array API specification have been released, v2021.12 and
 v2022.12. v2021.12 was the initial release with all important core array
@@ -584,6 +584,11 @@ functionality. The v2022.12 release added complex number support to all APIs
 and the `fft` extension. A v2023 version is in the works, although no
 significant changes are planned so far. In 2023, most of the work around the
 array API has focused on implementation and adoption.
+
+*TODO: add brief overviews regarding specification revisions and contents.*
+
+Implementation Status
+=====================
 
 .. _numpy.array_api:
 
@@ -702,6 +707,11 @@ in the shorter term against libraries like NumPy, CuPy, and PyTorch that are
 `array-api-compat` has already been successfully used in scikit-learn's
 `LinearDiscriminantAnalysis` API
 (https://github.com/scikit-learn/scikit-learn/pull/22554).
+
+Ecosystem Adoption
+------------------
+
+*TODO: discuss adoption of the specification in NumPy, CuPy, PyTorch, et al.*
 
 Tooling
 =======
