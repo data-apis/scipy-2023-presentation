@@ -5,9 +5,9 @@
 :email: asmeurer@quansight.com
 :institution: Quansight
 
-=========================
- Array API Specification
-=========================
+===========================================================================================
+Python Array API Standard: Toward Array Interoperability in the Scientific Python Ecosystem
+===========================================================================================
 
 .. TODO: Does the abstract have a word or character limit?
 
