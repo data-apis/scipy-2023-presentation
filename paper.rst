@@ -820,50 +820,47 @@ demonstrates the sorts of changes that were required:
 This highlights the following types of changes that are needed to support the
 array API:
 
-- **NumPy behavior only a subset of which is defined in the standard.** The
-  array indexing expressions `X[y == group, :]` and `self.means_[idx]` are
-  changed to `X[y == group]` and `self.means_[idx, :]`, respectively. This is
-  because the standard only guarantees support for boolean indexing when the
-  boolean index is the sole index, and multidimensional indexing only when all
-  axes are indexed.
+**NumPy behavior for which only a subset is defined in the standard.** The
+array indexing expressions `X[y == group, :]` and `self.means_[idx]` are
+changed to `X[y == group]` and `self.means_[idx, :]`, respectively. This is
+because the standard only guarantees support for boolean indexing when the
+boolean index is the sole index, and multidimensional indexing only when all
+axes are indexed.
 
-- **NumPy functions not included in the standard.** `dot()` is not included in
-  the standard, so must be replaced with `@` (it could also have been replaced
-  with `matmul()`).
+**NumPy functions not included in the standard.** `dot()` is not included in
+the standard, so must be replaced with `@` (it could also have been replaced
+with `matmul()`).
 
-- **NumPy functions that are named differently in the standard.** Here
-  `np.concatenate()` must be replaced with `xp.concat()`.
+**NumPy functions that are named differently in the standard.** Here
+`np.concatenate()` must be replaced with `xp.concat()`.
 
-- **Using functions instead of methods.** `Xc.std()` must be replaced with
-  `xp.std(Xc)`, because the standard is designed around a functional API
-  rather than array methods.
+**Using functions instead of methods.** `Xc.std()` must be replaced with
+`xp.std(Xc)`, because the standard is designed around a functional API rather
+than array methods.
 
-- **No array-likes.** The expression `fac = 1.0 / (n_samples - n_classes)`
-  must be wrapped with `asarray()`. This is because it is later passed to
-  `xp.sqrt()`, and the standard only requires functions to accept actual array
-  types as inputs.
+**No array-likes.** The expression `fac = 1.0 / (n_samples - n_classes)` must
+be wrapped with `asarray()`. This is because it is later passed to
+`xp.sqrt()`, and the standard only requires functions to accept actual array
+types as inputs.
 
 Additional types of changes which are not demonstrated in the above example include
 
-- **Functionality that is not included in the standard at all.** This will
-  depend on the specific situation, but it will often be sufficient to add a
-  helper function to implement the desired behavior across common array
-  libraries. For example, the above scikit-learn pull request added a helper
-  function for `take()`, which was not yet included in the standard at the
-  time of its writing.
+**Functionality that is not included in the standard at all.** This will
+depend on the specific situation, but it will often be sufficient to add a
+helper function to implement the desired behavior across common array
+libraries. For example, the above scikit-learn pull request added a helper
+function for `take()`, which was not yet included in the standard at the time
+of its writing.
 
-- **Library specific performance optimizations.** For instance, code that
-  makes use of stride optimizations might use separate code paths for
-  libraries like NumPy that support stride manipulations and libraries like
-  JAX that do not (stride manipulations are not part of the array API
-  specification because not all libraries support them). Per-array library
-  special casing allows optimizing for specific commonly used libraries while
-  still keeping the code portable.
+Another similar effort to rewrite code to support the array API is currently
+taking place in the SciPy library. `A demo pull request
+<https://github.com/tylerjereddy/scipy/pull/70>`__ translates the pure
+Python/NumPy `scipy.signal.welch()` function to use the array API.
 
-The above scikit-learn changes were developed with the help of the strict
-minimal `numpy.array_api`_ implementation. This was necessary because the
-NumPy APIs used in the previous version of the code are not strictly
-disallowed by the standard, but using them would not be portable. The
+Both the scikit-learn and the SciPy changes were developed with the help of
+the strict minimal `numpy.array_api`_ implementation. This was necessary
+because the NumPy APIs used in the previous version of the code are not
+strictly disallowed by the standard, but using them would not be portable. The
 `numpy.array_api` implementation errors on any code that isn't explicitly
 required by the specification. By running the `LinearDiscriminantAnalysis`
 code against `numpy.array_api`, the scikit-learn developers were able to find
@@ -875,7 +872,18 @@ The resulting code can now be run against any array API conforming library.
 `LinearDiscriminantAnalysis` against NumPy, Torch CPU and GPU (Cuda), and
 CuPy. Torch CPU gives a 5x speedup over NumPy for fitting, and Torch GPU gives
 a 72x and 37x speedup for fit and predict, respectively. CuPy gives 10x and
-17x respective speedups over NumPy.
+17x respective speedups over NumPy. `Figure 2`_ shows the speedups from
+running `scipy.signal.welch()` on the same (n.b. the scikit-learn and SciPy
+benchmarks were run on different sets of hardware).
+
+`Figure 2`_ additionally highlights an additional type of change, namely
+making use of library specific performance optimizations. The `welch()`
+implementation uses an optimization involving stride tricks. Stride tricks
+have not been standardized in the array API since they are not available in
+some libraries (e.g., JAX). NumPy, CuPy, and Torch allow setting strides, but
+they do not use a uniform API to do so. An array API compatible implementation
+can be used, but it is slower, so it is used only as a fallback for libraries
+outside of NumPy, PyTorch, and CuPy.
 
 .. Automatic figure references won't work because they require Sphinx.
 .. _Figure 1:
@@ -886,10 +894,21 @@ a 72x and 37x speedup for fit and predict, respectively. CuPy gives 10x and
    NumPy, Torch CPU, Torch GPU, and CuPy backends. Benchmarks were run on a
    Nvidia GTX 3090 and an AMD 5950x.
 
-From an end user point of view, making use of the array API support in
-`LinearDiscriminantAnalysis` is trivial: they simply pass in arrays from
-whichever array API conforming library they wish to use. For example, a
-computation with PyTorch might look like
+
+.. Automatic figure references won't work because they require Sphinx.
+.. _Figure 2:
+.. figure:: scipy_timings.pdf
+
+   Average timings for `scipy.signal.welch()` on 90,000,000 data points,
+   comparing a strictly portable implementation and an implementation with
+   library-specific performance optimizations. Benchmarks were run on a Nvidia
+   GTX 1080Ti and an Intel i9-7900X.
+
+From an end user point of view, making use of the array API support in these
+libraries is trivial: they simply pass in arrays from whichever array API
+conforming library they wish to use, allocated on whichever device they want
+toe computation to take place on. For example, a computation using
+`LinearDiscriminantAnalysis` with PyTorch might look like
 
 .. code:: python
 
@@ -903,8 +922,8 @@ computation with PyTorch might look like
    lda = LinearDiscriminantAnalysis()
 
    # X and y are data provided by the end user
-   X = torch.Tensor(...)
-   y = torch.Tensor(...)
+   X = torch.Tensor(..., device=...)
+   y = torch.Tensor(..., device=...)
 
    # fitted is a torch Tensor. The computation is done
    # entirely with PyTorch functions.
