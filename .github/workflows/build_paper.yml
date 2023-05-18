@@ -23,14 +23,18 @@ jobs:
       with:
         python-version: 3.11
         cache: 'pip' # caching pip dependencies
+
     # This doesn't actually work with latex unfortunately
     # - name: Install apt dependencies
     #   uses: awalsh128/cache-apt-pkgs-action@latest
     #   with:
     #     packages: texlive-latex-recommended texlive-fonts-recommended texlive-fonts-extra texlive-publishers texlive-base texlive-bibtex-extra
     #     execute_install_scripts: true
+
+    # Installing latex is slow, so instead we use the texlive-action.
     # - name: Install apt dependencies
     #   run: sudo apt install texlive-latex-recommended texlive-fonts-recommended texlive-fonts-extra texlive-publishers texlive-base texlive-bibtex-extra
+
     - name: Build the paper
       uses: xu-cheng/texlive-action/full@v1
       with:
@@ -40,6 +44,9 @@ jobs:
           python -m pip install -r ${GITHUB_WORKSPACE}/scipy_proceedings/requirements.txt
           cd ${GITHUB_WORKSPACE}/scipy_proceedings
           ./make_paper.sh papers/01_arrayapi/
+
+    # TODO: we could instead upload the paper to a branch on the repo using
+    # https://github.com/marketplace/actions/deploy-to-github-pages
     - name: Upload the paper as an artifact
       uses: actions/upload-artifact@v3
       with:
