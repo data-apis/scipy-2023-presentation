@@ -33,9 +33,10 @@ jobs:
     #   with:
     #     packages: texlive-latex-recommended texlive-fonts-recommended texlive-fonts-extra texlive-publishers texlive-base texlive-bibtex-extra
     #     execute_install_scripts: true
-    - name: Install apt dependencies
-      run: sudo apt install texlive-latex-recommended texlive-fonts-recommended texlive-fonts-extra texlive-publishers texlive-base texlive-bibtex-extra
+    # - name: Install apt dependencies
+    #   run: sudo apt install texlive-latex-recommended texlive-fonts-recommended texlive-fonts-extra texlive-publishers texlive-base texlive-bibtex-extra
     - name: Build the paper
+      uses: xu-cheng/texlive-action/full@v1
       run: |
         cd ${GITHUB_WORKSPACE}/scipy_proceedings
         ./make_paper.sh papers/01_arrayapi/
