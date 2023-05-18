@@ -764,6 +764,8 @@ Discussion
 
 *TODO: show examples for how to use the above dunder methods.*
 
+.. TODO: reframe discussion below as "We worked with the maintainers of sklearn to assess the real-world performance impact of specification adoption."
+
 As a motivating example, consider the `LinearDiscriminantAnalysis` class in
 scikit-learn. This is a classifier whose code is written in pure Python
 against NumPy. In scikit-learn pull request `#22554
