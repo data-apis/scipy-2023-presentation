@@ -548,10 +548,10 @@ shape or contained values, but restricted to data types of the same "kind"
 
 An array shape specifies the number of elements along each array axis (also
 referred to as "dimension"). The number of axes corresponds to the
-dimensionality (or "rank") of an array. For example, :math:`(10)` is a one-
-dimensional array (vector) containing 10 elements; :math:`(3,5)` is a two-
-dimensional array (matrix) whose inner dimension contains 5 elements and whose
-outer dimension contains 3 elements.
+dimensionality (or "rank") of an array. For example, :math:`(10)` is a one-dimensional
+array (vector) containing 10 elements; :math:`(3,5)` is a two-dimensional array
+(matrix) whose inner dimension contains 5 elements and whose outer dimension
+contains 3 elements.
 
 An array device specifies the location of array memory allocation and operation
 execution. A conforming array object is assigned to a single logical device,
