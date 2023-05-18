@@ -43,7 +43,7 @@ Today, Python users have a wealth of choice for libraries and frameworks for
 numerical computing, data science, machine learning, and deep learning (TODO: citations). New
 frameworks pushing forward the state of the art in these fields appear every
 year. One unintended consequence of all this activity has been fragmentation in
-the fundamental building blocks—multidimensional arrays (a.k.a. tensors)—that
+the fundamental building blocks—multidimensional arrays (TODO: van der walt citation) (also known as tensors)—that
 underpin the scientific Python ecosystem.
 
 This fragmentation comes with significant costs, from reinvention and re-implementation
@@ -72,7 +72,7 @@ community.
 
 After providing an overview of the Consortium, we first discuss standardization
 methodology. We then discuss the current status of the array API standard and
-highlight the main standardization areas. Next, we introduce additional tooling
+highlight the main standardization areas. Next, we introduce tooling
 associated with the standard for testing compliance and shimming incompatible
 array library behavior. We conclude by outlining open questions and
 opportunities for further standardization. Links to the specification and all
@@ -234,6 +234,8 @@ process, we further established the following design principles:
 
 Example of Supporting the Standard
 ==================================
+
+.. TODO: determine where to place this section; we may want to move to a "results" section after discussing the standard
 
 As a motivating example, consider the `LinearDiscriminantAnalysis` class in
 scikit-learn. This is a classifier whose code is written in pure Python
@@ -442,9 +444,9 @@ arithmetic mean:
 
 To assist in determining standardization prioritization, we leveraged usage
 data (discussed below) to confirm API need and to inform naming conventions,
-supported data types, and optional arguments. We summarized findings and
+supported data types, and optional arguments. We have summarized findings and
 published tooling (TODO: repo citation) for additional analysis and exploration,
-including Jupyter (TODO: citation) notebooks.
+including Jupyter (TODO: citation) notebooks, as public artifacts available on GitHub.
 
 Usage
 -----
@@ -496,8 +498,8 @@ As a final step, we ranked each API in the common API subset obtained during
 design analysis according to relative usage using the Dowdall positional voting
 system (TODO: citation) (a variant of the Borda count (TODO: citation) which
 favors candidate APIs having high relative usage). From the rankings, we
-assigned standardization priorities, with higher ranked APIs taking precedence
-over lower ranked APIs, and extended the analysis to aggregated API categories
+assigned standardization priorities, with higher ranking APIs taking precedence
+over lower ranking APIs, and extended the analysis to aggregated API categories
 (e.g., array creation, manipulation, statistics, etc.). All source code, usage
 data, and analysis are available as public artifacts on GitHub. (TODO: repo
 citations)
@@ -511,6 +513,59 @@ Array API Standard
 
 Array Object
 ------------
+
+An array object is a data structure for efficiently storing and accessing
+multidimensional arrays (TODO: citation). Within the context of the array API
+standard, the data structure is opaque--libraries may or may not grant direct
+access to raw memory--and includes metadata for interpreting the underlying
+data, notably 'data type', 'shape', and 'device'.
+
+An array data type describes how to interpret a single array element (e.g.,
+integer, real- or complex-valued floating-point, boolean, or other). A
+conforming array object has a single data type, where a data type is named
+object supporting equality comparison. For operations in which the data type of
+the resulting array object is a product of the operand data types, the resolved
+data type must follow type promotion semantics, which are independent of array
+shape or contained values, but restricted to data types of the same "kind"
+(e.g., integer versus floating-point). For example,
+
+.. code:: python
+
+   >>> x1 = xp.ones((2,2), dtype=xp.float32)
+   >>> x2 = xp.ones(x1.shape, dtype=x1.dtype)
+   >>> y = x1 + x2
+   >>> y.dtype == xp.float32
+   True
+   >>> x2 = xp.ones(x1.shape, dtype=xp.float64)
+   >>> y = x1 + x2
+   >>> y.dtype == xp.float64
+   True
+   >>> x1 = xp.ones((2,2), dtype=xp.int8)
+   >>> x2 = xp.ones(x1.shape, dtype=xp.uint8)
+   >>> y = x1 + x2
+   >>> y.dtype == xp.int16
+   True
+
+An array shape specifies the number of elements along each array axis (also
+referred to as "dimension"). The number of axes corresponds to the
+dimensionality (or "rank") of an array. For example, :math:`(10)` is a one-
+dimensional array (vector) containing 10 elements; :math:`(3,5)` is a two-
+dimensional array (matrix) whose inner dimension contains 5 elements and whose
+outer dimension contains 3 elements.
+
+An array device specifies the location of array memory allocation and operation
+execution. A conforming array object is assigned to a single logical device,
+which is represented by an object supporting equality comparison.
+
+.. TODO: consider adding an example of device support, helping to motivate its use; e.g., copying a PyTorch array from CPU to GPU or vice versa
+
+In order to interact with array objects, one uses "indexing" to access sub-
+arrays and individual elements, "operators" to perform logical and arithmetic
+operations (e.g., :math:`+`, :math:`-`, :math:`\times`, :math:`\div`, and
+:math:`@`), and array-aware functions (e.g., for linear algebra, statistical
+reductions, and element-wise computation of transcendental functions).
+
+
 
 *TODO: introduce the array object. See NumPy paper (https://www.nature.com/articles/s41586-020-2649-2) and the section on NumPy arrays.*
 
@@ -574,77 +629,6 @@ already implement it, like NumPy. But the buffer protocol is CPU-only, meaning
 it is not sufficient for the above requirements.
 
 *TODO: add code example.*
-
-Device Support
---------------
-
-*TODO: we should be able to cut down this section. Can we add a PyTorch example here to demonstrate moving an array to a different device and why this is desirable?*
-
-The standard supports specifying what device an array should live on. This is
-implemented by explicit `device` keywords in creation functions, with the
-convention that execution takes place on the same device where all argument
-arrays are allocated. This method of specifying devices was chosen because it
-is the most granular, despite its potential verbosity. Other methods of
-specifying devices such as context managers are not included, but may be added
-in future versions of the spec.
-
-The primary intended usage of device support in the specification is geared
-towards array consuming libraries. End users who create arrays from a specific
-array library may use that library's specific syntax for specifying the device
-relative to their specific hardware configuration. For an array consuming
-library, the important things they need to be able to do are
-
-- Create new arrays on the same device as an array that's passed in.
-
-- Determine whether two input arrays are present on the same device or not.
-
-- Move an array from one device to another.
-
-- Create output arrays on the same device as the input arrays.
-
-- Pass on a specified device to other library code.
-
-Consequently, the specified device syntax focuses primarily on getting the
-device of a given array and setting the device to the same device as another
-array. The specifics of how to specify actual devices are left unspecified.
-These specifics differ significantly between existing implementations, such as
-CuPy and PyTorch.
-
-The syntax that is specified is
-
-- A `.device` property on the array object, which returns a device object
-  representing the device the data in the array is stored on. Nothing is
-  specified about the device object other than that it must support basic `==`
-  equality comparison within the same library.
-
-- A `device=None` keyword for array creation functions, which takes an
-  instance of a device object.
-
-- A `.to_device()` method on the array object to copy an array to a different
-  device.
-
-In other words, the only specified way to access a device object is via the
-`.device` property of an existing array object. The specifics of how to
-specify an actual device depends on the actual array library used, and is
-something that will be done by end users, not array library consumers.
-
-This also means that the following are currently considered out-of-scope for
-the array API specification:
-
-- Identifying a specific physical or logical device across libraries
-
-- Setting a default device globally
-
-- Stream/queue control
-
-- Distributed allocation
-
-- Memory pinning
-
-- A context manager for device control
-
-All functions should respect explicit `device=` assignment, preserve the
-device whenever possible, and avoid implicit data transfer between devices.
 
 Array Methods and Attributes
 ----------------------------
@@ -733,40 +717,6 @@ data-dependent output shape, which makes them difficult to implement in graph
 libraries. Therefore, such libraries may choose to not implement these
 functions.
 
-Data Types
-----------
-
-*TODO: consider rolling into the "Array Object" section above.*
-
-Data types are defined as named dtype objects in the array namespace, e.g.,
-`xp.float64`. Nothing is specified about what these objects actually are
-beyond that they should obey basic equality testing. Introspection on these
-objects can be done with the data type functions (see `Array Functions`_
-above).
-
-The following dtypes are defined:
-
-- Boolean: `bool`.
-- Integer: `int8`, `int16`, `int32`, `int64`, `uint8`, `uint16`, `uint32`, and
-  `uint64`.
-- Real floating-point: `float32` and `float64`.
-- Complex floating-point: `complex64` and `complex128`.
-
-These dtypes were chosen because they are the most widely adopted set across
-existing array libraries. Additional dtypes may be considered for addition in
-future versions of the standard.
-
-Additionally, a conforming library should have "default" integer and
-floating-point dtypes, which is consistent across platforms. This is used in
-contexts where the result data type is otherwise ambiguous, for example, in
-creation functions when no dtype is specified. This allows libraries to
-default to 64-bit or 32-bit data types depending on the use-cases they are
-aiming for. For example, NumPy's default integer and float dtypes are `int64`
-and `float64`, whereas, PyTorch's defaults are `int64` and `float32`.
-
-See also the `Type Promotion`_ section below for information on how dtypes
-combine with each other.
-
 Broadcasting
 ------------
 
@@ -784,114 +734,6 @@ virtual repetition of the array along the broadcasted dimensions).
 Broadcasting rules should be applied independently of the input array data
 types or values.
 
-Indexing
---------
-
-*TODO: consider rolling into the "Array Object" section above.*
-
-*TODO: examples.*
-
-Arrays should support indexing operations using the standard Python getitem
-syntax, `x[idx]`. The indexing semantics defined are based on the common NumPy
-array indexing semantics, but restricted to a subset that is common across
-array libraries and does not impose difficulties for array libraries
-implemented on accelerators. Basic integer and slice indexing is defined as
-usual, except behavior on out-of-bounds indices is left unspecified. Multiaxis
-tuple indices are defined, but only specified when all axes are indexed (e.g.,
-if `x` is 2-dimensional, `x[0, :]` is defined but `x[0]` may not be
-supported). A `None` index may be used in a multiaxis index to insert size-1
-dimensions (`xp.newaxis` is specified as a shorthand for `None`). Boolean
-array indexing (also sometimes called "masking") is specified, but only for
-instances where the boolean index has the same dimensionality as the indexed
-array. The result of a boolean array indexing is data-dependent, and thus
-graph-based libraries may choose to not implement this behavior.
-
-Integer array indexing is not specified, however a basic `take()` is specified
-and `put()` will be added in the 2023 version of the spec.
-
-Note that views are not required in the specification. Libraries may choose to
-implement indexed arrays as views, but this should be treated as an
-implementation detail by array consumers. In particular, any mutation behavior
-that affects more than one array object is considered an implementation detail
-that should not be relied on for portability.
-
-As with other APIs, extensions of these indexing semantics, e.g., by
-supporting the full range of NumPy indexing rules, is allowed. Array consumers
-using these will only need to be aware that their code may not be portable
-across libraries.
-
-It should be noted that both 0-D arrays (i.e., "scalar" arrays with shape `()`
-consisting of a single value), and size-0 arrays (i.e., arrays with `0` in
-their shape with no values) are fully supported by the specification. The
-specification does not have any notion of "array scalars" like NumPy's
-`np.float64(0.)`, only 0-D arrays. Scalars are a NumPy-only thing, and it is
-unnecessary from the point of view of the specification to have them as a
-separate concept from 0-D arrays.
-
-Type Promotion
---------------
-
-*TODO: I don't think we need the type promotion diagram here. Main concern is that this is likely to be stale at some point in the future if and when new dtypes are added.*
-
-*TODO: consider rolling into the "Array Object" section above.*
-
-*TODO: examples.*
-
-.. Automatic figure references won't work because they require Sphinx.
-.. _Figure 2:
-.. figure:: dtype_promotion_lattice.pdf
-
-   The dtypes specified in the spec with required type promotions, including
-   promotions for Python scalars in operators. Cross-kind promotion is not
-   required.
-
-Elementwise functions and operators that accept more than one argument perform
-type promotion on their inputs, if the input dtypes are compatible.
-
-The specification requires that all type promotion should happen independently
-of the input array values and shapes. This differs from the historical NumPy
-behavior where type promotion could vary for 0-D arrays depending on their
-values. For example (in NumPy 1.24):
-
-.. code:: python
-
-   >>> a = np.asarray(0., dtype=np.float64)
-   >>> b = np.asarray([0.], dtype=np.float32)
-   >>> (a + b).dtype
-   dtype('float32')
-   >>> a2 = np.asarray(1e50, dtype=np.float64)
-   >>> (a2 + b).dtype
-   dtype('float64')
-
-
-This behavior is bug prone and confusing to reason about. In the array API
-specification, any `float32` array and any `float64` array would promote to a
-`float64` array, regardless of their shapes or values. NumPy is planning to
-deprecate its value-based casting behavior for NumPy 2.0 (see `Future Work`_
-below).
-
-Additionally, automatic cross-kind casting is not specified. This means that
-dtypes like `int64` and `float64` are not required to promote together. It
-also means that functions are not required to accept dtypes that imply a
-cross-kind cast: for instance floating-point functions like `exp()` or `sin()`
-are not required to accept integer dtypes, and arithmetic functions and
-operators like `+` and `*` are not required to accept boolean dtypes. Array
-libraries are not required to error in these situations, but array consumers
-should not rely on cross-kind casting in portable code. Cross-kind casting is
-better done explicitly using the `astype()` function. Automatic cross-kind
-casting is harder to reason about, can result in loss of precision, and often
-when it happens it indicates a bug in the user code. The set of dtypes and
-promotions required by the standard are shown in `Figure 2`_
-
-Single argument functions and operators should maintain the same dtype when
-relevant, for example, if the input to `exp()` is a `float32` array, the
-output should also be a `float32` array.
-
-For Python operators like `+` or `*`, Python scalars are allowed. Python
-scalars cast to the dtype of the corresponding array's dtype. Cross-kind
-casting of the scalar is allowed in this specific instance for convenience
-(for example, `float64_array + 1` is allowed, and is equivalent to
-`float64_array + asarray(1., dtype=float64)`).
 
 Optional Extensions
 -------------------
@@ -1046,8 +888,8 @@ in the shorter term against libraries like NumPy, CuPy, and PyTorch that are
 `LinearDiscriminantAnalysis` API
 (https://github.com/scikit-learn/scikit-learn/pull/22554).
 
-Compliance Testing
-------------------
+Test Suite
+----------
 
 The array API specification contains over 200 function and method definitions,
 each with its own signature and specification for behaviors for things like
