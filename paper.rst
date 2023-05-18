@@ -526,8 +526,7 @@ defined as functions. These functions include
   including `ones()`, `linspace`, `arange`, and `full`, as well as the
   `asarray()` function, which converts "array like" inputs like lists of
   floats and object supporting the buffer protocol to array objects. Creation
-  functions all include a `dtype` and `device` keywords (see the `Device
-  Support`_ section above). The `array` type is not specified anywhere in the
+  functions all include a `dtype` and `device` keywords. The `array` type is not specified anywhere in the
   spec, since different libraries use different types for their array objects,
   meaning `asarray()` and the other creation functions serve as the effective
   "array constructor".
@@ -674,7 +673,7 @@ array consumers, to check that their code is portable. If code runs in
 Compatibility Layer
 -------------------
 
-*TODO: we don't need to go in the weeds here, listing API renames and each instance of incompat behavior. We can focus on the problems the compat layer is intended to solve, at a high level, and how it helps downstream libraries, such as sklearn and SciPy. Main point is that this is a shim layer which allows standardization consumption to be independent of individual array library release schedules.*
+*TODO: we don't need to go in the weeds here, listing API renames and each instance of incompatible behavior. We can focus on the problems the compat layer is intended to solve, at a high level, and how it helps downstream libraries, such as sklearn and SciPy. Main point is that this is a shim layer which allows standardization consumption to be independent of individual array library release schedules.*
 
 As discussed above, `numpy.array_api` is not a suitable way for libraries to
 use `numpy` in an array API compliant way. However, NumPy, as of 1.24, still
