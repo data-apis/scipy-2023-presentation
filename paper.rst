@@ -622,8 +622,8 @@ array API has focused on implementation and adoption.
 
 .. _numpy.array_api:
 
-Strict Minimal Implementation
------------------------------
+Reference Implementation
+------------------------
 
 The experimental `numpy.array_api` submodule is a standalone, strict
 implementation of the standard. It is not intended to be used by end users,
