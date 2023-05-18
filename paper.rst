@@ -416,8 +416,6 @@ operations (e.g., :math:`+`, :math:`-`, :math:`\times`, :math:`\div`, and
 :math:`@`), and array-aware functions (e.g., for linear algebra, statistical
 reductions, and element-wise computation of transcendental functions).
 
-
-
 *TODO: introduce the array object. See NumPy paper (https://www.nature.com/articles/s41586-020-2649-2) and the section on NumPy arrays.*
 
 *TODO: consider including something akin to Fig 1 in NumPy paper. In that figure, may also want to include type promotion example/schematic as part of the figure.*
@@ -480,34 +478,6 @@ already implement it, like NumPy. But the buffer protocol is CPU-only, meaning
 it is not sufficient for the above requirements.
 
 *TODO: add code example.*
-
-Array Methods and Attributes
-----------------------------
-
-*TODO: consider rolling up into the "Array Object" section above.*
-
-All relevant Python double underscore (dunder) methods (e.g., `__add__`,
-`__mul__`, etc.) are specified for the array object, so that people can write
-array code in a natural way using operators. Each dunder method has a
-corresponding functional form (e.g., `__add__` :math:`\leftrightarrow`
-`xp.add()`). For consistency, this is done even for operators that may seem
-unnecessary, like `__pos__` :math:`\leftrightarrow` `positive()`. Operators
-and their corresponding functions behave identically, except that operators
-accept Python scalars, while functions are only
-required to accept arrays.
-
-In addition to the standard Python dunder methods, the standard adds a some
-new dunder methods:
-
-- `x.__array_namespace__()` returns the corresponding
-  array API compliant namespace for the array `x`. This solves the problem of
-  how array consumer libraries determine which namespace to use for a given
-  input. A function that accepts input `x` can call `xp =
-  x.__array_namespace__()` at the top to get the corresponding array API
-  namespace `xp`, whose functions are then used on `x` to compute the result,
-  which will typically be another array from the `xp` library.
-
-- `__dlpack__()` and `__dlpack_device__()` (see `Interchange Protocol`_).
 
 Array Functions
 ---------------
@@ -582,7 +552,6 @@ shape `(2, 1, 4)` array would broadcast to a shape `(2, 3, 4)` array by
 virtual repetition of the array along the broadcasted dimensions).
 Broadcasting rules should be applied independently of the input array data
 types or values.
-
 
 Optional Extensions
 -------------------
@@ -777,6 +746,20 @@ CuPy, and PyTorch.
 
 Discussion
 ==========
+
+*TODO: discuss implementation implications for array-consuming libraries; namely, dunder array_namespace and dunder dlpack methods.*
+
+- `x.__array_namespace__()` returns the corresponding
+  array API compliant namespace for the array `x`. This solves the problem of
+  how array consumer libraries determine which namespace to use for a given
+  input. A function that accepts input `x` can call `xp =
+  x.__array_namespace__()` at the top to get the corresponding array API
+  namespace `xp`, whose functions are then used on `x` to compute the result,
+  which will typically be another array from the `xp` library.
+
+- `__dlpack__()` and `__dlpack_device__()` (see `Interchange Protocol`_).
+
+*TODO: show examples for how to use the above dunder methods.*
 
 As a motivating example, consider the `LinearDiscriminantAnalysis` class in
 scikit-learn. This is a classifier whose code is written in pure Python
