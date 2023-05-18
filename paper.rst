@@ -416,6 +416,20 @@ operations (e.g., :math:`+`, :math:`-`, :math:`\times`, :math:`\div`, and
 :math:`@`), and array-aware functions (e.g., for linear algebra, statistical
 reductions, and element-wise computation of transcendental functions).
 
+.. TODO: clean-up the following regarding broadcasting
+
+All elementwise functions and operations that accept more than one array input
+apply broadcasting rules. The broadcasting rules match the commonly used
+semantics of NumPy, where a broadcasted shape is constructed from the input
+shapes by prepending size-1 dimensions and broadcasting size-1 dimensions to
+otherwise equal non-size-1 dimensions (for example, a shape `(3, 1)` and a
+shape `(2, 1, 4)` array would broadcast to a shape `(2, 3, 4)` array by
+virtual repetition of the array along the broadcasted dimensions).
+Broadcasting rules should be applied independently of the input array data
+types or values.
+
+.. TODO: add broadcasting examples
+
 *TODO: introduce the array object. See NumPy paper (https://www.nature.com/articles/s41586-020-2649-2) and the section on NumPy arrays.*
 
 *TODO: consider including something akin to Fig 1 in NumPy paper. In that figure, may also want to include type promotion example/schematic as part of the figure.*
@@ -535,23 +549,6 @@ Note that the `unique_*` functions, as well as `nonzero()` have a
 data-dependent output shape, which makes them difficult to implement in graph
 libraries. Therefore, such libraries may choose to not implement these
 functions.
-
-Broadcasting
-------------
-
-*TODO: consider rolling into the "Array Object" section above.*
-
-*TODO: examples.*
-
-All elementwise functions and operations that accept more than one array input
-apply broadcasting rules. The broadcasting rules match the commonly used
-semantics of NumPy, where a broadcasted shape is constructed from the input
-shapes by prepending size-1 dimensions and broadcasting size-1 dimensions to
-otherwise equal non-size-1 dimensions (for example, a shape `(3, 1)` and a
-shape `(2, 1, 4)` array would broadcast to a shape `(2, 3, 4)` array by
-virtual repetition of the array along the broadcasted dimensions).
-Broadcasting rules should be applied independently of the input array data
-types or values.
 
 Optional Extensions
 -------------------
