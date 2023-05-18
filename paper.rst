@@ -737,6 +737,9 @@ in the shorter term against libraries like NumPy, CuPy, and PyTorch that are
 `LinearDiscriminantAnalysis` API
 (https://github.com/scikit-learn/scikit-learn/pull/22554).
 
+Tooling
+=======
+
 Test Suite
 ----------
 
@@ -764,27 +767,6 @@ strategies to generate inputs to tests, which then check the behaviors
 outlined by the spec automatically. Behavior that is not specified by the spec
 is not checked by the test suite, for example the exact numeric output of
 floating-point functions.
-
-*TODO: I think we can remove the following paragraph.*
-
-Utilizing hypothesis offers several advantages. Firstly, it allows writing
-tests in a way that more or less corresponds to a direct translation of the
-spec into code. This is because hypothesis is a property-based testing
-library, and the behaviors required by the spec are easily written as
-properties. Secondly, it makes it easy to test all input combinations without
-missing any corner cases. Hypothesis automatically handles generating
-"interesting" examples from its strategies. For example, behaviors on 0-D or
-size-0 arrays are always checked because hypothesis will always generate
-inputs that match these corner cases. Thirdly, hypothesis automatically
-shrinks inputs that lead to test failures, producing the minimal input to
-reproduce the issue. This leads to test failures that are more understandable
-because they do not incorporate details that are unrelated to the problem.
-Lastly, because hypothesis generates inputs based on a random seed, a large
-number of examples can be tested without any additional work. For instance,
-the test suite can be run with `pytest --max-examples=10000` to run each test
-with 10000 different examples (the default is 100). These things would all be
-difficult to achieve with an old-fashioned "manual" test suite, where explicit
-examples are chosen by hand.
 
 The array-api-tests test suite is the first example known to these authors of
 a full featured Python test suite that runs against multiple different
