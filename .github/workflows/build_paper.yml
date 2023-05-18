@@ -37,9 +37,10 @@ jobs:
     #   run: sudo apt install texlive-latex-recommended texlive-fonts-recommended texlive-fonts-extra texlive-publishers texlive-base texlive-bibtex-extra
     - name: Build the paper
       uses: xu-cheng/texlive-action/full@v1
-      run: |
-        cd ${GITHUB_WORKSPACE}/scipy_proceedings
-        ./make_paper.sh papers/01_arrayapi/
+      with:
+        run: |
+          cd ${GITHUB_WORKSPACE}/scipy_proceedings
+          ./make_paper.sh papers/01_arrayapi/
     - name: Upload the paper as an artifact
       uses: actions/upload-artifact@v3
       with:
