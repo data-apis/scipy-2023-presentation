@@ -575,6 +575,41 @@ therefore may be difficult for some libraries to implement.
 
 - `fft` contains functions for performing Fast Fourier transformations.
 
+Test Suite
+==========
+
+The array API specification contains over 200 function and method definitions,
+each with its own signature and specification for behaviors for things like
+type promotion, broadcasting, and special case values.
+
+To facilitate adoption by array libraries, as well as to aid in the
+development of the minimal `numpy.array_api` implementation, a test suite for
+the array API has been developed. The `array-api-tests` test suite is a fully
+featured test suite that can be run against any array library to check its
+compliance against the array API specification. The test suite does not depend
+on any array library—testing against something like NumPy would be circular
+when it comes time to test NumPy itself. Instead, array-api-tests tests the
+behavior specified by the spec directly.
+
+When running the tests, the array library is specified using the
+`ARRAY_API_TESTS_MODULE` environment variable.
+
+This is done by making use of the hypothesis Python library. The consortium
+team has upstreamed array API support to hypothesis in the form of the new
+`hypothesis.extra.array_api` submodule, which supports generating arrays from
+any array API compliant library. The test suite uses these hypothesis
+strategies to generate inputs to tests, which then check the behaviors
+outlined by the spec automatically. Behavior that is not specified by the spec
+is not checked by the test suite, for example the exact numeric output of
+floating-point functions.
+
+The array-api-tests test suite is the first example known to these authors of
+a full featured Python test suite that runs against multiple different
+libraries. It has already been invaluable in practice for implementing the
+minimal `numpy.array_api` implementation, the `array-api-compat` library,
+and for finding discrepancies from the spec in array libraries including NumPy,
+CuPy, and PyTorch.
+
 Specification Status
 ====================
 
@@ -712,44 +747,6 @@ Ecosystem Adoption
 ------------------
 
 *TODO: discuss adoption of the specification in NumPy, CuPy, PyTorch, et al.*
-
-Tooling
-=======
-
-Test Suite
-----------
-
-The array API specification contains over 200 function and method definitions,
-each with its own signature and specification for behaviors for things like
-type promotion, broadcasting, and special case values.
-
-To facilitate adoption by array libraries, as well as to aid in the
-development of the minimal `numpy.array_api` implementation, a test suite for
-the array API has been developed. The `array-api-tests` test suite is a fully
-featured test suite that can be run against any array library to check its
-compliance against the array API specification. The test suite does not depend
-on any array library—testing against something like NumPy would be circular
-when it comes time to test NumPy itself. Instead, array-api-tests tests the
-behavior specified by the spec directly.
-
-When running the tests, the array library is specified using the
-`ARRAY_API_TESTS_MODULE` environment variable.
-
-This is done by making use of the hypothesis Python library. The consortium
-team has upstreamed array API support to hypothesis in the form of the new
-`hypothesis.extra.array_api` submodule, which supports generating arrays from
-any array API compliant library. The test suite uses these hypothesis
-strategies to generate inputs to tests, which then check the behaviors
-outlined by the spec automatically. Behavior that is not specified by the spec
-is not checked by the test suite, for example the exact numeric output of
-floating-point functions.
-
-The array-api-tests test suite is the first example known to these authors of
-a full featured Python test suite that runs against multiple different
-libraries. It has already been invaluable in practice for implementing the
-minimal `numpy.array_api` implementation, the `array-api-compat` library,
-and for finding discrepancies from the spec in array libraries including NumPy,
-CuPy, and PyTorch.
 
 Discussion
 ==========
