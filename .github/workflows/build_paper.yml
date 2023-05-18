@@ -8,10 +8,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Cache Docker images.
-      uses: ScribeMD/docker-cache@0.3.3
-      with:
-        key: docker-${{ runner.os }}-${{ hashFiles(paths) }}
     - name: Checkout scipy_proceedings
       uses: actions/checkout@v3
       with:
