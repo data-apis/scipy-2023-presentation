@@ -179,58 +179,58 @@ Design Principles
 In order to guide standardization and define the contours of the standardization
 process, we further established the following design principles:
 
-- *Pure functions.* Functional API design is the dominant pattern among array
-  libraries, both in Python and in other frequently used programming languages
-  supporting array computation (e.g., MATLAB (TODO: citation) and Julia (TODO: citation)).
-  While method chaining and the fluent interface design pattern are relatively
-  common, especially among array libraries supporting lazy evaluation and
-  operator fusion, functional APIs are generally preferred, mirroring design
-  patterns used in underlying implementations, such as those written in C/C++
-  and Fortran.
+**Pure functions.** Functional API design is the dominant pattern among array
+libraries, both in Python and in other frequently used programming languages
+supporting array computation (e.g., MATLAB (TODO: citation) and Julia (TODO: citation)).
+While method chaining and the fluent interface design pattern are relatively
+common, especially among array libraries supporting lazy evaluation and
+operator fusion, functional APIs are generally preferred, mirroring design
+patterns used in underlying implementations, such as those written in C/C++
+and Fortran.
 
-- *Minimal array object.* A standardized array object should have a minimal set
-  of attributes necessary for inspection (e.g., shape, data type, size, etc.)
-  and should have a minimal set of magic methods (a.k.a. "dunder" methods) to
-  support operator overloading.
+**Minimal array object.** A standardized array object should have a minimal set
+of attributes necessary for inspection (e.g., shape, data type, size, etc.)
+and should have a minimal set of magic methods (a.k.a. "dunder" methods) to
+support operator overloading.
 
-- *No dependencies.* The array API standard and its implementation should be
-  possible in pure Python, without the need for any external dependency outside
-  of Python itself.
+**No dependencies.** The array API standard and its implementation should be
+possible in pure Python, without the need for any external dependency outside
+of Python itself.
 
-- *Accelerator support.* Standardized APIs and behavior should be possible to
-  implement for both central processing units (CPUs) and hardware-accelerated
-  devices, such as graphics processing units (GPUs), tensor processing units (TPUs),
-  and field-programmable gate arrays (FPGAs).
+**Accelerator support.** Standardized APIs and behavior should be possible to
+implement for both central processing units (CPUs) and hardware-accelerated
+devices, such as graphics processing units (GPUs), tensor processing units (TPUs),
+and field-programmable gate arrays (FPGAs).
 
-- *JIT compiler support.* Standardized APIs and behavior should be amenable to
-  just-in-time (JIT) compilation and graph-based optimization (e.g., PyTorch (TODO: citation),
-  JAX (TODO: citation), and TensorFlow (TODO: citation)). For APIs and behavior
-  which are not amenable, such as APIs returning arrays having data-dependent
-  output shapes, the respective APIs and behavior should be specified as
-  optional extensions. Moreover, copy-view mutation semantics (as, e.g.,
-  supported by NumPy) should be considered an implementation detail and, thus,
-  not suitable for standardization.
+**JIT compiler support.** Standardized APIs and behavior should be amenable to
+just-in-time (JIT) compilation and graph-based optimization (e.g., PyTorch (TODO: citation),
+JAX (TODO: citation), and TensorFlow (TODO: citation)). For APIs and behavior
+which are not amenable, such as APIs returning arrays having data-dependent
+output shapes, the respective APIs and behavior should be specified as
+optional extensions. Moreover, copy-view mutation semantics (as, e.g.,
+supported by NumPy) should be considered an implementation detail and, thus,
+not suitable for standardization.
 
-- *Distributed support.* Standardized APIs and behavior should be amenable to
-  implementation in array libraries supporting distributed computing (e.g., Dask (TODO: citation)).
+**Distributed support.** Standardized APIs and behavior should be amenable to
+implementation in array libraries supporting distributed computing (e.g., Dask (TODO: citation)).
 
-- *Consistency.* Except in scenarios involving backward compatibility concerns,
-  naming conventions and design patterns should be consistent across
-  standardized APIs.
+**Consistency.** Except in scenarios involving backward compatibility concerns,
+naming conventions and design patterns should be consistent across
+standardized APIs.
 
-- *Extensibility.* Conforming array libraries may implement functionality which
-  is not included in the array API standard. As a consequence, array consumers
-  should bear responsibility for ensuring that a given API is standardized and its
-  usage is portable across specification-conforming array libraries.
+**Extensibility.** Conforming array libraries may implement functionality which
+is not included in the array API standard. As a consequence, array consumers
+should bear responsibility for ensuring that a given API is standardized and its
+usage is portable across specification-conforming array libraries.
 
-- *Deference.* Where possible, the array API standard should defer to existing,
-  widely-used standards. For example, the accuracy and precision of numerical
-  functions should not be specified beyond the guidance included in IEEE 754 (TODO: citation).
+**Deference.** Where possible, the array API standard should defer to existing,
+widely-used standards. For example, the accuracy and precision of numerical
+functions should not be specified beyond the guidance included in IEEE 754 (TODO: citation).
 
-- *Universality.* Standardized APIs and behavior should reflect common usage
-  among a wide range of existing array libraries. Accordingly, with rare
-  exception, only APIs and behavior having prior art within the ecosystem may
-  be considered candidates for standardization.
+**Universality.** Standardized APIs and behavior should reflect common usage
+among a wide range of existing array libraries. Accordingly, with rare
+exception, only APIs and behavior having prior art within the ecosystem may
+be considered candidates for standardization.
 
 
 Methods
