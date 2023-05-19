@@ -57,9 +57,9 @@ transition is far from seamless.
 .. TODO: Consider inserting Figure 2 from Year 1 report
 
 The Consortium for Python Data API Standards (hereafter referred to as "the
-Consortium" and "we") aims to address this problem by standardizing a fundamental array
-data structure and an associated set of common APIs for working with arrays,
-thus facilitating interchange and interoperability.
+Consortium" and "we") aims to address this problem by standardizing a
+fundamental array data structure and an associated set of common APIs for
+working with arrays, thus facilitating interchange and interoperability.
 
 Paper Overview
 ==============
@@ -253,11 +253,12 @@ Design
 ------
 
 To understand API design of array libraries within the SPE, we first identified
-a representative sample of commonly used Python array libraries. The sample included
-the following libraries: NumPy, Dask Array, CuPy, MXNet, JAX, TensorFlow, and PyTorch.
-Next, we extracted public APIs for each library by analyzing module exports and
-scraping public web documentation. As an example of extracted API data, consider
-the following APIs for computing the arithmetic mean.
+a representative sample of commonly used Python array libraries. The sample
+included the following libraries: NumPy, Dask Array, CuPy, MXNet, JAX,
+TensorFlow, and PyTorch. Next, we extracted public APIs for each library by
+analyzing module exports and scraping public web documentation. As an example
+of extracted API data, consider the following APIs for computing the arithmetic
+mean.
 
 .. TODO: line wrapping makes this block harder to grok, especially when inferring common kwargs; consider an alternative presentation
 
@@ -284,8 +285,8 @@ commonalities and differences by analyzing the intersection, and its
 complement, of available APIs across each array library. From the intersection,
 we derived a subset of common APIs suitable for standardization based on
 prevalence and ease of implementation. The common API subset included function
-names, method names, attribute names, and positional and keyword arguments.
-As an example of a derived API, consider the common API for computing the
+names, method names, attribute names, and positional and keyword arguments. As
+an example of a derived API, consider the common API for computing the
 arithmetic mean:
 
 .. code:: python
