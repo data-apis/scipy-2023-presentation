@@ -745,20 +745,33 @@ in the shorter term against libraries like NumPy, CuPy, and PyTorch that are
 Ecosystem Adoption
 ------------------
 
-*TODO: discuss adoption of the specification in NumPy, CuPy, PyTorch, et al.*
+At the time of writing, NumPy and CuPy both have complete minimal
+implementations as `numpy.array_api` and `cupy.array_api` (see `Reference
+Implementation`_). The main namespaces for NumPy and CuPy are only partially
+compliant. NumPy 2.0 is planned for release in late 2023 and will have full
+array API compliance in the main namespace. CuPy, which generally follows
+NumPy's API, will do the same. PyTorch has near full compliance in its main
+namespace, with full adoption planned. For practical purposes the deviations
+from the standard in the current versions of these libraries can be mitigated
+by using the `Compatibility Layer`_, which wraps the functions from each
+library to make them match the specification.
+
+Other target libraries, including Dask, JAX, Tensorflow, and MXNet, do not yet
+have array API support, except insomuch as they use the APIs in the standard
+already. Support in these libraries is being discussed.
 
 Discussion
 ==========
 
 *TODO: discuss implementation implications for array-consuming libraries; namely, dunder array_namespace and dunder dlpack methods.*
 
-- `x.__array_namespace__()` returns the corresponding
-  array API compliant namespace for the array `x`. This solves the problem of
-  how array consumer libraries determine which namespace to use for a given
-  input. A function that accepts input `x` can call `xp =
-  x.__array_namespace__()` at the top to get the corresponding array API
-  namespace `xp`, whose functions are then used on `x` to compute the result,
-  which will typically be another array from the `xp` library.
+- `x.__array_namespace__()` returns the corresponding array API compliant
+  namespace for the array `x`. This solves the problem of how array consumer
+  libraries determine which namespace to use for a given input. A function
+  that accepts input `x` can call `xp = x.__array_namespace__()` at the top to
+  get the corresponding array API namespace `xp`, whose functions are then
+  used on `x` to compute the result, which will typically be another array
+  from the `xp` library.
 
 - `__dlpack__()` and `__dlpack_device__()` (see `Interchange Protocol`_).
 
