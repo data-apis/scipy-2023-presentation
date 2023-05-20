@@ -6,11 +6,15 @@
 :institution: Quansight
 :equal-contributor:
 
+:author: Ralf Gommers
+:email: ralf.gommers@gmail.com
+:institution: Quansight
+:equal-contributor:
+
 :author: Consortium for Python Data API Standards
 :email:
 :institution: Consortium for Python Data API Standards
 :equal-contributor:
-
 
 ===========================================================================================
 Python Array API Standard: Toward Array Interoperability in the Scientific Python Ecosystem
