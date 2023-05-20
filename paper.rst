@@ -6,6 +6,11 @@
 :institution: Quansight
 :equal-contributor:
 
+:author: Athan Reines
+:email: areines@quansight.com
+:institution: Quansight
+:equal-contributor:
+
 :author: Ralf Gommers
 :email: ralf.gommers@gmail.com
 :institution: Quansight
@@ -15,10 +20,11 @@
 :email: shoyer@google.com
 :institution: Google
 
+.. Note: treat the Consortium as being equivalent to a PI (i.e., list it last without explicit equal contribution)
+
 :author: Consortium for Python Data API Standards
 :email:
 :institution: Consortium for Python Data API Standards
-:equal-contributor:
 
 ===========================================================================================
 Python Array API Standard: Toward Array Interoperability in the Scientific Python Ecosystem
