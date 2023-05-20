@@ -383,7 +383,7 @@ Array API Standard
    :figclass: wt
    :scale: 90%
 
-   TODO: write the figure caption
+   TODO (athan): write the figure caption
 
 The Python array API standard specifies standardized APIs and behaviors for
 array and tensor objects and operations.
@@ -529,7 +529,7 @@ types or values.
 Interchange Protocol
 --------------------
 
-*TODO: we can rephrase to emphasize interoperability and the desire to convert an array of one flavor to another flavor. We should be able to cut down the content found in this section.*
+*TODO (athan): we can rephrase to emphasize interoperability and the desire to convert an array of one flavor to another flavor. We should be able to cut down the content found in this section.*
 
 As discussed in the non-goals section, array libraries are not expected to
 support mixing arrays from other libraries. Instead, there is an interchange
@@ -774,7 +774,7 @@ array consumers, to check that their code is portable. If code runs in
 Compatibility Layer
 -------------------
 
-*TODO: we don't need to go in the weeds here, listing API renames and each instance of incompatible behavior. We can focus on the problems the compat layer is intended to solve, at a high level, and how it helps downstream libraries, such as sklearn and SciPy. Main point is that this is a shim layer which allows standardization consumption to be independent of individual array library release schedules.*
+*TODO (athan): we don't need to go in the weeds here, listing API renames and each instance of incompatible behavior. We can focus on the problems the compat layer is intended to solve, at a high level, and how it helps downstream libraries, such as sklearn and SciPy. Main point is that this is a shim layer which allows standardization consumption to be independent of individual array library release schedules.*
 
 As discussed above, `numpy.array_api` is not a suitable way for libraries to
 use `numpy` in an array API compliant way. However, NumPy, as of 1.24, still
@@ -863,7 +863,7 @@ already. Support in these libraries is being discussed.
 Discussion
 ==========
 
-*TODO: discuss implementation implications for array-consuming libraries; namely, dunder array_namespace and dunder dlpack methods.*
+*TODO (athan): discuss implementation implications for array-consuming libraries; namely, dunder array_namespace and dunder dlpack methods.*
 
 - `x.__array_namespace__()` returns the corresponding array API compliant
   namespace for the array `x`. This solves the problem of how array consumer
@@ -875,7 +875,7 @@ Discussion
 
 - `__dlpack__()` and `__dlpack_device__()` (see `Interchange Protocol`_).
 
-*TODO: show examples for how to use the above dunder methods.*
+*TODO (athan): show examples for how to use the above dunder methods.*
 
 .. TODO (athan): reframe discussion below as "We worked with the maintainers of sklearn to assess the real-world performance impact of specification adoption."
 
