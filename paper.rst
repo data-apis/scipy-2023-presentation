@@ -395,6 +395,12 @@ standard, the data structure is opaque—libraries may or may not grant direct
 access to raw memory—and includes metadata for interpreting the underlying
 data, notably 'data type', 'shape', and 'device'.
 
+.. figure:: assets/array_object.png
+   :align: center
+   :figclass: w
+
+   TODO: write the figure caption
+
 An array has a data type (dtype), which describes how to interpret a single
 array element (e.g., integer, real- or complex-valued floating-point, boolean,
 or other). A conforming array object has a single dtype. The standard does not
