@@ -1,14 +1,14 @@
 .. Make single backticks produce code
 .. default-role:: code
 
-:author: Consortium for Python Data API Standards
-:email:
-:institution: Consortium for Python Data API Standards
-:equal-contributor:
-
 :author: Aaron Meurer
 :email: asmeurer@quansight.com
 :institution: Quansight
+:equal-contributor:
+
+:author: Consortium for Python Data API Standards
+:email:
+:institution: Consortium for Python Data API Standards
 :equal-contributor:
 
 
