@@ -983,7 +983,7 @@ outside of NumPy, PyTorch, and CuPy.
 
 .. Automatic figure references won't work because they require Sphinx.
 .. _Figure 1:
-.. figure:: scikit_learn_timings.pdf
+.. figure:: assets/scikit_learn_timings.pdf
 
    Average timings for scikit-learn's `LinearDiscriminantAnalysis` fit and
    predict on a random classification with 500,000 samples and 300 features on
@@ -993,7 +993,7 @@ outside of NumPy, PyTorch, and CuPy.
 
 .. Automatic figure references won't work because they require Sphinx.
 .. _Figure 2:
-.. figure:: scipy_timings.pdf
+.. figure:: assets/scipy_timings.pdf
 
    Average timings for `scipy.signal.welch()` on 90,000,000 data points,
    comparing a strictly portable implementation and an implementation with
