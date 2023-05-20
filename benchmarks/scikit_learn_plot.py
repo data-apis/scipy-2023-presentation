@@ -32,7 +32,7 @@ fig.supylabel("Duration (sec)")
 fig.suptitle("scikit-learn LinearDiscriminantAnalysis performance with array API backends")
 
 plt.tight_layout()
-fig.savefig("scikit_learn_timings.pdf")
+fig.savefig("../assets/scikit_learn_timings.pdf")
 
 means = results.groupby(["Backend", "Method"]).mean()
 print("Mean durations:")

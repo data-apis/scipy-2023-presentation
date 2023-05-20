@@ -1,19 +1,24 @@
 .. Make single backticks produce code
 .. default-role:: code
 
-:author: Data APIs Consortium
-:email:
-:institution: Data APIs Consortium
-:equal-contributor:
-
 :author: Aaron Meurer
 :email: asmeurer@quansight.com
+:institution: Quansight
+:equal-contributor:
+
+:author: Ralf Gommers
+:email: ralf.gommers@gmail.com
 :institution: Quansight
 :equal-contributor:
 
 :author: Stephan Hoyer
 :email: shoyer@google.com
 :institution: Google
+
+:author: Consortium for Python Data API Standards
+:email:
+:institution: Consortium for Python Data API Standards
+:equal-contributor:
 
 ===========================================================================================
 Python Array API Standard: Toward Array Interoperability in the Scientific Python Ecosystem
@@ -64,12 +69,10 @@ have enough differences that end users have to relearn and rewrite code in
 order to work with multiple libraries. This process can be very painful as the
 transition is far from seamless.
 
-.. TODO: Consider inserting Figure 2 from Year 1 report
-
 The Consortium for Python Data API Standards (hereafter referred to as "the
-Consortium" and "we") aims to address this problem by standardizing a fundamental array
-data structure and an associated set of common APIs for working with arrays,
-thus facilitating interchange and interoperability.
+Consortium" and "we") aims to address this problem by standardizing a
+fundamental array data structure and an associated set of common APIs for
+working with arrays, thus facilitating interchange and interoperability.
 
 Paper Overview
 ==============
@@ -123,8 +126,6 @@ and use cases. While the communities of each individual library discussed
 interchange and interoperability, until the founding of the Consortium for
 Python Data API Standards, no process for coordination among libraries arose to
 avoid further fragmentation and to arrive at a common set of API standards.
-
-.. TODO: consider inserting Figure 1 from year 1 report
 
 The genesis for the Consortium grew out of many conversations among maintainers
 during 2019-2020. During those conversations, it quickly became clear that any
@@ -199,7 +200,7 @@ and Fortran.
 
 **Minimal array object.** A standardized array object should have a minimal set
 of attributes necessary for inspection (e.g., shape, data type, size, etc.)
-and should have a minimal set of magic methods (a.k.a. "dunder" methods) to
+and should have a minimal set of magic methods (also known as "dunder" methods) to
 support operator overloading.
 
 **No dependencies.** The array API standard and its implementation should be
@@ -212,12 +213,13 @@ devices, such as graphics processing units (GPUs), tensor processing units (TPUs
 and field-programmable gate arrays (FPGAs).
 
 **JIT compiler support.** Standardized APIs and behavior should be amenable to
-just-in-time (JIT) compilation and graph-based optimization (e.g., PyTorch (TODO: citation),
-JAX (TODO: citation), and TensorFlow (TODO: citation)). For APIs and behavior
+just-in-time (JIT) and ahead-of-time (AOT) compilation and graph-based
+optimization (e.g., PyTorch (TODO: citation), JAX (TODO: citation), and
+TensorFlow (TODO: citation)). For APIs and behavior
 which are not amenable, such as APIs returning arrays having data-dependent
 output shapes, the respective APIs and behavior should be specified as
 optional extensions. Moreover, copy-view mutation semantics (as, e.g.,
-supported by NumPy) should be considered an implementation detail and, thus,
+currently supported by NumPy) should be considered an implementation detail and, thus,
 not suitable for standardization.
 
 **Distributed support.** Standardized APIs and behavior should be amenable to
@@ -263,13 +265,14 @@ Design
 ------
 
 To understand API design of array libraries within the SPE, we first identified
-a representative sample of commonly used Python array libraries. The sample included
-the following libraries: NumPy, Dask Array, CuPy, MXNet, JAX, TensorFlow, and PyTorch.
-Next, we extracted public APIs for each library by analyzing module exports and
-scraping public web documentation. As an example of extracted API data, consider
-the following APIs for computing the arithmetic mean.
+a representative sample of commonly used Python array libraries. The sample
+included the following libraries: NumPy, Dask Array, CuPy, MXNet, JAX,
+TensorFlow, and PyTorch. Next, we extracted public APIs for each library by
+analyzing module exports and scraping public web documentation. As an example
+of extracted API data, consider the following APIs for computing the arithmetic
+mean.
 
-.. TODO: line wrapping makes this block harder to grok, especially when inferring common kwargs; consider an alternative presentation
+.. TODO (athan): line wrapping makes this block harder to grok, especially when inferring common kwargs; consider an alternative presentation
 
 .. code:: python
 
@@ -294,8 +297,8 @@ commonalities and differences by analyzing the intersection, and its
 complement, of available APIs across each array library. From the intersection,
 we derived a subset of common APIs suitable for standardization based on
 prevalence and ease of implementation. The common API subset included function
-names, method names, attribute names, and positional and keyword arguments.
-As an example of a derived API, consider the common API for computing the
+names, method names, attribute names, and positional and keyword arguments. As
+an example of a derived API, consider the common API for computing the
 arithmetic mean:
 
 .. code:: python
@@ -318,7 +321,7 @@ during design analysis. The sample of downstream libraries included the
 following libraries: SciPy, pandas, Matplotlib, Xarray, scikit-learn, and scikit-image,
 among others. Next, we instrumented downstream libraries in order to record
 Python array API calls (TODO: repo citation). After instrumentation, we
-collected traces while running downstream library test suites. We subsequently
+collected stack traces while running downstream library test suites. We subsequently
 transformed trace data into structured JSON for subsequent analysis. From
 the structured data, we generated empirical APIs based on provided arguments
 and associated data types, noting which downstream library called which
@@ -364,13 +367,24 @@ over lower ranking APIs, and extended the analysis to aggregated API categories
 data, and analysis are available as public artifacts on GitHub. (TODO: repo
 citations)
 
-.. TODO: consider a figure showing the top 10 common API ranks (see Jupyter notebook for array API comparison).
+.. TODO (athan): consider a figure showing the top 10 common API ranks (see Jupyter notebook for array API comparison).
 
 Array API Standard
 ==================
 
-The array API standard is a specification for APIs and behaviors that any
-array API compliant library should follow. Core to the array standard is the
+.. figure:: assets/array_object.pdf
+   :align: center
+   :figclass: wt
+   :scale: 90%
+
+   TODO: write the figure caption
+
+The Python array API standard specifies standardized APIs and behaviors for
+array and tensor objects and operations.
+
+.. TODO (athan): we should rework the following to be more high level. E.g., the standard is comprised of an array object, array-aware functions, an interchange protocol, and optional extensions. We don't need to say fft and linalg, as there may be more extensions in the future.
+
+Core to the array standard is the
 array object, which represents an n-dimensional collection of objects of a
 given data type. Arrays have a data type (dtype), shape, and device, and
 should support indexing and broadcasting semantics. Additionally, the standard
@@ -381,7 +395,7 @@ should be defined on the library namespace, including `linalg` and `fft`
 subnamespaces which are optional extensions.
 
 The standard only specifies a minimal set of functions and semantics that any
-compliant library should implement. Libraires are free to implement more than
+compliant library should implement. Libraries are free to implement more than
 what is specified, but use of this code will not be portable.
 
 Array Object
@@ -426,7 +440,7 @@ dimensionality (or "rank") of an array. For example, a shape `(10,)` is a
 2-dimensional array whose inner dimension contains 5 elements and whose outer
 dimension contains 3 elements. 0-dimensional arrays (i.e., arrays with shape
 `()` that consist of a single element) are fully supported. There is no
-dictinct notion of "array scalars" as in NumPy, as these are not implemented
+distinct notion of "array scalars" as in NumPy, as these are not implemented
 in other libraries.
 
 An array device specifies the location of array memory allocation and operation
@@ -465,7 +479,7 @@ array using the `device` keyword to a creation function (`linspace()`) and the
        # Computations on x and y will happen on device
        return xp.sin(y) * x
 
-.. TODO: not sure how we can incorporate to_device here. It seems to me that
+.. TODO (aaron): not sure how we can incorporate to_device here. It seems to me that
    most functions should just use the input device and device transfers will
    be mostly done by end users.
 
@@ -492,7 +506,7 @@ implementation detail by array consumers. In particular, any mutation behavior
 that affects more than one array object is considered an implementation detail
 that should not be relied on for portability.
 
-.. TODO: clean-up the following regarding broadcasting
+.. TODO (athan): clean-up the following regarding broadcasting
 
 All elementwise functions and operations that accept more than one array input
 apply broadcasting rules. The broadcasting rules match the commonly used
@@ -504,12 +518,12 @@ virtual repetition of the array along the broadcasted dimensions).
 Broadcasting rules should be applied independently of the input array data
 types or values.
 
-.. TODO: add broadcasting examples
+.. TODO (athan): add broadcasting examples; this may be obsolete given figure
 
 Interchange Protocol
 --------------------
 
-*TODO: we can rephase to emphasize interoperability and the desire to convert an array of one flavor to another flavor. We should be able to cut down the content found in this section.*
+*TODO: we can rephrase to emphasize interoperability and the desire to convert an array of one flavor to another flavor. We should be able to cut down the content found in this section.*
 
 As discussed in the non-goals section, array libraries are not expected to
 support mixing arrays from other libraries. Instead, there is an interchange
@@ -568,6 +582,8 @@ it is not sufficient for the above requirements.
 Array Functions
 ---------------
 
+.. TODO (athan): compress content and provide high level overview
+
 Aside from dunder methods, the only methods/attributes defined on the array
 object are `x.to_device()`, `x.dtype`, `x.device`, `x.mT`, `x.ndim`,
 `x.shape`, `x.size`, and `x.T`. All other functions in the specification are
@@ -625,10 +641,10 @@ functions.
 Optional Extensions
 -------------------
 
-*TODO: consuming extensions. How to check whether present?*
+.. TODO (athan): consuming extensions. How to check whether present?
 
 In addition to the above required functions, there are two optional extension
-sub-namespaces. Array libraries may chose to implement or not implement these
+sub-namespaces. Array libraries may choose to implement or not implement these
 extensions. These extensions are optional because they typically require
 linking against a numerical library such as a linear algebra library, and
 therefore may be difficult for some libraries to implement.
@@ -642,7 +658,7 @@ therefore may be difficult for some libraries to implement.
   from the specified signatures (for example, NumPy’s use of `UPLO` in the
   `eigh()` function). BLAS and LAPACK no longer hold a complete monopoly over
   linear algebra operations given the existence of specialized accelerated
-  hardware, so these sorts of keywords are an impediment wide implementation
+  hardware, so these sorts of keywords are an impediment to wide implementation
   across all array libraries.
 
 - `fft` contains functions for performing Fast Fourier transformations.
@@ -656,8 +672,8 @@ type promotion, broadcasting, and special case values.
 
 To facilitate adoption by array libraries, as well as to aid in the
 development of the minimal `numpy.array_api` implementation, a test suite for
-the array API has been developed. The `array-api-tests` test suite is a fully
-featured test suite that can be run against any array library to check its
+the array API has been developed. The `array-api-tests` test suite is a
+full-featured test suite that can be run against any array library to check its
 compliance against the array API specification. The test suite does not depend
 on any array library—testing against something like NumPy would be circular
 when it comes time to test NumPy itself. Instead, array-api-tests tests the
@@ -693,7 +709,7 @@ and the `fft` extension. A v2023 version is in the works, although no
 significant changes are planned so far. In 2023, most of the work around the
 array API has focused on implementation and adoption.
 
-*TODO: add brief overviews regarding specification revisions and contents.*
+.. TODO (athan): add brief overviews regarding specification revisions and contents.
 
 Implementation Status
 =====================
@@ -791,7 +807,7 @@ small, pure Python library with no hard dependencies that wraps array
 libraries to make the spec complaint. Currently `NumPy`, `CuPy`, and `PyTorch`
 are supported.
 
-`array-api-compat` is to be used by array consumer libraries like scipy or
+`array-api-compat` is to be used by array consumer libraries like SciPy or
 scikit-learn. The primary usage is like
 
 .. code:: python
@@ -814,7 +830,7 @@ be a `np.ndarray`, even though `xp.mean` and `xp.std` are wrapped functions.
 While the long-term goal is for array libraries to be completely array API
 compliant, `array-api-compat` allows consumer libraries to use the array API
 in the shorter term against libraries like NumPy, CuPy, and PyTorch that are
-"nearly complaint".
+"nearly compliant".
 
 `array-api-compat` has already been successfully used in scikit-learn's
 `LinearDiscriminantAnalysis` API
@@ -855,7 +871,7 @@ Discussion
 
 *TODO: show examples for how to use the above dunder methods.*
 
-.. TODO: reframe discussion below as "We worked with the maintainers of sklearn to assess the real-world performance impact of specification adoption."
+.. TODO (athan): reframe discussion below as "We worked with the maintainers of sklearn to assess the real-world performance impact of specification adoption."
 
 As a motivating example, consider the `LinearDiscriminantAnalysis` class in
 scikit-learn. This is a classifier whose code is written in pure Python
@@ -978,7 +994,7 @@ outside of NumPy, PyTorch, and CuPy.
 
 .. Automatic figure references won't work because they require Sphinx.
 .. _Figure 1:
-.. figure:: scikit_learn_timings.pdf
+.. figure:: assets/scikit_learn_timings.pdf
 
    Average timings for scikit-learn's `LinearDiscriminantAnalysis` fit and
    predict on a random classification with 500,000 samples and 300 features on
@@ -988,7 +1004,7 @@ outside of NumPy, PyTorch, and CuPy.
 
 .. Automatic figure references won't work because they require Sphinx.
 .. _Figure 2:
-.. figure:: scipy_timings.pdf
+.. figure:: assets/scipy_timings.pdf
 
    Average timings for `scipy.signal.welch()` on 90,000,000 data points,
    comparing a strictly portable implementation and an implementation with
@@ -1023,6 +1039,8 @@ toe computation to take place on. For example, a computation using
 Future Work
 ===========
 
+.. TODO (athan): rework based on open questions
+
 The focus of the consortium for 2023 is on implementation and adoption.
 
 NumPy 2.0, which is planned for release in late 2023, will have full array API
@@ -1043,9 +1061,9 @@ Scikit-learn has implemented array API specification support in its
 
 Work is underway on an array API compliance website. (*TODO*)
 
-There is a similar effort being done by the same Data APIs Consortium to
-standardize Python dataframe libraries. This work will be discussed in a
-future paper and conference talk.
+There is a similar effort underway under the Data APIs Consortium umbrella to
+standardize a library author-focused API for Python dataframe libraries. This
+work will be discussed in a future paper and conference talk.
 
 Conclusion
 ==========
