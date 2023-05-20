@@ -386,9 +386,9 @@ The standard only specifies a minimal set of functions and semantics that any
 compliant library should implement. Libraries are free to implement more than
 what is specified, but use of this code will not be portable.
 
-.. figure:: assets/array_object.png
+.. figure:: assets/array_object.pdf
    :align: center
-   :figclass: w
+   :figclass: wt
    :scale: 100%
 
    TODO: write the figure caption
