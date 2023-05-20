@@ -209,8 +209,9 @@ devices, such as graphics processing units (GPUs), tensor processing units (TPUs
 and field-programmable gate arrays (FPGAs).
 
 **JIT compiler support.** Standardized APIs and behavior should be amenable to
-just-in-time (JIT) compilation and graph-based optimization (e.g., PyTorch (TODO: citation),
-JAX (TODO: citation), and TensorFlow (TODO: citation)). For APIs and behavior
+just-in-time (JIT) and ahead-of-time (AOT) compilation and graph-based
+optimization (e.g., PyTorch (TODO: citation), JAX (TODO: citation), and
+TensorFlow (TODO: citation)). For APIs and behavior
 which are not amenable, such as APIs returning arrays having data-dependent
 output shapes, the respective APIs and behavior should be specified as
 optional extensions. Moreover, copy-view mutation semantics (as, e.g.,
@@ -435,7 +436,7 @@ dimensionality (or "rank") of an array. For example, a shape `(10,)` is a
 2-dimensional array whose inner dimension contains 5 elements and whose outer
 dimension contains 3 elements. 0-dimensional arrays (i.e., arrays with shape
 `()` that consist of a single element) are fully supported. There is no
-dictinct notion of "array scalars" as in NumPy, as these are not implemented
+distinct notion of "array scalars" as in NumPy, as these are not implemented
 in other libraries.
 
 An array device specifies the location of array memory allocation and operation
@@ -518,7 +519,7 @@ types or values.
 Interchange Protocol
 --------------------
 
-*TODO: we can rephase to emphasize interoperability and the desire to convert an array of one flavor to another flavor. We should be able to cut down the content found in this section.*
+*TODO: we can rephrase to emphasize interoperability and the desire to convert an array of one flavor to another flavor. We should be able to cut down the content found in this section.*
 
 As discussed in the non-goals section, array libraries are not expected to
 support mixing arrays from other libraries. Instead, there is an interchange
@@ -639,7 +640,7 @@ Optional Extensions
 .. TODO (athan): consuming extensions. How to check whether present?
 
 In addition to the above required functions, there are two optional extension
-sub-namespaces. Array libraries may chose to implement or not implement these
+sub-namespaces. Array libraries may choose to implement or not implement these
 extensions. These extensions are optional because they typically require
 linking against a numerical library such as a linear algebra library, and
 therefore may be difficult for some libraries to implement.
@@ -653,7 +654,7 @@ therefore may be difficult for some libraries to implement.
   from the specified signatures (for example, NumPy’s use of `UPLO` in the
   `eigh()` function). BLAS and LAPACK no longer hold a complete monopoly over
   linear algebra operations given the existence of specialized accelerated
-  hardware, so these sorts of keywords are an impediment wide implementation
+  hardware, so these sorts of keywords are an impediment to wide implementation
   across all array libraries.
 
 - `fft` contains functions for performing Fast Fourier transformations.
@@ -667,8 +668,8 @@ type promotion, broadcasting, and special case values.
 
 To facilitate adoption by array libraries, as well as to aid in the
 development of the minimal `numpy.array_api` implementation, a test suite for
-the array API has been developed. The `array-api-tests` test suite is a fully
-featured test suite that can be run against any array library to check its
+the array API has been developed. The `array-api-tests` test suite is a
+full-featured test suite that can be run against any array library to check its
 compliance against the array API specification. The test suite does not depend
 on any array library—testing against something like NumPy would be circular
 when it comes time to test NumPy itself. Instead, array-api-tests tests the
@@ -798,7 +799,7 @@ small, pure Python library with no hard dependencies that wraps array
 libraries to make the spec complaint. Currently `NumPy`, `CuPy`, and `PyTorch`
 are supported.
 
-`array-api-compat` is to be used by array consumer libraries like scipy or
+`array-api-compat` is to be used by array consumer libraries like SciPy or
 scikit-learn. The primary usage is like
 
 .. code:: python
@@ -821,7 +822,7 @@ be a `np.ndarray`, even though `xp.mean` and `xp.std` are wrapped functions.
 While the long-term goal is for array libraries to be completely array API
 compliant, `array-api-compat` allows consumer libraries to use the array API
 in the shorter term against libraries like NumPy, CuPy, and PyTorch that are
-"nearly complaint".
+"nearly compliant".
 
 `array-api-compat` has already been successfully used in scikit-learn's
 `LinearDiscriminantAnalysis` API
@@ -1052,9 +1053,9 @@ Scikit-learn has implemented array API specification support in its
 
 Work is underway on an array API compliance website. (*TODO*)
 
-There is a similar effort being done by the same Data APIs Consortium to
-standardize Python dataframe libraries. This work will be discussed in a
-future paper and conference talk.
+There is a similar effort underway under the Data APIs Consortium umbrella to
+standardize a library author-focused API for Python dataframe libraries. This
+work will be discussed in a future paper and conference talk.
 
 Conclusion
 ==========
