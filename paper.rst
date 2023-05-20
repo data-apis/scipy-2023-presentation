@@ -386,6 +386,13 @@ The standard only specifies a minimal set of functions and semantics that any
 compliant library should implement. Libraries are free to implement more than
 what is specified, but use of this code will not be portable.
 
+.. figure:: assets/array_object.png
+   :align: center
+   :figclass: w
+   :scale: 100%
+
+   TODO: write the figure caption
+
 Array Object
 ------------
 
@@ -394,13 +401,6 @@ multidimensional arrays (TODO: citation). Within the context of the array API
 standard, the data structure is opaque—libraries may or may not grant direct
 access to raw memory—and includes metadata for interpreting the underlying
 data, notably 'data type', 'shape', and 'device'.
-
-.. figure:: assets/array_object.png
-   :align: center
-   :figclass: w
-   :scale: 100%
-
-   TODO: write the figure caption
 
 An array has a data type (dtype), which describes how to interpret a single
 array element (e.g., integer, real- or complex-valued floating-point, boolean,
