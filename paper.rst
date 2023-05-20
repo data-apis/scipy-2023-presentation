@@ -370,7 +370,7 @@ Array API Standard
 .. figure:: assets/array_object.pdf
    :align: center
    :figclass: wt
-   :scale: 100%
+   :scale: 90%
 
    TODO: write the figure caption
 
