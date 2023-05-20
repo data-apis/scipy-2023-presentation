@@ -11,6 +11,10 @@
 :institution: Quansight
 :equal-contributor:
 
+:author: Stephan Hoyer
+:email: shoyer@google.com
+:institution: Google
+
 :author: Consortium for Python Data API Standards
 :email:
 :institution: Consortium for Python Data API Standards
@@ -769,6 +773,10 @@ Compatibility Layer
 As discussed above, `numpy.array_api` is not a suitable way for libraries to
 use `numpy` in an array API compliant way. However, NumPy, as of 1.24, still
 has many discrepancies from the array API. A few of the biggest ones are:
+
+- NumPy uses value-based rules to determine data types resulting from arithmetic
+  involving 0-dimensional arrays or scalars, which is prohibited by the
+  standard.
 
 - Several elementwise functions are renamed from NumPy. For example, NumPy has
   `arccos()`, etc., but the standard uses `acos()`.
