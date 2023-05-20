@@ -406,8 +406,7 @@ promotion should work independently of array shape or value. This makes code
 easier to reason about and also enables applications like JIT compilation
 which require the ability to reason about array code statically.
 
-For example, a `float32` and `float64` promote together to
-`float64`:
+For example, `float32` and `float64` promote together to `float64`:
 
 .. code:: python
 
