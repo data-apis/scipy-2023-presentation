@@ -1,9 +1,16 @@
 .. Make single backticks produce code
 .. default-role:: code
 
+:author: Data APIs Consortium
+:email:
+:institution: Data APIs Consortium
+:equal-contributor:
+
 :author: Aaron Meurer
 :email: asmeurer@quansight.com
 :institution: Quansight
+:equal-contributor:
+
 
 ===========================================================================================
 Python Array API Standard: Toward Array Interoperability in the Scientific Python Ecosystem
