@@ -20,11 +20,12 @@
 :email: shoyer@google.com
 :institution: Google
 
-.. Note: treat the Consortium as being equivalent to a PI (i.e., list it last without explicit equal contribution)
-
 :author: Consortium for Python Data API Standards
 :email:
 :institution: Consortium for Python Data API Standards
+
+.. Note: treat the Consortium as being equivalent to a PI (i.e., list it last without explicit equal contribution)
+
 
 ===========================================================================================
 Python Array API Standard: Toward Array Interoperability in the Scientific Python Ecosystem
@@ -221,12 +222,12 @@ and field-programmable gate arrays (FPGAs).
 **JIT compiler support.** Standardized APIs and behavior should be amenable to
 just-in-time (JIT) and ahead-of-time (AOT) compilation and graph-based
 optimization (e.g., PyTorch (TODO: citation), JAX (TODO: citation), and
-TensorFlow (TODO: citation)). For APIs and behavior
-which are not amenable, such as APIs returning arrays having data-dependent
-output shapes, the respective APIs and behavior should be specified as
-optional extensions. Moreover, copy-view mutation semantics (as, e.g.,
-currently supported by NumPy) should be considered an implementation detail and, thus,
-not suitable for standardization.
+TensorFlow (TODO: citation)). For APIs and behavior which are not amenable,
+such as APIs returning arrays having data-dependent output shapes, the
+respective APIs and behavior should be specified as optional extensions.
+Moreover, copy-view mutation semantics (as, e.g., currently supported by NumPy)
+should be considered an implementation detail and, thus, not suitable for
+standardization.
 
 **Distributed support.** Standardized APIs and behavior should be amenable to
 implementation in array libraries supporting distributed computing (e.g., Dask (TODO: citation)).
