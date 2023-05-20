@@ -1,9 +1,9 @@
 .. Make single backticks produce code
 .. default-role:: code
 
-:author: Data APIs Consortium
+:author: Consortium for Python Data API Standards
 :email:
-:institution: Data APIs Consortium
+:institution: Consortium for Python Data API Standards
 :equal-contributor:
 
 :author: Aaron Meurer
