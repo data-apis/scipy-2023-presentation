@@ -61,8 +61,6 @@ have enough differences that end users have to relearn and rewrite code in
 order to work with multiple libraries. This process can be very painful as the
 transition is far from seamless.
 
-.. TODO: Consider inserting Figure 2 from Year 1 report
-
 The Consortium for Python Data API Standards (hereafter referred to as "the
 Consortium" and "we") aims to address this problem by standardizing a
 fundamental array data structure and an associated set of common APIs for
@@ -120,8 +118,6 @@ and use cases. While the communities of each individual library discussed
 interchange and interoperability, until the founding of the Consortium for
 Python Data API Standards, no process for coordination among libraries arose to
 avoid further fragmentation and to arrive at a common set of API standards.
-
-.. TODO: consider inserting Figure 1 from year 1 report
 
 The genesis for the Consortium grew out of many conversations among maintainers
 during 2019-2020. During those conversations, it quickly became clear that any
@@ -267,7 +263,7 @@ analyzing module exports and scraping public web documentation. As an example
 of extracted API data, consider the following APIs for computing the arithmetic
 mean.
 
-.. TODO: line wrapping makes this block harder to grok, especially when inferring common kwargs; consider an alternative presentation
+.. TODO (athan): line wrapping makes this block harder to grok, especially when inferring common kwargs; consider an alternative presentation
 
 .. code:: python
 
@@ -362,7 +358,7 @@ over lower ranking APIs, and extended the analysis to aggregated API categories
 data, and analysis are available as public artifacts on GitHub. (TODO: repo
 citations)
 
-.. TODO: consider a figure showing the top 10 common API ranks (see Jupyter notebook for array API comparison).
+.. TODO (athan): consider a figure showing the top 10 common API ranks (see Jupyter notebook for array API comparison).
 
 Array API Standard
 ==================
@@ -377,7 +373,7 @@ Array API Standard
 The Python array API standard specifies standardized APIs and behaviors for
 array and tensor objects and operations.
 
-.. TODO: we should rework the following to be more high level. E.g., the standard is comprised of an array object, array-aware functions, an interchange protocol, and optional extensions. We don't need to say fft and linalg, as there may be more extensions in the future.
+.. TODO (athan): we should rework the following to be more high level. E.g., the standard is comprised of an array object, array-aware functions, an interchange protocol, and optional extensions. We don't need to say fft and linalg, as there may be more extensions in the future.
 
 Core to the array standard is the
 array object, which represents an n-dimensional collection of objects of a
@@ -474,7 +470,7 @@ array using the `device` keyword to a creation function (`linspace()`) and the
        # Computations on x and y will happen on device
        return xp.sin(y) * x
 
-.. TODO: not sure how we can incorporate to_device here. It seems to me that
+.. TODO (aaron): not sure how we can incorporate to_device here. It seems to me that
    most functions should just use the input device and device transfers will
    be mostly done by end users.
 
@@ -501,7 +497,7 @@ implementation detail by array consumers. In particular, any mutation behavior
 that affects more than one array object is considered an implementation detail
 that should not be relied on for portability.
 
-.. TODO: clean-up the following regarding broadcasting
+.. TODO (athan): clean-up the following regarding broadcasting
 
 All elementwise functions and operations that accept more than one array input
 apply broadcasting rules. The broadcasting rules match the commonly used
@@ -513,7 +509,7 @@ virtual repetition of the array along the broadcasted dimensions).
 Broadcasting rules should be applied independently of the input array data
 types or values.
 
-.. TODO: add broadcasting examples
+.. TODO (athan): add broadcasting examples; this may be obsolete given figure
 
 Interchange Protocol
 --------------------
@@ -577,6 +573,8 @@ it is not sufficient for the above requirements.
 Array Functions
 ---------------
 
+.. TODO (athan): compress content and provide high level overview
+
 Aside from dunder methods, the only methods/attributes defined on the array
 object are `x.to_device()`, `x.dtype`, `x.device`, `x.mT`, `x.ndim`,
 `x.shape`, `x.size`, and `x.T`. All other functions in the specification are
@@ -634,7 +632,7 @@ functions.
 Optional Extensions
 -------------------
 
-*TODO: consuming extensions. How to check whether present?*
+.. TODO (athan): consuming extensions. How to check whether present?
 
 In addition to the above required functions, there are two optional extension
 sub-namespaces. Array libraries may chose to implement or not implement these
@@ -702,7 +700,7 @@ and the `fft` extension. A v2023 version is in the works, although no
 significant changes are planned so far. In 2023, most of the work around the
 array API has focused on implementation and adoption.
 
-*TODO: add brief overviews regarding specification revisions and contents.*
+.. TODO (athan): add brief overviews regarding specification revisions and contents.
 
 Implementation Status
 =====================
@@ -860,7 +858,7 @@ Discussion
 
 *TODO: show examples for how to use the above dunder methods.*
 
-.. TODO: reframe discussion below as "We worked with the maintainers of sklearn to assess the real-world performance impact of specification adoption."
+.. TODO (athan): reframe discussion below as "We worked with the maintainers of sklearn to assess the real-world performance impact of specification adoption."
 
 As a motivating example, consider the `LinearDiscriminantAnalysis` class in
 scikit-learn. This is a classifier whose code is written in pure Python
@@ -1027,6 +1025,8 @@ toe computation to take place on. For example, a computation using
 
 Future Work
 ===========
+
+.. TODO (athan): rework based on open questions
 
 The focus of the consortium for 2023 is on implementation and adoption.
 
