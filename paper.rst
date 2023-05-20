@@ -49,7 +49,7 @@ Today, Python users have a wealth of choice for libraries and frameworks for
 numerical computing, data science, machine learning, and deep learning (TODO: citations). New
 frameworks pushing forward the state of the art in these fields appear every
 year. One unintended consequence of all this activity has been fragmentation in
-the fundamental building blocks—multidimensional arrays (TODO: van der walt citation) (also known as tensors)—that
+the fundamental building blocks--multidimensional arrays (TODO: van der walt citation) (also known as tensors)--that
 underpin the scientific Python ecosystem.
 
 This fragmentation comes with significant costs, from reinvention and re-implementation
@@ -196,7 +196,7 @@ and Fortran.
 
 **Minimal array object.** A standardized array object should have a minimal set
 of attributes necessary for inspection (e.g., shape, data type, size, etc.)
-and should have a minimal set of magic methods (a.k.a. "dunder" methods) to
+and should have a minimal set of magic methods (also known as "dunder" methods) to
 support operator overloading.
 
 **No dependencies.** The array API standard and its implementation should be
@@ -214,7 +214,7 @@ JAX (TODO: citation), and TensorFlow (TODO: citation)). For APIs and behavior
 which are not amenable, such as APIs returning arrays having data-dependent
 output shapes, the respective APIs and behavior should be specified as
 optional extensions. Moreover, copy-view mutation semantics (as, e.g.,
-supported by NumPy) should be considered an implementation detail and, thus,
+currently supported by NumPy) should be considered an implementation detail and, thus,
 not suitable for standardization.
 
 **Distributed support.** Standardized APIs and behavior should be amenable to
@@ -316,7 +316,7 @@ during design analysis. The sample of downstream libraries included the
 following libraries: SciPy, pandas, Matplotlib, Xarray, scikit-learn, and scikit-image,
 among others. Next, we instrumented downstream libraries in order to record
 Python array API calls (TODO: repo citation). After instrumentation, we
-collected traces while running downstream library test suites. We subsequently
+collected stack traces while running downstream library test suites. We subsequently
 transformed trace data into structured JSON for subsequent analysis. From
 the structured data, we generated empirical APIs based on provided arguments
 and associated data types, noting which downstream library called which
@@ -367,8 +367,12 @@ citations)
 Array API Standard
 ==================
 
-The array API standard is a specification for APIs and behaviors that any
-array API compliant library should follow. Core to the array standard is the
+The Python array API standard specifies standardized APIs and behaviors for
+array and tensor objects and operations.
+
+.. TODO: we should rework the following to be more high level. E.g., the standard is comprised of an array object, array-aware functions, an interchange protocol, and optional extensions. We don't need to say fft and linalg, as there may be more extensions in the future.
+
+Core to the array standard is the
 array object, which represents an n-dimensional collection of objects of a
 given data type. Arrays have a data type (dtype), shape, and device, and
 should support indexing and broadcasting semantics. Additionally, the standard
@@ -379,7 +383,7 @@ should be defined on the library namespace, including `linalg` and `fft`
 subnamespaces which are optional extensions.
 
 The standard only specifies a minimal set of functions and semantics that any
-compliant library should implement. Libraires are free to implement more than
+compliant library should implement. Libraries are free to implement more than
 what is specified, but use of this code will not be portable.
 
 Array Object
