@@ -367,6 +367,13 @@ citations)
 Array API Standard
 ==================
 
+.. figure:: assets/array_object.pdf
+   :align: center
+   :figclass: wt
+   :scale: 100%
+
+   TODO: write the figure caption
+
 The Python array API standard specifies standardized APIs and behaviors for
 array and tensor objects and operations.
 
@@ -385,13 +392,6 @@ subnamespaces which are optional extensions.
 The standard only specifies a minimal set of functions and semantics that any
 compliant library should implement. Libraries are free to implement more than
 what is specified, but use of this code will not be portable.
-
-.. figure:: assets/array_object.pdf
-   :align: center
-   :figclass: wt
-   :scale: 100%
-
-   TODO: write the figure caption
 
 Array Object
 ------------
