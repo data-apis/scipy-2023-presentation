@@ -398,6 +398,7 @@ data, notably 'data type', 'shape', and 'device'.
 .. figure:: assets/array_object.png
    :align: center
    :figclass: w
+   :scale: 100%
 
    TODO: write the figure caption
 
