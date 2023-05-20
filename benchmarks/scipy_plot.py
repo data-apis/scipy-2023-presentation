@@ -69,4 +69,4 @@ plt.legend(handles, labels, loc='upper left')
 
 # Save the figure
 plt.tight_layout()
-plt.savefig("scipy_timings.pdf")
+plt.savefig("../assets/scipy_timings.pdf")
