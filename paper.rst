@@ -1,9 +1,16 @@
 .. Make single backticks produce code
 .. default-role:: code
 
+:author: Data APIs Consortium
+:email:
+:institution: Data APIs Consortium
+:equal-contributor:
+
 :author: Aaron Meurer
 :email: asmeurer@quansight.com
 :institution: Quansight
+:equal-contributor:
+
 
 ===========================================================================================
 Python Array API Standard: Toward Array Interoperability in the Scientific Python Ecosystem
@@ -360,61 +367,128 @@ citations)
 Array API Standard
 ==================
 
-.. TODO: consider whether to include an introduction here.
+The array API standard is a specification for APIs and behaviors that any
+array API compliant library should follow. Core to the array standard is the
+array object, which represents an n-dimensional collection of objects of a
+given data type. Arrays have a data type (dtype), shape, and device, and
+should support indexing and broadcasting semantics. Additionally, the standard
+specifies an interchange protocol for transferring arrays across different
+libraries. Finally, the standard specifies around 50 methods on the array
+object, including dunder operator methods, and around 150 functions which
+should be defined on the library namespace, including `linalg` and `fft`
+subnamespaces which are optional extensions.
+
+The standard only specifies a minimal set of functions and semantics that any
+compliant library should implement. Libraires are free to implement more than
+what is specified, but use of this code will not be portable.
 
 Array Object
 ------------
 
 An array object is a data structure for efficiently storing and accessing
 multidimensional arrays (TODO: citation). Within the context of the array API
-standard, the data structure is opaque--libraries may or may not grant direct
-access to raw memory--and includes metadata for interpreting the underlying
+standard, the data structure is opaque—libraries may or may not grant direct
+access to raw memory—and includes metadata for interpreting the underlying
 data, notably 'data type', 'shape', and 'device'.
 
-An array data type describes how to interpret a single array element (e.g.,
-integer, real- or complex-valued floating-point, boolean, or other). A
-conforming array object has a single data type, where a data type is named
-object supporting equality comparison. For operations in which the data type of
-the resulting array object is a product of the operand data types, the resolved
-data type must follow type promotion semantics, which are independent of array
-shape or contained values, but restricted to data types of the same "kind"
-(e.g., integer versus floating-point). For example,
+An array has a data type (dtype), which describes how to interpret a single
+array element (e.g., integer, real- or complex-valued floating-point, boolean,
+or other). A conforming array object has a single dtype. The standard does not
+specify any behavior on actual dtype objects other than basic equality
+comparison.
+
+The standard also specifies basic type promotion semantics. Functions and
+operators that take multiple array inputs must promote the output to a common
+dtype, or fail if the dtype combination is not promotable. The standard only
+specifies promotion for dtypes of the same "kind" (e.g., integer or
+floating-point). Cross-kind promotion is left unspecified and is generally
+discouraged as it is bug prone and can lead to loss of precision. Type
+promotion should work independently of array shape or value. This makes code
+easier to reason about and also enables applications like JIT compilation
+which require the ability to reason about array code statically.
+
+For example, `float32` and `float64` promote together to `float64`:
 
 .. code:: python
 
-   >>> x1 = xp.ones((2,2), dtype=xp.float32)
-   >>> x2 = xp.ones(x1.shape, dtype=x1.dtype)
-   >>> y = x1 + x2
-   >>> y.dtype == xp.float32
-   True
+   >>> x1 = xp.ones((2, 2), dtype=xp.float32)
    >>> x2 = xp.ones(x1.shape, dtype=xp.float64)
    >>> y = x1 + x2
    >>> y.dtype == xp.float64
    True
-   >>> x1 = xp.ones((2,2), dtype=xp.int8)
-   >>> x2 = xp.ones(x1.shape, dtype=xp.uint8)
-   >>> y = x1 + x2
-   >>> y.dtype == xp.int16
-   True
 
 An array shape specifies the number of elements along each array axis (also
 referred to as "dimension"). The number of axes corresponds to the
-dimensionality (or "rank") of an array. For example, :math:`(10)` is a one-dimensional
-array (vector) containing 10 elements; :math:`(3,5)` is a two-dimensional array
-(matrix) whose inner dimension contains 5 elements and whose outer dimension
-contains 3 elements.
+dimensionality (or "rank") of an array. For example, a shape `(10,)` is a
+1-dimensional array containing 10 elements; a shape `(3, 5)` array is a
+2-dimensional array whose inner dimension contains 5 elements and whose outer
+dimension contains 3 elements. 0-dimensional arrays (i.e., arrays with shape
+`()` that consist of a single element) are fully supported. There is no
+dictinct notion of "array scalars" as in NumPy, as these are not implemented
+in other libraries.
 
 An array device specifies the location of array memory allocation and operation
 execution. A conforming array object is assigned to a single logical device,
 which is represented by an object supporting equality comparison.
 
-.. TODO: consider adding an example of device support, helping to motivate its use; e.g., copying a PyTorch array from CPU to GPU or vice versa
+The standard supports specifying what device an array should live on. This is
+implemented by explicit `device` keywords in creation functions, with the
+convention that execution takes place on the same device where all argument
+arrays are allocated. This method of specifying devices was chosen because it
+is the most granular, despite its potential verbosity. Other methods of
+specifying devices such as context managers are not included, but may be added
+in future versions of the standard.
 
-In order to interact with array objects, one uses "indexing" to access sub-
-arrays and individual elements, "operators" to perform logical and arithmetic
-operations (e.g., :math:`+`, :math:`-`, :math:`\times`, :math:`\div`, and
-:math:`@`), and array-aware functions (e.g., for linear algebra, statistical
-reductions, and element-wise computation of transcendental functions).
+The primary intended usage of device support in the specification is geared
+towards array consuming libraries. End users who create arrays from a specific
+array library may use that library's specific syntax for specifying the device
+relative to their specific hardware configuration. Consequently, the device
+syntax specified in the standard focuses primarily on getting the device of a
+given array (via a `.device` attribute) and transferring an array to the same
+device as another array (via a `.to_device()` method). The specifics of the
+actual device objects themselves are left unspecified. These specifics differ
+significantly between existing implementations, such as CuPy and PyTorch.
+
+The following example shows how a function in an array consuming library might
+use the array API to allocate a second array on the device as a given input
+array using the `device` keyword to a creation function (`linspace()`) and the
+`.device` attribute of the array object.
+
+.. code:: python
+
+   def some_function(x):
+       xp = array_namespace(x)
+
+       y = xp.linspace(0, 2*xp.pi, 100, device=x.device)
+       # Computations on x and y will happen on device
+       return xp.sin(y) * x
+
+.. TODO: not sure how we can incorporate to_device here. It seems to me that
+   most functions should just use the input device and device transfers will
+   be mostly done by end users.
+
+Arrays support indexing operations using the standard `x[idx]` Python getitem
+syntax. The indexing semantics defined are based on the common NumPy array
+indexing semantics, but restricted to a subset that is common across array
+libraries and does not impose difficulties for array libraries implemented on
+accelerators. Basic integer and slice indexing is defined as usual, except
+behavior on out-of-bounds indices is left unspecified. Multiaxis tuple indices
+are defined, but only specified when all axes are indexed (e.g., if `x` is
+2-dimensional, `x[0, :]` is defined but `x[0]` may not be supported). A `None`
+index may be used in a multiaxis index to insert size-1 dimensions
+(`xp.newaxis` is specified as a shorthand for `None`). Boolean array indexing
+(also sometimes called "masking") is specified, but only for instances where
+the boolean index has the same dimensionality as the indexed array. The result
+of a boolean array indexing is data-dependent, and thus graph-based libraries
+may choose to not implement this behavior. Integer array indexing is not
+specified, however a basic `take()` is specified and `put()` will be added in
+the 2023 version of the spec.
+
+Note that views are not required in the specification. Libraries may choose to
+implement indexed arrays as views, but this should be treated as an
+implementation detail by array consumers. In particular, any mutation behavior
+that affects more than one array object is considered an implementation detail
+that should not be relied on for portability.
 
 .. TODO: clean-up the following regarding broadcasting
 
@@ -429,10 +503,6 @@ Broadcasting rules should be applied independently of the input array data
 types or values.
 
 .. TODO: add broadcasting examples
-
-*TODO: introduce the array object. See NumPy paper (https://www.nature.com/articles/s41586-020-2649-2) and the section on NumPy arrays.*
-
-*TODO: consider including something akin to Fig 1 in NumPy paper. In that figure, may also want to include type promotion example/schematic as part of the figure.*
 
 Interchange Protocol
 --------------------
@@ -591,23 +661,24 @@ on any array library—testing against something like NumPy would be circular
 when it comes time to test NumPy itself. Instead, array-api-tests tests the
 behavior specified by the spec directly.
 
-When running the tests, the array library is specified using the
-`ARRAY_API_TESTS_MODULE` environment variable.
+This is done by making use of the hypothesis Python library (TODO: reference).
+Hypothesis is a property-based testing library, where tests are written as
+assertions on generic properties and inputs are generated automatically from
+strategies. This is a good fit for the array API because it allows writing
+tests in a way that more or less corresponds to a direct translation of the
+spec into code. The consortium team has upstreamed array API support to
+hypothesis in the form of the new `hypothesis.extra.array_api` submodule,
+which has strategies for generating arrays from any array API compliant
+library.
 
-This is done by making use of the hypothesis Python library. The consortium
-team has upstreamed array API support to hypothesis in the form of the new
-`hypothesis.extra.array_api` submodule, which supports generating arrays from
-any array API compliant library. The test suite uses these hypothesis
-strategies to generate inputs to tests, which then check the behaviors
-outlined by the spec automatically. Behavior that is not specified by the spec
-is not checked by the test suite, for example the exact numeric output of
-floating-point functions.
+Behavior that is not specified by the spec is not checked by the test
+suite—for example the exact numeric output of floating-point functions.
 
-The array-api-tests test suite is the first example known to these authors of
-a full featured Python test suite that runs against multiple different
+The `array-api-tests` test suite is the first example known to these authors
+of a full featured Python test suite that runs against multiple different
 libraries. It has already been invaluable in practice for implementing the
-minimal `numpy.array_api` implementation, the `array-api-compat` library,
-and for finding discrepancies from the spec in array libraries including NumPy,
+minimal `numpy.array_api` implementation, the `array-api-compat` library, and
+for finding discrepancies from the spec in array libraries including NumPy,
 CuPy, and PyTorch.
 
 Specification Status
