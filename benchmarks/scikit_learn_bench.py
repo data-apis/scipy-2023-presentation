@@ -10,7 +10,7 @@ import cupy as cp
 
 
 def allocate_array(namespace):
-    n_samples = 500_00
+    n_samples = 400_000
     n_features = 300
     X_np, y_np = make_classification(random_state=0,
                                      n_samples=n_samples,
@@ -20,8 +20,8 @@ def allocate_array(namespace):
     if namespace == 'numpy':
         X, y = X_np, y_np
     elif namespace == 'cupy':
-        X = cp.asarray(X_np)
-        y = cp.asarray(y_np)
+        X = cp.asarray(X_np, dtype=cp.float32)
+        y = cp.asarray(y_np, dtype=cp.float32)
     elif namespace == 'torch_cpu':
         X = torch.asarray(X_np)
         y = torch.asarray(y_np)
