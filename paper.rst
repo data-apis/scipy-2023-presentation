@@ -64,11 +64,13 @@ Introduction
 ============
 
 Today, Python users have a wealth of choice for libraries and frameworks for
-numerical computing, data science, machine learning, and deep learning (TODO: citations). New
-frameworks pushing forward the state of the art in these fields appear every
+numerical computing :cite:`Millman2011a, Harris2020a, Virtanen2020a, Okuta2017a, Rocklin2015a, Hoyer2017a, Abbasi2018a`,
+data science :cite:`Hunter2007a, Perez2011a, Seabold2010a, Kluyver2016a`,
+machine learning :cite:`Pedregosa2011a`, and deep learning :cite:`Chen2015a, Paszke2019a, Abadi2016a, Frostig2018a`.
+New frameworks pushing forward the state of the art in these fields appear every
 year. One unintended consequence of all this activity has been fragmentation in
-the fundamental building blocks—multidimensional arrays (TODO: van der walt citation) (also known as tensors)—that
-underpin the scientific Python ecosystem.
+the fundamental building blocks—multidimensional arrays :cite:`Vanderwalt2011a`
+(also known as tensors)—that underpin the scientific Python ecosystem.
 
 This fragmentation comes with significant costs, from reinvention and re-implementation
 of arrays and associated application programming interfaces (APIs) to siloed
