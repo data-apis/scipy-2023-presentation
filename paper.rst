@@ -448,13 +448,10 @@ For example, `float32` and `float64` promote together to `float64`:
 
 An array shape specifies the number of elements along each array axis (also
 referred to as "dimension"). The number of axes corresponds to the
-dimensionality (or "rank") of an array. For example, a shape `(10,)` is a
-1-dimensional array containing 10 elements; a shape `(3, 5)` array is a
-2-dimensional array whose inner dimension contains 5 elements and whose outer
-dimension contains 3 elements. 0-dimensional arrays (i.e., arrays with shape
-`()` that consist of a single element) are fully supported. There is no
-distinct notion of "array scalars" as in NumPy, as these are not implemented
-in other libraries.
+dimensionality (or "rank") of an array. For example, the shape `(10,)` corresponds to a
+one-dimensional array containing 10 elements. The shape `(3, 5)` corresponds to a
+two-dimensional array whose inner dimension contains five elements and whose outer
+dimension contains three elements. The shape `()` corresponds to a zero-dimensional array containing a single element.
 
 An array device specifies the location of array memory allocation and operation
 execution. A conforming array object is assigned to a single logical device,
