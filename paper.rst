@@ -225,8 +225,8 @@ and field-programmable gate arrays (FPGAs).
 
 **JIT compiler support.** Standardized APIs and behavior should be amenable to
 just-in-time (JIT) and ahead-of-time (AOT) compilation and graph-based
-optimization (e.g., PyTorch (TODO: citation), JAX (TODO: citation), and
-TensorFlow (TODO: citation)). For APIs and behavior which are not amenable,
+optimization (e.g., PyTorch :cite:`Paszke2019a`, JAX :cite:`Bradbury2018a`, and
+TensorFlow :cite:`Abadi2016a`). For APIs and behavior which are not amenable,
 such as APIs returning arrays having data-dependent output shapes, the
 respective APIs and behavior should be specified as optional extensions.
 Moreover, copy-view mutation semantics (as, e.g., currently supported by NumPy)
@@ -234,7 +234,7 @@ should be considered an implementation detail and, thus, not suitable for
 standardization.
 
 **Distributed support.** Standardized APIs and behavior should be amenable to
-implementation in array libraries supporting distributed computing (e.g., Dask (TODO: citation)).
+implementation in array libraries supporting distributed computing (e.g., Dask :cite:`Rocklin2015a`).
 
 **Consistency.** Except in scenarios involving backward compatibility concerns,
 naming conventions and design patterns should be consistent across
@@ -247,7 +247,7 @@ usage is portable across specification-conforming array libraries.
 
 **Deference.** Where possible, the array API standard should defer to existing,
 widely-used standards. For example, the accuracy and precision of numerical
-functions should not be specified beyond the guidance included in IEEE 754 (TODO: citation).
+functions should not be specified beyond the guidance included in IEEE 754 :cite:`IEEE754`.
 
 **Universality.** Standardized APIs and behavior should reflect common usage
 among a wide range of existing array libraries. Accordingly, with rare
