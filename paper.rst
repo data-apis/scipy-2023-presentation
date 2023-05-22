@@ -22,6 +22,11 @@
 
 :author: Andreas Müller
 :email: amueller@microsoft.com
+:institution: Microsoft
+
+:author: Tyler Reddy
+:email: treddy@lanl.gov
+:institution: LANL
 
 :author: Consortium for Python Data API Standards
 :email:
