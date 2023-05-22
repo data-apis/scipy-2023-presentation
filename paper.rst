@@ -63,7 +63,7 @@ Introduction
 ============
 
 Today, Python users have a wealth of choice for libraries and frameworks for
-numerical computing :cite:`Millman2011a`:cite:`Harris2020a`:cite:`Virtanen2020a`:cite:`Okuta2017a`:cite:`Rocklin2015a`:cite:`Hoyer2017a`:cite:`Abbasi2018a`,
+numerical computing :cite:`Millman2011a`:cite:`Harris2020a`:cite:`Virtanen2020a`:cite:`Okuta2017a`:cite:`Rocklin2015a`:cite:`Vanderwalt2014a`:cite:`Hoyer2017a`:cite:`Abbasi2018a`,
 data science :cite:`Hunter2007a`:cite:`Perez2011a`:cite:`Seabold2010a`:cite:`Kluyver2016a`,
 machine learning :cite:`Pedregosa2011a`, and deep learning :cite:`Chen2015a`:cite:`Paszke2019a`:cite:`Abadi2016a`:cite:`Frostig2018a`.
 New frameworks pushing forward the state of the art in these fields appear every
@@ -126,7 +126,7 @@ effort was largely successful and resolved the fragmentation at the time, and,
 for roughly a decade, NumPy was the only widely used array library. Building on
 NumPy, pandas was subsequently introduced in 2008 in order to address the need
 for a high performance, flexible tool for performing quantitative analysis on
-labeled tabular data :cite:`McKinnery2011a`.
+labeled tabular data :cite:`McKinney2011a`.
 
 Over the past 10 years, the rise of deep learning and the emergence of new
 hardware has led to a proliferation of new libraries and a corresponding
@@ -320,7 +320,7 @@ To assist in determining standardization prioritization, we leveraged usage
 data (discussed below) to confirm API need and to inform naming conventions,
 supported data types, and optional arguments. We have summarized findings and
 published tooling (TODO: repo citation) for additional analysis and exploration,
-including Jupyter (TODO: citation) notebooks, as public artifacts available on GitHub.
+including Jupyter notebooks :cite:`Kluyver2016a`, as public artifacts available on GitHub.
 
 Usage
 -----
