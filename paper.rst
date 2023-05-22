@@ -320,7 +320,8 @@ To assist in determining standardization prioritization, we leveraged usage
 data (discussed below) to confirm API need and to inform naming conventions,
 supported data types, and optional arguments. We have summarized findings and
 published tooling (TODO: repo citation) for additional analysis and exploration,
-including Jupyter notebooks :cite:`Kluyver2016a`, as public artifacts available on GitHub.
+including Jupyter notebooks :cite:`Kluyver2016a`, as public artifacts available
+on GitHub.
 
 Usage
 -----
@@ -372,8 +373,8 @@ downstream library when running downstream library test suites.
 
 As a final step, we ranked each API in the common API subset obtained during
 design analysis according to relative usage using the Dowdall positional voting
-system (TODO: citation) (a variant of the Borda count (TODO: citation) which
-favors candidate APIs having high relative usage). From the rankings, we
+system :cite:`Fraenkel2014a` (a variant of the Borda count :cite:`Emerson2013a`
+which favors candidate APIs having high relative usage). From the rankings, we
 assigned standardization priorities, with higher ranking APIs taking precedence
 over lower ranking APIs, and extended the analysis to aggregated API categories
 (e.g., array creation, manipulation, statistics, etc.). All source code, usage
@@ -415,7 +416,7 @@ Array Object
 ------------
 
 An array object is a data structure for efficiently storing and accessing
-multidimensional arrays (TODO: citation). Within the context of the array API
+multidimensional arrays :cite:`Vanderwalt2011a`. Within the context of the array API
 standard, the data structure is opaque—libraries may or may not grant direct
 access to raw memory—and includes metadata for interpreting the underlying
 data, notably 'data type', 'shape', and 'device'.
