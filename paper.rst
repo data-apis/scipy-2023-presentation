@@ -20,6 +20,9 @@
 :email: shoyer@google.com
 :institution: Google
 
+:author: Andreas Müller
+:email: amueller@microsoft.com
+
 :author: Consortium for Python Data API Standards
 :email:
 :institution: Consortium for Python Data API Standards
