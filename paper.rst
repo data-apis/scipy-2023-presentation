@@ -329,17 +329,19 @@ To understand usage patterns of array libraries within the SPE, we first
 identified a representative sample of commonly used Python libraries
 ("downstream libraries") which consume the sample of array libraries identified
 during design analysis. The sample of downstream libraries included the
-following libraries: SciPy, pandas, Matplotlib, Xarray, scikit-learn, and scikit-image,
-among others. Next, we instrumented downstream libraries in order to record
-Python array API calls (TODO: repo citation). After instrumentation, we
-collected stack traces while running downstream library test suites. We subsequently
-transformed trace data into structured JSON for subsequent analysis. From
-the structured data, we generated empirical APIs based on provided arguments
-and associated data types, noting which downstream library called which
-empirical API and at what frequency. We then derived a single inferred API
-which unifies the individual empirical API calling semantics. We organized the
-API results in human-readable form as type definition files and compared the
-inferred API to the publicly documented APIs obtained during design analysis.
+following libraries: SciPy :cite:`Virtanen2020a`, pandas :cite:`McKinney2011a`,
+Matplotlib :cite:`Hunter2007a`, Xarray :cite:`Hoyer2017a`, scikit-learn :cite:`Pedregosa2011a`,
+and scikit-image :cite:`Vanderwalt2014a`, among others. Next, we instrumented
+downstream libraries in order to record Python array API calls (TODO: repo citation).
+After instrumentation, we collected stack traces while running downstream
+library test suites. We subsequently transformed trace data into structured
+JSON for subsequent analysis. From the structured data, we generated empirical
+APIs based on provided arguments and associated data types, noting which
+downstream library called which empirical API and at what frequency. We then
+derived a single inferred API which unifies the individual empirical API
+calling semantics. We organized the API results in human-readable form as type
+definition files and compared the inferred API to the publicly documented APIs
+obtained during design analysis.
 
 The following is an example inferred API for `numpy.arange`, with the docstring
 indicating the number of lines of code which invoked the function for each
