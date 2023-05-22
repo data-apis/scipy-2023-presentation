@@ -202,7 +202,7 @@ process, we further established the following design principles:
 
 **Pure functions.** Functional API design is the dominant pattern among array
 libraries, both in Python and in other frequently used programming languages
-supporting array computation (e.g., MATLAB (TODO: citation) and Julia (TODO: citation)).
+supporting array computation (e.g., MATLAB :cite:`Moler2020a` and Julia :cite:`Bezanson2017a`).
 While method chaining and the fluent interface design pattern are relatively
 common, especially among array libraries supporting lazy evaluation and
 operator fusion, functional APIs are generally preferred, mirroring design
