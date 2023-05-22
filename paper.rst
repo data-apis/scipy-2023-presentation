@@ -111,22 +111,22 @@ History
 While the Python programming language was not designed for numerical computing,
 the language gained initial popularity in the scientific and engineering
 community soon after its release. The first array computing library for
-numerical and scientific computing in Python was Numeric, developed in the mid-1990s (TODO: citation).
+numerical and scientific computing in Python was Numeric, developed in the mid-1990s :cite:`Dubois1996a`:cite:`Harris2020a`.
 To better accommodate this library and its use cases, Python’s syntax was
-extended to include indexing syntax (TODO: PEP citation).
+extended to include indexing syntax :cite:`Hugunin1995a`.
 
 In the early 2000s, a similar library, Numarray, introduced a more flexible
-data structure (TODO: citation). Numarray had faster operations for large
+data structure :cite:`Greenfield2003a`. Numarray had faster operations for large
 arrays. However, the library was slower for small arrays. Subsequently, both
 Numeric and Numarray coexisted to satisfy different use cases.
 
 In early 2005, NumPy was written to unify Numeric and Numarray as a single
-array package by porting Numarray’s features to Numeric (TODO: citation). This
+array package by porting Numarray’s features to Numeric :cite:`Harris2020a`. This
 effort was largely successful and resolved the fragmentation at the time, and,
 for roughly a decade, NumPy was the only widely used array library. Building on
 NumPy, pandas was subsequently introduced in 2008 in order to address the need
 for a high performance, flexible tool for performing quantitative analysis on
-labeled tabular data (TODO: citation).
+labeled tabular data :cite:`McKinnery2011a`.
 
 Over the past 10 years, the rise of deep learning and the emergence of new
 hardware has led to a proliferation of new libraries and a corresponding
@@ -1080,8 +1080,3 @@ Conclusion
 ==========
 
 *TODO*
-
-Bibliography
-============
-
-*TODO: Add references*
