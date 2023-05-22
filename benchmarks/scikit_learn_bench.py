@@ -41,6 +41,10 @@ def main():
     # fit
     start = time.perf_counter()
     fitted = lda_np.fit(X, y)
+    if namespace == 'torch_gpu':
+        torch.cuda.synchronize(device="cuda")
+    elif namespace == 'cupy':
+        cp.cuda.stream.get_current_stream().synchronize()
     end = time.perf_counter()
     elapsed_time_sec = end - start
     print(elapsed_time_sec, namespace, 'fit', sep=',')
@@ -48,6 +52,10 @@ def main():
     # predict
     start = time.perf_counter()
     fitted.predict(X)
+    if namespace == 'torch_gpu':
+        torch.cuda.synchronize(device="cuda")
+    elif namespace == 'cupy':
+        cp.cuda.stream.get_current_stream().synchronize()
     end = time.perf_counter()
     elapsed_time_sec = end - start
     print(elapsed_time_sec, namespace, 'predict', sep=',')
