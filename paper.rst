@@ -28,7 +28,6 @@
 
 .. Note: treat the Consortium as being equivalent to a PI (i.e., list it last without explicit equal contribution)
 
-
 ===========================================================================================
 Python Array API Standard: Toward Array Interoperability in the Scientific Python Ecosystem
 ===========================================================================================
@@ -66,7 +65,7 @@ Introduction
 Today, Python users have a wealth of choice for libraries and frameworks for
 numerical computing :cite:`Millman2011a, Harris2020a, Virtanen2020a, Okuta2017a, Rocklin2015a, Hoyer2017a, Abbasi2018a`,
 data science :cite:`Hunter2007a, Perez2011a, Seabold2010a, Kluyver2016a`,
-machine learning :cite:`Pedregosa2011a`, and deep learning :cite:`Chen2015a, Paszke2019a, Abadi2016a, Frostig2018a`.
+machine learning :cite:`Pedregosa2011a`, and deep learning :cite:`Chen2015a, Paszke2019a, Abadi2016a` :cite:`Frostig2018a`.
 New frameworks pushing forward the state of the art in these fields appear every
 year. One unintended consequence of all this activity has been fragmentation in
 the fundamental building blocks—multidimensional arrays :cite:`Vanderwalt2011a`
