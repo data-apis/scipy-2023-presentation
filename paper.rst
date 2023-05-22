@@ -20,6 +20,11 @@
 :email: shoyer@google.com
 :institution: Google
 
+:author: Yao-Lung L. Fang
+:email: leof@nvidia.com
+:institution: NVIDIA Corporation
+:equal-contributor:
+
 :author: Consortium for Python Data API Standards
 :email:
 :institution: Consortium for Python Data API Standards
