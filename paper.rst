@@ -690,7 +690,7 @@ on any array library—testing against something like NumPy would be circular
 when it comes time to test NumPy itself. Instead, array-api-tests tests the
 behavior specified by the spec directly.
 
-This is done by making use of the hypothesis Python library (TODO: reference).
+This is done by making use of the hypothesis Python library :cite:`MacIver2019a`.
 Hypothesis is a property-based testing library, where tests are written as
 assertions on generic properties and inputs are generated automatically from
 strategies. This is a good fit for the array API because it allows writing
