@@ -20,6 +20,10 @@
 :email: shoyer@google.com
 :institution: Google
 
+:author: Tyler Reddy
+:email: treddy@lanl.gov
+:institution: LANL
+
 :author: Consortium for Python Data API Standards
 :email:
 :institution: Consortium for Python Data API Standards
