@@ -20,6 +20,10 @@
 :email: shoyer@google.com
 :institution: Google
 
+:author: Andreas Müller
+:email: amueller@microsoft.com
+:institution: Microsoft
+
 :author: Tyler Reddy
 :email: treddy@lanl.gov
 :institution: LANL
@@ -430,15 +434,14 @@ or other). A conforming array object has a single dtype. The standard does not
 specify any behavior on actual dtype objects other than basic equality
 comparison.
 
-The standard also specifies basic type promotion semantics. Functions and
-operators that take multiple array inputs must promote the output to a common
+The standard also specifies basic type promotion semantics. Most functions and
+operators that take multiple array inputs promote the output to a common
 dtype, or fail if the dtype combination is not promotable. The standard only
 specifies promotion for dtypes of the same "kind" (e.g., integer or
-floating-point). Cross-kind promotion is left unspecified and is generally
-discouraged as it is bug prone and can lead to loss of precision. Type
-promotion should work independently of array shape or value. This makes code
-easier to reason about and also enables applications like JIT compilation
-which require the ability to reason about array code statically.
+floating-point). Type promotion should work independently of array shape or
+value. This makes code easier to reason about and also enables applications
+like JIT compilation which require the ability to reason about array code
+statically.
 
 For example, `float32` and `float64` promote together to `float64`:
 
