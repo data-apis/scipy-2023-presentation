@@ -319,7 +319,7 @@ arithmetic mean:
 To assist in determining standardization prioritization, we leveraged usage
 data (discussed below) to confirm API need and to inform naming conventions,
 supported data types, and optional arguments. We have summarized findings and
-published tooling (TODO: repo citation) for additional analysis and exploration,
+published tooling :cite:`Consortium2022c` for additional analysis and exploration,
 including Jupyter notebooks :cite:`Kluyver2016a`, as public artifacts available
 on GitHub.
 
@@ -331,9 +331,9 @@ identified a representative sample of commonly used Python libraries
 ("downstream libraries") which consume the sample of array libraries identified
 during design analysis. The sample of downstream libraries included the
 following libraries: SciPy :cite:`Virtanen2020a`, pandas :cite:`McKinney2011a`,
-Matplotlib :cite:`Hunter2007a`, Xarray :cite:`Hoyer2017a`, scikit-learn :cite:`Pedregosa2011a`,
+Matplotlib :cite:`Hunter2007a`, xarray :cite:`Hoyer2017a`, scikit-learn :cite:`Pedregosa2011a`,
 and scikit-image :cite:`Vanderwalt2014a`, among others. Next, we instrumented
-downstream libraries in order to record Python array API calls (TODO: repo citation).
+downstream libraries in order to record Python array API calls :cite:`Consortium2020a`.
 After instrumentation, we collected stack traces while running downstream
 library test suites. We subsequently transformed trace data into structured
 JSON for subsequent analysis. From the structured data, we generated empirical
@@ -378,8 +378,7 @@ which favors candidate APIs having high relative usage). From the rankings, we
 assigned standardization priorities, with higher ranking APIs taking precedence
 over lower ranking APIs, and extended the analysis to aggregated API categories
 (e.g., array creation, manipulation, statistics, etc.). All source code, usage
-data, and analysis are available as public artifacts on GitHub. (TODO: repo
-citations)
+data, and analysis are available as public artifacts on GitHub :cite:`Consortium2020a`:cite:`Consortium2022c`.
 
 .. TODO (athan): consider a figure showing the top 10 common API ranks (see Jupyter notebook for array API comparison).
 
