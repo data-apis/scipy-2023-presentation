@@ -988,7 +988,7 @@ which parts of the code used NumPy functionality that is not part of the
 standard.
 
 The resulting code can now be run against any array API conforming library.
-`Figure 1`_ shows the resulting speedups from running
+`Figure 2`_ shows the resulting speedups from running
 `LinearDiscriminantAnalysis` against NumPy, Torch CPU and GPU (Cuda), and
 CuPy. Torch CPU gives a 5x speedup over NumPy for fitting, and Torch GPU gives
 a 72x and 37x speedup for fit and predict, respectively. CuPy gives 10x and
@@ -1006,23 +1006,19 @@ can be used, but it is slower, so it is used only as a fallback for libraries
 outside of NumPy, PyTorch, and CuPy.
 
 .. Automatic figure references won't work because they require Sphinx.
-.. _Figure 1:
-.. figure:: assets/scikit_learn_timings.pdf
-
-   Average timings for scikit-learn's `LinearDiscriminantAnalysis` fit and
-   predict on a random classification with 500,000 samples and 300 features on
-   NumPy, Torch CPU, Torch GPU, and CuPy backends. Benchmarks were run on a
-   Nvidia GTX 3090 and an AMD 5950x.
-
-
-.. Automatic figure references won't work because they require Sphinx.
 .. _Figure 2:
-.. figure:: assets/scipy_timings.pdf
+.. figure:: assets/timings.pdf
+   :align: center
+   :figclass: wt
+   :scale: 46%
 
-   Average timings for `scipy.signal.welch()` on 90,000,000 data points,
-   comparing a strictly portable implementation and an implementation with
-   library-specific performance optimizations. Benchmarks were run on a Nvidia
-   GTX 1080Ti and an Intel i9-7900X.
+   Average timings for scikit-learn's `LinearDiscriminantAnalysis` `fit` and
+   `predict` on a random classification with 400,000 samples and 300 features,
+   and `scipy.signal.welch()` on 50,000,000 data points. Times compare the
+   averages from NumPy to Torch CPU, Torch GPU, and CuPy backends. The SciPy
+   timings additionally compare a strictly portable implementation and an
+   implementation with library-specific performance optimizations. Benchmarks
+   were run on an Intel i9-9900K and Nvidia RTX 2080.
 
 From an end user point of view, making use of the array API support in these
 libraries is trivial: they simply pass in arrays from whichever array API
