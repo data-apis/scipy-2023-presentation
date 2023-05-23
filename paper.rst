@@ -505,7 +505,6 @@ not generally portable, as the result of a mask operation is data-dependent
 and, thus, difficult for array libraries relying on static analysis for graph-
 based optimization.
 
-
 Array Interaction
 -----------------
 
