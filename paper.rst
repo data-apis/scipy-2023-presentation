@@ -1007,13 +1007,10 @@ which parts of the code used NumPy functionality that is not part of the
 standard.
 
 The resulting code can now be run against any array API conforming library.
-`Figure 2`_ shows the resulting speedups from running
-`LinearDiscriminantAnalysis` against NumPy, Torch CPU and GPU (Cuda), and
-CuPy. Torch CPU gives a 5x speedup over NumPy for fitting, and Torch GPU gives
-a 72x and 37x speedup for fit and predict, respectively. CuPy gives 10x and
-17x respective speedups over NumPy. `Figure 2`_ shows the speedups from
-running `scipy.signal.welch()` on the same (n.b. the scikit-learn and SciPy
-benchmarks were run on different sets of hardware).
+`Figure 2`_ shows the resulting speedups vs. NumPy for
+`LinearDiscriminantAnalysis` and `scipy.signal.welch()` on Torch CPU, Torch
+GPU (CUDA), and CuPy backends. GPU backends give a significant speedup, but
+even Torch CPU can have up to 2x speedup over NumPy.
 
 `Figure 2`_ additionally highlights an additional type of change, namely
 making use of library specific performance optimizations. The `welch()`
@@ -1022,7 +1019,11 @@ have not been standardized in the array API since they are not available in
 some libraries (e.g., JAX). NumPy, CuPy, and Torch allow setting strides, but
 they do not use a uniform API to do so. An array API compatible implementation
 can be used, but it is slower, so it is used only as a fallback for libraries
-outside of NumPy, PyTorch, and CuPy.
+outside of NumPy, PyTorch, and CuPy. Indeed, it is significantly slower than
+than even plain NumPy, with PyTorch CUDA taking 200 seconds to compute the
+result that takes 7 seconds with NumPy. The optimized implementation that uses
+stride tricks has more expected performance characteristics, with PyTorch CUDA
+and CuPy giving a near 40x speedup over NumPy.
 
 .. Automatic figure references won't work because they require Sphinx.
 .. _Figure 2:
