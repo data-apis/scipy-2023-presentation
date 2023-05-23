@@ -493,17 +493,17 @@ device APIs to ensure execution occurs on a specific device.
 ..        # Perform computation
 ..        return xp.sin(y) * x
 
-In order to interact with array objects, one uses "indexing" to access sub-
-arrays and individual elements, "operators" to perform logical and arithmetic
-operations (e.g., :math:`+`, :math:`-`, :math:`\times`, :math:`\div`, and
-:math:`@`), and array-aware functions (e.g., for linear algebra, statistical
-reductions, and element-wise computation of transcendental functions). Array
-indexing semantics extend built-in Python sequence `__getitem__()` indexing
-semantics to support element access across multiple dimensions (Fig. 1b).
-Indexing an array using a boolean array (also known as "masking") is an optional
-standardized extension; however, masking is not generally portable, as the
-result of a mask operation is data-dependent and, thus, difficult for array
-libraries relying on static analysis for graph-based optimization.
+To interact with array objects, one uses "indexing" to access sub-arrays and
+individual elements, "operators" to perform logical and arithmetic operations
+(e.g., :math:`+`, :math:`-`, :math:`\times`, :math:`\div`, and :math:`@`, and
+array-aware functions (e.g., for linear algebra, statistical reductions, and
+element-wise computation). Array indexing semantics extend built-in Python
+sequence `__getitem__()` indexing semantics to support element access across
+multiple dimensions (Fig. 1b). Indexing an array using a boolean array (also
+known as "masking") is an optional standardized extension; however, masking is
+not generally portable, as the result of a mask operation is data-dependent
+and, thus, difficult for array libraries relying on static analysis for graph-
+based optimization.
 
 
 Array Interaction
