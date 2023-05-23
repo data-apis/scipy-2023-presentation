@@ -415,23 +415,7 @@ Array API Standard
    The array data structure and fundamental concepts. **a)** An array data structure and its associated metadata fields. **b)** Indexing an array. Indexing operations may access individual elements or sub-arrays. Applying a boolean mask is an optional indexing extension and may not be supported by all conforming libraries. **c)** Vectorization obviates the need for explicit looping in user code by applying operations to multiple array elements. **d)** Broadcasting enables efficient computation by implicitly expanding the dimensions of array operands to equal sizes. **e)** Reduction operations act along one or more axes. In the example, summation along a single axis produces a vector, while summation along two axes produces a zero-dimensional array containing the sum of all array elements.
 
 The Python array API standard specifies standardized APIs and behaviors for
-array and tensor objects and operations.
-
-.. TODO (athan): we should rework the following to be more high level. E.g., the standard is comprised of an array object, array-aware functions, an interchange protocol, and optional extensions. We don't need to say fft and linalg, as there may be more extensions in the future.
-
-Core to the array standard is the
-array object, which represents an n-dimensional collection of objects of a
-given data type. Arrays have a data type (dtype), shape, and device, and
-should support indexing and broadcasting semantics. Additionally, the standard
-specifies an interchange protocol for transferring arrays across different
-libraries. Finally, the standard specifies around 50 methods on the array
-object, including dunder operator methods, and around 150 functions which
-should be defined on the library namespace, including `linalg` and `fft`
-subnamespaces which are optional extensions.
-
-The standard only specifies a minimal set of functions and semantics that any
-compliant library should implement. Libraries are free to implement more than
-what is specified, but use of this code will not be portable.
+array and tensor objects and operations. The scope of the standard includes defining, but is not limited to, the following: 1) a minimal array object; 2) semantics governing array interaction, including type promotion and broadcasting; 3) an interchange protocol for converting between array objects originating from different libraries; 4) a set of required array-aware functions; and 5) optional extensions for specialized APIs and array behavior. We discuss each of these standardization areas in turn.
 
 Array Object
 ------------
