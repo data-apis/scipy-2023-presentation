@@ -29,6 +29,10 @@
 :email: amueller@microsoft.com
 :institution: Microsoft
 
+:author: Stephannie Jiménez Gacha
+:email: sgacha@quansight.com
+:institution: Quansight
+
 :author: Tyler Reddy
 :email: treddy@lanl.gov
 :institution: LANL
