@@ -245,7 +245,7 @@ implement for both central processing units (CPUs) and hardware-accelerated
 devices, such as graphics processing units (GPUs), tensor processing units (TPUs),
 and field-programmable gate arrays (FPGAs).
 
-**JIT compiler support.** Standardized APIs and behavior should be amenable to
+**Compiler support.** Standardized APIs and behavior should be amenable to
 just-in-time (JIT) and ahead-of-time (AOT) compilation and graph-based
 optimization (e.g., PyTorch :cite:`Paszke2019a`, JAX :cite:`Bradbury2018a`, and
 TensorFlow :cite:`Abadi2016a`). For APIs and behavior which are not amenable,
