@@ -889,6 +889,21 @@ already. Support in these libraries is being discussed.
 Discussion
 ==========
 
+.. Automatic figure references won't work because they require Sphinx.
+.. _Figure 2:
+.. figure:: assets/timings.pdf
+   :align: center
+   :figclass: wt
+   :scale: 46%
+
+   Average timings for scikit-learn's `LinearDiscriminantAnalysis` `fit` and
+   `predict` on a random classification with 400,000 samples and 300 features,
+   and `scipy.signal.welch()` on 50,000,000 data points. Times compare the
+   averages from NumPy to Torch CPU, Torch GPU, and CuPy backends. The SciPy
+   timings additionally compare a strictly portable implementation and an
+   implementation with library-specific performance optimizations. Benchmarks
+   were run on an Intel i9-9900K and NVIDIA RTX 2080.
+
 *TODO (athan): discuss implementation implications for array-consuming libraries; namely, dunder array_namespace and dunder dlpack methods.*
 
 - `x.__array_namespace__()` returns the corresponding array API compliant
@@ -1024,21 +1039,6 @@ than even plain NumPy, with PyTorch CUDA taking 200 seconds to compute the
 result that takes 7 seconds with NumPy. The optimized implementation that uses
 stride tricks has more expected performance characteristics, with PyTorch CUDA
 and CuPy giving a near 40x speedup over NumPy.
-
-.. Automatic figure references won't work because they require Sphinx.
-.. _Figure 2:
-.. figure:: assets/timings.pdf
-   :align: center
-   :figclass: wt
-   :scale: 46%
-
-   Average timings for scikit-learn's `LinearDiscriminantAnalysis` `fit` and
-   `predict` on a random classification with 400,000 samples and 300 features,
-   and `scipy.signal.welch()` on 50,000,000 data points. Times compare the
-   averages from NumPy to Torch CPU, Torch GPU, and CuPy backends. The SciPy
-   timings additionally compare a strictly portable implementation and an
-   implementation with library-specific performance optimizations. Benchmarks
-   were run on an Intel i9-9900K and Nvidia RTX 2080.
 
 From an end user point of view, making use of the array API support in these
 libraries is trivial: they simply pass in arrays from whichever array API
