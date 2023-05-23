@@ -90,7 +90,7 @@ ax3.set_title("SciPy welch()")
 # Add a legend
 handles = [plt.Rectangle((0, 0), 1, 1, facecolor='gray'),
            plt.Rectangle((0, 0), 1, 1, facecolor='gray', hatch='//')]
-labels = ['Strict API', 'Optimized API']
+labels = ['Optimized API', 'Strict API']
 plt.legend(handles, labels, loc='upper left')
 
 plt.tight_layout()
