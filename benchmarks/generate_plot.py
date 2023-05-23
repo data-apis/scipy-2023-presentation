@@ -12,6 +12,11 @@ repl = {
 }
 scikit_learn_results["Backend"] = scikit_learn_results["Backend"].replace(repl)
 
+means = scikit_learn_results.groupby(["Backend", "Method"]).mean()
+# Normalize by the mean for Backend == NumPy
+scikit_learn_results["Speedup vs. NumPy"] = scikit_learn_results.apply(lambda row: means.loc[("NumPy", row["Method"]), "Duration"]/row["Duration"], axis=1)
+scikit_learn_results = scikit_learn_results[scikit_learn_results["Backend"] != "NumPy"]
+
 # # Omit first (warmup) timing for each method
 # for backend in scikit_learn_results["Backend"].unique():
 #     for method in scikit_learn_results["Method"].unique():
@@ -21,12 +26,16 @@ sns.set_theme(context="paper", font_scale=1.4)
 # Keep the y-axis log ticks
 sns.set(rc={"ytick.left": True})
 
-fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(12, 4), constrained_layout=True)
+fig, (ax1, ax2, ax3, ax4) = plt.subplots(1, 4, figsize=(16, 5), constrained_layout=True)
 
-sns.barplot(y="Duration", x="Backend", data=scikit_learn_results[scikit_learn_results["Method"] == "fit"], ax=ax1, log=True)
+sns.barplot(y="Speedup vs. NumPy", x="Backend",
+            data=scikit_learn_results[scikit_learn_results["Method"] ==
+                                      "fit"], ax=ax1, ci=None)
 ax1.set_title("scikit-learn LinearDiscriminantAnalysis.fit()")
 
-sns.barplot(y="Duration", x="Backend", data=scikit_learn_results[scikit_learn_results["Method"] == "predict"], ax=ax2, log=True)
+sns.barplot(y="Speedup vs. NumPy", x="Backend",
+            data=scikit_learn_results[scikit_learn_results["Method"] ==
+                                      "predict"], ax=ax2, ci=None)
 ax2.set_title("scikit-learn LinearDiscriminantAnalysis.predict()")
 
 for ax in ax1, ax2:
@@ -34,18 +43,8 @@ for ax in ax1, ax2:
     ax.set_ylabel("")
     ax.set_xticklabels([label.get_text().replace(' ', '\n') for label in ax.get_xticklabels()])
 
-ax1.set_yticks([0.1, 1, 10])
-ax1.get_yaxis().set_major_formatter(plt.ScalarFormatter())
-ax2.set_yticks([0.01, 0.1])
-ax2.get_yaxis().set_major_formatter(plt.ScalarFormatter())
-
-# Add X-axis label to the whole plot
-fig.supxlabel("Backend")
-fig.supylabel("Duration (sec)")
-
 fig.suptitle("scikit-learn and SciPy performance with array API backends")
 
-means = scikit_learn_results.groupby(["Backend", "Method"]).mean()
 print("scikit-learn mean durations:")
 print(means)
 print()
@@ -54,44 +53,26 @@ print(means.loc["NumPy"] / means)
 
 scipy_results = pd.read_csv("scipy_timings.csv")
 scipy_results["Backend"] = scipy_results["Backend"].replace(repl)
+means = scipy_results.groupby(["Backend", "Strict"]).mean()
+scipy_results["Speedup vs. NumPy"] = scipy_results.apply(lambda row: means.loc[("NumPy", row["Strict"]), "Duration"]/row["Duration"], axis=1)
+scipy_results = scipy_results[scipy_results["Backend"] != "NumPy"]
 
-# Plot the bars, with hatching for strict APIs
-sns.barplot(data=scipy_results, x="Backend", hue="Strict", y="Duration",
-                 log=True, ax=ax3)
-
-
-# Set colors based on the library and add hatches for Optimized API (note these
-# colors match the colors used in the scikit-learn plot)
-default_colors = sns.color_palette()
-
-# The bars are ordered first by API Type then Library, even though they are
-# plotted in the other order, like
-# 0 4  1 5  2 6  3 7
-for i, thisbar in enumerate(ax3.patches):
-    # Get the default edge color
-    edge_color = thisbar.get_edgecolor()
-    thisbar.set_color(default_colors[i%4])
-    # Add a hatch to the second bar in thisbar
-    if i >= 4:
-        thisbar.set_hatch('//')
-        thisbar.set_edgecolor(edge_color)
-
+sns.barplot(data=scipy_results[scipy_results["Strict"]], x="Backend",
+            y="Speedup vs. NumPy", ax=ax3, ci=None)
 
 ax3.set_ylabel("")
 ax3.set_xlabel("")
-fig.supylabel("Duration (sec)")
-fig.supxlabel("Library")
-ax3.set_yticks([0.1, 1, 10, 100])
-ax3.get_yaxis().set_major_formatter(plt.ScalarFormatter())
-plt.xticks()
-# fig.suptitle("SciPy welch() performance with array API backends")
-ax3.set_title("SciPy welch()")
+ax3.set_title("SciPy welch() (strict array API)")
 
-# Add a legend
-handles = [plt.Rectangle((0, 0), 1, 1, facecolor='gray'),
-           plt.Rectangle((0, 0), 1, 1, facecolor='gray', hatch='//')]
-labels = ['Optimized API', 'Strict API']
-plt.legend(handles, labels, loc='upper left')
+sns.barplot(data=scipy_results[~scipy_results["Strict"]], x="Backend",
+            y="Speedup vs. NumPy", ax=ax4, ci=None)
+ax4.set_ylabel("")
+ax4.set_xlabel("")
+ax4.set_title("SciPy welch() (optimized)")
+
+# Add axis labels to the whole plot
+fig.supylabel("Speedup vs. NumPy")
+fig.supxlabel("Library")
 
 plt.tight_layout()
 fig.savefig("../assets/timings.pdf")
