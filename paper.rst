@@ -412,7 +412,7 @@ Array API Standard
    :figclass: wt
    :scale: 90%
 
-   TODO (athan): write the figure caption
+   The array data structure and fundamental concepts. **a)** An array data structure and its associated metadata fields. **b)** Indexing an array. Indexing operations may access individual elements or sub-arrays. Applying a boolean mask is an optional indexing extension and may not be supported by all conforming libraries. **c)** Vectorization obviates the need for explicit looping in user code by applying operations to multiple array elements. **d)** Broadcasting enables efficient computation in element-wise operations by implicitly expanding the dimensions of array operands to equal sizes. **e)** Reduction operations act along one or more axes. In the example, summations along a single axis produce a vector, while summation along two axes produce a zero-dimensional array containing the sum of all array elements.
 
 The Python array API standard specifies standardized APIs and behaviors for
 array and tensor objects and operations.
