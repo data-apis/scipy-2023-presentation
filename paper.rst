@@ -1007,13 +1007,10 @@ which parts of the code used NumPy functionality that is not part of the
 standard.
 
 The resulting code can now be run against any array API conforming library.
-`Figure 1`_ shows the resulting speedups from running
-`LinearDiscriminantAnalysis` against NumPy, Torch CPU and GPU (Cuda), and
-CuPy. Torch CPU gives a 5x speedup over NumPy for fitting, and Torch GPU gives
-a 72x and 37x speedup for fit and predict, respectively. CuPy gives 10x and
-17x respective speedups over NumPy. `Figure 2`_ shows the speedups from
-running `scipy.signal.welch()` on the same (n.b. the scikit-learn and SciPy
-benchmarks were run on different sets of hardware).
+`Figure 2`_ shows the resulting speedups vs. NumPy for
+`LinearDiscriminantAnalysis` and `scipy.signal.welch()` on Torch CPU, Torch
+GPU (CUDA), and CuPy backends. GPU backends give a significant speedup, but
+even Torch CPU can have up to 2x speedup over NumPy.
 
 `Figure 2`_ additionally highlights an additional type of change, namely
 making use of library specific performance optimizations. The `welch()`
@@ -1022,26 +1019,26 @@ have not been standardized in the array API since they are not available in
 some libraries (e.g., JAX). NumPy, CuPy, and Torch allow setting strides, but
 they do not use a uniform API to do so. An array API compatible implementation
 can be used, but it is slower, so it is used only as a fallback for libraries
-outside of NumPy, PyTorch, and CuPy.
-
-.. Automatic figure references won't work because they require Sphinx.
-.. _Figure 1:
-.. figure:: assets/scikit_learn_timings.pdf
-
-   Average timings for scikit-learn's `LinearDiscriminantAnalysis` fit and
-   predict on a random classification with 500,000 samples and 300 features on
-   NumPy, Torch CPU, Torch GPU, and CuPy backends. Benchmarks were run on a
-   Nvidia GTX 3090 and an AMD 5950x.
-
+outside of NumPy, PyTorch, and CuPy. Indeed, it is significantly slower than
+than even plain NumPy, with PyTorch CUDA taking 200 seconds to compute the
+result that takes 7 seconds with NumPy. The optimized implementation that uses
+stride tricks has more expected performance characteristics, with PyTorch CUDA
+and CuPy giving a near 40x speedup over NumPy.
 
 .. Automatic figure references won't work because they require Sphinx.
 .. _Figure 2:
-.. figure:: assets/scipy_timings.pdf
+.. figure:: assets/timings.pdf
+   :align: center
+   :figclass: wt
+   :scale: 46%
 
-   Average timings for `scipy.signal.welch()` on 90,000,000 data points,
-   comparing a strictly portable implementation and an implementation with
-   library-specific performance optimizations. Benchmarks were run on a Nvidia
-   GTX 1080Ti and an Intel i9-7900X.
+   Average timings for scikit-learn's `LinearDiscriminantAnalysis` `fit` and
+   `predict` on a random classification with 400,000 samples and 300 features,
+   and `scipy.signal.welch()` on 50,000,000 data points. Times compare the
+   averages from NumPy to Torch CPU, Torch GPU, and CuPy backends. The SciPy
+   timings additionally compare a strictly portable implementation and an
+   implementation with library-specific performance optimizations. Benchmarks
+   were run on an Intel i9-9900K and Nvidia RTX 2080.
 
 From an end user point of view, making use of the array API support in these
 libraries is trivial: they simply pass in arrays from whichever array API
