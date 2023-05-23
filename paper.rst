@@ -997,11 +997,10 @@ be wrapped with `asarray()`. This is because it is later passed to
 `xp.sqrt()`, and the standard only requires functions to accept actual array
 types as inputs.
 
-Additional types of changes which are not demonstrated in the above example include
-
-**Functionality that is not included in the standard at all.** This will
-depend on the specific situation, but it will often be sufficient to add a
-helper function to implement the desired behavior across common array
+Additional types of changes which are not demonstrated in the above example
+includes **functionality that is not included in the standard at all.** This
+will depend on the specific situation, but it will often be sufficient to add
+a helper function to implement the desired behavior across common array
 libraries. For example, the above scikit-learn pull request added a helper
 function for `take()`, which was not yet included in the standard at the time
 of its writing.
@@ -1028,17 +1027,23 @@ GPU (CUDA), and CuPy backends. GPU backends give a significant speedup, but
 even Torch CPU can have up to 2x speedup over NumPy.
 
 `Figure 2`_ additionally highlights an additional type of change, namely
-making use of library specific performance optimizations. The `welch()`
-implementation uses an optimization involving stride tricks. Stride tricks
-have not been standardized in the array API since they are not available in
-some libraries (e.g., JAX). NumPy, CuPy, and Torch allow setting strides, but
-they do not use a uniform API to do so. An array API compatible implementation
-can be used, but it is slower, so it is used only as a fallback for libraries
-outside of NumPy, PyTorch, and CuPy. Indeed, it is significantly slower than
-than even plain NumPy, with PyTorch CUDA taking 200 seconds to compute the
-result that takes 7 seconds with NumPy. The optimized implementation that uses
-stride tricks has more expected performance characteristics, with PyTorch CUDA
-and CuPy giving a near 40x speedup over NumPy.
+**making use of library specific performance optimizations**. The SciPy
+`welch()` implementation uses an optimization involving stride tricks. Stride
+tricks have not been standardized in the array API since they are not
+available in some libraries (e.g., JAX). NumPy, CuPy, and Torch allow setting
+strides, but they do not use a uniform API to do so. An array API compatible
+implementation can be used, but it is slower, so it is used only as a fallback
+for libraries outside of NumPy, PyTorch, and CuPy. Indeed, it is significantly
+slower than than even plain NumPy, with PyTorch CUDA taking 200 seconds to
+compute the result that takes 7 seconds with NumPy. The optimized
+implementation that uses stride tricks has more expected performance
+characteristics, with PyTorch CUDA and CuPy giving a near 40x speedup over
+NumPy. It is generally expected that many users of the array API may need to
+maintain similar such backend array library-specific performance optimizations
+to achieve the expected performance gains. This does imply a small extra
+maintenance burden for these libraries, but it only applies to specific
+scenarios not already covered by the array API where the performance benefits
+outweigh the costs.
 
 From an end user point of view, making use of the array API support in these
 libraries is trivial: they simply pass in arrays from whichever array API
