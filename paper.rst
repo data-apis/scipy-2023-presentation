@@ -297,7 +297,7 @@ decisions in empirical data and analysis.
 Design
 ------
 
-To understand API design of array libraries within the SPE, we first identified
+To understand API design of array libraries within the scientific Python ecosystem, we first identified
 a representative sample of commonly used Python array libraries. The sample
 included the following libraries: NumPy, Dask Array, CuPy, MXNet, JAX,
 TensorFlow, and PyTorch. Next, we extracted public APIs for each library by
@@ -348,7 +348,7 @@ on GitHub.
 Usage
 -----
 
-To understand usage patterns of array libraries within the SPE, we first
+To understand usage patterns of array libraries within the scientific Python ecosystem, we first
 identified a representative sample of commonly used Python libraries
 ("downstream libraries") which consume the sample of array libraries identified
 during design analysis. The sample of downstream libraries included the
@@ -407,6 +407,8 @@ data, and analysis are available as public artifacts on GitHub :cite:`Consortium
 Array API Standard
 ==================
 
+.. Automatic figure references won't work because they require Sphinx.
+.. _Figure 1:
 .. figure:: assets/array_object.pdf
    :align: center
    :figclass: wt
@@ -504,16 +506,15 @@ array using the `device` keyword to a creation function (`linspace()`) and the
 
 .. code:: python
 
+   from array_api_compat import array_namespace
+
    def some_function(x):
        xp = array_namespace(x)
 
        y = xp.linspace(0, 2*xp.pi, 100, device=x.device)
-       # Computations on x and y will happen on device
+       # Computations on x and y will happen on x.device
        return xp.sin(y) * x
 
-.. TODO (aaron): not sure how we can incorporate to_device here. It seems to me that
-   most functions should just use the input device and device transfers will
-   be mostly done by end users.
 
 Arrays support indexing operations using the standard `x[idx]` Python getitem
 syntax. The indexing semantics defined are based on the common NumPy array
@@ -544,11 +545,10 @@ All elementwise functions and operations that accept more than one array input
 apply broadcasting rules. The broadcasting rules match the commonly used
 semantics of NumPy, where a broadcasted shape is constructed from the input
 shapes by prepending size-1 dimensions and broadcasting size-1 dimensions to
-otherwise equal non-size-1 dimensions (for example, a shape `(3, 1)` and a
-shape `(2, 1, 4)` array would broadcast to a shape `(2, 3, 4)` array by
-virtual repetition of the array along the broadcasted dimensions).
-Broadcasting rules should be applied independently of the input array data
-types or values.
+otherwise equal non-size-1 dimensions (for example, a shape `(3, 1)` array and
+a shape `(2, 1, 4)` array would broadcast to a shape `(2, 3, 4)` array by
+virtual repetition along the broadcasted dimensions). Broadcasting rules
+should be applied independently of the input array data types or values.
 
 .. TODO (athan): add broadcasting examples; this may be obsolete given figure
 
@@ -557,9 +557,9 @@ Interchange Protocol
 
 *TODO (athan): we can rephrase to emphasize interoperability and the desire to convert an array of one flavor to another flavor. We should be able to cut down the content found in this section.*
 
-As discussed in the non-goals section, array libraries are not expected to
-support mixing arrays from other libraries. Instead, there is an interchange
-protocol that allows converting an array from one library to another.
+Array libraries are not expected to support mixing arrays from other
+libraries. Instead, there is an interchange protocol that allows converting an
+array from one library to another.
 
 To be useful, any such protocol must satisfy some basic requirements:
 
