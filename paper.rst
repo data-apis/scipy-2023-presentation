@@ -16,12 +16,31 @@
 :institution: Quansight
 :equal-contributor:
 
+:author: Yao-Lung L. Fang
+:email: leof@nvidia.com
+:institution: NVIDIA Corporation
+:equal-contributor:
+
 :author: Stephan Hoyer
 :email: shoyer@google.com
 :institution: Google
 
 :author: Andreas Müller
 :email: amueller@microsoft.com
+:institution: Microsoft
+
+:author: Stephannie Jiménez Gacha
+:email: sgacha@quansight.com
+:institution: Quansight
+
+:author: Tyler Reddy
+:email: treddy@lanl.gov
+:institution: LANL
+
+:author: Matthew Barber
+:email: quitesimplymatt@gmail.com
+:institution: Quansight
+:equal-contributor:
 
 :author: Consortium for Python Data API Standards
 :email:
