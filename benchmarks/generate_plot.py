@@ -7,8 +7,8 @@ scikit_learn_results = pd.read_csv("scikit_learn_timings.csv")
 repl = {
     "numpy": "NumPy",
     "cupy": "CuPy",
-    "torch_cpu": "PyTorch CPU",
-    "torch_gpu": "PyTorch CUDA",
+    "torch_cpu": "PyTorch\nCPU",
+    "torch_gpu": "PyTorch\nCUDA",
 }
 scikit_learn_results["Backend"] = scikit_learn_results["Backend"].replace(repl)
 
@@ -21,13 +21,13 @@ sns.set_theme(context="paper", font_scale=1.4)
 # Keep the y-axis log ticks
 sns.set(rc={"ytick.left": True})
 
-fig, (ax1, ax2) = plt.subplots(1, 2, figsize=(8, 4), constrained_layout=True)
+fig, (ax1, ax2, ax3) = plt.subplots(1, 3, figsize=(12, 4), constrained_layout=True)
 
 sns.barplot(y="Duration", x="Backend", data=scikit_learn_results[scikit_learn_results["Method"] == "fit"], ax=ax1, log=True)
-ax1.set_title("fit()")
+ax1.set_title("scikit-learn LinearDiscriminantAnalysis.fit()")
 
 sns.barplot(y="Duration", x="Backend", data=scikit_learn_results[scikit_learn_results["Method"] == "predict"], ax=ax2, log=True)
-ax2.set_title("predict()")
+ax2.set_title("scikit-learn LinearDiscriminantAnalysis.predict()")
 
 for ax in ax1, ax2:
     ax.set_xlabel("")
@@ -43,7 +43,7 @@ ax2.get_yaxis().set_major_formatter(plt.ScalarFormatter())
 fig.supxlabel("Backend")
 fig.supylabel("Duration (sec)")
 
-fig.suptitle("scikit-learn LinearDiscriminantAnalysis performance with array API backends")
+fig.suptitle("scikit-learn and SciPy performance with array API backends")
 
 means = scikit_learn_results.groupby(["Backend", "Method"]).mean()
 print("scikit-learn mean durations:")
@@ -52,18 +52,12 @@ print()
 print("scikit-learn speedup over NumPy:")
 print(means.loc["NumPy"] / means)
 
-plt.tight_layout()
-fig.savefig("../assets/timings.pdf")
-
 scipy_results = pd.read_csv("scipy_timings.csv")
 scipy_results["Backend"] = scipy_results["Backend"].replace(repl)
 
-# Plot the data
-fig = plt.figure(figsize=(12, 6))
-
 # Plot the bars, with hatching for strict APIs
-ax = sns.barplot(data=scipy_results, x="Backend", hue="Strict", y="Duration",
-                 log=True)
+sns.barplot(data=scipy_results, x="Backend", hue="Strict", y="Duration",
+                 log=True, ax=ax3)
 
 
 # Set colors based on the library and add hatches for Optimized API (note these
@@ -73,7 +67,7 @@ default_colors = sns.color_palette()
 # The bars are ordered first by API Type then Library, even though they are
 # plotted in the other order, like
 # 0 4  1 5  2 6  3 7
-for i, thisbar in enumerate(ax.patches):
+for i, thisbar in enumerate(ax3.patches):
     # Get the default edge color
     edge_color = thisbar.get_edgecolor()
     thisbar.set_color(default_colors[i%4])
@@ -83,14 +77,15 @@ for i, thisbar in enumerate(ax.patches):
         thisbar.set_edgecolor(edge_color)
 
 
-ax.set_ylabel("")
-ax.set_xlabel("")
+ax3.set_ylabel("")
+ax3.set_xlabel("")
 fig.supylabel("Duration (sec)")
 fig.supxlabel("Library")
-ax.set_yticks([0.1, 1, 10, 100])
-ax.get_yaxis().set_major_formatter(plt.ScalarFormatter())
+ax3.set_yticks([0.1, 1, 10, 100])
+ax3.get_yaxis().set_major_formatter(plt.ScalarFormatter())
 plt.xticks()
-fig.suptitle("SciPy welch() performance with array API backends")
+# fig.suptitle("SciPy welch() performance with array API backends")
+ax3.set_title("SciPy welch()")
 
 # Add a legend
 handles = [plt.Rectangle((0, 0), 1, 1, facecolor='gray'),
@@ -98,6 +93,5 @@ handles = [plt.Rectangle((0, 0), 1, 1, facecolor='gray'),
 labels = ['Strict API', 'Optimized API']
 plt.legend(handles, labels, loc='upper left')
 
-# Save the figure
 plt.tight_layout()
-plt.savefig("../assets/scipy_timings.pdf")
+fig.savefig("../assets/timings.pdf")
