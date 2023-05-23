@@ -1,6 +1,6 @@
 #!/bin/bash
 
-arguments=("cupy" "numpy" "torch_cpu" "torch_gpu")
+arguments=("numpy" "torch_cpu" "torch_gpu" "cupy")
 
 echo "Duration,Backend,Method" > scikit_learn_timings.csv
 
