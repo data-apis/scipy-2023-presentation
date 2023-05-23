@@ -70,7 +70,6 @@ for ax in ax1, ax2, ax3, ax4:
 
 # Add axis labels to the whole plot
 fig.supylabel("Speedup vs. NumPy", fontsize=fontsize+4)
-fig.supxlabel("Array Library Backend", fontsize=fontsize+4)
 fig.suptitle("scikit-learn and SciPy performance with array API backends", fontsize=fontsize+8)
 
 plt.tight_layout()

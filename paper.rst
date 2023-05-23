@@ -896,13 +896,13 @@ Discussion
    :figclass: wt
    :scale: 46%
 
-   Average timings for scikit-learn's `LinearDiscriminantAnalysis` `fit` and
-   `predict` on a random classification with 400,000 samples and 300 features,
-   and `scipy.signal.welch()` on 50,000,000 data points. Times compare the
-   averages from NumPy to Torch CPU, Torch GPU, and CuPy backends. The SciPy
-   timings additionally compare a strictly portable implementation and an
-   implementation with library-specific performance optimizations. Benchmarks
-   were run on an Intel i9-9900K and NVIDIA RTX 2080.
+   Average timings for scikit-learn's `LinearDiscriminantAnalysis` `fit()` and
+   `predict()` on a random classification with 400,000 samples and 300
+   features, and `scipy.signal.welch()` on 50,000,000 data points. Times
+   compare the averages from NumPy to Torch CPU, Torch GPU, and CuPy backends.
+   The SciPy timings additionally compare a strictly portable implementation
+   and an implementation with library-specific performance optimizations.
+   Benchmarks were run on an Intel i9-9900K and NVIDIA RTX 2080.
 
 *TODO (athan): discuss implementation implications for array-consuming libraries; namely, dunder array_namespace and dunder dlpack methods.*
 
@@ -1062,7 +1062,8 @@ toe computation to take place on. For example, a computation using
    y = torch.Tensor(..., device=...)
 
    # fitted is a torch Tensor. The computation is done
-   # entirely with PyTorch functions.
+   # entirely with PyTorch functions on the same device
+   # as X and y.
    fitted = lda.fit(X, y)
 
 Future Work
