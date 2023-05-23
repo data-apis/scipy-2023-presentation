@@ -33,6 +33,11 @@
 :email: treddy@lanl.gov
 :institution: LANL
 
+:author: Matthew Barber
+:email: quitesimplymatt@gmail.com
+:institution: Quansight
+:equal-contributor:
+
 :author: Consortium for Python Data API Standards
 :email:
 :institution: Consortium for Python Data API Standards
