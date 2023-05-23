@@ -21,6 +21,11 @@
 :institution: NVIDIA Corporation
 :equal-contributor:
 
+:author: Matthew Barber
+:email: quitesimplymatt@gmail.com
+:institution: Quansight
+:equal-contributor:
+
 :author: Stephan Hoyer
 :email: shoyer@google.com
 :institution: Google
@@ -36,11 +41,6 @@
 :author: Tyler Reddy
 :email: treddy@lanl.gov
 :institution: LANL
-
-:author: Matthew Barber
-:email: quitesimplymatt@gmail.com
-:institution: Quansight
-:equal-contributor:
 
 :author: Consortium for Python Data API Standards
 :email:
