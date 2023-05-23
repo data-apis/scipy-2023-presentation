@@ -16,6 +16,11 @@
 :institution: Quansight
 :equal-contributor:
 
+:author: Yao-Lung L. Fang
+:email: leof@nvidia.com
+:institution: NVIDIA Corporation
+:equal-contributor:
+
 :author: Stephan Hoyer
 :email: shoyer@google.com
 :institution: Google
