@@ -245,7 +245,7 @@ implement for both central processing units (CPUs) and hardware-accelerated
 devices, such as graphics processing units (GPUs), tensor processing units (TPUs),
 and field-programmable gate arrays (FPGAs).
 
-**JIT compiler support.** Standardized APIs and behavior should be amenable to
+**Compiler support.** Standardized APIs and behavior should be amenable to
 just-in-time (JIT) and ahead-of-time (AOT) compilation and graph-based
 optimization (e.g., PyTorch :cite:`Paszke2019a`, JAX :cite:`Bradbury2018a`, and
 TensorFlow :cite:`Abadi2016a`). For APIs and behavior which are not amenable,
@@ -414,52 +414,114 @@ Array API Standard
    :figclass: wt
    :scale: 90%
 
-   The array data structure and fundamental concepts. **a)** An array data structure and its associated metadata fields. **b)** Indexing an array. Indexing operations may access individual elements or sub-arrays. Applying a boolean mask is an optional indexing extension and may not be supported by all conforming libraries. **c)** Vectorization obviates the need for explicit looping in user code by applying operations to multiple array elements. **d)** Broadcasting enables efficient computation by implicitly expanding the dimensions of array operands to equal sizes. **e)** Reduction operations act along one or more axes. In the example, summation along a single axis produces a vector, while summation along two axes produces a zero-dimensional array containing the sum of all array elements.
+   The array data structure and fundamental concepts. **a)** An array data
+   structure and its associated metadata fields. **b)** Indexing an array.
+   Indexing operations may access individual elements or sub-arrays. Applying a
+   boolean mask is an optional indexing extension and may not be supported by
+   all conforming libraries. **c)** Vectorization obviates the need for
+   explicit looping in user code by applying operations to multiple array
+   elements. **d)** Broadcasting enables efficient computation by implicitly
+   expanding the dimensions of array operands to equal sizes. **e)** Reduction
+   operations act along one or more axes. In the example, summation along a
+   single axis produces a vector, while summation along two axes produces a
+   zero-dimensional array containing the sum of all array elements.
 
 The Python array API standard specifies standardized APIs and behaviors for
-array and tensor objects and operations.
-
-.. TODO (athan): we should rework the following to be more high level. E.g., the standard is comprised of an array object, array-aware functions, an interchange protocol, and optional extensions. We don't need to say fft and linalg, as there may be more extensions in the future.
-
-Core to the array standard is the
-array object, which represents an n-dimensional collection of objects of a
-given data type. Arrays have a data type (dtype), shape, and device, and
-should support indexing and broadcasting semantics. Additionally, the standard
-specifies an interchange protocol for transferring arrays across different
-libraries. Finally, the standard specifies around 50 methods on the array
-object, including dunder operator methods, and around 150 functions which
-should be defined on the library namespace, including `linalg` and `fft`
-subnamespaces which are optional extensions.
-
-The standard only specifies a minimal set of functions and semantics that any
-compliant library should implement. Libraries are free to implement more than
-what is specified, but use of this code will not be portable.
+array and tensor objects and operations. The scope of the standard includes
+defining, but is not limited to, the following: 1) a minimal array object; 2)
+semantics governing array interaction, including type promotion and
+broadcasting; 3) an interchange protocol for converting array objects
+originating from different array libraries; 4) a set of required array-aware
+functions; and 5) optional extensions for specialized APIs and array behavior.
+We discuss each of these standardization areas in turn.
 
 Array Object
 ------------
 
 An array object is a data structure for efficiently storing and accessing
-multidimensional arrays :cite:`Vanderwalt2011a`. Within the context of the array API
-standard, the data structure is opaque—libraries may or may not grant direct
-access to raw memory—and includes metadata for interpreting the underlying
-data, notably 'data type', 'shape', and 'device'.
+multidimensional arrays :cite:`Vanderwalt2011a`. Within the context of the
+array API standard, the data structure is opaque—libraries may or may not grant
+direct access to raw memory—and includes metadata for interpreting the
+underlying data, notably 'data type', 'shape', and 'device' (Fig. 1a).
 
-An array has a data type (dtype), which describes how to interpret a single
-array element (e.g., integer, real- or complex-valued floating-point, boolean,
-or other). A conforming array object has a single dtype. The standard does not
-specify any behavior on actual dtype objects other than basic equality
-comparison.
+An array data type ("dtype") describes how to interpret a single array element
+(e.g., integer, real- or complex-valued floating-point, boolean, or other). A
+conforming array object has a single data type. To facilitate interoperability,
+conforming libraries must support and provide a minimal set of data type
+objects (e.g., `int8`, `int16`, `int32`, `float32`, and `float64`).
 
-The standard also specifies basic type promotion semantics. Most functions and
-operators that take multiple array inputs promote the output to a common
-dtype, or fail if the dtype combination is not promotable. The standard only
-specifies promotion for dtypes of the same "kind" (e.g., integer or
-floating-point). Type promotion should work independently of array shape or
-value. This makes code easier to reason about and also enables applications
-like JIT compilation which require the ability to reason about array code
-statically.
+An array shape specifies the number of elements along each array axis (also
+referred to as "dimension"). The number of axes corresponds to the
+dimensionality (or "rank") of an array. For example, the shape `(10,)`
+corresponds to a one-dimensional array containing 10 elements. The shape
+`(3, 5)` corresponds to a two-dimensional array whose inner dimension contains
+five elements and whose outer dimension contains three elements. The shape `()`
+corresponds to a zero-dimensional array containing a single element.
 
-For example, `float32` and `float64` promote together to `float64`:
+An array device specifies the location of array memory allocation. A conforming
+array object is assigned to a single logical device. To support array libraries
+supporting execution on different device types (e.g., CPUs, GPUs, TPUs, etc.),
+conforming libraries must provide standardized device APIs in order to
+coordinate execution location. In the following example, we use standardized
+device APIs to ensure execution occurs on a specific device.
+
+.. code:: python
+
+   def some_function(x, y):
+       # Retrieve a specification-compliant namespace:
+       xp = x.__array_namespace__()
+
+       # Ensure execution occurs on the same device.
+       # Determining which device has priority will be
+       # specific to a given use case and library:
+       if x.device != y.device:
+           y = y.to_device(x.device)
+
+       # Allocate a new array on the same device:
+       z = xp.linspace(0, 2*xp.pi, 100, device=x.device)
+
+       # Perform computation:
+       return xp.sin(z) * x + y
+
+
+..    def some_function(x):
+..        # Retrieve a specification-compliant namespace:
+..        xp = x.__array_namespace__()
+
+..        # Allocate a new array on the same device as the
+..        # input array:
+..        y = xp.linspace(0, 2*xp.pi, 100, device=x.device)
+       
+..        # Perform computation
+..        return xp.sin(y) * x
+
+To interact with array objects, one uses "indexing" to access sub-arrays and
+individual elements, "operators" to perform logical and arithmetic operations
+(e.g., :math:`+`, :math:`-`, :math:`\times`, :math:`\div`, and :math:`@`, and
+array-aware functions (e.g., for linear algebra, statistical reductions, and
+element-wise computation). Array indexing semantics extend built-in Python
+sequence `__getitem__()` indexing semantics to support element access across
+multiple dimensions (Fig. 1b). Indexing an array using a boolean array (also
+known as "masking") is an optional standardized extension; however, masking is
+not generally portable, as the result of a mask operation is data-dependent
+and, thus, difficult for array libraries relying on static analysis for
+graph-based optimization.
+
+Array Interaction
+-----------------
+
+The Python array API standard further specifies rules governing expected
+behavior when an operation involves two or more array operands. Two sets of
+rules, in particular, warrant further attention: type promotion and
+broadcasting.
+
+For operations in which the data type of a resulting array object is resolved
+from operand data types, the resolved data type must follow type promotion
+semantics. Importantly, type promotion semantics are independent of array shape
+or contained values (including when an operand is a zero-dimensional array).
+For example, when adding one array having a `float32` data type to another
+array having a `float64` data type, the data type of the resulting array should
+be the promoted data type `float64`.
 
 .. code:: python
 
@@ -469,122 +531,31 @@ For example, `float32` and `float64` promote together to `float64`:
    >>> y.dtype == xp.float64
    True
 
-An array shape specifies the number of elements along each array axis (also
-referred to as "dimension"). The number of axes corresponds to the
-dimensionality (or "rank") of an array. For example, the shape `(10,)`
-corresponds to a one-dimensional array containing 10 elements. The shape `(3, 5)`
-corresponds to a two-dimensional array whose inner dimension contains five
-elements and whose outer dimension contains three elements. The shape `()`
-corresponds to a zero-dimensional array containing a single element.
-
-An array device specifies the location of array memory allocation and operation
-execution. A conforming array object is assigned to a single logical device,
-which is represented by an object supporting equality comparison.
-
-The standard supports specifying what device an array should live on. This is
-implemented by explicit `device` keywords in creation functions, with the
-convention that execution takes place on the same device where all argument
-arrays are allocated. This method of specifying devices was chosen because it
-is the most granular, despite its potential verbosity. Other methods of
-specifying devices such as context managers are not included, but may be added
-in future versions of the standard.
-
-The primary intended usage of device support in the specification is geared
-towards array consuming libraries. End users who create arrays from a specific
-array library may use that library's specific syntax for specifying the device
-relative to their specific hardware configuration. Consequently, the device
-syntax specified in the standard focuses primarily on getting the device of a
-given array (via a `.device` attribute) and transferring an array to the same
-device as another array (via a `.to_device()` method). The specifics of the
-actual device objects themselves are left unspecified. These specifics differ
-significantly between existing implementations, such as CuPy and PyTorch.
-
-The following example shows how a function in an array consuming library might
-use the array API to allocate a second array on the device as a given input
-array using the `device` keyword to a creation function (`linspace()`) and the
-`.device` attribute of the array object.
-
-.. code:: python
-
-   from array_api_compat import array_namespace
-
-   def some_function(x):
-       xp = array_namespace(x)
-
-       y = xp.linspace(0, 2*xp.pi, 100, device=x.device)
-       # Computations on x and y will happen on x.device
-       return xp.sin(y) * x
-
-
-Arrays support indexing operations using the standard `x[idx]` Python getitem
-syntax. The indexing semantics defined are based on the common NumPy array
-indexing semantics, but restricted to a subset that is common across array
-libraries and does not impose difficulties for array libraries implemented on
-accelerators. Basic integer and slice indexing is defined as usual, except
-behavior on out-of-bounds indices is left unspecified. Multiaxis tuple indices
-are defined, but only specified when all axes are indexed (e.g., if `x` is
-2-dimensional, `x[0, :]` is defined but `x[0]` may not be supported). A `None`
-index may be used in a multiaxis index to insert size-1 dimensions
-(`xp.newaxis` is specified as a shorthand for `None`). Boolean array indexing
-(also sometimes called "masking") is specified, but only for instances where
-the boolean index has the same dimensionality as the indexed array. The result
-of a boolean array indexing is data-dependent, and thus graph-based libraries
-may choose to not implement this behavior. Integer array indexing is not
-specified, however a basic `take()` is specified and `put()` will be added in
-the 2023 version of the spec.
-
-Note that views are not required in the specification. Libraries may choose to
-implement indexed arrays as views, but this should be treated as an
-implementation detail by array consumers. In particular, any mutation behavior
-that affects more than one array object is considered an implementation detail
-that should not be relied on for portability.
-
-.. TODO (athan): clean-up the following regarding broadcasting
-
-All elementwise functions and operations that accept more than one array input
-apply broadcasting rules. The broadcasting rules match the commonly used
-semantics of NumPy, where a broadcasted shape is constructed from the input
-shapes by prepending size-1 dimensions and broadcasting size-1 dimensions to
-otherwise equal non-size-1 dimensions (for example, a shape `(3, 1)` array and
-a shape `(2, 1, 4)` array would broadcast to a shape `(2, 3, 4)` array by
-virtual repetition along the broadcasted dimensions). Broadcasting rules
-should be applied independently of the input array data types or values.
-
-.. TODO (athan): add broadcasting examples; this may be obsolete given figure
+In addition to type promotion, the array API standard specifies rules governing
+the automatic (and implicit) expansion of array dimensions to be of equal sizes
+(Fig. 1d). Broadcasting confers two important advantages. First, broadcasting
+facilities user ergonomics by encouraging users to avoid unnecessary copying of
+array data. Second, implicit expansion enables more efficient computation
+through vectorization, reduced memory consumption, and cache locality.
 
 Interchange Protocol
 --------------------
 
-*TODO (athan): we can rephrase to emphasize interoperability and the desire to convert an array of one flavor to another flavor. We should be able to cut down the content found in this section.*
+.. TODO (athan): we can rephrase to emphasize interoperability and the desire to convert an array of one flavor to another flavor. We should be able to cut down the content found in this section.
 
-Array libraries are not expected to support mixing arrays from other
-libraries. Instead, there is an interchange protocol that allows converting an
-array from one library to another.
+We expect that array library consumers will generally prefer to use a single
+array "type" (e.g., a NumPy `ndarray`, PyTorch `Tensor`, or Dask `array`) and
+will thus need a standardized mechanism for array object conversion. For
+example, suppose a data visualization library prefers to use NumPy internally
+but would like to extend API support to any conforming array object type. In
+such a scenario, the library would benefit from a reliable mechanism for
+accessing and reinterpreting the memory of externally provided array objects
+without triggering potential performance cliffs due to unnecessary copying of
+array data. To this end, the Python array API standard specifies an interchange
+protocol describing the memory layout of a strided, n-dimensional array in an
+implementation-independent manner.
 
-To be useful, any such protocol must satisfy some basic requirements:
-
-- Interchange must be specified as a protocol, rather than requiring a
-  specific dependent package. The protocol should describe the memory layout
-  of an array in an implementation-independent manner.
-
-- Support for all data types in this API standard.
-
-- It must be possible to determine on which device the array to be converted
-  resides. A single protocol is preferable to
-  having per-device protocols. With separate per-device protocols it’s hard to
-  figure out unambiguous rules for which protocol gets used, and the situation
-  will get more complex over time as TPU’s and other accelerators become more
-  widely available.
-
-- The protocol must have zero-copy semantics where possible, making a copy
-  only if needed (e.g. when data is not contiguous in memory).
-
-- There must be both a Python-side and a C-side interface, the latter with a
-  stable C ABI. All prominent existing array libraries are implemented in
-  C/C++, and are released independently from each other. Hence a stable C ABI
-  is required for packages to work well together. The protocol must support
-  low level access to be usable by libraries that use JIT or AOT compilation,
-  and it must be usable from any language.
+.. TODO: explain that DLPack was chosen as the protocol.
 
 To satisfy these requirements, DLPack was chosen as the data interchange
 protocol. DLPack is a standalone protocol with a header-only C implementation
@@ -609,7 +580,7 @@ Note that `asarray()` also supports the buffer protocol for libraries that
 already implement it, like NumPy. But the buffer protocol is CPU-only, meaning
 it is not sufficient for the above requirements.
 
-*TODO: add code example.*
+.. TODO: add code example.
 
 Array Functions
 ---------------
