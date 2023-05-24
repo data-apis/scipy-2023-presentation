@@ -481,18 +481,6 @@ device APIs to ensure execution occurs on a specific device.
        # Perform computation:
        return xp.sin(z) * x + y
 
-
-..    def some_function(x):
-..        # Retrieve a specification-compliant namespace:
-..        xp = x.__array_namespace__()
-
-..        # Allocate a new array on the same device as the
-..        # input array:
-..        y = xp.linspace(0, 2*xp.pi, 100, device=x.device)
-       
-..        # Perform computation
-..        return xp.sin(y) * x
-
 To interact with array objects, one uses "indexing" to access sub-arrays and
 individual elements, "operators" to perform logical and arithmetic operations
 (e.g., :math:`+`, :math:`-`, :math:`\times`, :math:`\div`, and :math:`@`, and
