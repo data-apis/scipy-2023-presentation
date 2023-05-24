@@ -541,9 +541,9 @@ Interchange Protocol
 
 .. TODO (athan): we can rephrase to emphasize interoperability and the desire to convert an array of one flavor to another flavor. We should be able to cut down the content found in this section.
 
-We expect that array library consumers will prefer to use a single array "type"
-(e.g., a NumPy `ndarray`, PyTorch `Tensor`, or Dask `array`) and will thus need
-a standardized mechanism for converting between array object types. For
+We expect that array library consumers will generally prefer to use a single
+array "type" (e.g., a NumPy `ndarray`, PyTorch `Tensor`, or Dask `array`) and
+will thus need a standardized mechanism for array object conversion. For
 example, suppose a data visualization library prefers to use NumPy internally
 but would like to extend API support to any conforming array object type. In
 such a scenario, the library would benefit from a reliable mechanism for
