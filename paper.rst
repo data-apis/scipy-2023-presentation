@@ -574,61 +574,27 @@ stable, widely adopted, and efficient means for array object interchange.
 Array Functions
 ---------------
 
-.. TODO (athan): compress content and provide high level overview
+To complement the minimal array object, the Python array API standard specifies
+a set of required array-aware functions for arithmetic, statistical, algebraic,
+and general computation. Where applicable, required functions must support
+vectorization (Fig. 1d), which obviates the need for explicit looping in user
+code by applying operations to multiple array elements. Vectorized abstractions
+confer two primary benefits: 1) implementation-dependent optimizations leading
+to increased performance and 2) concise expression of mathematical operations.
+As an example, one can express element-wise computation of *z*-scores in a
+single line. 
 
-Aside from dunder methods, the only methods/attributes defined on the array
-object are `x.to_device()`, `x.dtype`, `x.device`, `x.mT`, `x.ndim`,
-`x.shape`, `x.size`, and `x.T`. All other functions in the specification are
-defined as functions. These functions include
+.. code:: python
 
-- **Elementwise functions.** These include functional forms of the Python
-  operators (like `add()`) as well as common numerical functions like `exp()`
-  and `sqrt()`. Elementwise functions do not have any additional keyword
-  arguments.
+    def z_score(x):
+        return (x-xp.mean(x)) / xp.stdev(x)
 
-- **Creation functions.** This includes standard array creation functions
-  including `ones()`, `linspace`, `arange`, and `full`, as well as the
-  `asarray()` function, which converts "array like" inputs like lists of
-  floats and object supporting the buffer protocol to array objects. Creation
-  functions all include a `dtype` and `device` keywords. The `array` type is not specified anywhere in the
-  spec, since different libraries use different types for their array objects,
-  meaning `asarray()` and the other creation functions serve as the effective
-  "array constructor".
-
-- **Data type functions** are basic functions to manipulate and introspect
-  dtype objects such as `finfo()`, `can_cast()`, and `result_type()`. Notable
-  among these is a new function `isdtype()`, which is used to test if a dtype
-  is among a set of predefined dtype categories. For example,
-  `isdtype(x.dtype, "real floating")` returns `True` if `x` has a real
-  floating-point dtype like `float32` or `float64`. Such a function did not
-  already exist in a portable way across different array libraries. One
-  existing alternative was the NumPy dtype type hierarchy, but this hierarchy
-  is complex and is not implemented by other array libraries such as PyTorch.
-  The `isdtype()` function is a rare example where the consortium has
-  specified a completely new function in the array API specification—most of
-  the specified functions are already widely implemented across existing array
-  libraries.
-
-- **Linear algebra functions.** Only basic manipulation functions like `matmul()`
-  are required by the specification. Additional linear algebra functions are
-  included in an optional `linalg` extension (see `Optional Extensions`_).
-
-- **Manipulation functions** such as `reshape()`, `stack()`, and `squeeze()`.
-
-- **Reduction functions** such as `sum()`, `any()`, `all()`, and `mean()`.
-
-- **Unique functions** are four new functions `unique_all()`,
-  `unique_counts()`, `unique_inverse()`, and `unique_values()`. These are
-  based on the `np.unique()` function but have been split into separate
-  functions. This is because `np.unique()` returns a different number of
-  arguments depending on the values of keyword arguments. Functions like this
-  whose output type depends on more than just the input types are hard for JIT
-  compilers to handle, and they are also harder for users to reason about.
-
-Note that the `unique_*` functions, as well as `nonzero()` have a
-data-dependent output shape, which makes them difficult to implement in graph
-libraries. Therefore, such libraries may choose to not implement these
-functions.
+In addition to vectorized operations, the array API standard includes, but is
+not limited to, functions for creating new arrays, with support for explicit
+device allocation; reshaping and manipulating existing arrays; performing
+statistical reductions across one, multiple, or all array axes (Fig. 1e); and sorting
+array elements. Altogether, these APIs provide a robust and portable foundation
+for higher-order array operations and general array computation.
 
 Optional Extensions
 -------------------
