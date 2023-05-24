@@ -508,9 +508,18 @@ graph-based optimization.
 Array Interaction
 -----------------
 
-The Python array API standard further specifies rules governing expected behavior when an operation involves two or more array operands. Two sets of rules, in particular, warrant further attention: type promotion and broadcasting.
+The Python array API standard further specifies rules governing expected
+behavior when an operation involves two or more array operands. Two sets of
+rules, in particular, warrant further attention: type promotion and
+broadcasting.
 
-For operations in which the data type of a resulting array object is resolved from operand data types, the resolved data type must follow type promotion semantics. Importantly, type promotion semantics are independent of array shape or contained values (including when an operand is a zero-dimensional array). For example, when adding one array having a `float32` data type to another array having a `float64` data type, the data type of the resulting array should be the promoted data type `float64`.
+For operations in which the data type of a resulting array object is resolved
+from operand data types, the resolved data type must follow type promotion
+semantics. Importantly, type promotion semantics are independent of array shape
+or contained values (including when an operand is a zero-dimensional array).
+For example, when adding one array having a `float32` data type to another
+array having a `float64` data type, the data type of the resulting array should
+be the promoted data type `float64`.
 
 .. code:: python
 
