@@ -502,24 +502,15 @@ sequence `__getitem__()` indexing semantics to support element access across
 multiple dimensions (Fig. 1b). Indexing an array using a boolean array (also
 known as "masking") is an optional standardized extension; however, masking is
 not generally portable, as the result of a mask operation is data-dependent
-and, thus, difficult for array libraries relying on static analysis for graph-
-based optimization.
+and, thus, difficult for array libraries relying on static analysis for
+graph-based optimization.
 
 Array Interaction
 -----------------
 
-.. TODO (athan): clean-up the following regarding type promotion
+The Python array API standard further specifies rules governing expected behavior when an operation involves two or more array operands. Two sets of rules, in particular, warrant further attention: type promotion and broadcasting.
 
-The standard specifies basic type promotion semantics. Most functions and
-operators that take multiple array inputs promote the output to a common
-dtype, or fail if the dtype combination is not promotable. The standard only
-specifies promotion for dtypes of the same "kind" (e.g., integer or
-floating-point). Type promotion should work independently of array shape or
-value. This makes code easier to reason about and also enables applications
-like JIT compilation which require the ability to reason about array code
-statically.
-
-For example, `float32` and `float64` promote together to `float64`:
+For operations in which the data type of a resulting array object is resolved from operand data types, the resolved data type must follow type promotion semantics. Importantly, type promotion semantics are independent of array shape or contained values (including when an operand is a zero-dimensional array). For example, when adding one array having a `float32` data type to another array having a `float64` data type, the data type of the resulting array should be the promoted data type `float64`.
 
 .. code:: python
 
@@ -540,8 +531,6 @@ shape `(2, 1, 4)` array would broadcast to a shape `(2, 3, 4)` array by
 virtual repetition of the array along the broadcasted dimensions).
 Broadcasting rules should be applied independently of the input array data
 types or values.
-
-.. TODO (athan): add broadcasting examples; this may be obsolete given figure
 
 Interchange Protocol
 --------------------
