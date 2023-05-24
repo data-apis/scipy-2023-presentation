@@ -428,7 +428,7 @@ The Python array API standard specifies standardized APIs and behaviors for
 array and tensor objects and operations. The scope of the standard includes
 defining, but is not limited to, the following: 1) a minimal array object; 2)
 semantics governing array interaction, including type promotion and
-broadcasting; 3) an interchange protocol for converting between array objects
+broadcasting; 3) an interchange protocol for converting array objects
 originating from different array libraries; 4) a set of required array-aware
 functions; and 5) optional extensions for specialized APIs and array behavior.
 We discuss each of these standardization areas in turn.
@@ -541,34 +541,19 @@ Interchange Protocol
 
 .. TODO (athan): we can rephrase to emphasize interoperability and the desire to convert an array of one flavor to another flavor. We should be able to cut down the content found in this section.
 
-As discussed in the non-goals section, array libraries are not expected to
-support mixing arrays from other libraries. Instead, there is an interchange
-protocol that allows converting an array from one library to another.
+We expect that array library consumers will prefer to use a single array "type"
+(e.g., a NumPy `ndarray`, PyTorch `Tensor`, or Dask `array`) and will thus need
+a standardized mechanism for converting between array object types. For
+example, suppose a data visualization library prefers to use NumPy internally
+but would like to extend API support to any conforming array object type. In
+such a scenario, the library would benefit from a reliable mechanism for
+accessing and reinterpreting the memory of externally provided array objects
+without triggering potential performance cliffs due to unnecessary copying of
+array data. To this end, the Python array API standard specifies an interchange
+protocol describing the memory layout of a strided, n-dimensional array in an
+implementation-independent manner.
 
-To be useful, any such protocol must satisfy some basic requirements:
-
-- Interchange must be specified as a protocol, rather than requiring a
-  specific dependent package. The protocol should describe the memory layout
-  of an array in an implementation-independent manner.
-
-- Support for all data types in this API standard.
-
-- It must be possible to determine on which device the array to be converted
-  resides. A single protocol is preferable to
-  having per-device protocols. With separate per-device protocols it’s hard to
-  figure out unambiguous rules for which protocol gets used, and the situation
-  will get more complex over time as TPU’s and other accelerators become more
-  widely available.
-
-- The protocol must have zero-copy semantics where possible, making a copy
-  only if needed (e.g. when data is not contiguous in memory).
-
-- There must be both a Python-side and a C-side interface, the latter with a
-  stable C ABI. All prominent existing array libraries are implemented in
-  C/C++, and are released independently from each other. Hence a stable C ABI
-  is required for packages to work well together. The protocol must support
-  low level access to be usable by libraries that use JIT or AOT compilation,
-  and it must be usable from any language.
+.. TODO: explain that DLPack was chosen as the protocol.
 
 To satisfy these requirements, DLPack was chosen as the data interchange
 protocol. DLPack is a standalone protocol with a header-only C implementation
