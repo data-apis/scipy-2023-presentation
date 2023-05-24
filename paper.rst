@@ -237,7 +237,7 @@ and should have a minimal set of magic methods (also known as "dunder" methods) 
 support operator overloading.
 
 **No dependencies.** The array API standard and its implementation should be
-possible in pure Python, without the need for any external dependency outside
+possible in Python, without the need for any external dependency outside
 of Python itself.
 
 **Accelerator support.** Standardized APIs and behavior should be possible to
@@ -539,8 +539,6 @@ through vectorization, reduced memory consumption, and cache locality.
 Interchange Protocol
 --------------------
 
-.. TODO (athan): we can rephrase to emphasize interoperability and the desire to convert an array of one flavor to another flavor. We should be able to cut down the content found in this section.
-
 We expect that array library consumers will generally prefer to use a single
 array "type" (e.g., a NumPy `ndarray`, PyTorch `Tensor`, or Dask `array`) and
 will thus need a standardized mechanism for array object conversion. For
@@ -553,32 +551,25 @@ array data. To this end, the Python array API standard specifies an interchange
 protocol describing the memory layout of a strided, n-dimensional array in an
 implementation-independent manner.
 
-.. TODO: explain that DLPack was chosen as the protocol.
+The basis of the protocol is DLPack, an open in-memory structure for sharing
+tensors among frameworks :cite:`DLPack2023a`. DLPack is a standalone protocol
+with an ABI stable, header-only C implementation with cross hardware support.
+The array API standard builds on DLPack by specifying Python APIs for array
+object data interchange. Conforming array objects must support `__dlpack__` and
+`__dlpack_device__` magic methods for accessing array data and querying the
+array device. A standardized `from_dlpack` API calls these methods to
+construct a new array object of the desired type using zero-copy semantics when
+possible. The combination of DLPack and standardized Python APIs thus provides a
+stable, widely adopted, and efficient means for array object interchange.
 
-To satisfy these requirements, DLPack was chosen as the data interchange
-protocol. DLPack is a standalone protocol with a header-only C implementation
-that is ABI stable, meaning it can be used from any language. It is designed
-with multi-device support and supports all the data types specified by the
-standard. It also has several considerations for high performance. DLPack
-support has already been added to all the major array libraries, and is the
-most widely supported interchange protocol across different array libraries.
+..    import torch
 
-The array API specifies the following syntax for DLPack support:
+..    def some_function(x):
+..        # Convert input arrays to Torch tensors:
+..        if not isinstance(x, torch.Tensor):
+..            x = torch.from_dlpack(x)
 
-- A `.__dlpack__()` method on the array object, which exports the array as a
-  DLPack capsule.
-
-- A `.__dlpack__device__()` method on the array object, which returns the device
-  type and device ID in DLPack format.
-
-- A `from_dlpack()` function, which converts an object with a `__dlpack__`
-  method into an array for the given array library.
-
-Note that `asarray()` also supports the buffer protocol for libraries that
-already implement it, like NumPy. But the buffer protocol is CPU-only, meaning
-it is not sufficient for the above requirements.
-
-.. TODO: add code example.
+..        # Do stuff...
 
 Array Functions
 ---------------
