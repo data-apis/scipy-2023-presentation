@@ -529,22 +529,17 @@ be the promoted data type `float64`.
    >>> y.dtype == xp.float64
    True
 
-.. TODO (athan): clean-up the following regarding broadcasting
-
-All elementwise functions and operations that accept more than one array input
-apply broadcasting rules. The broadcasting rules match the commonly used
-semantics of NumPy, where a broadcasted shape is constructed from the input
-shapes by prepending size-1 dimensions and broadcasting size-1 dimensions to
-otherwise equal non-size-1 dimensions (for example, a shape `(3, 1)` and a
-shape `(2, 1, 4)` array would broadcast to a shape `(2, 3, 4)` array by
-virtual repetition of the array along the broadcasted dimensions).
-Broadcasting rules should be applied independently of the input array data
-types or values.
+In addition to type promotion, the array API standard specifies rules governing
+the automatic (and implicit) expansion of array dimensions to be of equal sizes
+(Fig. 1d). Broadcasting confers two important advantages. First, broadcasting
+facilities user ergonomics by encouraging users to avoid unnecessary copying of
+array data. Second, implicit expansion enables more efficient computation
+through vectorization, reduced memory consumption, and cache locality.
 
 Interchange Protocol
 --------------------
 
-*TODO (athan): we can rephrase to emphasize interoperability and the desire to convert an array of one flavor to another flavor. We should be able to cut down the content found in this section.*
+.. TODO (athan): we can rephrase to emphasize interoperability and the desire to convert an array of one flavor to another flavor. We should be able to cut down the content found in this section.
 
 As discussed in the non-goals section, array libraries are not expected to
 support mixing arrays from other libraries. Instead, there is an interchange
@@ -598,7 +593,7 @@ Note that `asarray()` also supports the buffer protocol for libraries that
 already implement it, like NumPy. But the buffer protocol is CPU-only, meaning
 it is not sufficient for the above requirements.
 
-*TODO: add code example.*
+.. TODO: add code example.
 
 Array Functions
 ---------------
