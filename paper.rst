@@ -97,14 +97,16 @@ year. One unintended consequence of all this activity has been fragmentation in
 the fundamental building blocks—multidimensional arrays :cite:`Vanderwalt2011a`
 (also known as tensors)—that underpin the scientific Python ecosystem.
 
-This fragmentation comes with significant costs, from reinvention and re-implementation
-of arrays and associated application programming interfaces (APIs) to siloed
-technical stacks targeting only one array library to the proliferation of user
-guides providing guidance on how to convert between, and interoperate among,
-libraries. Too often, the APIs of each library are largely similar, but each
-have enough differences that end users have to relearn and rewrite code in
-order to work with multiple libraries. This process can be very painful as the
-transition is far from seamless.
+This fragmentation comes with significant costs, from reinvention and
+re-implementation of arrays and associated application programming interfaces
+(APIs) to siloed technical stacks targeting only one array library to the
+proliferation of user guides providing guidance on how to convert between, and
+interoperate among, libraries. Too often, the APIs of each library are largely
+similar, but each have enough differences that end users have to relearn and
+rewrite code in order to work with multiple libraries. This process can be
+very painful as the transition is far from seamless. This is particularly
+painful for array consuming libraries that wish to support multiple array
+library backends.
 
 The Consortium for Python Data API Standards (hereafter referred to as "the
 Consortium" and "we") aims to address this problem by standardizing a
@@ -146,10 +148,10 @@ data structure :cite:`Greenfield2003a`. Numarray had faster operations for
 large arrays, but slower operations for small arrays. Subsequently, both
 Numeric and Numarray coexisted to satisfy different use cases.
 
-In early 2005, NumPy was written to unify Numeric and Numarray as a single
+In early 2005, the NumPy library unified Numeric and Numarray as a single
 array package by porting Numarray’s features to Numeric :cite:`Harris2020a`. This
-effort was largely successful and resolved the fragmentation at the time, and,
-for roughly a decade, NumPy was the only widely used array library. Building on
+effort was largely successful and resolved the fragmentation at the time.
+For roughly a decade, NumPy was the only widely used array library. Building on
 NumPy, pandas was subsequently introduced in 2008 in order to address the need
 for a high performance, flexible tool for performing quantitative analysis on
 labeled tabular data :cite:`McKinney2011a`.
@@ -159,10 +161,10 @@ hardware has led to a proliferation of new libraries and a corresponding
 fragmentation within the PyData array and dataframe ecosystem. These libraries
 often borrowed concepts from, or entirely copied, the APIs of older libraries,
 such as NumPy, and then modified and evolved those APIs to address new needs
-and use cases. While the communities of each individual library discussed
-interchange and interoperability, until the founding of the Consortium for
-Python Data API Standards, no process for coordination among libraries arose to
-avoid further fragmentation and to arrive at a common set of API standards.
+and use cases. While the communities of each library individually discussed
+interchange and interoperability, no process for coordination among libraries
+arose to avoid further fragmentation and to arrive at a common set of API
+standards, until the founding of the Consortium.
 
 The genesis for the Consortium grew out of many conversations among maintainers
 during 2019-2020. During those conversations, it quickly became clear that any
@@ -177,6 +179,8 @@ drafting specifications for array and dataframe APIs, which could then be
 adopted by existing array and dataframe libraries and by any new libraries
 which arise.
 
+.. TODO: This feels like it cuts off. Should we say something about 2020-now?
+
 Objectives
 ----------
 
@@ -190,50 +194,51 @@ art, and have clearly defined objectives against which continued success is
 measured.
 
 To this end, we established the following objectives for the array API
-standard. 1) Increase interoperability such that array-consuming libraries can
-accept and operate on any specification-conforming array library. 2) Reduce
+standard: 1) increase interoperability such that array-consuming libraries can
+accept and operate on any specification-conforming array library, 2) reduce
 reinvention and facilitate code sharing and reuse by establishing a common set
-of standardized APIs and behavior. 3) Reduce barriers to new array library
-creation by providing a set of APIs which can be adopted as is. 4) Reduce the
-learning curve and friction for users as they switch between array libraries.
+of standardized APIs and behavior, 3) reduce barriers to new array library
+creation by providing a set of APIs which can be adopted as is, and 4) reduce
+the learning curve and friction for users as they switch between array
+libraries.
 
-Notably, of equal importance to the aforementioned objectives is the explicit
-omission of the following aims. a) Make array libraries identical for the
-purpose of merging them. Different array libraries have different strengths
-(e.g., performance characteristics, hardware support, and tailored use cases,
-such as deep learning), and merging into a single array library is neither
-practical nor realistic. b) Implement a backend or runtime switching system in
-order to switch from one array library to another via a single setting or line
-of code. While potentially feasible, array consumers are likely to need to
-modify code in order to ensure optimal performance and behavior. c) Support
-mixing multiple array libraries in function calls. Mixing array libraries
-requires defining hierarchies and specifying rules for device synchronization
-and data localization. Such rules are likely to be specific to individual use
-cases and beyond the scope of the array API standard.
+Notably, the Consortium explicitly omitted the following as non-goals: a)
+Making array libraries identical for the purpose of merging them. Different
+array libraries have different strengths (e.g., performance characteristics,
+hardware support, and tailored use cases, such as deep learning), and merging
+them into a single array library is neither practical nor realistic. b)
+Implementing a backend or runtime switching system in order to switch from one
+array library to another via a single setting or line of code. While
+potentially feasible, array consumers are likely to need to modify code in
+order to ensure optimal performance and behavior. c) Supporting mixing
+multiple array libraries in function calls. Mixing array libraries requires
+defining hierarchies and specifying rules for device synchronization and data
+localization. Such rules are likely to be specific to individual use cases.
 
 Design Principles
 -----------------
 
-In order to guide standardization and define the contours of the standardization
-process, we established the following design principles:
+In order to define the contours of the standardization process, we established
+the following design principles:
 
 **Pure functions.** Functional API design is the dominant pattern among array
 libraries, both in Python and in other frequently used programming languages
-supporting array computation (e.g., MATLAB :cite:`Moler2020a` and Julia :cite:`Bezanson2017a`).
-While method chaining and the fluent interface design pattern are relatively
-common, especially among array libraries supporting lazy evaluation and
-operator fusion, functional APIs are generally preferred, mirroring design
-patterns used in underlying implementations, such as those written in C/C++
-and Fortran.
+supporting array computation, such as MATLAB :cite:`Moler2020a` and Julia
+:cite:`Bezanson2017a`. While method chaining and the fluent interface design
+pattern are also relatively common, especially among array libraries
+supporting lazy evaluation and operator fusion, functional APIs are generally
+preferred. This mirrors design patterns used in underlying implementations,
+such as those written in C/C++ and Fortran, and more closely matches written
+mathematical notation.
 
-**Minimal array object.** A standardized array object should have a minimal set
-of attributes necessary for inspection (e.g., shape, data type, size, etc.) and
-should have a minimal set of magic methods (also known as double-underscore or
-"dunder" methods) to support operator overloading.
+**Minimal array object.** The array API standard should only require an array
+object to have a minimal set of attributes necessary for inspection (e.g.,
+shape, data type, size, etc.) and should not rely on methods outside of magic
+methods (also known as double-underscore or "dunder" methods) to support
+operator overloading.
 
-**No dependencies.** The array API standard and its implementation should be
-possible in Python, without the need for any external dependency outside
-of Python itself.
+**No dependencies.** The standard and its implementations should not require
+any external dependency outside of Python itself.
 
 **Accelerator support.** Standardized APIs and behavior should be possible to
 implement for both central processing units (CPUs) and hardware-accelerated
@@ -242,15 +247,15 @@ and field-programmable gate arrays (FPGAs).
 
 **Compiler support.** Standardized APIs and behavior should be amenable to
 just-in-time (JIT) and ahead-of-time (AOT) compilation and graph-based
-optimization (e.g., PyTorch :cite:`Paszke2019a`, JAX :cite:`Bradbury2018a`, and
-TensorFlow :cite:`Abadi2016a`). For APIs and behavior which are not amenable,
-such as APIs returning arrays having data-dependent output shapes, the
-respective APIs and behavior should be specified as optional extensions.
-Moreover, copy-view mutation semantics (as, e.g., currently supported by NumPy)
-should be considered an implementation detail and, thus, not suitable for
-standardization.
+optimization, such as those used by PyTorch :cite:`Paszke2019a`, JAX
+:cite:`Bradbury2018a`, and TensorFlow :cite:`Abadi2016a`. APIs and behaviors
+which are not amenable to compilation, such as APIs returning arrays having
+data-dependent output shapes, should be specified as optional extensions.
+Moreover, copy-view mutation semantics, such as those currently supported by
+NumPy, should be considered an implementation detail and, thus, not suitable
+for standardization.
 
-**Distributed support.** Standardized APIs and behavior should be amenable to
+**Distributed support.** Standardized APIs and behaviors should be amenable to
 implementation in array libraries supporting distributed computing (e.g., Dask :cite:`Rocklin2015a`).
 
 **Consistency.** Except in scenarios involving backward compatibility concerns,
@@ -266,10 +271,10 @@ usage is portable across specification-conforming array libraries.
 widely-used standards. For example, the accuracy and precision of numerical
 functions should not be specified beyond the guidance included in IEEE 754 :cite:`IEEE754`.
 
-**Universality.** Standardized APIs and behavior should reflect common usage
+**Universality.** Standardized APIs and behaviors should reflect common usage
 among a wide range of existing array libraries. Accordingly, with rare
-exception, only APIs and behavior having prior art within the ecosystem may
-be considered candidates for standardization.
+exception, only APIs and behaviors having broad existing implementations
+within the ecosystem may be considered candidates for standardization.
 
 
 Methods
@@ -292,13 +297,13 @@ decisions in empirical data and analysis.
 Design
 ------
 
-To understand API design of array libraries within the scientific Python ecosystem, we first identified
-a representative sample of commonly used Python array libraries. The sample
-included the following libraries: NumPy, Dask Array, CuPy, MXNet, JAX,
-TensorFlow, and PyTorch. Next, we extracted public APIs for each library by
-analyzing module exports and scraping public web documentation. As an example
-of extracted API data, consider the following APIs for computing the arithmetic
-mean.
+To understand API design of array libraries within the scientific Python
+ecosystem, we first identified a representative sample of commonly used Python
+array libraries. The sample included the following libraries: NumPy, Dask
+Array, CuPy, MXNet, JAX, TensorFlow, and PyTorch. Next, we extracted public
+APIs for each library by analyzing module exports and scraping public web
+documentation. As an example of extracted API data, consider the following
+APIs for computing the arithmetic mean:
 
 .. TODO (athan): line wrapping makes this block harder to grok, especially when inferring common kwargs; consider an alternative presentation
 
@@ -318,16 +323,13 @@ mean.
        keepdims=False, name=None)
    torch.mean(input, dim, keepdim=False, out=None)
 
-We then standardized the representation of the extracted public API data for
-subsequent analysis and joined individual table data using NumPy as our
-reference relation. From the unified representation, we determined
-commonalities and differences by analyzing the intersection, and its
-complement, of available APIs across each array library. From the intersection,
-we derived a subset of common APIs suitable for standardization based on
-prevalence and ease of implementation. The common API subset included function
-names, method names, attribute names, and positional and keyword arguments. As
-an example of a derived API, consider the common API for computing the
-arithmetic mean:
+We determined commonalities and differences by analyzing the intersection, and
+its complement, of available APIs across each array library. From the
+intersection, we derived a subset of common APIs suitable for standardization
+based on prevalence and ease of implementation. The common API subset included
+function names, method names, attribute names, and positional and keyword
+arguments. As an example of a derived API, consider the common API for
+computing the arithmetic mean:
 
 .. code:: python
 
@@ -427,8 +429,8 @@ defining, but is not limited to, the following: 1) a minimal array object; 2)
 semantics governing array interaction, including type promotion and
 broadcasting; 3) an interchange protocol for converting array objects
 originating from different array libraries; 4) a set of required array-aware
-functions; and 5) optional extensions for specialized APIs and array behavior.
-We discuss each of these standardization areas in turn.
+functions; and 5) optional extensions for specialized APIs and array
+behaviors. We discuss each of these standardization areas in turn.
 
 Array Object
 ------------
@@ -567,7 +569,7 @@ code by applying operations to multiple array elements. Vectorized abstractions
 confer two primary benefits: 1) implementation-dependent optimizations leading
 to increased performance and 2) concise expression of mathematical operations.
 As an example, one can express element-wise computation of *z*-scores in a
-single line. 
+single line.
 
 .. code:: python
 
