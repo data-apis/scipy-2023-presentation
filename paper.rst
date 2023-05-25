@@ -829,17 +829,13 @@ scikit-learn. The primary usage is like
 whenever `x` is a NumPy, CuPy, or PyTorch array, it returns a wrapped module
 that has functions that are array API compliant. Unlike `numpy.array_api`,
 `array_api_compat` does not use separate wrapped array objects. So in the
-above example, the if the input arrays are `np.ndarray`, the return array will
+above example, if the input arrays are `np.ndarray`, the return array will
 be a `np.ndarray`, even though `xp.mean` and `xp.std` are wrapped functions.
 
 While the long-term goal is for array libraries to be completely array API
 compliant, `array-api-compat` allows consumer libraries to use the array API
 in the shorter term against libraries like NumPy, CuPy, and PyTorch that are
 "nearly compliant".
-
-`array-api-compat` has already been successfully used in scikit-learn's
-`LinearDiscriminantAnalysis` API
-(https://github.com/scikit-learn/scikit-learn/pull/22554).
 
 Discussion
 ==========
