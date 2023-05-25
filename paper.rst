@@ -215,7 +215,7 @@ Design Principles
 -----------------
 
 In order to guide standardization and define the contours of the standardization
-process, we further established the following design principles:
+process, we established the following design principles:
 
 **Pure functions.** Functional API design is the dominant pattern among array
 libraries, both in Python and in other frequently used programming languages
