@@ -171,10 +171,11 @@ infeasible. Unlike in 2005, too many different use cases and varying
 stakeholders now exist. Furthermore, the speed of innovation of both hardware
 and software is simply too great.
 
-In May 2020, an initial group of maintainers and industry stakeholders assembled
-to form the Consortium for Python Data API Standards to begin drafting
-specifications for array and dataframe APIs, which could then be adopted by each
-of the existing array and dataframe libraries and by any new libraries which arise.
+In May 2020, an initial group of maintainers and industry stakeholders
+assembled to form the Consortium for Python Data API Standards to begin
+drafting specifications for array and dataframe APIs, which could then be
+adopted by existing array and dataframe libraries and by any new libraries
+which arise.
 
 Objectives
 ----------
