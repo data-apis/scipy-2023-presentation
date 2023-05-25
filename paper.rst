@@ -42,6 +42,10 @@
 :email: treddy@lanl.gov
 :institution: LANL
 
+:author: Sheng Zha
+:email: zhasheng@apache.org
+:institution: Amazon
+
 :author: Consortium for Python Data API Standards
 :email:
 :institution: Consortium for Python Data API Standards
@@ -580,37 +584,81 @@ single line.
 In addition to vectorized operations, the array API standard includes, but is
 not limited to, functions for creating new arrays, with support for explicit
 device allocation; reshaping and manipulating existing arrays; performing
-statistical reductions across one, multiple, or all array axes (Fig. 1e); and sorting
-array elements. Altogether, these APIs provide a robust and portable foundation
-for higher-order array operations and general array computation.
+statistical reductions across one, multiple, or all array axes (Fig. 1e); and
+sorting array elements. Altogether, these APIs provide a robust and portable
+foundation for higher-order array operations and general array computation.
 
 Optional Extensions
 -------------------
 
-.. TODO (athan): consuming extensions. How to check whether present?
+While a set of commonly used array-aware functions is sufficient for many
+array computation use cases, additional, more specialized, functionality may be
+warranted. For example, while most data visualization libraries are unlikely to
+explicitly rely on APIs for computing Fourier transforms, signal analysis
+libraries supporting spectral analysis of time series are likely to require
+Fourier transform APIs. To accommodate specialized APIs, the Python array API
+standard includes standardized optional extensions.
 
-In addition to the above required functions, there are two optional extension
-sub-namespaces. Array libraries may choose to implement or not implement these
-extensions. These extensions are optional because they typically require
-linking against a numerical library such as a linear algebra library, and
-therefore may be difficult for some libraries to implement.
+An extension is defined as a coherent set of standardized functionality which
+is commonly implemented across many, but not all, array libraries. Due to
+implementation difficulty (or impracticality), limited general applicability, a
+desire to avoid significantly expanding API surface area beyond what is
+essential, or some combination of the above, requiring conforming array
+libraries to implement and maintain extended functionality beyond their target
+domain is not desirable. Extensions provide a means for conforming array
+libraries to opt-in to supporting standardized API subsets according to need
+and target audience.
 
-- `linalg` contains basic linear algebra functions, such as `eigh`, `solve`,
-  and `qr`. These functions are designed to support "batching" (i.e.,
-  functions that accept matrices also accept stacks of matrices as a single
-  array with more than 2 dimensions). The specification for the `linalg`
-  extension is designed to be implementation agnostic. This means that things
-  like keyword arguments that are specific to backends like LAPACK are omitted
-  from the specified signatures (for example, NumPy’s use of `UPLO` in the
-  `eigh()` function). BLAS and LAPACK no longer hold a complete monopoly over
-  linear algebra operations given the existence of specialized accelerated
-  hardware, so these sorts of keywords are an impediment to wide implementation
-  across all array libraries.
+The linear algebra extension is one such extension. While scientific
+computation relies heavily on linear algebra, implementing robust numerical
+linear algebra routines is difficult and imposes a heavy burden on array
+library authors. As a consequence, numerical array libraries have traditionally
+relied on, linked against, and provided ergonomic abstractions over fundamental
+linear algebra libraries, such as BLAS :cite:`Lawson1979a`:cite:`Dongarra1988a`:cite:`Dongarra1990a`
+and LAPACK :cite:`Anderson1999a`. Over time, libraries catered to the
+parameterization of BLAS and LAPACK, often exposing low-level implementation
+details verbatim in their higher-level interfaces, even if the design choices
+would be considered ill-advised by today's standards. While still important,
+BLAS and LAPACK no longer hold a monopoly over linear algebra operations,
+especially given the proliferation of devices and hardware on which operations
+must be performed. Hardware heterogeneity and the emergence of alternative
+linear algebra libraries subsequently led to a divergence in linear algebra
+APIs across the SPE.
 
-- `fft` contains functions for performing Fast Fourier transformations.
+In recognition of this change, we sought to use the standardization process as
+an opportunity to reduce interface complexity among linear algebra APIs by
+inferring and codifying common design themes, thus standardizing more
+consistent APIs. We established four key standardization design principles:
+
+**Implementation agnosticism**: standardized APIs should eschew
+parameterization (including keyword arguments) biased toward particular
+implementations. Conservative parameterization should apply even to performance
+optimization parameters afforded by certain hardware.
+
+**Monomorphic return values**: in order to accommodate array libraries which
+perform static analysis (e.g., graph-based optimization), standardized APIs
+should avoid polymorphic returns values (e.g., returning an array or a tuple
+depending on an optional keyword argument).
+
+**Batching**: if an operation is defined in terms of matrices, then the
+associated interface should support "batching" (i.e., the ability to perform
+the operation over a stack of matrices).
+
+**Orthogonality**: each standardized API should have clearly defined and delineated
+functionality which has minimal overlap with the behavior afforded by other
+standardized APIs.
+
+The standardized linear algebra extension specifies a set of fundamental
+array-aware linear algebra operations, including, but not limited to, matrix
+inversion and eigenvalue, Cholesky, QR, and singular value decompositions.
+Altogether, these APIs provide a portable foundation for numerical linear
+algebra in image processing, machine learning, and other scientific computing
+applications.
 
 Test Suite
 ==========
+
+.. TODO (athan): tighten copy
 
 The array API specification contains over 200 function and method definitions,
 each with its own signature and specification for behaviors for things like
