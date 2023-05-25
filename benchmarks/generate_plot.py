@@ -2,7 +2,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import seaborn as sns
 
-scikit_learn_results = pd.read_csv("scikit_learn_timings.csv")
+scikit_learn_results = pd.read_csv("scikit-learn_timings.csv")
 
 fontsize = 16
 

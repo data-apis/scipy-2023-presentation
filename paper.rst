@@ -301,7 +301,7 @@ decisions in empirical data and analysis.
 Design
 ------
 
-To understand API design of array libraries within the SPE, we first identified
+To understand API design of array libraries within the scientific Python ecosystem, we first identified
 a representative sample of commonly used Python array libraries. The sample
 included the following libraries: NumPy, Dask Array, CuPy, MXNet, JAX,
 TensorFlow, and PyTorch. Next, we extracted public APIs for each library by
@@ -352,7 +352,7 @@ on GitHub.
 Usage
 -----
 
-To understand usage patterns of array libraries within the SPE, we first
+To understand usage patterns of array libraries within the scientific Python ecosystem, we first
 identified a representative sample of commonly used Python libraries
 ("downstream libraries") which consume the sample of array libraries identified
 during design analysis. The sample of downstream libraries included the
@@ -411,6 +411,8 @@ data, and analysis are available as public artifacts on GitHub :cite:`Consortium
 Array API Standard
 ==================
 
+.. Automatic figure references won't work because they require Sphinx.
+.. _Figure 1:
 .. figure:: assets/array_object.pdf
    :align: center
    :figclass: wt
