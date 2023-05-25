@@ -648,12 +648,12 @@ the operation over a stack of matrices).
 functionality which has minimal overlap with the behavior afforded by other
 standardized APIs.
 
-The Python array API standard linear algebra extension specifies a set of
-fundamental array-aware linear algebra operations, including, but not limited
-to, matrix inversion and eigenvalue, Cholesky, QR, and singular value
-decompositions. Altogether, these APIs provide a portable foundation for
-numerical linear algebra in image processing, machine learning, and general
-scientific computation.
+The standardized linear algebra extension specifies a set of fundamental array-
+aware linear algebra operations, including, but not limited to, matrix
+inversion and eigenvalue, Cholesky, QR, and singular value decompositions.
+Altogether, these APIs provide a portable foundation for numerical linear
+algebra in image processing, machine learning, and general scientific
+computation.
 
 Test Suite
 ==========
