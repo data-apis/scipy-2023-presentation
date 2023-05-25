@@ -244,7 +244,7 @@ and field-programmable gate arrays (FPGAs).
 
 **Compiler support.** Standardized APIs and behavior should be amenable to
 just-in-time (JIT) and ahead-of-time (AOT) compilation and graph-based
-optimization, such as those used by PyTorch :cite:`Paszke2019a`, JAX
+optimization techniques, such as those used by PyTorch :cite:`Paszke2019a`, JAX
 :cite:`Bradbury2018a`, and TensorFlow :cite:`Abadi2016a`. APIs and behaviors
 which are not amenable to compilation, such as APIs returning arrays having
 data-dependent output shapes, should be specified as optional extensions.
