@@ -665,9 +665,8 @@ the Python array API standard for community review in 2021. We subsequently
 finalized the 2021 specification revision in early 2022. After release of the
 2021 revision, we released a 2022 revision in December of the same year. For
 future revisions, we expect annual release cadences; however, array API
-standard consumers should not assume a fixed release schedule.
-
-A summary of release contents is as follows:
+standard consumers should not assume a fixed release schedule. A summary of
+release contents is as follows:
 
 **v2021.12**: initial specification detailing purpose and scope,
 standardization methodology, future standard evolution, a minimal array object,
@@ -675,7 +674,7 @@ an interchange protocol, required data types, type promotion and broadcasting
 semantics, an optional linear algebra extension, and array-aware functions for
 array creation, manipulation, statistical reduction, and vectorization, among
 others.
-  
+
 **v2022.12**: support for single- and double-precision complex floating-type
 data types, additional array-aware APIs, an optional extension for computing
 fast Fourier transforms, and errata for the v2021.12 revision.
