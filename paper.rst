@@ -678,51 +678,7 @@ Implementation Status
 Reference Implementation
 ------------------------
 
-.. TODO (athan): reduce length
-
-The experimental `numpy.array_api` submodule is a standalone, strict
-implementation of the standard. It is not intended to be used by end users,
-but rather by array consumer libraries to test that their array API usage is
-portable.
-
-The strictness of `numpy.array_api` means it will raise an exception for code
-that is not portable, even if it would work in the base `numpy`. For example,
-here we see that `numpy.array_api.sin(x)` fails for an integral array `x`,
-because in the array API spec, `sin()` is only required to work with
-floating-point arrays.
-
-.. code:: pycon
-
-   >>> import numpy.array_api as xp
-   <stdin>:1: UserWarning: The numpy.array_api submodule
-   is still experimental. See NEP 47.
-   >>> x = xp.asarray([1, 2, 3])
-   >>> xp.sin(x)
-   Traceback (most recent call last):
-   ...
-   TypeError: Only floating-point dtypes are allowed in
-   sin
-
-In order to implement this strictness, `numpy.array_api` employs a separate
-`Array` object, distinct from `np.ndarray`.
-
-.. code:: python
-
-   >>> a
-   Array([1, 2, 3], dtype=int64)
-
-This makes it difficult to use `numpy.array_api` alongside normal `numpy`. For
-example, if a consumer library wanted to implement the array API for NumPy by
-using `numpy.array_api`, they would have to first convert the user's input
-`numpy.ndarray` to `numpy.array_api.Array`, perform the calculation, then
-convert back. This is in conflict with the fundamental design of the array API
-specification, which is for array libraries to implement the API and for array
-consumers to use that API directly in a library agnostic way, without
-converting between different array libraries.
-
-As such, the `numpy.array_api` module is only useful as a testing library for
-array consumers, to check that their code is portable. If code runs in
-`numpy.array_api`, it should work in any conforming array API namespace.
+To supplement the Python array API standard, we developed a standalone reference implementation. The implementation is strictly compliant (i.e., any non-portable usage triggers an exception) and is available as an `array_api` submodule in NumPy (discussed in :cite:`Gommers2021a`). In general, we do not expect for users to rely on the reference implementation for production use cases due to performance considerations; however, the reference implementation provides a convenient means for testing whether array library usage is guaranteed to be portable.
 
 Ecosystem Adoption
 ------------------
