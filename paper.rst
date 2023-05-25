@@ -658,40 +658,26 @@ applications.
 Test Suite
 ==========
 
-.. TODO (athan): tighten copy
+To facilitate adoption of the Python array API standard by array libraries
+within the SPE, we developed a test suite :cite:`Consortium2022b` to measure
+specification compliance. The test suite covers all major aspects of the
+specification, such as broadcasting, type promotion, function signatures,
+special case handling, and expected return values.
 
-The array API specification contains over 200 function and method definitions,
-each with its own signature and specification for behaviors for things like
-type promotion, broadcasting, and special case values.
+Underpinning the test suite is Hypothesis, a Python library for creating unit
+tests :cite:`MacIver2019a`. Hypothesis uses property-based testing, a technique
+for generating arbitrary data satisfying provided specifications and asserting
+the truth of some "property" that should be true for each input-output pair.
+Property-based testing is particularly convenient when authoring compliance
+tests, as the technique enables the direct translation of specification
+guidance into test code.
 
-To facilitate adoption by array libraries, as well as to aid in the
-development of the minimal `numpy.array_api` implementation, a test suite for
-the array API has been developed. The `array-api-tests` test suite is a
-full-featured test suite that can be run against any array library to check its
-compliance against the array API specification. The test suite does not depend
-on any array library—testing against something like NumPy would be circular
-when it comes time to test NumPy itself. Instead, array-api-tests tests the
-behavior specified by the spec directly.
-
-This is done by making use of the hypothesis Python library :cite:`MacIver2019a`.
-Hypothesis is a property-based testing library, where tests are written as
-assertions on generic properties and inputs are generated automatically from
-strategies. This is a good fit for the array API because it allows writing
-tests in a way that more or less corresponds to a direct translation of the
-spec into code. The consortium team has upstreamed array API support to
-hypothesis in the form of the new `hypothesis.extra.array_api` submodule,
-which has strategies for generating arrays from any array API compliant
-library.
-
-Behavior that is not specified by the spec is not checked by the test
-suite—for example the exact numeric output of floating-point functions.
-
-The `array-api-tests` test suite is the first example known to these authors
-of a full featured Python test suite that runs against multiple different
-libraries. It has already been invaluable in practice for implementing the
-minimal `numpy.array_api` implementation, the `array-api-compat` library, and
-for finding discrepancies from the spec in array libraries including NumPy,
-CuPy, and PyTorch.
+The test suite is the first example known to these authors of a full-featured,
+standalone Python test suite capable of running against multiple different
+libraries. And, as part of our work, we upstreamed strategies to Hypothesis for
+generating arbitrary arrays from any conforming array library, thus allowing
+downstream array consumers to test against multiple array libraries and their
+associated hardware devices.
 
 Specification Status
 ====================
