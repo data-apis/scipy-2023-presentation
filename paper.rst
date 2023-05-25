@@ -644,7 +644,7 @@ depending on an optional keyword argument).
 associated interface should support "batching" (i.e., the ability to perform
 the operation over a stack of matrices).
 
-**Orthogonality**: standardized APIs should have clearly defined and delineated
+**Orthogonality**: each standardized API should have clearly defined and delineated
 functionality which has minimal overlap with the behavior afforded by other
 standardized APIs.
 
