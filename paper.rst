@@ -223,16 +223,16 @@ the following design principles:
 libraries, both in Python and in other frequently used programming languages
 supporting array computation, such as MATLAB :cite:`Moler2020a` and Julia
 :cite:`Bezanson2017a`. While method chaining and the fluent interface design
-pattern are relatively common, especially among array libraries supporting lazy evaluation and operator fusion, functional APIs are generally
-preferred. This mirrors design patterns used in underlying implementations,
-such as those written in C/C++ and Fortran, and more closely matches written
-mathematical notation.
+pattern are also relatively common, especially among array libraries supporting
+lazy evaluation and operator fusion, functional APIs are generally preferred.
+This mirrors design patterns used in underlying implementations, such as those
+written in C/C++ and Fortran, and more closely matches written mathematical
+notation.
 
-**Minimal array object.** The array API standard should only require an array
-object to have a minimal set of attributes necessary for inspection (e.g.,
-shape, data type, size, etc.) and should not rely on methods outside of magic
-methods (also known as double-underscore or "dunder" methods) to support
-operator overloading.
+**Minimal array object.** The standard should not require that an array object
+have any attributes or methods beyond what is necessary for inspection (e.g.,
+shape, data type, and device) or for supporting operator overloading (i.e.,
+magic methods), respectively.
 
 **No dependencies.** The standard and its implementations should not require
 any external dependency outside of Python itself.
