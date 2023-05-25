@@ -338,30 +338,30 @@ computing the arithmetic mean:
 To assist in determining standardization prioritization, we leveraged usage
 data (discussed below) to confirm API need and to inform naming conventions,
 supported data types, and optional arguments. We have summarized findings and
-published tooling :cite:`Consortium2022c` for additional analysis and exploration,
-including Jupyter notebooks :cite:`Kluyver2016a`, as public artifacts available
-on GitHub.
+published tooling :cite:`Consortium2022c` for additional analysis and
+exploration, including Jupyter notebooks :cite:`Kluyver2016a`, as public
+artifacts available on GitHub.
 
 Usage
 -----
 
-To understand usage patterns of array libraries within the scientific Python ecosystem, we first
-identified a representative sample of commonly used Python libraries
-("downstream libraries") which consume the sample of array libraries identified
-during design analysis. The sample of downstream libraries included the
-following libraries: SciPy :cite:`Virtanen2020a`, pandas :cite:`McKinney2011a`,
-Matplotlib :cite:`Hunter2007a`, xarray :cite:`Hoyer2017a`, scikit-learn :cite:`Pedregosa2011a`,
-and scikit-image :cite:`Vanderwalt2014a`, among others. Next, we instrumented
-downstream libraries in order to record Python array API calls :cite:`Consortium2020a`.
-After instrumentation, we collected stack traces while running downstream
-library test suites. We subsequently transformed trace data into structured
-JSON for subsequent analysis. From the structured data, we generated empirical
-APIs based on provided arguments and associated data types, noting which
-downstream library called which empirical API and at what frequency. We then
-derived a single inferred API which unifies the individual empirical API
-calling semantics. We organized the API results in human-readable form as type
-definition files and compared the inferred API to the publicly documented APIs
-obtained during design analysis.
+To understand usage patterns of array libraries within the scientific Python
+ecosystem, we first identified a representative sample of commonly used Python
+libraries ("downstream libraries") which consume the sample of array libraries
+identified during design analysis. The sample of downstream libraries included
+SciPy :cite:`Virtanen2020a`, pandas :cite:`McKinney2011a`, Matplotlib
+:cite:`Hunter2007a`, xarray :cite:`Hoyer2017a`, scikit-learn
+:cite:`Pedregosa2011a`, and scikit-image :cite:`Vanderwalt2014a`, among
+others. Next, we instrumented downstream libraries in order to record Python
+array API calls :cite:`Consortium2020a`. After instrumentation, we collected
+stack traces while running downstream library test suites. We subsequently
+transformed trace data into structured JSON for subsequent analysis. From the
+structured data, we generated empirical APIs based on provided arguments and
+associated data types, noting which downstream library called which empirical
+API and at what frequency. We then derived a single inferred API which unifies
+the individual empirical API calling semantics. We organized the API results
+in human-readable form as type definition files and compared the inferred API
+to the publicly documented APIs obtained during design analysis.
 
 The following is an example inferred API for `numpy.arange`, with the docstring
 indicating the number of lines of code which invoked the function for each
@@ -392,7 +392,8 @@ downstream library when running downstream library test suites.
 
 As a final step, we ranked each API in the common API subset obtained during
 design analysis according to relative usage using the Dowdall positional voting
-system :cite:`Fraenkel2014a` (a variant of the Borda count :cite:`Emerson2013a`
+system :cite:`Fraenkel2014a` (a variant of the Borda count
+:cite:`Emerson2013a` that
 which favors candidate APIs having high relative usage). From the rankings, we
 assigned standardization priorities, with higher ranking APIs taking precedence
 over lower ranking APIs, and extended the analysis to aggregated API categories
@@ -413,15 +414,16 @@ Array API Standard
 
    The array data structure and fundamental concepts. **a)** An array data
    structure and its associated metadata fields. **b)** Indexing an array.
-   Indexing operations may access individual elements or sub-arrays. Applying a
-   boolean mask is an optional indexing extension and may not be supported by
-   all conforming libraries. **c)** Vectorization obviates the need for
+   Indexing operations may access individual elements or sub-arrays. Applying
+   a boolean mask is an optional indexing extension and may not be supported
+   by all conforming libraries. **c)** Vectorization obviates the need for
    explicit looping in user code by applying operations to multiple array
    elements. **d)** Broadcasting enables efficient computation by implicitly
    expanding the dimensions of array operands to equal sizes. **e)** Reduction
    operations act along one or more axes. In the example, summation along a
-   single axis produces a vector, while summation along two axes produces a
-   zero-dimensional array containing the sum of all array elements.
+   single axis produces a one-dimensional array, while summation along two
+   axes produces a zero-dimensional array containing the sum of all array
+   elements.
 
 The Python array API standard specifies standardized APIs and behaviors for
 array and tensor objects and operations. The scope of the standard includes
@@ -443,9 +445,10 @@ underlying data, notably 'data type', 'shape', and 'device' (Fig. 1a).
 
 An array data type ("dtype") describes how to interpret a single array element
 (e.g., integer, real- or complex-valued floating-point, boolean, or other). A
-conforming array object has a single data type. To facilitate interoperability,
-conforming libraries must support and provide a minimal set of data type
-objects (e.g., `int8`, `int16`, `int32`, `float32`, and `float64`).
+conforming array object has a single dtype. To facilitate interoperability,
+conforming libraries must support and provide a minimal set of dtype
+objects (e.g., `int8`, `int16`, `int32`, `float32`, and `float64`). Dtype
+objects are specified by their name in the library namespace, like `xp.bool`.
 
 An array shape specifies the number of elements along each array axis (also
 referred to as "dimension"). The number of axes corresponds to the
@@ -459,46 +462,39 @@ An array device specifies the location of array memory allocation. A conforming
 array object is assigned to a single logical device. To support array libraries
 supporting execution on different device types (e.g., CPUs, GPUs, TPUs, etc.),
 conforming libraries must provide standardized device APIs in order to
-coordinate execution location. In the following example, we use standardized
-device APIs to ensure execution occurs on a specific device.
+coordinate execution location. The following example uses standardized
+device APIs to ensure execution occurs on the same device as the input.
 
 .. code:: python
 
-   def some_function(x, y):
-       # Retrieve a specification-compliant namespace:
+   def some_function(x):
+       # Retrieve a specification-compliant namespace
        xp = x.__array_namespace__()
 
-       # Ensure execution occurs on the same device.
-       # Determining which device has priority will be
-       # specific to a given use case and library:
-       if x.device != y.device:
-           y = y.to_device(x.device)
+       # Allocate a new array on the same device
+       y = xp.linspace(0, 2*xp.pi, 100, device=x.device)
 
-       # Allocate a new array on the same device:
-       z = xp.linspace(0, 2*xp.pi, 100, device=x.device)
-
-       # Perform computation:
-       return xp.sin(z) * x + y
+       # Perform computation. All computations take
+       # place on device.
+       return xp.sin(y) * x
 
 To interact with array objects, one uses "indexing" to access sub-arrays and
 individual elements, "operators" to perform logical and arithmetic operations
-(e.g., :math:`+`, :math:`-`, :math:`\times`, :math:`\div`, and :math:`@`, and
-array-aware functions (e.g., for linear algebra, statistical reductions, and
-element-wise computation). Array indexing semantics extend built-in Python
-sequence `__getitem__()` indexing semantics to support element access across
-multiple dimensions (Fig. 1b). Indexing an array using a boolean array (also
-known as "masking") is an optional standardized extension; however, masking is
-not generally portable, as the result of a mask operation is data-dependent
-and, thus, difficult for array libraries relying on static analysis for
-graph-based optimization.
+(e.g., `+`, `-`, `*`, `/`, and `@`), and array-aware functions (e.g., for
+linear algebra, statistical reductions, and element-wise computation). Array
+indexing semantics extend built-in Python sequence `__getitem__()` indexing
+semantics to support element access across multiple dimensions (Fig. 1b).
+Indexing an array using a boolean array (also known as "masking") is an
+optional standardized extension. The result of a mask operation is
+data-dependent and thus difficult to implement in array libraries relying on
+static analysis for graph-based optimization.
 
 Array Interaction
 -----------------
 
 The Python array API standard further specifies rules governing expected
-behavior when an operation involves two or more array operands. Two sets of
-rules, in particular, warrant further attention: type promotion and
-broadcasting.
+behavior when an operation involves two or more array operands, namely, rules
+for type promotion and broadcasting.
 
 For operations in which the data type of a resulting array object is resolved
 from operand data types, the resolved data type must follow type promotion
@@ -511,7 +507,7 @@ be the promoted data type `float64`.
 .. code:: python
 
    >>> x1 = xp.ones((2, 2), dtype=xp.float32)
-   >>> x2 = xp.ones(x1.shape, dtype=xp.float64)
+   >>> x2 = xp.ones((2, 2), dtype=xp.float64)
    >>> y = x1 + x2
    >>> y.dtype == xp.float64
    True
@@ -538,7 +534,7 @@ array data. To this end, the Python array API standard specifies an interchange
 protocol describing the memory layout of a strided, n-dimensional array in an
 implementation-independent manner.
 
-The basis of the protocol is DLPack, an open in-memory structure for sharing
+The basis of this protocol is DLPack, an open in-memory structure for sharing
 tensors among frameworks :cite:`DLPack2023a`. DLPack is a standalone protocol
 with an ABI stable, header-only C implementation with cross hardware support.
 The array API standard builds on DLPack by specifying Python APIs for array
