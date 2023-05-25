@@ -678,7 +678,14 @@ Implementation Status
 Reference Implementation
 ------------------------
 
-To supplement the Python array API standard, we developed a standalone reference implementation. The implementation is strictly compliant (i.e., any non-portable usage triggers an exception) and is available as an `array_api` submodule in NumPy (discussed in :cite:`Gommers2021a`). In general, we do not expect for users to rely on the reference implementation for production use cases due to performance considerations; however, the reference implementation provides a convenient means for testing whether array library usage is guaranteed to be portable.
+To supplement the Python array API standard, we developed a standalone
+reference implementation. The implementation is strictly compliant (i.e., any
+non-portable usage triggers an exception) and is available as an `array_api`
+submodule in NumPy (discussed in :cite:`Gommers2021a`). In general, we do not
+expect for users to rely on the reference implementation for production use
+cases due to performance considerations; however, the reference implementation
+provides a convenient means for testing whether array library usage is
+guaranteed to be portable.
 
 Ecosystem Adoption
 ------------------
