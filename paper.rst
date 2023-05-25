@@ -660,14 +660,12 @@ applications.
 Specification Status
 ====================
 
-.. TODO (athan): add brief overviews regarding specification revisions and contents.
+Following formation of the Consortium in 2020, we released an initial draft of the Python array API standard for community review in 2021. We subsequently finalized the 2021 specification revision in early 2022. After release of the 2021 revision, we released a 2022 revision in December of the same year. For future revisions, we expect annual release cadences; however, array API standard consumers should not assume a fixed release schedule.
 
-Two versions of the array API specification have been released, v2021.12 and
-v2022.12. v2021.12 was the initial release with all important core array
-functionality. The v2022.12 release added complex number support to all APIs
-and the `fft` extension. A v2023 version is in the works, although no
-significant changes are planned so far. In 2023, most of the work around the
-array API has focused on implementation and adoption.
+A summary of release contents is as follows:
+
+- **v2021.12**: initial specification detailing purpose and scope, standardization methodology, future standard evolution, a minimal array object, interchange protocol, required data types, type promotion and broadcasting semantics, an optional linear algebra extension, and array-aware functions for array creation, manipulation, statistical reduction, and vectorization, among others.
+- **v2022.12**: support for single- and double-precision complex floating-type data types, additional array-aware APIs, an optional extension for computing fast Fourier transforms, and errata for the v2021.12 revision.
 
 Implementation Status
 =====================
