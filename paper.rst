@@ -142,8 +142,8 @@ To better accommodate this library and its use cases, Python’s syntax was
 extended to include indexing syntax :cite:`Hugunin1995a`.
 
 In the early 2000s, a similar library, Numarray, introduced a more flexible
-data structure :cite:`Greenfield2003a`. Numarray had faster operations for large
-arrays. However, Numarray was slower for small arrays. Subsequently, both
+data structure :cite:`Greenfield2003a`. Numarray had faster operations for
+large arrays, but slower operations for small arrays. Subsequently, both
 Numeric and Numarray coexisted to satisfy different use cases.
 
 In early 2005, NumPy was written to unify Numeric and Numarray as a single
