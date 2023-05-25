@@ -406,7 +406,11 @@ Array API Standard
 ==================
 
 .. Automatic figure references won't work because they require Sphinx.
-.. _Figure 1:
+.. _Fig. 1a:
+.. _Fig. 1b:
+.. _Fig. 1c:
+.. _Fig. 1d:
+.. _Fig. 1e:
 .. figure:: assets/array_object.pdf
    :align: center
    :figclass: wt
@@ -441,7 +445,7 @@ An array object is a data structure for efficiently storing and accessing
 multidimensional arrays :cite:`Vanderwalt2011a`. Within the context of the
 array API standard, the data structure is opaque—libraries may or may not grant
 direct access to raw memory—and includes metadata for interpreting the
-underlying data, notably 'data type', 'shape', and 'device' (Fig. 1a).
+underlying data, notably 'data type', 'shape', and 'device' (`Fig. 1a`_).
 
 An array data type ("dtype") describes how to interpret a single array element
 (e.g., integer, real- or complex-valued floating-point, boolean, or other). A
@@ -483,7 +487,7 @@ individual elements, "operators" to perform logical and arithmetic operations
 (e.g., `+`, `-`, `*`, `/`, and `@`), and array-aware functions (e.g., for
 linear algebra, statistical reductions, and element-wise computation). Array
 indexing semantics extend built-in Python sequence `__getitem__()` indexing
-semantics to support element access across multiple dimensions (Fig. 1b).
+semantics to support element access across multiple dimensions (`Fig. 1b`_).
 Indexing an array using a boolean array (also known as "masking") is an
 optional standardized extension. The result of a mask operation is
 data-dependent and thus difficult to implement in array libraries relying on
@@ -514,7 +518,7 @@ be the promoted data type `float64`.
 
 In addition to type promotion, the array API standard specifies rules governing
 the automatic (and implicit) expansion of array dimensions to be of equal sizes
-(Fig. 1d). Broadcasting confers two important advantages. First, broadcasting
+(`Fig. 1d`_). Broadcasting confers two important advantages. First, broadcasting
 facilities user ergonomics by encouraging users to avoid unnecessary copying of
 array data. Second, implicit expansion enables more efficient computation
 through vectorization, reduced memory consumption, and cache locality.
@@ -540,7 +544,7 @@ with an ABI stable, header-only C implementation with cross hardware support.
 The array API standard builds on DLPack by specifying Python APIs for array
 object data interchange. Conforming array objects must support `__dlpack__` and
 `__dlpack_device__` magic methods for accessing array data and querying the
-array device. A standardized `from_dlpack` API calls these methods to
+array device. A standardized `from_dlpack()` API calls these methods to
 construct a new array object of the desired type using zero-copy semantics when
 possible. The combination of DLPack and standardized Python APIs thus provides a
 stable, widely adopted, and efficient means for array object interchange.
@@ -560,7 +564,7 @@ Array Functions
 To complement the minimal array object, the Python array API standard specifies
 a set of required array-aware functions for arithmetic, statistical, algebraic,
 and general computation. Where applicable, required functions must support
-vectorization (Fig. 1d), which obviates the need for explicit looping in user
+vectorization (`Fig. 1d`_), which obviates the need for explicit looping in user
 code by applying operations to multiple array elements. Vectorized abstractions
 confer two primary benefits: 1) implementation-dependent optimizations leading
 to increased performance and 2) concise expression of mathematical operations.
@@ -570,12 +574,12 @@ single line.
 .. code:: python
 
     def z_score(x):
-        return (x-xp.mean(x)) / xp.stdev(x)
+        return (x - xp.mean(x)) / xp.stdev(x)
 
 In addition to vectorized operations, the array API standard includes, but is
 not limited to, functions for creating new arrays, with support for explicit
-device allocation; reshaping and manipulating existing arrays; performing
-statistical reductions across one, multiple, or all array axes (Fig. 1e); and
+device allocation, reshaping and manipulating existing arrays, performing
+statistical reductions across one, multiple, or all array axes (`Fig. 1e`_), and
 sorting array elements. Altogether, these APIs provide a robust and portable
 foundation for higher-order array operations and general array computation.
 
@@ -803,7 +807,7 @@ Discussion
 ==========
 
 .. Automatic figure references won't work because they require Sphinx.
-.. _Figure 2:
+.. _Fig. 2:
 .. figure:: assets/timings.pdf
    :align: center
    :figclass: wt
@@ -934,12 +938,12 @@ which parts of the code used NumPy functionality that is not part of the
 standard.
 
 The resulting code can now be run against any array API conforming library.
-`Figure 2`_ shows the resulting speedups vs. NumPy for
+`Fig. 2`_ shows the resulting speedups vs. NumPy for
 `LinearDiscriminantAnalysis` and `scipy.signal.welch()` on Torch CPU, Torch
 GPU (CUDA), and CuPy backends. GPU backends give a significant speedup, but
 even Torch CPU can have up to 2x speedup over NumPy.
 
-`Figure 2`_ additionally highlights an additional type of change, namely
+`Fig. 2`_ additionally highlights an additional type of change, namely
 **making use of library specific performance optimizations**. The SciPy
 `welch()` implementation uses an optimization involving stride tricks. Stride
 tricks have not been standardized in the array API since they are not
