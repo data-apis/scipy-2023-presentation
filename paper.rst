@@ -294,13 +294,13 @@ decisions in empirical data and analysis.
 Design
 ------
 
-To understand API design of array libraries within the scientific Python
-ecosystem, we first identified a representative sample of commonly used Python
-array libraries. The sample included the following libraries: NumPy, Dask
-Array, CuPy, MXNet, JAX, TensorFlow, and PyTorch. Next, we extracted public
-APIs for each library by analyzing module exports and scraping public web
-documentation. As an example of extracted API data, consider the following
-APIs for computing the arithmetic mean:
+To understand API design of array libraries within the SPE, we first identified
+a representative sample of commonly used Python array libraries. The sample
+included the following libraries: NumPy, Dask Array, CuPy, MXNet, JAX,
+TensorFlow, and PyTorch. Next, we extracted public APIs for each library by
+analyzing module exports and scraping public web documentation. As an example
+of extracted API data, consider the following APIs for computing the arithmetic
+mean:
 
 .. TODO (athan): line wrapping makes this block harder to grok, especially when inferring common kwargs; consider an alternative presentation
 
