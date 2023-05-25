@@ -42,6 +42,10 @@
 :email: treddy@lanl.gov
 :institution: LANL
 
+:author: Sheng Zha
+:email: zhasheng@apache.org
+:institution: Amazon
+
 :author: Consortium for Python Data API Standards
 :email:
 :institution: Consortium for Python Data API Standards
