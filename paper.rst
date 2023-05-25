@@ -601,52 +601,6 @@ domain is not desirable. Extensions provide a means for conforming array
 libraries to opt-in to supporting standardized API subsets according to need
 and target audience.
 
-.. The linear algebra extension is one such extension. While scientific
-.. computation relies heavily on linear algebra, implementing robust numerical
-.. linear algebra routines is difficult and imposes a heavy burden on array
-.. library authors. As a consequence, numerical array libraries have traditionally
-.. relied on, linked against, and provided ergonomic abstractions over fundamental
-.. linear algebra libraries, such as BLAS :cite:`Lawson1979a`:cite:`Dongarra1988a`:cite:`Dongarra1990a`
-.. and LAPACK :cite:`Anderson1999a`. Over time, libraries catered to the
-.. parameterization of BLAS and LAPACK, often exposing low-level implementation
-.. details verbatim in their higher-level interfaces, even if the design choices
-.. would be considered ill-advised by today's standards. While still important,
-.. BLAS and LAPACK no longer hold a monopoly over linear algebra operations,
-.. especially given the proliferation of devices and hardware on which operations
-.. must be performed. Hardware heterogeneity and the emergence of alternative
-.. linear algebra libraries subsequently led to a divergence in linear algebra
-.. APIs across the SPE.
-
-.. In recognition of this change, we sought to use the standardization process as
-.. an opportunity to reduce interface complexity among linear algebra APIs by
-.. inferring and codifying common design themes, thus standardizing more
-.. consistent APIs. We established four key standardization design principles:
-
-.. **Implementation agnosticism**: standardized APIs should eschew
-.. parameterization (including keyword arguments) biased toward particular
-.. implementations. Conservative parameterization should apply even to performance
-.. optimization parameters afforded by certain hardware.
-
-.. **Monomorphic return values**: in order to accommodate array libraries which
-.. perform static analysis (e.g., graph-based optimization), standardized APIs
-.. should avoid polymorphic returns values (e.g., returning an array or a tuple
-.. depending on an optional keyword argument).
-
-.. **Batching**: if an operation is defined in terms of matrices, then the
-.. associated interface should support "batching" (i.e., the ability to perform
-.. the operation over a stack of matrices).
-
-.. **Orthogonality**: each standardized API should have clearly defined and delineated
-.. functionality which has minimal overlap with the behavior afforded by other
-.. standardized APIs.
-
-.. The standardized linear algebra extension specifies a set of fundamental
-.. array-aware linear algebra operations, including, but not limited to, matrix
-.. inversion and eigenvalue, Cholesky, QR, and singular value decompositions.
-.. Altogether, these APIs provide a portable foundation for numerical linear
-.. algebra in image processing, machine learning, and other scientific computing
-.. applications.
-
 Specification Status
 ====================
 
