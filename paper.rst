@@ -226,9 +226,9 @@ patterns used in underlying implementations, such as those written in C/C++
 and Fortran.
 
 **Minimal array object.** A standardized array object should have a minimal set
-of attributes necessary for inspection (e.g., shape, data type, size, etc.)
-and should have a minimal set of magic methods (also known as "dunder" methods) to
-support operator overloading.
+of attributes necessary for inspection (e.g., shape, data type, size, etc.) and
+should have a minimal set of magic methods (also known as double-underscore or
+"dunder" methods) to support operator overloading.
 
 **No dependencies.** The array API standard and its implementation should be
 possible in Python, without the need for any external dependency outside
