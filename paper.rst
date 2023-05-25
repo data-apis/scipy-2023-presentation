@@ -657,32 +657,10 @@ Altogether, these APIs provide a portable foundation for numerical linear
 algebra in image processing, machine learning, and other scientific computing
 applications.
 
-Test Suite
-==========
-
-To facilitate adoption of the Python array API standard by array libraries
-within the SPE, we developed a test suite :cite:`Consortium2022b` to measure
-specification compliance. The test suite covers all major aspects of the
-specification, such as broadcasting, type promotion, function signatures,
-special case handling, and expected return values.
-
-Underpinning the test suite is Hypothesis, a Python library for creating unit
-tests :cite:`MacIver2019a`. Hypothesis uses property-based testing, a technique
-for generating arbitrary data satisfying provided specifications and asserting
-the truth of some "property" that should be true for each input-output pair.
-Property-based testing is particularly convenient when authoring compliance
-tests, as the technique enables the direct translation of specification
-guidance into test code.
-
-The test suite is the first example known to these authors of a full-featured,
-standalone Python test suite capable of running against multiple different
-libraries. And, as part of our work, we upstreamed strategies to Hypothesis for
-generating arbitrary arrays from any conforming array library, thus allowing
-downstream array consumers to test against multiple array libraries and their
-associated hardware devices.
-
 Specification Status
 ====================
+
+.. TODO (athan): add brief overviews regarding specification revisions and contents.
 
 Two versions of the array API specification have been released, v2021.12 and
 v2022.12. v2021.12 was the initial release with all important core array
@@ -691,8 +669,6 @@ and the `fft` extension. A v2023 version is in the works, although no
 significant changes are planned so far. In 2023, most of the work around the
 array API has focused on implementation and adoption.
 
-.. TODO (athan): add brief overviews regarding specification revisions and contents.
-
 Implementation Status
 =====================
 
@@ -700,6 +676,8 @@ Implementation Status
 
 Reference Implementation
 ------------------------
+
+.. TODO (athan): reduce length
 
 The experimental `numpy.array_api` submodule is a standalone, strict
 implementation of the standard. It is not intended to be used by end users,
@@ -745,6 +723,53 @@ As such, the `numpy.array_api` module is only useful as a testing library for
 array consumers, to check that their code is portable. If code runs in
 `numpy.array_api`, it should work in any conforming array API namespace.
 
+Ecosystem Adoption
+------------------
+
+.. TODO (athan): we need to finesse this a bit, as we want to sell progress but not overstate the reality.
+
+At the time of writing, NumPy and CuPy both have complete minimal
+implementations as `numpy.array_api` and `cupy.array_api` (see `Reference
+Implementation`_). The main namespaces for NumPy and CuPy are only partially
+compliant. NumPy 2.0 is planned for release in late 2023 and will have full
+array API compliance in the main namespace. CuPy, which generally follows
+NumPy's API, will do the same. PyTorch has near full compliance in its main
+namespace, with full adoption planned. For practical purposes the deviations
+from the standard in the current versions of these libraries can be mitigated
+by using the `Compatibility Layer`_, which wraps the functions from each
+library to make them match the specification.
+
+Other target libraries, including Dask, JAX, Tensorflow, and MXNet, do not yet
+have array API support, except insomuch as they use the APIs in the standard
+already. Support in these libraries is being discussed.
+
+Tooling
+=======
+
+Test Suite
+----------
+
+To facilitate adoption of the Python array API standard by array libraries
+within the SPE, we developed a test suite :cite:`Consortium2022b` to measure
+specification compliance. The test suite covers all major aspects of the
+specification, such as broadcasting, type promotion, function signatures,
+special case handling, and expected return values.
+
+Underpinning the test suite is Hypothesis, a Python library for creating unit
+tests :cite:`MacIver2019a`. Hypothesis uses property-based testing, a technique
+for generating arbitrary data satisfying provided specifications and asserting
+the truth of some "property" that should be true for each input-output pair.
+Property-based testing is particularly convenient when authoring compliance
+tests, as the technique enables the direct translation of specification
+guidance into test code.
+
+The test suite is the first example known to these authors of a full-featured,
+standalone Python test suite capable of running against multiple different
+libraries. And, as part of our work, we upstreamed strategies to Hypothesis for
+generating arbitrary arrays from any conforming array library, thus allowing
+downstream array consumers to test against multiple array libraries and their
+associated hardware devices.
+
 .. _array-api-compat:
 
 Compatibility Layer
@@ -765,8 +790,6 @@ has many discrepancies from the array API. A few of the biggest ones are:
 
 - The spec contains some new functions that are not yet included in NumPy.
   These clean up some messy parts of the NumPy API. These include:
-
-  *TODO: How complete do we need to be here?*
 
   - `np.unique` is replaced with four different `unique_*` functions so that
     they always have a consistent return type.
@@ -817,24 +840,6 @@ in the shorter term against libraries like NumPy, CuPy, and PyTorch that are
 `array-api-compat` has already been successfully used in scikit-learn's
 `LinearDiscriminantAnalysis` API
 (https://github.com/scikit-learn/scikit-learn/pull/22554).
-
-Ecosystem Adoption
-------------------
-
-At the time of writing, NumPy and CuPy both have complete minimal
-implementations as `numpy.array_api` and `cupy.array_api` (see `Reference
-Implementation`_). The main namespaces for NumPy and CuPy are only partially
-compliant. NumPy 2.0 is planned for release in late 2023 and will have full
-array API compliance in the main namespace. CuPy, which generally follows
-NumPy's API, will do the same. PyTorch has near full compliance in its main
-namespace, with full adoption planned. For practical purposes the deviations
-from the standard in the current versions of these libraries can be mitigated
-by using the `Compatibility Layer`_, which wraps the functions from each
-library to make them match the specification.
-
-Other target libraries, including Dask, JAX, Tensorflow, and MXNet, do not yet
-have array API support, except insomuch as they use the APIs in the standard
-already. Support in these libraries is being discussed.
 
 Discussion
 ==========
