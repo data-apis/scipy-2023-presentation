@@ -188,37 +188,27 @@ conservative in its scope, thorough in its consideration of current and prior
 art, and have clearly defined objectives against which continued success is
 measured.
 
-To this end, we established the following objectives for the array API standard:
-
-- Increase interoperability such that array-consuming libraries can accept and
-  operate on any specification-conforming array library.
-
-- Reduce reinvention and facilitate code sharing and reuse by establishing a
-  common set of standardized APIs and behavior.
-
-- Reduce barriers to new array library creation by providing a set of APIs which
-  can be adopted as is.
-
-- Reduce the learning curve and friction for users as they switch between array
-  libraries.
+To this end, we established the following objectives for the array API
+standard. 1) Increase interoperability such that array-consuming libraries can
+accept and operate on any specification-conforming array library. 2) Reduce
+reinvention and facilitate code sharing and reuse by establishing a common set
+of standardized APIs and behavior. 3) Reduce barriers to new array library
+creation by providing a set of APIs which can be adopted as is. 4) Reduce the
+learning curve and friction for users as they switch between array libraries.
 
 Notably, of equal importance to the aforementioned objectives is the explicit
-omission of the following:
-
-- Make array libraries identical for the purpose of merging them. Different array
-  libraries have different strengths (e.g., performance characteristics, hardware
-  support, and tailored use cases, such as deep learning), and merging into a
-  single array library is neither practical nor realistic.
-
-- Implement a backend or runtime switching system in order to switch from
-  one array library to another via a single setting or line of code. While
-  potentially feasible, array consumers are likely to need to modify code in
-  order to ensure optimal performance and behavior.
-
-- Support mixing multiple array libraries in function calls. Mixing array
-  libraries requires defining hierarchies and specifying rules for device
-  synchronization and data localization. Such rules are likely to be specific to
-  individual use cases and beyond the scope of the array API standard.
+omission of the following aims. a) Make array libraries identical for the
+purpose of merging them. Different array libraries have different strengths
+(e.g., performance characteristics, hardware support, and tailored use cases,
+such as deep learning), and merging into a single array library is neither
+practical nor realistic. b) Implement a backend or runtime switching system in
+order to switch from one array library to another via a single setting or line
+of code. While potentially feasible, array consumers are likely to need to
+modify code in order to ensure optimal performance and behavior. c) Support
+mixing multiple array libraries in function calls. Mixing array libraries
+requires defining hierarchies and specifying rules for device synchronization
+and data localization. Such rules are likely to be specific to individual use
+cases and beyond the scope of the array API standard.
 
 Design Principles
 -----------------
