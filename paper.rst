@@ -652,8 +652,8 @@ The standardized linear algebra extension specifies a set of fundamental
 array-aware linear algebra operations, including, but not limited to, matrix
 inversion and eigenvalue, Cholesky, QR, and singular value decompositions.
 Altogether, these APIs provide a portable foundation for numerical linear
-algebra in image processing, machine learning, and general scientific
-computation applications.
+algebra in image processing, machine learning, and other scientific computing
+applications.
 
 Test Suite
 ==========
