@@ -200,18 +200,18 @@ standardized APIs and behavior. 3) Reduce barriers to new array library
 creation by providing a set of APIs which can be adopted as is. 4) Reduce the
 learning curve and friction for users as they switch between array libraries.
 
-We explicitly omitted three notable possible objectives. 1)
-Making array libraries identical for the purpose of merging them. Different
-array libraries have different strengths (e.g., performance characteristics,
-hardware support, and tailored use cases, such as deep learning), and merging
-them into a single array library is neither practical nor realistic. 2)
-Implementing a backend or runtime switching system in order to switch from one
-array library to another via a single setting or line of code. While
-potentially feasible, array consumers are likely to need to modify code in
-order to ensure optimal performance and behavior. 3) Support mixing
-multiple array libraries in function calls. Mixing array libraries requires
-defining hierarchies and specifying rules for device synchronization and data
-localization. Such rules are likely to be specific to individual use cases.
+We explicitly omitted three notable possible objectives. 1) Making array
+libraries identical for the purpose of merging them. Different array libraries
+have different strengths (e.g., performance characteristics, hardware support,
+and tailored use cases, such as deep learning), and merging them into a single
+array library is neither practical nor realistic. 2) Implementing a backend or
+runtime switching system in order to switch from one array library to another
+via a single setting or line of code. While potentially feasible, array
+consumers are likely to need to modify code in order to ensure optimal
+performance and behavior. 3) Support mixing multiple array libraries in
+function calls. Mixing array libraries requires defining hierarchies and
+specifying rules for device synchronization and data localization. Such rules
+are likely to be specific to individual use cases.
 
 Design Principles
 -----------------
@@ -343,23 +343,23 @@ artifacts available on GitHub.
 Usage
 -----
 
-To understand usage patterns of array libraries within the scientific Python
-ecosystem, we first identified a representative sample of commonly used Python
-libraries ("downstream libraries") which consume the sample of array libraries
-identified during design analysis. The sample of downstream libraries included
-SciPy :cite:`Virtanen2020a`, pandas :cite:`McKinney2011a`, Matplotlib
+To understand usage patterns of array libraries within the SPE, we first
+identified a representative sample of commonly used Python libraries
+("downstream libraries") which consume the sample of array libraries identified
+during design analysis. The sample of downstream libraries included SciPy
+:cite:`Virtanen2020a`, pandas :cite:`McKinney2011a`, Matplotlib
 :cite:`Hunter2007a`, xarray :cite:`Hoyer2017a`, scikit-learn
-:cite:`Pedregosa2011a`, and scikit-image :cite:`Vanderwalt2014a`, among
-others. Next, we instrumented downstream libraries in order to record Python
-array API calls :cite:`Consortium2020a`. After instrumentation, we collected
-stack traces while running downstream library test suites. We subsequently
-transformed trace data into structured JSON for subsequent analysis. From the
-structured data, we generated empirical APIs based on provided arguments and
-associated data types, noting which downstream library called which empirical
-API and at what frequency. We then derived a single inferred API which unifies
-the individual empirical API calling semantics. We organized the API results
-in human-readable form as type definition files and compared the inferred API
-to the publicly documented APIs obtained during design analysis.
+:cite:`Pedregosa2011a`, and scikit-image :cite:`Vanderwalt2014a`, among others.
+Next, we instrumented downstream libraries in order to record Python array API
+calls :cite:`Consortium2020a`. After instrumentation, we collected stack traces
+while running downstream library test suites. We subsequently transformed trace
+data into structured JSON for subsequent analysis. From the structured data, we
+generated empirical APIs based on provided arguments and associated data types,
+noting which downstream library called which empirical API and at what
+frequency. We then derived a single inferred API which unifies the individual
+empirical API calling semantics. We organized the API results in human-readable
+form as type definition files and compared the inferred API to the publicly
+documented APIs obtained during design analysis.
 
 The following is an example inferred API for `numpy.arange`, with the docstring
 indicating the number of lines of code which invoked the function for each
