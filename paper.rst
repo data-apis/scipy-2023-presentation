@@ -447,8 +447,9 @@ An array data type ("dtype") describes how to interpret a single array element
 (e.g., integer, real- or complex-valued floating-point, boolean, or other). A
 conforming array object has a single dtype. To facilitate interoperability,
 conforming libraries must support and provide a minimal set of dtype
-objects (e.g., `int8`, `int16`, `int32`, `float32`, and `float64`). Dtype
-objects are specified by their name in the library namespace, like `xp.bool`.
+objects (e.g., `int8`, `int16`, `int32`, `float32`, and `float64`). To ensure
+portability, data type objects must be provided by name in the array library
+namespace (e.g., `xp.bool`).
 
 An array shape specifies the number of elements along each array axis (also
 referred to as "dimension"). The number of axes corresponds to the
@@ -474,8 +475,7 @@ device APIs to ensure execution occurs on the same device as the input.
        # Allocate a new array on the same device
        y = xp.linspace(0, 2*xp.pi, 100, device=x.device)
 
-       # Perform computation. All computations take
-       # place on device.
+       # Perform computation
        return xp.sin(y) * x
 
 To interact with array objects, one uses "indexing" to access sub-arrays and
@@ -493,16 +493,14 @@ Array Interaction
 -----------------
 
 The Python array API standard further specifies rules governing expected
-behavior when an operation involves two or more array operands, namely, rules
-for type promotion and broadcasting.
-
-For operations in which the data type of a resulting array object is resolved
-from operand data types, the resolved data type must follow type promotion
-semantics. Importantly, type promotion semantics are independent of array shape
-or contained values (including when an operand is a zero-dimensional array).
-For example, when adding one array having a `float32` data type to another
-array having a `float64` data type, the data type of the resulting array should
-be the promoted data type `float64`.
+behavior when an operation involves two or more array operands. For operations
+in which the data type of a resulting array object is resolved from operand
+data types, the resolved data type must follow type promotion semantics.
+Importantly, type promotion semantics are independent of array shape or
+contained values (including when an operand is a zero-dimensional array). For
+example, when adding one array having a `float32` data type to another array
+having a `float64` data type, the data type of the resulting array should be
+the promoted data type `float64`.
 
 .. code:: python
 
