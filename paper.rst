@@ -104,9 +104,8 @@ proliferation of user guides providing guidance on how to convert between, and
 interoperate among, libraries. Too often, the APIs of each library are largely
 similar, but each have enough differences that end users have to relearn and
 rewrite code in order to work with multiple libraries. This process can be
-very painful as the transition is far from seamless. This is particularly
-painful for array consuming libraries that wish to support multiple array
-library backends.
+very painful as the transition is far from seamless and creates barriers for
+libraries wanting to support multiple array library backends.
 
 The Consortium for Python Data API Standards (hereafter referred to as "the
 Consortium" and "we") aims to address this problem by standardizing a
