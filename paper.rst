@@ -270,8 +270,8 @@ functions should not be specified beyond the guidance included in IEEE 754 :cite
 
 **Universality.** Standardized APIs and behaviors should reflect common usage
 among a wide range of existing array libraries. Accordingly, with rare
-exception, only APIs and behaviors having broad existing implementations
-within the ecosystem may be considered candidates for standardization.
+exception, only APIs and behaviors having existing implementations and broad
+support within the SPE may be considered candidates for standardization.
 
 
 Methods
