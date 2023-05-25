@@ -42,6 +42,10 @@
 :email: treddy@lanl.gov
 :institution: LANL
 
+:author: Sheng Zha
+:email: zhasheng@apache.org
+:institution: Amazon
+
 :author: Consortium for Python Data API Standards
 :email:
 :institution: Consortium for Python Data API Standards
@@ -237,7 +241,7 @@ and should have a minimal set of magic methods (also known as "dunder" methods) 
 support operator overloading.
 
 **No dependencies.** The array API standard and its implementation should be
-possible in pure Python, without the need for any external dependency outside
+possible in Python, without the need for any external dependency outside
 of Python itself.
 
 **Accelerator support.** Standardized APIs and behavior should be possible to
@@ -483,18 +487,6 @@ device APIs to ensure execution occurs on a specific device.
        # Perform computation:
        return xp.sin(z) * x + y
 
-
-..    def some_function(x):
-..        # Retrieve a specification-compliant namespace:
-..        xp = x.__array_namespace__()
-
-..        # Allocate a new array on the same device as the
-..        # input array:
-..        y = xp.linspace(0, 2*xp.pi, 100, device=x.device)
-       
-..        # Perform computation
-..        return xp.sin(y) * x
-
 To interact with array objects, one uses "indexing" to access sub-arrays and
 individual elements, "operators" to perform logical and arithmetic operations
 (e.g., :math:`+`, :math:`-`, :math:`\times`, :math:`\div`, and :math:`@`, and
@@ -541,8 +533,6 @@ through vectorization, reduced memory consumption, and cache locality.
 Interchange Protocol
 --------------------
 
-.. TODO (athan): we can rephrase to emphasize interoperability and the desire to convert an array of one flavor to another flavor. We should be able to cut down the content found in this section.
-
 We expect that array library consumers will generally prefer to use a single
 array "type" (e.g., a NumPy `ndarray`, PyTorch `Tensor`, or Dask `array`) and
 will thus need a standardized mechanism for array object conversion. For
@@ -555,119 +545,122 @@ array data. To this end, the Python array API standard specifies an interchange
 protocol describing the memory layout of a strided, n-dimensional array in an
 implementation-independent manner.
 
-.. TODO: explain that DLPack was chosen as the protocol.
+The basis of the protocol is DLPack, an open in-memory structure for sharing
+tensors among frameworks :cite:`DLPack2023a`. DLPack is a standalone protocol
+with an ABI stable, header-only C implementation with cross hardware support.
+The array API standard builds on DLPack by specifying Python APIs for array
+object data interchange. Conforming array objects must support `__dlpack__` and
+`__dlpack_device__` magic methods for accessing array data and querying the
+array device. A standardized `from_dlpack` API calls these methods to
+construct a new array object of the desired type using zero-copy semantics when
+possible. The combination of DLPack and standardized Python APIs thus provides a
+stable, widely adopted, and efficient means for array object interchange.
 
-To satisfy these requirements, DLPack was chosen as the data interchange
-protocol. DLPack is a standalone protocol with a header-only C implementation
-that is ABI stable, meaning it can be used from any language. It is designed
-with multi-device support and supports all the data types specified by the
-standard. It also has several considerations for high performance. DLPack
-support has already been added to all the major array libraries, and is the
-most widely supported interchange protocol across different array libraries.
+..    import torch
 
-The array API specifies the following syntax for DLPack support:
+..    def some_function(x):
+..        # Convert input arrays to Torch tensors:
+..        if not isinstance(x, torch.Tensor):
+..            x = torch.from_dlpack(x)
 
-- A `.__dlpack__()` method on the array object, which exports the array as a
-  DLPack capsule.
-
-- A `.__dlpack__device__()` method on the array object, which returns the device
-  type and device ID in DLPack format.
-
-- A `from_dlpack()` function, which converts an object with a `__dlpack__`
-  method into an array for the given array library.
-
-Note that `asarray()` also supports the buffer protocol for libraries that
-already implement it, like NumPy. But the buffer protocol is CPU-only, meaning
-it is not sufficient for the above requirements.
-
-.. TODO: add code example.
+..        # Do stuff...
 
 Array Functions
 ---------------
 
-.. TODO (athan): compress content and provide high level overview
+To complement the minimal array object, the Python array API standard specifies
+a set of required array-aware functions for arithmetic, statistical, algebraic,
+and general computation. Where applicable, required functions must support
+vectorization (Fig. 1d), which obviates the need for explicit looping in user
+code by applying operations to multiple array elements. Vectorized abstractions
+confer two primary benefits: 1) implementation-dependent optimizations leading
+to increased performance and 2) concise expression of mathematical operations.
+As an example, one can express element-wise computation of *z*-scores in a
+single line. 
 
-Aside from dunder methods, the only methods/attributes defined on the array
-object are `x.to_device()`, `x.dtype`, `x.device`, `x.mT`, `x.ndim`,
-`x.shape`, `x.size`, and `x.T`. All other functions in the specification are
-defined as functions. These functions include
+.. code:: python
 
-- **Elementwise functions.** These include functional forms of the Python
-  operators (like `add()`) as well as common numerical functions like `exp()`
-  and `sqrt()`. Elementwise functions do not have any additional keyword
-  arguments.
+    def z_score(x):
+        return (x-xp.mean(x)) / xp.stdev(x)
 
-- **Creation functions.** This includes standard array creation functions
-  including `ones()`, `linspace`, `arange`, and `full`, as well as the
-  `asarray()` function, which converts "array like" inputs like lists of
-  floats and object supporting the buffer protocol to array objects. Creation
-  functions all include a `dtype` and `device` keywords. The `array` type is not specified anywhere in the
-  spec, since different libraries use different types for their array objects,
-  meaning `asarray()` and the other creation functions serve as the effective
-  "array constructor".
-
-- **Data type functions** are basic functions to manipulate and introspect
-  dtype objects such as `finfo()`, `can_cast()`, and `result_type()`. Notable
-  among these is a new function `isdtype()`, which is used to test if a dtype
-  is among a set of predefined dtype categories. For example,
-  `isdtype(x.dtype, "real floating")` returns `True` if `x` has a real
-  floating-point dtype like `float32` or `float64`. Such a function did not
-  already exist in a portable way across different array libraries. One
-  existing alternative was the NumPy dtype type hierarchy, but this hierarchy
-  is complex and is not implemented by other array libraries such as PyTorch.
-  The `isdtype()` function is a rare example where the consortium has
-  specified a completely new function in the array API specification—most of
-  the specified functions are already widely implemented across existing array
-  libraries.
-
-- **Linear algebra functions.** Only basic manipulation functions like `matmul()`
-  are required by the specification. Additional linear algebra functions are
-  included in an optional `linalg` extension (see `Optional Extensions`_).
-
-- **Manipulation functions** such as `reshape()`, `stack()`, and `squeeze()`.
-
-- **Reduction functions** such as `sum()`, `any()`, `all()`, and `mean()`.
-
-- **Unique functions** are four new functions `unique_all()`,
-  `unique_counts()`, `unique_inverse()`, and `unique_values()`. These are
-  based on the `np.unique()` function but have been split into separate
-  functions. This is because `np.unique()` returns a different number of
-  arguments depending on the values of keyword arguments. Functions like this
-  whose output type depends on more than just the input types are hard for JIT
-  compilers to handle, and they are also harder for users to reason about.
-
-Note that the `unique_*` functions, as well as `nonzero()` have a
-data-dependent output shape, which makes them difficult to implement in graph
-libraries. Therefore, such libraries may choose to not implement these
-functions.
+In addition to vectorized operations, the array API standard includes, but is
+not limited to, functions for creating new arrays, with support for explicit
+device allocation; reshaping and manipulating existing arrays; performing
+statistical reductions across one, multiple, or all array axes (Fig. 1e); and
+sorting array elements. Altogether, these APIs provide a robust and portable
+foundation for higher-order array operations and general array computation.
 
 Optional Extensions
 -------------------
 
-.. TODO (athan): consuming extensions. How to check whether present?
+While a set of commonly used array-aware functions is sufficient for many
+array computation use cases, additional, more specialized, functionality may be
+warranted. For example, while most data visualization libraries are unlikely to
+explicitly rely on APIs for computing Fourier transforms, signal analysis
+libraries supporting spectral analysis of time series are likely to require
+Fourier transform APIs. To accommodate specialized APIs, the Python array API
+standard includes standardized optional extensions.
 
-In addition to the above required functions, there are two optional extension
-sub-namespaces. Array libraries may choose to implement or not implement these
-extensions. These extensions are optional because they typically require
-linking against a numerical library such as a linear algebra library, and
-therefore may be difficult for some libraries to implement.
+An extension is defined as a coherent set of standardized functionality which
+is commonly implemented across many, but not all, array libraries. Due to
+implementation difficulty (or impracticality), limited general applicability, a
+desire to avoid significantly expanding API surface area beyond what is
+essential, or some combination of the above, requiring conforming array
+libraries to implement and maintain extended functionality beyond their target
+domain is not desirable. Extensions provide a means for conforming array
+libraries to opt-in to supporting standardized API subsets according to need
+and target audience.
 
-- `linalg` contains basic linear algebra functions, such as `eigh`, `solve`,
-  and `qr`. These functions are designed to support "batching" (i.e.,
-  functions that accept matrices also accept stacks of matrices as a single
-  array with more than 2 dimensions). The specification for the `linalg`
-  extension is designed to be implementation agnostic. This means that things
-  like keyword arguments that are specific to backends like LAPACK are omitted
-  from the specified signatures (for example, NumPy’s use of `UPLO` in the
-  `eigh()` function). BLAS and LAPACK no longer hold a complete monopoly over
-  linear algebra operations given the existence of specialized accelerated
-  hardware, so these sorts of keywords are an impediment to wide implementation
-  across all array libraries.
+The linear algebra extension is one such extension. While scientific
+computation relies heavily on linear algebra, implementing robust numerical
+linear algebra routines is difficult and imposes a heavy burden on array
+library authors. As a consequence, numerical array libraries have traditionally
+relied on, linked against, and provided ergonomic abstractions over fundamental
+linear algebra libraries, such as BLAS :cite:`Lawson1979a`:cite:`Dongarra1988a`:cite:`Dongarra1990a`
+and LAPACK :cite:`Anderson1999a`. Over time, libraries catered to the
+parameterization of BLAS and LAPACK, often exposing low-level implementation
+details verbatim in their higher-level interfaces, even if the design choices
+would be considered ill-advised by today's standards. While still important,
+BLAS and LAPACK no longer hold a monopoly over linear algebra operations,
+especially given the proliferation of devices and hardware on which operations
+must be performed. Hardware heterogeneity and the emergence of alternative
+linear algebra libraries subsequently led to a divergence in linear algebra
+APIs across the SPE.
 
-- `fft` contains functions for performing Fast Fourier transformations.
+In recognition of this change, we sought to use the standardization process as
+an opportunity to reduce interface complexity among linear algebra APIs by
+inferring and codifying common design themes, thus standardizing more
+consistent APIs. We established four key standardization design principles:
+
+**Implementation agnosticism**: standardized APIs should eschew
+parameterization (including keyword arguments) biased toward particular
+implementations. Conservative parameterization should apply even to performance
+optimization parameters afforded by certain hardware.
+
+**Monomorphic return values**: in order to accommodate array libraries which
+perform static analysis (e.g., graph-based optimization), standardized APIs
+should avoid polymorphic returns values (e.g., returning an array or a tuple
+depending on an optional keyword argument).
+
+**Batching**: if an operation is defined in terms of matrices, then the
+associated interface should support "batching" (i.e., the ability to perform
+the operation over a stack of matrices).
+
+**Orthogonality**: each standardized API should have clearly defined and delineated
+functionality which has minimal overlap with the behavior afforded by other
+standardized APIs.
+
+The standardized linear algebra extension specifies a set of fundamental
+array-aware linear algebra operations, including, but not limited to, matrix
+inversion and eigenvalue, Cholesky, QR, and singular value decompositions.
+Altogether, these APIs provide a portable foundation for numerical linear
+algebra in image processing, machine learning, and other scientific computing
+applications.
 
 Test Suite
 ==========
+
+.. TODO (athan): tighten copy
 
 The array API specification contains over 200 function and method definitions,
 each with its own signature and specification for behaviors for things like
