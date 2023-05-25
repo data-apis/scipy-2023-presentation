@@ -389,9 +389,8 @@ downstream library when running downstream library test suites.
 
 As a final step, we ranked each API in the common API subset obtained during
 design analysis according to relative usage using the Dowdall positional voting
-system :cite:`Fraenkel2014a` (a variant of the Borda count
-:cite:`Emerson2013a` that
-which favors candidate APIs having high relative usage). From the rankings, we
+system :cite:`Fraenkel2014a` (a variant of the Borda count :cite:`Emerson2013a`
+that favors candidate APIs having high relative usage). From the rankings, we
 assigned standardization priorities, with higher ranking APIs taking precedence
 over lower ranking APIs, and extended the analysis to aggregated API categories
 (e.g., array creation, manipulation, statistics, etc.). All source code, usage
