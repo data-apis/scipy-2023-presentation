@@ -713,20 +713,19 @@ interception, thus mitigating performance degradation risks due to redirection.
 Using the shim requires minimal changes to existing array-consumer code. For
 example,
 
-.. code:: diff
+.. code:: python
 
-   + from array_api_compat import array_namespace
+   from array_api_compat import array_namespace
 
-     def some_function(x):
-         # Resolve a specification-compliant namespace
-   -     xp = x.__array_namespace__()
-   +     xp = array_namespace(x)
+   def some_function(x):
+       # Resolve a specification-compliant namespace
+       xp = array_namespace(x)
 
-         # Allocate a new array on the same device
-         y = xp.linspace(0, 2*xp.pi, 100, device=x.device)
+       # Allocate a new array on the same device
+       y = xp.linspace(0, 2*xp.pi, 100, device=x.device)
 
-         # Perform computation
-         return xp.sin(y) * x
+       # Perform computation
+       return xp.sin(y) * x
 
 While the Python array API standard facilitates array interoperability in
 theory, the compatibility layer does so in practice, helping array-consuming
@@ -744,6 +743,7 @@ Discussion
    :figclass: wt
    :scale: 46%
 
+   Benchmarks demonstrating performance implications for array consuming libraries. All benchmarks were run on an Intel i9-9900K and NVIDIA RTX 2080.
    Average timings for scikit-learn's `LinearDiscriminantAnalysis` `fit()` and
    `predict()` on a random classification with 400,000 samples and 300
    features, and `scipy.signal.welch()` on 50,000,000 data points. Times
