@@ -694,67 +694,44 @@ associated hardware devices.
 Compatibility Layer
 -------------------
 
-*TODO (athan): we don't need to go in the weeds here, listing API renames and each instance of incompatible behavior. We can focus on the problems the compat layer is intended to solve, at a high level, and how it helps downstream libraries, such as sklearn and SciPy. Main point is that this is a shim layer which allows standardization consumption to be independent of individual array library release schedules.*
+While we expect that maintainers of conforming array libraries will co-evolve
+library APIs and behaviors with those specified in the Python array API
+standard, we recognize that co-evolution is not likely to always proceed in
+unison due to varying release cycles and competing priorities. Varying
+timelines for adoption and full-compliance present obstacles for array-consuming
+libraries, such as SciPy and scikit-learn, hoping to use the most recent
+standardized behavior, as such libraries are effectively blocked by the slowest
+array library release schedule.
 
-As discussed above, `numpy.array_api` is not a suitable way for libraries to
-use `numpy` in an array API compliant way. However, NumPy, as of 1.24, still
-has many discrepancies from the array API. A few of the biggest ones are:
+To address this problem and facilitate adoption of the standard by
+array-consuming libraries, we developed a compatibility layer (also known as a
+"shim") to provide a thin wrapper around common array libraries. The shim
+transparently intercepts API calls for any API which is not fully-compliant and
+polyfills non-compliant specification-defined behavior. For compliant APIs, the
+shim exposes the APIs directly, without interception, thus mitigating
+performance degradation risks due to redirection. Using the shim requires
+minimal changes to existing array-consumer code. For example,
 
-- NumPy uses value-based rules to determine data types resulting from arithmetic
-  involving 0-dimensional arrays or scalars, which is prohibited by the
-  standard.
+.. code:: diff
 
-- Several elementwise functions are renamed from NumPy. For example, NumPy has
-  `arccos()`, etc., but the standard uses `acos()`.
+   + from array_api_compat import array_namespace
 
-- The spec contains some new functions that are not yet included in NumPy.
-  These clean up some messy parts of the NumPy API. These include:
+     def some_function(x):
+         # Resolve a specification-compliant namespace
+   -     xp = x.__array_namespace__()
+   +     xp = array_namespace(x)
 
-  - `np.unique` is replaced with four different `unique_*` functions so that
-    they always have a consistent return type.
+         # Allocate a new array on the same device
+         y = xp.linspace(0, 2*xp.pi, 100, device=x.device)
 
-  - `np.transpose` is renamed to `permute_dims`.
+         # Perform computation
+         return xp.sin(y) * x
 
-  - `matrix_transpose` is a new function that only transposes the last two
-    dimensions of an array.
-
-  - `np.norm` is replaced with separate `matrix_norm` and `vector_norm`
-    functions in the `linalg` extension.
-
-  - `np.trace` operates on the first two axes of an array but the spec
-    `linalg.trace` operates on the last two.
-
-There are plans in NumPy 2.0 to fully adopt the spec, including changing the
-above behaviors to be spec-compliant. But in order to facilitate adoption, a
-new library `array-api-compat` has been written. `array-api-compat` is a
-small, pure Python library with no hard dependencies that wraps array
-libraries to make the spec complaint. Currently `NumPy`, `CuPy`, and `PyTorch`
-are supported.
-
-`array-api-compat` is to be used by array consumer libraries like SciPy or
-scikit-learn. The primary usage is like
-
-.. code:: python
-
-   from array_api_compat import array_namespace
-
-   def some_array_function(x, y):
-       xp = array_api_compat.array_namespace(x, y)
-
-       # Now use xp as the array library namespace
-       return xp.mean(x, axis=0) + 2*xp.std(y, axis=0)
-
-`array_namespace` is a wrapper around `x.__array_namespace__()`, except
-whenever `x` is a NumPy, CuPy, or PyTorch array, it returns a wrapped module
-that has functions that are array API compliant. Unlike `numpy.array_api`,
-`array_api_compat` does not use separate wrapped array objects. So in the
-above example, if the input arrays are `np.ndarray`, the return array will
-be a `np.ndarray`, even though `xp.mean` and `xp.std` are wrapped functions.
-
-While the long-term goal is for array libraries to be completely array API
-compliant, `array-api-compat` allows consumer libraries to use the array API
-in the shorter term against libraries like NumPy, CuPy, and PyTorch that are
-"nearly compliant".
+While the Python array API standard facilitates array interoperability in
+theory, the compatibility layer does so in practice, helping array-consuming
+libraries decouple adoption of the standard from the release cycles of upstream
+array libraries. We expect the compatibility layer to have a significant impact
+in accelerating adoption among array-consuming libraries.
 
 Discussion
 ==========
