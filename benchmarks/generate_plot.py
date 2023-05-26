@@ -31,12 +31,18 @@ fig, (ax1, ax2, ax3, ax4) = plt.subplots(1, 4, figsize=(16, 5), constrained_layo
 sns.barplot(y="Speedup vs. NumPy", x="Backend",
             data=scikit_learn_results[scikit_learn_results["Method"] ==
                                       "fit"], ax=ax1, errorbar=None)
-ax1.set_title("scikit-learn\nLinearDiscriminantAnalysis.fit()", fontsize=fontsize)
+
+y_pos = (0, 20, 40, 60, 80)
+ax1.set_title("scikit-learn\nLDA fit", fontsize=fontsize)
+ax1.set_ylim(1, 80)
+ax1.set_yticks(y_pos)
 
 sns.barplot(y="Speedup vs. NumPy", x="Backend",
             data=scikit_learn_results[scikit_learn_results["Method"] ==
                                       "predict"], ax=ax2, errorbar=None)
-ax2.set_title("scikit-learn\nLinearDiscriminantAnalysis.predict()", fontsize=fontsize)
+ax2.set_title("scikit-learn\nLDA predict", fontsize=fontsize)
+ax2.set_ylim(0, 80)
+ax2.set_yticks(y_pos)
 
 print("scikit-learn mean durations:")
 print(means)
@@ -50,14 +56,17 @@ means = scipy_results.groupby(["Backend", "Strict"]).mean()
 scipy_results["Speedup vs. NumPy"] = scipy_results.apply(lambda row: means.loc[("NumPy", row["Strict"]), "Duration"]/row["Duration"], axis=1)
 scipy_results = scipy_results[scipy_results["Backend"] != "NumPy"]
 
-sns.barplot(data=scipy_results[scipy_results["Strict"]], x="Backend",
-            y="Speedup vs. NumPy", ax=ax3, errorbar=None)
-
-ax3.set_title("SciPy welch() (strict array API)", fontsize=fontsize)
-
 sns.barplot(data=scipy_results[~scipy_results["Strict"]], x="Backend",
+            y="Speedup vs. NumPy", ax=ax3, errorbar=None)
+ax3.set_title("SciPy\nwelch (optimized)", fontsize=fontsize)
+ax3.set_ylim(0, 80)
+ax3.set_yticks(y_pos)
+
+sns.barplot(data=scipy_results[scipy_results["Strict"]], x="Backend",
             y="Speedup vs. NumPy", ax=ax4, errorbar=None)
-ax4.set_title("SciPy welch() (optimized)", fontsize=fontsize)
+
+ax4.set_title("SciPy\nwelch (strict)", fontsize=fontsize)
+ax4.set_ylim(0, 1)
 
 for ax in ax1, ax2, ax3, ax4:
     ax.set_xlabel("")
@@ -70,7 +79,8 @@ for ax in ax1, ax2, ax3, ax4:
 
 # Add axis labels to the whole plot
 fig.supylabel("Speedup vs. NumPy", fontsize=fontsize+4)
-fig.suptitle("scikit-learn and SciPy performance with array API backends", fontsize=fontsize+8)
+# fig.suptitle("scikit-learn and SciPy performance with array API backends", fontsize=fontsize+8)
 
 plt.tight_layout()
 fig.savefig("../assets/timings.pdf")
+fig.savefig("../assets/timings.svg", format="svg")
