@@ -679,7 +679,7 @@ guidance into test code.
 
 The test suite is the first example known to these authors of a full-featured,
 standalone Python test suite capable of running against multiple different
-libraries. And, as part of our work, we upstreamed strategies to Hypothesis for
+libraries. As part of our work, we upstreamed strategies to Hypothesis for
 generating arbitrary arrays from any conforming array library, thus allowing
 downstream array consumers to test against multiple array libraries and their
 associated hardware devices.
