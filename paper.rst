@@ -759,7 +759,7 @@ scikit-learn. This is a classifier whose code is written in pure Python
 against NumPy. In scikit-learn pull request `#22554
 <https://github.com/scikit-learn/scikit-learn/pull/22554>`__, the
 `LinearDiscriminantAnalysis` code was updated to support the array API
-standard. This pull request provides a useful example of what array consuming
+standard. This pull request provides a useful example of what array-consuming
 libraries will typically require to update pure NumPy code to code that can
 consume any array API compliant library.
 
