@@ -652,7 +652,7 @@ standardized APIs and behaviors.
 
 Direct participation in the Consortium by array and array-consuming library
 maintainers has facilitated coordination across the SPE. In addition to NumPy
-:cite:`Meuer2021a`, several commonly used array libraries, including CuPy
+:cite:`Meurer2021a`, several commonly used array libraries, including CuPy
 :cite:`Fang2021a`, Dask :cite:`White2022a`, MXNet :cite:`Yyc2021a`, PyTorch
 :cite:`Meier2021a`, and JAX :cite:`Vanderplas2023a`, have either adopted or are
 in the processing of adopting the array API standard. Increased array library
