@@ -630,37 +630,38 @@ Reference Implementation
 
 To supplement the Python array API standard, we developed a standalone
 reference implementation. The implementation is strictly compliant (i.e., any
-non-portable usage triggers an exception) and is available as an `array_api`
-submodule in NumPy (discussed in :cite:`Gommers2021a`). In general, we do not
-expect for users to rely on the reference implementation for production use
-cases due to performance considerations; however, the reference implementation
-provides a convenient means for testing whether array library usage is
-guaranteed to be portable.
+non-portable usage triggers an exception) and is available as the
+`numpy.array_api` submodule (discussed in :cite:`Gommers2021a`). In general,
+we do not expect for users to rely on the reference implementation for
+production use cases due to performance considerations. Rather, the reference
+implementation is primarily useful as a means for testing whether array
+library usage is guaranteed to be portable.
 
 Ecosystem Adoption
 ------------------
 
 Arrays are fundamental to scientific computing, data science, and machine
-learning. As a consequence, the Python array API standard has many stakeholders
-within the SPE. When establishing the Consortium, we thus sought participation
-from a diverse and representative cross-section of industry partners and
-maintainers of array and array-consuming libraries. In order to satisfy
-stakeholder needs, array library maintainers worked in close partnership with
-maintainers of array-consuming libraries throughout the array API
-standardization process to identify key use cases and achieve consensus on
+learning. As a consequence, the Python array API standard has many
+stakeholders within the SPE. When establishing the Consortium, we thus sought
+participation from a diverse and representative cross-section of industry
+partners and maintainers of array and array-consuming libraries. In order to
+satisfy stakeholder needs, array library maintainers worked in close
+partnership with maintainers of array-consuming libraries throughout the array
+API standardization process to identify key use cases and achieve consensus on
 standardized APIs and behaviors.
 
 Direct participation in the Consortium by array and array-consuming library
-maintainers has facilitated coordination across the SPE. In addition to NumPy
-:cite:`Meurer2021a`, several commonly used array libraries, including CuPy
+maintainers has facilitated coordination across the SPE. In addition to the
+`numpy.array_api`_ reference implementation :cite:`Meurer2021a`, several
+commonly used array libraries, including NumPy :cite:`berg2023a`, CuPy
 :cite:`Fang2021a`, Dask :cite:`White2022a`, MXNet :cite:`Yyc2021a`, PyTorch
-:cite:`Meier2021a`, and JAX :cite:`Vanderplas2023a`, have either adopted or are
-in the process of adopting the array API standard. Increased array library
+:cite:`Meier2021a`, and JAX :cite:`Vanderplas2023a`, have either adopted or
+are in the process of adopting the array API standard. Increased array library
 adoption has increased array interoperability, which, in turn, has encouraged
-array-consuming libraries, such as SciPy :cite:`Yashchuk2022a` and scikit-learn
-:cite:`Fan2022a`, to adopt the standard by decoupling their implementations
-from specific array libraries. As array library adoption of the standard
-matures, we expect ecosystem adoption to accelerate.
+array-consuming libraries, such as SciPy :cite:`Yashchuk2022a` and
+scikit-learn :cite:`Fan2022a`, to adopt the standard by decoupling their
+implementations from specific array libraries. As array library adoption of
+the standard matures, we expect ecosystem adoption to accelerate.
 
 Tooling
 =======
