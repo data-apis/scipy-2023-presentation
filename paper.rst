@@ -704,12 +704,14 @@ standardized behavior, as such libraries are effectively blocked by the slowest
 array library release schedule.
 
 To address this problem and facilitate adoption of the standard by
-array-consuming libraries, we developed a compatibility layer (also known as a
-"shim") to provide a thin wrapper around common array libraries
-:cite:`Consortium2023a`. The shim transparently intercepts API calls for any API
-which is not fully-compliant and polyfills non-compliant specification-defined
-behavior. For compliant APIs, the shim exposes the APIs directly, without
-interception, thus mitigating performance degradation risks due to redirection.
+array-consuming libraries, we developed a compatibility layer (named
+`array-api-compat`), which provides a thin wrapper around common array
+libraries :cite:`Consortium2023a`. The layer transparently intercepts
+API calls for any API which is not fully-compliant and polyfills non-compliant
+specification-defined behavior. For compliant APIs, it exposes the APIs
+directly, without interception, thus mitigating performance degradation risks
+due to redirection. To reduce barriers to adoption, the layer has a small, pure
+Python codebase with no hard dependencies and supports vendoring.
 
 While the Python array API standard facilitates array interoperability in
 theory, the compatibility layer does so in practice, helping array-consuming
@@ -743,7 +745,7 @@ scikit-learn. This is a classifier whose code is written in pure Python
 against NumPy. In scikit-learn pull request `#22554
 <https://github.com/scikit-learn/scikit-learn/pull/22554>`__, the
 `LinearDiscriminantAnalysis` code was updated to support the array API
-standard. This pull request provides a useful example of what array consuming
+standard. This pull request provides a useful example of what array-consuming
 libraries will typically require to update pure NumPy code to code that can
 consume any array API compliant library.
 
