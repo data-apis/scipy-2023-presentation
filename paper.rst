@@ -964,7 +964,7 @@ library.
 Scikit-learn has implemented array API specification support in its
 `LinearDiscriminantAnalysis` class and plans to add support to more functions.
 
-Work is underway on an array API compliance website. (*TODO*)
+Work is underway on an array API compliance website. (*TODO (athan): compliance monitoring*)
 
 There is a similar effort underway under the Data APIs Consortium umbrella to
 standardize a library author-focused API for Python dataframe libraries. This
