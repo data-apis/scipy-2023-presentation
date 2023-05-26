@@ -704,29 +704,14 @@ standardized behavior, as such libraries are effectively blocked by the slowest
 array library release schedule.
 
 To address this problem and facilitate adoption of the standard by
-array-consuming libraries, we developed a compatibility layer (also known as a
-"shim") to provide a thin wrapper around common array libraries
-:cite:`Consortium2023a`. The shim transparently intercepts API calls for any API
-which is not fully-compliant and polyfills non-compliant specification-defined
-behavior. For compliant APIs, the shim exposes the APIs directly, without
-interception, thus mitigating performance degradation risks due to redirection.
-Using the shim requires minimal changes to existing array-consumer code. For
-example,
-
-.. code:: diff
-
-   + from array_api_compat import array_namespace
-
-     def some_function(x):
-         # Resolve a specification-compliant namespace
-   -     xp = x.__array_namespace__()
-   +     xp = array_namespace(x)
-
-         # Allocate a new array on the same device
-         y = xp.linspace(0, 2*xp.pi, 100, device=x.device)
-
-         # Perform computation
-         return xp.sin(y) * x
+array-consuming libraries, we developed a compatibility layer called
+`array-api-compat`, which provides a thin wrapper around common array
+libraries :cite:`Consortium2023a`. `array-api-compat` transparently intercepts
+API calls for any API which is not fully-compliant and polyfills non-compliant
+specification-defined behavior. For compliant APIs, it exposes the APIs
+directly, without interception, thus mitigating performance degradation risks
+due to redirection. To minimize adoption costs, `array-api-compat` has a
+small, pure Python codebase with no hard dependencies and supports vendoring.
 
 While the Python array API standard facilitates array interoperability in
 theory, the compatibility layer does so in practice, helping array-consuming
