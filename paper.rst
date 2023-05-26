@@ -705,12 +705,13 @@ array library release schedule.
 
 To address this problem and facilitate adoption of the standard by
 array-consuming libraries, we developed a compatibility layer (also known as a
-"shim") to provide a thin wrapper around common array libraries. The shim
-transparently intercepts API calls for any API which is not fully-compliant and
-polyfills non-compliant specification-defined behavior. For compliant APIs, the
-shim exposes the APIs directly, without interception, thus mitigating
-performance degradation risks due to redirection. Using the shim requires
-minimal changes to existing array-consumer code. For example,
+"shim") to provide a thin wrapper around common array libraries
+:cite:`Consortium2023a`. The shim transparently intercepts API calls for any API
+which is not fully-compliant and polyfills non-compliant specification-defined
+behavior. For compliant APIs, the shim exposes the APIs directly, without
+interception, thus mitigating performance degradation risks due to redirection.
+Using the shim requires minimal changes to existing array-consumer code. For
+example,
 
 .. code:: diff
 
