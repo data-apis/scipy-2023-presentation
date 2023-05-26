@@ -657,7 +657,7 @@ maintainers has facilitated coordination across the SPE. In addition to NumPy
 :cite:`Meier2021a`, and JAX :cite:`Vanderplas2023a`, have either adopted or are
 in the processing of adopting the array API standard. Increased array library
 adoption has increased array interoperability, which, in turn, has encouraged
-array-consuming libraries, such as SciPy :cite:`Yashchuk2022a` and Scikit-learn
+array-consuming libraries, such as SciPy :cite:`Yashchuk2022a` and scikit-learn
 :cite:`Fan2022a`, to adopt the standard by decoupling their implementations
 from specific array libraries. As array library adoption of the standard
 matures, we expect ecosystem adoption to accelerate.
