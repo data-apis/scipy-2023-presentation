@@ -640,22 +640,27 @@ guaranteed to be portable.
 Ecosystem Adoption
 ------------------
 
-.. TODO (athan): we need to finesse this a bit, as we want to sell progress but not overstate the reality.
+Arrays are fundamental to scientific computing, data science, and machine
+learning. As a consequence, the Python array API standard has many stakeholders
+within the SPE. When establishing the Consortium, we thus sought participation
+from a diverse and representative cross-section of industry partners and
+maintainers of array and array-consuming libraries. In order to satisfy
+stakeholder needs, array library maintainers worked in close partnership with
+maintainers of array-consuming libraries throughout the array API
+standardization process to identify key use cases and achieve consensus on
+standardized APIs and behaviors.
 
-At the time of writing, NumPy and CuPy both have complete minimal
-implementations as `numpy.array_api` and `cupy.array_api` (see `Reference
-Implementation`_). The main namespaces for NumPy and CuPy are only partially
-compliant. NumPy 2.0 is planned for release in late 2023 and will have full
-array API compliance in the main namespace. CuPy, which generally follows
-NumPy's API, will do the same. PyTorch has near full compliance in its main
-namespace, with full adoption planned. For practical purposes the deviations
-from the standard in the current versions of these libraries can be mitigated
-by using the `Compatibility Layer`_, which wraps the functions from each
-library to make them match the specification.
-
-Other target libraries, including Dask, JAX, Tensorflow, and MXNet, do not yet
-have array API support, except insomuch as they use the APIs in the standard
-already. Support in these libraries is being discussed.
+Direct participation in the Consortium by array and array-consuming library
+maintainers has facilitated coordination across the SPE. In addition to NumPy
+:cite:`Meuer2021a`, several commonly used array libraries, including CuPy
+:cite:`Fang2021a`, Dask :cite:`White2022a`, MXNet :cite:`Yyc2021a`, PyTorch
+:cite:`Meier2021a`, and JAX :cite:`Vanderplas2023a`, have either adopted or are
+in the processing of adopting the array API standard. Increased array library
+adoption has increased array interoperability, which, in turn, has encouraged
+array-consuming libraries, such as SciPy :cite:`Yashchuk2022a` and Scikit-learn
+:cite:`Fan2022a`, to adopt the standard by decoupling their implementations
+from specific array libraries. As array library adoption of the standard
+matures, we expect ecosystem adoption to accelerate.
 
 Tooling
 =======
