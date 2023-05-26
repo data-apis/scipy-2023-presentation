@@ -868,7 +868,7 @@ available in some libraries (e.g., JAX). NumPy, CuPy, and Torch allow setting
 strides, but they do not use a uniform API to do so. An array API compatible
 implementation can be used, but it is slower, so it is used only as a fallback
 for libraries outside of NumPy, PyTorch, and CuPy. Indeed, it is significantly
-slower than than even plain NumPy, with PyTorch CUDA taking 200 seconds to
+slower than even plain NumPy, with PyTorch CUDA taking 200 seconds to
 compute the result that takes 7 seconds with NumPy. The optimized
 implementation that uses stride tricks has more expected performance
 characteristics, with PyTorch CUDA and CuPy giving a near 40x speedup over
@@ -878,32 +878,6 @@ to achieve the expected performance gains. This does imply a small extra
 maintenance burden for these libraries, but it only applies to specific
 scenarios not already covered by the array API where the performance benefits
 outweigh the costs.
-
-From an end user point of view, making use of the array API support in these
-libraries is trivial: they simply pass in arrays from whichever array API
-conforming library they wish to use, allocated on whichever device they want
-toe computation to take place on. For example, a computation using
-`LinearDiscriminantAnalysis` with PyTorch might look like
-
-.. code:: python
-
-   import sklearn
-   import torch
-
-   # Array API support in scikit-learn is experimental,
-   # but this will not be needed in the future.
-   sklearn.set_config(array_api_dispatch=True)
-
-   lda = LinearDiscriminantAnalysis()
-
-   # X and y are data provided by the end user
-   X = torch.Tensor(..., device=...)
-   y = torch.Tensor(..., device=...)
-
-   # fitted is a torch Tensor. The computation is done
-   # entirely with PyTorch functions on the same device
-   # as X and y.
-   fitted = lda.fit(X, y)
 
 Future Work
 ===========
