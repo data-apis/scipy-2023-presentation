@@ -752,20 +752,6 @@ Discussion
    and an implementation with library-specific performance optimizations.
    Benchmarks were run on an Intel i9-9900K and NVIDIA RTX 2080.
 
-*TODO (athan): discuss implementation implications for array-consuming libraries; namely, dunder array_namespace and dunder dlpack methods.*
-
-- `x.__array_namespace__()` returns the corresponding array API compliant
-  namespace for the array `x`. This solves the problem of how array consumer
-  libraries determine which namespace to use for a given input. A function
-  that accepts input `x` can call `xp = x.__array_namespace__()` at the top to
-  get the corresponding array API namespace `xp`, whose functions are then
-  used on `x` to compute the result, which will typically be another array
-  from the `xp` library.
-
-- `__dlpack__()` and `__dlpack_device__()` (see `Interchange Protocol`_).
-
-*TODO (athan): show examples for how to use the above dunder methods.*
-
 .. TODO (athan): reframe discussion below as "We worked with the maintainers of sklearn to assess the real-world performance impact of specification adoption."
 
 As a motivating example, consider the `LinearDiscriminantAnalysis` class in
