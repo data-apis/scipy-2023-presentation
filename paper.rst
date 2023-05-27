@@ -740,7 +740,8 @@ Discussion
    discriminant analysis (LDA) model. **b)** Predicting class labels using LDA.
    **c)** Estimating power spectral density using Welch's method and
    library-specific optimizations. **d)** Same as **c**, but using a strictly
-   portable implementation.
+   portable implementation. Note the change in limits along the vertical axis
+   compared to **a-c**.
 
 .. TODO (athan): remove once text body is updated to included benchmark info
 
