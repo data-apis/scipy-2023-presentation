@@ -776,7 +776,7 @@ Cython. Due to its dependence on NumPy for array computation, scikit-learn is
 CPU-bound, and the library is unable to capture the benefits of GPU- and
 TPU-based execution models. By adopting the Python array API standard,
 scikit-learn can decouple its implementation from NumPy and support
-non-CPU-based execution, potentially allowing for increased performance.
+non-CPU-based execution, potentially enabling increased performance.
 
 To test this hypothesis, we first examined the scikit-learn codebase to
 identify APIs which rely primarily on NumPy for their implementations.
