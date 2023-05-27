@@ -792,7 +792,10 @@ and 2) the implementation's use of singular value decomposition (SVD), a widely
 used factorization technique, for both classification and data projection.
 
 Refactoring the LDA implementation was illustrative in several respects, as
-demonstrated in the following code snippet showing source code modifications:
+demonstrated in the following code snippet showing source code modifications
+[#]_:
+
+.. [#] Source code modifications reflect those required for NumPy version 1.24.3 and Python array API standard version 2022.12.
 
 .. code:: diff
    :linenos:
@@ -825,39 +828,41 @@ demonstrated in the following code snippet showing source code modifications:
    - rank = np.sum(S > self.tol)
    + rank = xp.sum(xp.astype(S > self.tol, xp.int32))
 
-This highlights the following types of changes that are needed to support the
-array API:
+**Indexing (lines 3-6):** NumPy supports indexing semantics which are not
+supported in the array API standard. To be compliant with the standard, 1)
+boolean masks must be the sole index and cannot be combined with other indexing
+expressions, and 2) the number of provided single-axis indexing expressions
+must equal the number of dimensions.
 
-**NumPy behavior for which only a subset is defined in the standard.** The
-array indexing expressions `X[y == group, :]` and `self.means_[idx]` are
-changed to `X[y == group]` and `self.means_[idx, :]`, respectively. This is
-because the standard only guarantees support for boolean indexing when the
-boolean index is the sole index, and multidimensional indexing only when all
-axes are indexed.
+**Non-standardized APIs (lines 8-9):** NumPy supports several APIs which have
+no equivalent in the array API standard; `np.dot()` is one such API. For
+two-dimensional arrays, `np.dot()` is equivalent to matrix multiplication and
+was updated accordingly.
 
-**NumPy functions not included in the standard.** `dot()` is not included in
-the standard, so must be replaced with `@` (it could also have been replaced
-with `matmul()`).
+**Naming conventions (lines 11-12):** NumPy contains several standard-compliant
+APIs whose naming conventions differ from those in the array API standard. In
+this and similar cases, adoption requires conforming to the standardized
+conventions.
 
-**NumPy functions that are named differently in the standard.** Here
-`np.concatenate()` must be replaced with `xp.concat()`.
+**Functional APIs (lines 14-15):** NumPy supports several array object methods
+which have no equivalent in the array API standard. To ensure portability, use
+of non-standardized methods must be refactored in terms of standardized
+functional APIs.
 
-**Using functions instead of methods.** `Xc.std()` must be replaced with
-`xp.std(Xc)`, because the standard is designed around a functional API rather
-than array methods.
+**Scalars (lines 18-22):** NumPy often supports non-array input arguments, such
+as scalars, Python lists, and other objects, as "array-like" arguments in its
+array-aware APIs. While the array API standard does not prohibit such
+polymorphism, the standard does not require array-like support. In this case,
+we explicitly convert a scalar expression to a zero-dimensional array using
+`xp.array()` in order to ensure portability when calling `xp.sqrt()`.
 
-**No array-likes.** The expression `fac = 1.0 / (n_samples - n_classes)` must
-be wrapped with `asarray()`. This is because it is later passed to
-`xp.sqrt()`, and the standard only requires functions to accept actual array
-types as inputs.
+**Data types (lines 26-27):** NumPy often supports implicit type conversion of non-numeric data types in numerical APIs. To ensure portability, we needed to explicitly convert a boolean array to an integer array before calling `xp.sum()`.
 
-Additional types of changes which are not demonstrated in the above example
-includes **functionality that is not included in the standard at all.** This
-will depend on the specific situation, but it will often be sufficient to add
-a helper function to implement the desired behavior across common array
-libraries. For example, the above scikit-learn pull request added a helper
-function for `take()`, which was not yet included in the standard at the time
-of its writing.
+.. TODO (athan): discuss benchmarks 
+
+
+
+.. TODO (athan): update copy
 
 Another similar effort to rewrite code to support the array API is currently
 taking place in the SciPy library. `A demo pull request
