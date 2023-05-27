@@ -441,7 +441,7 @@ An array object is a data structure for efficiently storing and accessing
 multidimensional arrays :cite:`Vanderwalt2011a`. Within the context of the
 array API standard, the data structure is opaque—libraries may or may not grant
 direct access to raw memory—and includes metadata for interpreting the
-underlying data, notably 'data type', 'shape', and 'device' (`Fig. 1a`_).
+underlying data, notably "data type", "shape", and "device" (`Fig. 1a`_).
 
 An array data type ("dtype") describes how to interpret a single array element
 (e.g., integer, real- or complex-valued floating-point, boolean, or other). A
