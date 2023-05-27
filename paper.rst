@@ -669,8 +669,8 @@ Tooling
 Test Suite
 ----------
 
-To facilitate adoption of the Python array API standard by array libraries
-within the SPE, we developed a test suite to measure specification compliance
+To facilitate adoption of the Python array API standard by libraries within the
+SPE, we developed a test suite to measure specification compliance
 :cite:`Consortium2022b`. The test suite covers all major aspects of the
 specification, such as broadcasting, type promotion, function signatures,
 special case handling, and expected return values.
