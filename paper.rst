@@ -742,7 +742,25 @@ Discussion
 .. and an implementation with library-specific performance optimizations.
 .. Benchmarks were run on an Intel i9-9900K and NVIDIA RTX 2080.
 
-.. TODO (athan): reframe discussion below as "We worked with the maintainers of sklearn to assess the real-world performance impact of specification adoption."
+The principle aim of the Python array API standard is to facilitate
+interoperability of array libraries within the SPE. In achieving this aim,
+array-consuming libraries, such as those for statistical computing, data
+science, and machine learning, can decouple their implementations from
+particular array libraries. Decoupling subsequently allows end users to use
+whichever array library is most applicable for their use case and to no longer
+be limited by the set of array libraries a particular array-consuming library
+supports.
+
+In addition to improved developer ergonomics afforded by standardized APIs and
+increased interoperability, standardization allows end users and the authors of
+array-consuming libraries to use a declarative, rather than imperative,
+programming paradigm. This paradigm change has a key benefit in allowing users
+to opt into performance improvements, as constraints and hardware capabilities
+allow. To assess the impact of this change, we worked with the maintainers of
+scikit-learn and SciPy to measure the real-world performance consequences of
+specification adoption.
+
+.. TODO (athan): update discussion below
 
 As a motivating example, consider the `LinearDiscriminantAnalysis` class in
 scikit-learn. This is a classifier whose code is written in pure Python
@@ -900,5 +918,8 @@ work will be discussed in a future paper and conference talk.
 
 Conclusion
 ==========
+
+The Python array API standard specifies standardized APIs and behaviors for
+array and tensor objects and operations.
 
 *TODO*
