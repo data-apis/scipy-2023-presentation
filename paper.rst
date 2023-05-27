@@ -831,35 +831,35 @@ demonstrated in the following code snippet showing source code modifications
 .. Note: the following line break is intentional in order to force indentation
 
 
-**Indexing (lines 3-6):** NumPy supports indexing semantics which are not
+**Indexing:** *(lines 3-6)* NumPy supports indexing semantics which are not
 supported in the array API standard. To be compliant with the standard, 1)
 boolean masks must be the sole index and cannot be combined with other indexing
 expressions, and 2) the number of provided single-axis indexing expressions
 must equal the number of dimensions.
 
-**Non-standardized APIs (lines 8-9):** NumPy supports several APIs which have
+**Non-standardized APIs:** *(lines 8-9)* NumPy supports several APIs which have
 no equivalent in the array API standard; `np.dot()` is one such API. For
 two-dimensional arrays, `np.dot()` is equivalent to matrix multiplication and
 was updated accordingly.
 
-**Naming conventions (lines 11-12):** NumPy contains several standard-compliant
+**Naming conventions:** *(lines 11-12)* NumPy contains several standard-compliant
 APIs whose naming conventions differ from those in the array API standard. In
 this and similar cases, adoption requires conforming to the standardized
 conventions.
 
-**Functional APIs (lines 14-15):** NumPy supports several array object methods
+**Functional APIs:** *(lines 14-15)* NumPy supports several array object methods
 which have no equivalent in the array API standard. To ensure portability, use
 of non-standardized methods must be refactored in terms of standardized
 functional APIs.
 
-**Scalars (lines 18-22):** NumPy often supports non-array input arguments, such
+**Scalars:** *(lines 18-22)* NumPy often supports non-array input arguments, such
 as scalars, Python lists, and other objects, as "array-like" arguments in its
 array-aware APIs. While the array API standard does not prohibit such
 polymorphism, the standard does not require array-like support. In this case,
 we explicitly convert a scalar expression to a zero-dimensional array using
 `xp.array()` in order to ensure portability when calling `xp.sqrt()`.
 
-**Data types (lines 26-27):** NumPy often supports implicit type conversion of
+**Data types:** *(lines 26-27)* NumPy often supports implicit type conversion of
 non-numeric data types in numerical APIs. The array API standard does not
 require such support, and, more generally, mixed-kind type promotion semantics
 (e.g., boolean to integer, integer to floating-point, etc.) are not specified.
