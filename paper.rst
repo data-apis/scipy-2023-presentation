@@ -840,8 +840,8 @@ APIs.
 as scalars, Python lists, and other objects, as "array-like" arguments in its
 array-aware APIs. While the array API standard does not prohibit such
 polymorphism, the standard does not require array-like support. In this case,
-we explicitly convert a scalar expression to a zero-dimensional array using
-`xp.array()` in order to ensure portability when calling `xp.sqrt()`.
+we explicitly convert a scalar expression to a zero-dimensional array in order
+to ensure portability when calling `xp.sqrt()`.
 
 **Data types:** *(lines 26-27)* NumPy often supports implicit type conversion of
 non-numeric data types in numerical APIs. The array API standard does not
