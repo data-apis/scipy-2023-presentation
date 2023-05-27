@@ -602,8 +602,8 @@ Specification Status
 ====================
 
 Following formation of the Consortium in 2020, we released an initial draft of
-the Python array API standard for community review in 2021. We have subsequently
-released two revisions of the standard:
+the Python array API standard for community review in 2021. We have released
+two subsequent revisions:
 
 **v2021.12**: The first full release of the specification, detailing purpose
 and scope, standardization methodology, future standard evolution, a minimal
