@@ -730,14 +730,17 @@ Discussion
    :figclass: wt
    :scale: 46%
 
-   Benchmarks demonstrating performance implications for array consuming libraries. All benchmarks were run on an Intel i9-9900K and NVIDIA RTX 2080.
-   Average timings for scikit-learn's `LinearDiscriminantAnalysis` `fit()` and
-   `predict()` on a random classification with 400,000 samples and 300
-   features, and `scipy.signal.welch()` on 50,000,000 data points. Times
-   compare the averages from NumPy to Torch CPU, Torch GPU, and CuPy backends.
-   The SciPy timings additionally compare a strictly portable implementation
-   and an implementation with library-specific performance optimizations.
-   Benchmarks were run on an Intel i9-9900K and NVIDIA RTX 2080.
+   Benchmarks measuring performance implications of adoption in array-consuming libraries. Displayed timings are relative to NumPy. All benchmarks were run on Intel i9-9900K and NVIDIA RTX 2080 hardware. **a)** Fitting a linear discriminant analysis (LDA) model. **b)** Predicting class labels using LDA. **c)** Estimating power spectral density using Welch's method and library-specific optimizations. **d)** Same as **c**, but using a strictly portable implementation.
+
+.. TODO (athan): remove once text body is updated to included benchmark info
+
+.. Average timings for scikit-learn's `LinearDiscriminantAnalysis` `fit()` and
+.. `predict()` on a random classification with 400,000 samples and 300
+.. features, and `scipy.signal.welch()` on 50,000,000 data points. Times
+.. compare the averages from NumPy to Torch CPU, Torch GPU, and CuPy backends.
+.. The SciPy timings additionally compare a strictly portable implementation
+.. and an implementation with library-specific performance optimizations.
+.. Benchmarks were run on an Intel i9-9900K and NVIDIA RTX 2080.
 
 .. TODO (athan): reframe discussion below as "We worked with the maintainers of sklearn to assess the real-world performance impact of specification adoption."
 
