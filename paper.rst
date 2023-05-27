@@ -763,7 +763,7 @@ array-consuming libraries to use a declarative, rather than imperative,
 programming paradigm. This paradigm change has a key benefit in allowing users
 to opt into performance improvements, as constraints and hardware capabilities
 allow. To assess the impact of this change, we worked with the maintainers of
-scikit-learn and SciPy to measure the performance consequences of specification
+scikit-learn and SciPy to measure the performance implications of specification
 adoption.
 
 .. TODO (athan): update discussion below
