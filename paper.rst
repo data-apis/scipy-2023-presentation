@@ -756,10 +756,10 @@ In addition to improved developer ergonomics afforded by standardized APIs and
 increased interoperability, standardization allows end users and the authors of
 array-consuming libraries to use a declarative, rather than imperative,
 programming paradigm. This paradigm change has a key benefit in enabling users
-to opt into performance improvements based on their unique set of constraints
-and hardware capabilities. To assess the impact of this change, we worked with
-the maintainers of scikit-learn and SciPy to measure the performance
-implications of specification adoption (`Fig. 2`_).
+to opt into performance improvements based on their constraints and hardware
+capabilities. To assess the impact of this change, we worked with maintainers
+of scikit-learn and SciPy to measure the performance implications of
+specification adoption (`Fig. 2`_).
 
 scikit-learn is a machine learning library for use in Python. Its current
 implementation relies heavily on NumPy and SciPy and is a mixture of Python and
