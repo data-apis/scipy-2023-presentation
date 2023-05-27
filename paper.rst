@@ -756,19 +756,19 @@ The principle aim of the Python array API standard is to facilitate
 interoperability of array libraries within the SPE. In achieving this aim,
 array-consuming libraries, such as those for statistical computing, data
 science, and machine learning, can decouple their implementations from
-specific array libraries. Decoupling subsequently allows end users to use
-whichever array library is most applicable for their use case and to no longer
-be limited by the set of array libraries a particular array-consuming library
+specific array libraries. Decoupling subsequently allows end users to use the
+array library that is most applicable to their use case and to no longer be
+limited by the set of array libraries a particular array-consuming library
 supports.
 
 In addition to improved developer ergonomics afforded by standardized APIs and
 increased interoperability, standardization allows end users and the authors of
 array-consuming libraries to use a declarative, rather than imperative,
-programming paradigm. This paradigm change has a key benefit in allowing users
-to opt into performance improvements, as constraints and hardware capabilities
-allow. To assess the impact of this change, we worked with the maintainers of
-scikit-learn and SciPy to measure the performance implications of specification
-adoption (`Fig. 2`_).
+programming paradigm. This paradigm change has a key benefit in enabling users
+to opt into performance improvements based on their unique set of constraints
+and hardware capabilities. To assess the impact of this change, we worked with
+the maintainers of scikit-learn and SciPy to measure the performance
+implications of specification adoption (`Fig. 2`_).
 
 scikit-learn is a machine learning library for use in Python. Its current
 implementation relies heavily on NumPy and SciPy and is a mixture of Python and
@@ -779,7 +779,7 @@ scikit-learn can decouple its implementation from NumPy and support
 non-CPU-based execution, potentially enabling increased performance.
 
 To test this hypothesis, we first examined the scikit-learn codebase to
-identify APIs which rely primarily on NumPy for their implementations.
+identify APIs which rely primarily on NumPy for their implementation.
 scikit-learn estimators are one such set of APIs, having methods for model
 fitting, classification prediction, and data projection, which are amenable to
 input arrays supporting alternative execution models. Having identified
