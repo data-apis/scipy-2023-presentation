@@ -790,34 +790,11 @@ distinguishes two or more classes of objects or events :cite:`McLachlan2005a`
 and 2) the implementation's use of singular value decomposition (SVD), a widely
 used factorization technique, for both classification and data projection.
 
-
-
-.. TODO (athan): update discussion below
-
-As a motivating example, consider the `LinearDiscriminantAnalysis` class in
-scikit-learn. This is a classifier whose code is written in pure Python
-against NumPy. In scikit-learn pull request `#22554
-<https://github.com/scikit-learn/scikit-learn/pull/22554>`__, the
-`LinearDiscriminantAnalysis` code was updated to support the array API
-standard. This pull request provides a useful example of what array-consuming
-libraries will typically require to update pure NumPy code to code that can
-consume any array API compliant library.
-
-The biggest takeaway from the pull request is that the majority of NumPy-like
-code will remain unchanged, other than renaming `np` to `xp`. `xp` is defined
-a the top of each function as `xp = array_namespace(X, y)`, where `X` and `y`
-are the input arguments to the function and `array_namespace()` is a function
-from the `array-api-compat`_ compatibility layer that returns the array
-namespace corresponding to `X`.
-
-However, some changes to the usage of NumPy were necessary. A `selection from
-the pull request diff
-<https://github.com/scikit-learn/scikit-learn/pull/22554/files#diff-088a77600941874d633e8dbe71804c94c3b9d336a73509e6d2db5b48065d1c8bR500-R516>`__
-demonstrates the sorts of changes that were required:
-
-.. Note: see scikit-learn commit 2710a9e7eefd2088ce35fd2fb6651d5f97e5ef8b
+Refactoring the LDA implementation was illustrative in several respects, as
+demonstrated in the following code snippet showing source code modifications:
 
 .. code:: diff
+   :linenos:
 
      Xc = []
      for idx, group in enumerate(self.classes_):
@@ -832,16 +809,13 @@ demonstrates the sorts of changes that were required:
    - Xc = np.concatenate(Xc, axis=0)
    + Xc = xp.concat(Xc, axis=0)
 
-     # 1) within (univariate) scaling by with classes
-     #    std-dev
    - std = Xc.std(axis=0)
    + std = xp.std(Xc, axis=0)
-     # avoid division by zero in normalization
+     
      std[std == 0] = 1.0
    - fac = 1.0 / (n_samples - n_classes)
    + fac = xp.asarray(1.0 / (n_samples - n_classes))
 
-     # 2) Within variance scaling
    - X = np.sqrt(fac) * (Xc / std)
    + X = xp.sqrt(fac) * (Xc / std)
 
