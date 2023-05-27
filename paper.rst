@@ -167,7 +167,7 @@ standards, until the founding of the Consortium.
 
 The genesis for the Consortium grew out of many conversations among maintainers
 during 2019-2020. During those conversations, it quickly became clear that any
-attempt to write a new reference library to fix the current fragmentation was
+attempt to create a new reference library to address fragmentation was
 infeasible. Unlike in 2005, too many different use cases and varying
 stakeholders now exist. Furthermore, the speed of innovation of both hardware
 and software is simply too great.
