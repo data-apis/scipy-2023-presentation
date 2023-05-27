@@ -730,7 +730,13 @@ Discussion
    :figclass: wt
    :scale: 46%
 
-   Benchmarks measuring performance implications of adoption in array-consuming libraries. Displayed timings are relative to NumPy. All benchmarks were run on Intel i9-9900K and NVIDIA RTX 2080 hardware. **a)** Fitting a linear discriminant analysis (LDA) model. **b)** Predicting class labels using LDA. **c)** Estimating power spectral density using Welch's method and library-specific optimizations. **d)** Same as **c**, but using a strictly portable implementation.
+   Benchmarks measuring performance implications of adoption in array-consuming
+   libraries. Displayed timings are relative to NumPy. All benchmarks were run
+   on Intel i9-9900K and NVIDIA RTX 2080 hardware. **a)** Fitting a linear
+   discriminant analysis (LDA) model. **b)** Predicting class labels using LDA.
+   **c)** Estimating power spectral density using Welch's method and
+   library-specific optimizations. **d)** Same as **c**, but using a strictly
+   portable implementation.
 
 .. TODO (athan): remove once text body is updated to included benchmark info
 
