@@ -787,8 +787,8 @@ potential API candidates, we selected the estimator class for linear
 discriminant analysis (LDA) as a representative test case, due to 1) LDA being
 a commonly used technique for finding a linear combination of features that
 distinguishes two or more classes of objects or events :cite:`McLachlan2005a`
-and 2) the implementation's use of singular value decomposition (SVD) for both
-classification and data projection.
+and 2) the implementation's use of singular value decomposition (SVD), a widely
+used factorization technique, for both classification and data projection.
 
 
 
