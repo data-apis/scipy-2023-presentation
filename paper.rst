@@ -858,7 +858,7 @@ we explicitly convert a scalar expression to a zero-dimensional array using
 
 **Data types (lines 26-27):** NumPy often supports implicit type conversion of
 non-numeric data types in numerical APIs. The array API standard does not
-require such support, and, more generally, cross-kind type promotion semantics
+require such support, and, more generally, mixed-kind type promotion semantics
 (e.g., boolean to integer, integer to floating-point, etc.) are not specified.
 To ensure portability, we must explicitly convert a boolean array to an integer
 array before calling `xp.sum()`.
