@@ -195,10 +195,10 @@ measured.
 To this end, we established four objectives for the array API standard. 1)
 Increase interoperability such that array-consuming libraries can accept and
 operate on any specification-conforming array library. 2) Reduce reinvention
-and facilitate code sharing and reuse by establishing a common set of
-standardized APIs and behavior. 3) Reduce barriers to new array library
-creation by providing a set of APIs which can be adopted as is. 4) Reduce the
-learning curve and friction for users as they switch between array libraries.
+and facilitate code sharing by establishing a common set of standardized APIs
+and behavior. 3) Reduce barriers to array library creation by providing a set
+of APIs which can be adopted as is. 4) Reduce the learning curve and friction
+for users as they switch between array libraries.
 
 We explicitly omitted three notable possible objectives. 1) Making array
 libraries identical for the purpose of merging them. Different array libraries
@@ -235,7 +235,7 @@ shape, data type, and device) or for supporting operator overloading (i.e.,
 magic methods), respectively.
 
 **No dependencies.** The standard and its implementations should not require
-any external dependency outside of Python itself.
+any dependency outside of Python itself.
 
 **Accelerator support.** Standardized APIs and behavior should be possible to
 implement for both central processing units (CPUs) and hardware-accelerated
@@ -394,7 +394,7 @@ that favors candidate APIs having high relative usage). From the rankings, we
 assigned standardization priorities, with higher ranking APIs taking precedence
 over lower ranking APIs, and extended the analysis to aggregated API categories
 (e.g., array creation, manipulation, statistics, etc.). All source code, usage
-data, and analysis are available as public artifacts on GitHub :cite:`Consortium2020a`:cite:`Consortium2022c`.
+data, and analysis are publicly available on GitHub :cite:`Consortium2020a`:cite:`Consortium2022c`.
 
 .. TODO (athan): consider a figure showing the top 10 common API ranks (see Jupyter notebook for array API comparison).
 
@@ -562,8 +562,8 @@ vectorization (`Fig. 1d`_), which obviates the need for explicit looping in user
 code by applying operations to multiple array elements. Vectorized abstractions
 confer two primary benefits: 1) implementation-dependent optimizations leading
 to increased performance and 2) concise expression of mathematical operations.
-As an example, one can express element-wise computation of *z*-scores in a
-single line.
+For example, one can express element-wise computation of *z*-scores in a single
+line.
 
 .. code:: python
 
@@ -871,15 +871,15 @@ taking place in the SciPy library. `A demo pull request
 <https://github.com/tylerjereddy/scipy/pull/70>`__ translates the pure
 Python/NumPy `scipy.signal.welch()` function to use the array API.
 
-Both the scikit-learn and the SciPy changes were developed with the help of
-the strict minimal `numpy.array_api`_ implementation. This was necessary
-because the NumPy APIs used in the previous version of the code are not
-strictly disallowed by the standard, but using them would not be portable. The
-`numpy.array_api` implementation errors on any code that isn't explicitly
-required by the specification. By running the `LinearDiscriminantAnalysis`
-code against `numpy.array_api`, the scikit-learn developers were able to find
-which parts of the code used NumPy functionality that is not part of the
-standard.
+.. Both the scikit-learn and the SciPy changes were developed with the help of
+.. the strict minimal `numpy.array_api`_ implementation. This was necessary
+.. because the NumPy APIs used in the previous version of the code are not
+.. strictly disallowed by the standard, but using them would not be portable. The
+.. `numpy.array_api` implementation errors on any code that isn't explicitly
+.. required by the specification. By running the `LinearDiscriminantAnalysis`
+.. code against `numpy.array_api`, the scikit-learn developers were able to find
+.. which parts of the code used NumPy functionality that is not part of the
+.. standard.
 
 The resulting code can now be run against any array API conforming library.
 `Fig. 2`_ shows the resulting speedups vs. NumPy for
