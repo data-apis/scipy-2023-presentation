@@ -821,8 +821,8 @@ boolean masks must be the sole index and cannot be combined with other indexing
 expressions, and 2) the number of provided single-axis indexing expressions
 must equal the number of dimensions.
 
-**Non-standardized APIs:** *(lines 8-9)* NumPy supports several APIs which have
-no equivalent in the array API standard; `np.dot()` is one such API. For
+**Non-standardized APIs:** *(lines 8-9)* NumPy supports several APIs having no
+equivalent in the array API standard; `np.dot()` is one such API. For
 two-dimensional arrays, `np.dot()` is equivalent to matrix multiplication and
 was updated accordingly.
 
