@@ -832,7 +832,7 @@ this and similar cases, adoption requires conforming to the standardized
 conventions.
 
 **Functional APIs:** *(lines 14-15)* NumPy supports several array object methods
-which have no equivalent in the array API standard. To ensure portability, we
+having no equivalent in the array API standard. To ensure portability, we
 refactored use of non-standardized methods in terms of standardized functional
 APIs.
 
