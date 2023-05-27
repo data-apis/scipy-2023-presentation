@@ -232,7 +232,8 @@ notation.
 **Minimal array object.** The standard should not require that an array object
 have any attributes or methods beyond what is necessary for inspection (e.g.,
 shape, data type, and device) or for supporting operator overloading (i.e.,
-magic methods).
+magic methods). Notably, the array strides are considered an implementation
+detail and not exposed as a Python attribute.
 
 **No dependencies.** The standard and its implementations should not require
 any dependency outside of Python itself.
