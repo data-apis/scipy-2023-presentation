@@ -224,7 +224,7 @@ libraries, both in Python and in other frequently used programming languages
 supporting array computation, such as MATLAB :cite:`Moler2020a` and Julia
 :cite:`Bezanson2017a`. While method chaining and the fluent interface design
 pattern are also relatively common, especially among array libraries supporting
-lazy evaluation and operator fusion, functional APIs are generally preferred.
+deferred execution and operator fusion, functional APIs are generally preferred.
 This mirrors design patterns used in underlying implementations, such as those
 written in C/C++ and Fortran, and more closely matches written mathematical
 notation.
