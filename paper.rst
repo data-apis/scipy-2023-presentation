@@ -828,6 +828,9 @@ demonstrated in the following code snippet showing source code modifications
    - rank = np.sum(S > self.tol)
    + rank = xp.sum(xp.astype(S > self.tol, xp.int32))
 
+.. Note: the following line break is intentional in order to force indentation
+
+
 **Indexing (lines 3-6):** NumPy supports indexing semantics which are not
 supported in the array API standard. To be compliant with the standard, 1)
 boolean masks must be the sole index and cannot be combined with other indexing
