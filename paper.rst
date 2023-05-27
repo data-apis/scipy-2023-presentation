@@ -768,7 +768,29 @@ programming paradigm. This paradigm change has a key benefit in allowing users
 to opt into performance improvements, as constraints and hardware capabilities
 allow. To assess the impact of this change, we worked with the maintainers of
 scikit-learn and SciPy to measure the performance implications of specification
-adoption.
+adoption (`Fig. 2`_).
+
+scikit-learn is a machine learning library for use in Python. Its current
+implementation relies heavily on NumPy and SciPy and is a mixture of Python and
+Cython. Due to its dependence on NumPy for array computation, scikit-learn is
+CPU-bound, and the library is unable to capture the benefits of GPU- and
+TPU-based execution models. By adopting the Python array API standard,
+scikit-learn can decouple its implementation from NumPy and support
+non-CPU-based execution, potentially allowing for increased performance.
+
+To test this hypothesis, we first examined the scikit-learn codebase to
+identify APIs which rely primarily on NumPy for their implementations.
+scikit-learn estimators are one such set of APIs, having methods for model
+fitting, classification prediction, and data projection, which are amenable to
+input arrays supporting alternative execution models. Having identified
+potential API candidates, we selected the estimator class for linear
+discriminant analysis (LDA) as a representative test case, due to 1) LDA being
+a commonly used technique for finding a linear combination of features that
+distinguishes two or more classes of objects or events :cite:`McLachlan2005a`
+and 2) the implementation's use of singular value decomposition (SVD) for both
+classification and data projection.
+
+
 
 .. TODO (athan): update discussion below
 
