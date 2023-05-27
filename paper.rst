@@ -725,6 +725,10 @@ Discussion
 
 .. Automatic figure references won't work because they require Sphinx.
 .. _Fig. 2:
+.. _Fig. 2a:
+.. _Fig. 2b:
+.. _Fig. 2c:
+.. _Fig. 2d:
 .. figure:: assets/timings.pdf
    :align: center
    :figclass: wt
