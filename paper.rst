@@ -857,9 +857,11 @@ we explicitly convert a scalar expression to a zero-dimensional array using
 `xp.array()` in order to ensure portability when calling `xp.sqrt()`.
 
 **Data types (lines 26-27):** NumPy often supports implicit type conversion of
-non-numeric data types in numerical APIs. To ensure portability, we needed to
-explicitly convert a boolean array to an integer array before calling
-`xp.sum()`.
+non-numeric data types in numerical APIs. The array API standard does not
+require such support, and, more generally, cross-kind type promotion semantics
+(e.g., boolean to integer, integer to floating-point, etc.) are not specified.
+To ensure portability, we must explicitly convert a boolean array to an integer
+array before calling `xp.sum()`.
 
 .. TODO (athan): discuss benchmarks 
 
