@@ -78,8 +78,8 @@ Python Array API Standard: Toward Array Interoperability in the Scientific Pytho
    In this paper, we first introduce the Consortium for Python Data API
    standards and define the scope of the array API standard. We then discuss
    the current status of standardization and associated tooling (including a
-   library-independent test suite and compatibility layer). We conclude by outlining
-   plans for future work.
+   test suite and compatibility layer). We conclude by outlining plans for
+   future work.
 
 .. class:: keywords
 
