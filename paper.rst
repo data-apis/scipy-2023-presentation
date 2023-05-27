@@ -820,6 +820,11 @@ demonstrated in the following code snippet showing source code modifications:
    - X = np.sqrt(fac) * (Xc / std)
    + X = xp.sqrt(fac) * (Xc / std)
 
+   U, S, Vt = svd(X, full_matrices=False)
+
+   - rank = np.sum(S > self.tol)
+   + rank = xp.sum(xp.astype(S > self.tol, xp.int32))
+
 This highlights the following types of changes that are needed to support the
 array API:
 
