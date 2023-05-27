@@ -848,9 +848,9 @@ this and similar cases, adoption requires conforming to the standardized
 conventions.
 
 **Functional APIs:** *(lines 14-15)* NumPy supports several array object methods
-which have no equivalent in the array API standard. To ensure portability, use
-of non-standardized methods must be refactored in terms of standardized
-functional APIs.
+which have no equivalent in the array API standard. To ensure portability, we
+refactored use of non-standardized methods in terms of standardized functional
+APIs.
 
 **Scalars:** *(lines 18-22)* NumPy often supports non-array input arguments, such
 as scalars, Python lists, and other objects, as "array-like" arguments in its
