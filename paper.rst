@@ -743,16 +743,6 @@ Discussion
    portable implementation. Note the change in limits along the vertical axis
    compared to **a-c**.
 
-.. TODO (athan): remove once text body is updated to included benchmark info
-
-.. Average timings for scikit-learn's `LinearDiscriminantAnalysis` `fit()` and
-.. `predict()` on a random classification with 400,000 samples and 300
-.. features, and `scipy.signal.welch()` on 50,000,000 data points. Times
-.. compare the averages from NumPy to Torch CPU, Torch GPU, and CuPy backends.
-.. The SciPy timings additionally compare a strictly portable implementation
-.. and an implementation with library-specific performance optimizations.
-.. Benchmarks were run on an Intel i9-9900K and NVIDIA RTX 2080.
-
 The principle aim of the Python array API standard is to facilitate
 interoperability of array libraries within the SPE. In achieving this aim,
 array-consuming libraries, such as those for statistical computing, data
@@ -785,15 +775,9 @@ scikit-learn estimators are one such set of APIs, having methods for model
 fitting, classification prediction, and data projection, which are amenable to
 input arrays supporting alternative execution models. Having identified
 potential API candidates, we selected the estimator class for linear
-discriminant analysis (LDA) as a representative test case, due to 1) LDA being
-a commonly used technique for finding a linear combination of features that
-distinguishes two or more classes of objects or events :cite:`McLachlan2005a`
-and 2) the implementation's use of singular value decomposition (SVD), a widely
-used factorization technique, for both classification and data projection.
-
-Refactoring the LDA implementation was illustrative in several respects, as
-demonstrated in the following code snippet showing source code modifications
-[#]_:
+discriminant analysis (LDA) as a representative test case. Refactoring the LDA
+implementation was illustrative in several respects, as demonstrated in the
+following code snippet showing source code modifications [#]_:
 
 .. [#] Source code modifications reflect those required for NumPy version 1.24.3 and Python array API standard version 2022.12.
 
@@ -869,6 +853,16 @@ array before calling `xp.sum()`.
 .. TODO (athan): discuss benchmarks 
 
 
+
+.. TODO (athan): remove once text body is updated to included benchmark info
+
+.. Average timings for scikit-learn's `LinearDiscriminantAnalysis` `fit()` and
+.. `predict()` on a random classification with 400,000 samples and 300
+.. features, and `scipy.signal.welch()` on 50,000,000 data points. Times
+.. compare the averages from NumPy to Torch CPU, Torch GPU, and CuPy backends.
+.. The SciPy timings additionally compare a strictly portable implementation
+.. and an implementation with library-specific performance optimizations.
+.. Benchmarks were run on an Intel i9-9900K and NVIDIA RTX 2080.
 
 .. TODO (athan): update copy
 
@@ -948,3 +942,5 @@ The Python array API standard specifies standardized APIs and behaviors for
 array and tensor objects and operations.
 
 *TODO*
+
+.. TODO (athan): implications for broader ecosystem. Importance/significance of work. Future benefits.
