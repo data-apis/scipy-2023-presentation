@@ -752,7 +752,7 @@ The principle aim of the Python array API standard is to facilitate
 interoperability of array libraries within the SPE. In achieving this aim,
 array-consuming libraries, such as those for statistical computing, data
 science, and machine learning, can decouple their implementations from
-particular array libraries. Decoupling subsequently allows end users to use
+specific array libraries. Decoupling subsequently allows end users to use
 whichever array library is most applicable for their use case and to no longer
 be limited by the set of array libraries a particular array-consuming library
 supports.
