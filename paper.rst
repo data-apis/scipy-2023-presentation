@@ -633,7 +633,7 @@ reference implementation. The implementation is strictly compliant (i.e., any
 non-portable usage triggers an exception) and is available as the
 `numpy.array_api` submodule (discussed in :cite:`Gommers2021a`). In general,
 we do not expect for users to rely on the reference implementation for
-production use cases due to performance considerations. Rather, the reference
+production use cases due to performance considerations. Instead, the reference
 implementation is primarily useful as a means for testing whether array
 library usage is guaranteed to be portable.
 
