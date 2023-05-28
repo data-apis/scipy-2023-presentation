@@ -36,6 +36,7 @@ y_pos = (0, 20, 40, 60, 80)
 ax1.set_title("scikit-learn\nLDA fit", fontsize=fontsize)
 ax1.set_ylim(1, 80)
 ax1.set_yticks(y_pos)
+ax1.bar_label(ax1.containers[0], fmt='%.1f')
 
 sns.barplot(y="Speedup vs. NumPy", x="Backend",
             data=scikit_learn_results[scikit_learn_results["Method"] ==
@@ -43,6 +44,7 @@ sns.barplot(y="Speedup vs. NumPy", x="Backend",
 ax2.set_title("scikit-learn\nLDA predict", fontsize=fontsize)
 ax2.set_ylim(0, 80)
 ax2.set_yticks(y_pos)
+ax2.bar_label(ax2.containers[0], fmt='%.1f')
 
 print("scikit-learn mean durations:")
 print(means)
@@ -61,12 +63,14 @@ sns.barplot(data=scipy_results[~scipy_results["Strict"]], x="Backend",
 ax3.set_title("SciPy\nwelch (optimized)", fontsize=fontsize)
 ax3.set_ylim(0, 80)
 ax3.set_yticks(y_pos)
+ax3.bar_label(ax3.containers[0], fmt='%.1f')
 
 sns.barplot(data=scipy_results[scipy_results["Strict"]], x="Backend",
             y="Speedup vs. NumPy", ax=ax4, errorbar=None)
 
 ax4.set_title("SciPy\nwelch (strict)", fontsize=fontsize)
 ax4.set_ylim(0, 1)
+ax4.bar_label(ax4.containers[0], fmt='%.2f')
 
 for ax in ax1, ax2, ax3, ax4:
     ax.set_xlabel("")
