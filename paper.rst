@@ -712,8 +712,8 @@ libraries :cite:`Consortium2023a`. The layer transparently intercepts
 API calls for any API which is not fully-compliant and polyfills non-compliant
 specification-defined behavior. For compliant APIs, it exposes the APIs
 directly, without interception, thus mitigating performance degradation risks
-due to redirection. To reduce barriers to adoption, the layer has a small, pure
-Python codebase with no hard dependencies and supports vendoring.
+due to redirection. To reduce barriers to adoption, the layer supports vendoring
+and has a small, pure Python codebase with no hard dependencies.
 
 While the Python array API standard facilitates array interoperability in
 theory, the compatibility layer does so in practice, helping array-consuming
