@@ -885,7 +885,7 @@ The resulting code can now be run against any array API conforming library.
 `Fig. 2`_ shows the resulting speedups vs. NumPy for
 `LinearDiscriminantAnalysis` and `scipy.signal.welch()` on Torch CPU, Torch
 GPU (CUDA), and CuPy backends. GPU backends give a significant speedup, but
-even Torch CPU can have up to 2x speedup over NumPy.
+even Torch CPU can have up to 40% speedup over NumPy.
 
 `Fig. 2`_ additionally highlights an additional type of change, namely
 **making use of library specific performance optimizations**. The SciPy
