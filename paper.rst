@@ -909,7 +909,7 @@ outweigh the costs.
 Future Work
 ===========
 
-.. TODO (athan): rework based on open questions
+.. TODO (athan): rework based on open questions; also include tooling for tracking adoption (compatibility tables, test suite reporting, etc)
 
 The focus of the consortium for 2023 is on implementation and adoption.
 
