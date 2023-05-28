@@ -536,12 +536,13 @@ The basis of this protocol is DLPack, an open in-memory structure for sharing
 tensors among frameworks :cite:`DLPack2023a`. DLPack is a standalone protocol
 with an ABI stable, header-only C implementation with cross hardware support.
 The array API standard builds on DLPack by specifying Python APIs for array
-object data interchange. Conforming array objects must support `__dlpack__` and
-`__dlpack_device__` magic methods for accessing array data and querying the
-array device. A standardized `from_dlpack()` API calls these methods to
-construct a new array object of the desired type using zero-copy semantics when
-possible. The combination of DLPack and standardized Python APIs thus provides a
-stable, widely adopted, and efficient means for array object interchange.
+object data interchange :cite:`DLPack2023b`. Conforming array objects must
+support `__dlpack__` and `__dlpack_device__` magic methods for accessing array
+data and querying the array device. A standardized `from_dlpack()` API calls
+these methods to construct a new array object of the desired type using
+zero-copy semantics when possible. The combination of DLPack and standardized
+Python APIs thus provides a stable, widely adopted, and efficient means for
+array object interchange.
 
 ..    import torch
 
