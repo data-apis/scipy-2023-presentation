@@ -546,7 +546,7 @@ stable, widely adopted, and efficient means for array object interchange.
 ..    import torch
 
 ..    def some_function(x):
-..        # Convert input arrays to Torch tensors:
+..        # Convert input arrays to PyTorch tensors:
 ..        if not isinstance(x, torch.Tensor):
 ..            x = torch.from_dlpack(x)
 
@@ -859,7 +859,7 @@ array before calling `xp.sum()`.
 .. Average timings for scikit-learn's `LinearDiscriminantAnalysis` `fit()` and
 .. `predict()` on a random classification with 400,000 samples and 300
 .. features, and `scipy.signal.welch()` on 50,000,000 data points. Times
-.. compare the averages from NumPy to Torch CPU, Torch GPU, and CuPy backends.
+.. compare the averages from NumPy to PyTorch CPU, PyTorch GPU, and CuPy backends.
 .. The SciPy timings additionally compare a strictly portable implementation
 .. and an implementation with library-specific performance optimizations.
 .. Benchmarks were run on an Intel i9-9900K and NVIDIA RTX 2080.
@@ -883,22 +883,22 @@ Python/NumPy `scipy.signal.welch()` function to use the array API.
 
 The resulting code can now be run against any array API conforming library.
 `Fig. 2`_ shows the resulting speedups vs. NumPy for
-`LinearDiscriminantAnalysis` and `scipy.signal.welch()` on Torch CPU, Torch
+`LinearDiscriminantAnalysis` and `scipy.signal.welch()` on PyTorch CPU, PyTorch
 GPU (CUDA), and CuPy backends. GPU backends give a significant speedup, but
-even Torch CPU can have up to 40% speedup over NumPy.
+even PyTorch CPU can have up to 40% speedup over NumPy.
 
 `Fig. 2`_ additionally highlights an additional type of change, namely
 **making use of library specific performance optimizations**. The SciPy
 `welch()` implementation uses an optimization involving stride tricks. Stride
 tricks have not been standardized in the array API since they are not
-available in some libraries (e.g., JAX). NumPy, CuPy, and Torch allow setting
+available in some libraries (e.g., JAX). NumPy, CuPy, and PyTorch allow setting
 strides, but they do not use a uniform API to do so. An array API compatible
 implementation can be used, but it is slower, so it is used only as a fallback
 for libraries outside of NumPy, PyTorch, and CuPy. Indeed, it is significantly
-slower than even plain NumPy, with PyTorch CUDA taking 200 seconds to
+slower than even plain NumPy, with PyTorch GPU taking 200 seconds to
 compute the result that takes 7 seconds with NumPy. The optimized
 implementation that uses stride tricks has more expected performance
-characteristics, with PyTorch CUDA and CuPy giving a near 40x speedup over
+characteristics, with PyTorch GPU and CuPy giving a near 40x speedup over
 NumPy. It is generally expected that many users of the array API may need to
 maintain similar such backend array library-specific performance optimizations
 to achieve the expected performance gains. This does imply a small extra
