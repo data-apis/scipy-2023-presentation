@@ -718,8 +718,11 @@ and has a small, pure Python codebase with no hard dependencies.
 While the Python array API standard facilitates array interoperability in
 theory, the compatibility layer does so in practice, helping array-consuming
 libraries decouple adoption of the standard from the release cycles of upstream
-array libraries. We expect the compatibility layer to have a significant impact
-in accelerating adoption among array-consuming libraries.
+array libraries. Currently, the layer provides shims for NumPy, CuPy, and
+PyTorch and aims to support additional array libraries in the future. By
+ensuring specification-compliant behavior, we expect the compatibility layer to
+have a significant impact in accelerating adoption among array-consuming
+libraries.
 
 Discussion
 ==========
