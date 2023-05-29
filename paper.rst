@@ -357,15 +357,15 @@ during design analysis. The sample of downstream libraries included SciPy
 :cite:`Virtanen2020a`, pandas :cite:`McKinney2011a`, Matplotlib
 :cite:`Hunter2007a`, xarray :cite:`Hoyer2017a`, scikit-learn
 :cite:`Pedregosa2011a`, and scikit-image :cite:`Vanderwalt2014a`, among others.
-Next, we ran the tests of these downstream libraries with runtime instrumentation enabled.
-We recorded the inputs and outputs of each array API invocation as JSON by inspecting the bytecode stack
-at call time :cite:`Consortium2020a`. From the structured data, we
-generated empirical APIs based on provided arguments and associated data types,
-noting which downstream library called which empirical API and at what
-frequency. We then derived a single inferred API which unifies the individual
-empirical API calling semantics. We organized the API results in human-readable
-form as type definition files and compared the inferred API to the publicly
-documented APIs obtained during design analysis.
+Next, we ran downstream library test suites with runtime instrumentation
+enabled. We recorded input arguments and return values for each API invocation
+by inspecting the bytecode stack at call time :cite:`Consortium2020a`. From the
+recorded data, we generated empirical APIs based on provided arguments and
+associated data types, noting which downstream library called which empirical
+API and at what frequency. We then derived a single inferred API which unifies
+the individual empirical API calling semantics. We organized the API results in
+human-readable form as type definition files and compared the inferred API to
+the publicly documented APIs obtained during design analysis.
 
 The following is an example inferred API for `numpy.arange`, with the docstring
 indicating the number of lines of code which invoked the function for each
