@@ -905,8 +905,8 @@ throughput across all non-NumPy backends.
 The source of the performance disparity is due to use of strided views in the
 optimized implementation. NumPy, CuPy, and PyTorch support the concept of
 strides, where a stride describes the number of bytes to move forward in memory
-to progress to the next position along an axis, and provide similar, but
-non-standardized, APIs for manipulating the internal data structure of an array.
+to progress to the next position along an axis, and provide similar,
+non-standardized APIs for manipulating the internal data structure of an array.
 While one can use standardized APIs to achieve the same result, using stride
 "tricks" enables increased performance. This finding raises an important point.
 Namely, while the Python array API standard aims to reduce the need for
