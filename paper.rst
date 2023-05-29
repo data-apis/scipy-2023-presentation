@@ -46,6 +46,10 @@
 :email: zhasheng@apache.org
 :institution: Amazon
 
+:author: Saul Shanabrook
+:email: s.shanabrook@gmail.com
+:institution: Amazon
+
 :author: Consortium for Python Data API Standards
 :email:
 :institution: Consortium for Python Data API Standards
@@ -349,10 +353,9 @@ during design analysis. The sample of downstream libraries included SciPy
 :cite:`Virtanen2020a`, pandas :cite:`McKinney2011a`, Matplotlib
 :cite:`Hunter2007a`, xarray :cite:`Hoyer2017a`, scikit-learn
 :cite:`Pedregosa2011a`, and scikit-image :cite:`Vanderwalt2014a`, among others.
-Next, we instrumented downstream libraries in order to record Python array API
-calls :cite:`Consortium2020a`. After instrumentation, we collected stack traces
-while running downstream library test suites. We subsequently transformed trace
-data into structured JSON for subsequent analysis. From the structured data, we
+Next, we ran the tests of these downstream libraries with runtime instrumentation enabled.
+This allowed us to record every Python array API call and output
+this data as JSON :cite:`Consortium2020a`. From the structured data, we
 generated empirical APIs based on provided arguments and associated data types,
 noting which downstream library called which empirical API and at what
 frequency. We then derived a single inferred API which unifies the individual
