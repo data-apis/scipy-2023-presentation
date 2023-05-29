@@ -855,7 +855,7 @@ To ensure portability, we must explicitly convert a boolean array to an integer
 array before calling `xp.sum()`.
 
 To test the performance implications of refactoring scikit-learn's LDA
-implementation, we first generated a random two-class classification problem,
+implementation, we first generated a random two-class classification problem
 having 400,000 samples and 300 features. We next devised two benchmarks, one
 for fitting an LDA model and a second for predicting class labels for each
 simulated sample. We then ran benchmarks measuring execution time for NumPy,
