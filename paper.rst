@@ -918,18 +918,15 @@ performance benefits significantly outweigh the maintenance costs.
 Future Work
 ===========
 
-.. TODO (athan): rework based on open questions; also include tooling for tracking adoption (compatibility tables, test suite reporting, etc)
+*TODO (athan): rework based on open questions; also include tooling for tracking adoption (compatibility tables, test suite reporting, etc); Parallelization? Context manager? Device standardization? String dtypes? Support mixing array libraries? IO? stuff out of scope, but people need (e.g., SciPy dist)?*
 
 
-
-Scikit-learn has implemented array API specification support in its
-`LinearDiscriminantAnalysis` class and plans to add support to more functions.
 
 Work is underway on an array API compliance website. (*TODO (athan): compliance monitoring*)
 
-There is a similar effort underway under the Data APIs Consortium umbrella to
+Similar effort underway under the Data APIs Consortium umbrella to
 standardize a library author-focused API for Python dataframe libraries. This
-work will be discussed in a future paper and conference talk.
+work will be discussed in a future paper.
 
 Conclusion
 ==========
@@ -937,6 +934,4 @@ Conclusion
 The Python array API standard specifies standardized APIs and behaviors for
 array and tensor objects and operations.
 
-*TODO*
-
-.. TODO (athan): implications for broader ecosystem. Importance/significance of work. Future benefits.
+TODO (athan): implications for broader ecosystem. Importance/significance of work. Future benefits.
