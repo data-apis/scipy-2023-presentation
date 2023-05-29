@@ -879,44 +879,13 @@ as afforded by array API standard adoption.
 SciPy
 -----
 
-.. scikit-learn is a machine learning library for use in Python. Its current
-.. implementation relies heavily on NumPy and SciPy and is a mixture of Python and
-.. Cython. Due to its dependence on NumPy for array computation, scikit-learn is
-.. CPU-bound, and the library is unable to capture the benefits of GPU- and
-.. TPU-based execution models. By adopting the Python array API standard,
-.. scikit-learn can decouple its implementation from NumPy and support
-.. non-CPU-based execution, potentially enabling increased performance.
+SciPy is a collection of mathematical algorithms and convenience functions for numerical integration, optimization, interpolation, statistics, linear algebra, signal processing, and image processing, among others. Similar to scikit-learn, its current implementation relies heavily on NumPy. We thus sought to test whether SciPy could similarly benefit from adopting the Python array API standard.
 
-.. TODO (athan): remove once text body is updated to included benchmark info
+Following a similar approach to the sckit-learn benchmarks, we identified SciPy's signal processing APIs as being amenable to input arrays supporting alternative execution models and selected an API for estimating the power spectral density using Welch's method :cite:`Welch1967a` as a representative test case. We then generated a synthetic test signal having 50,000,000 data points. We next devised two benchmarks, one using library-specific optimizations and a second strictly using APIs in the array API standard. We ran the benchmarks for the same backends and on the same hardware and using the same analysis approach as the scikit-learn benchmarks discussed above.
 
-.. Average timings for `scipy.signal.welch()` on 50,000,000 data points. Times
-.. compare the averages from NumPy to Torch CPU, Torch GPU, and CuPy backends.
-.. The SciPy timings additionally compare a strictly portable implementation
-.. and an implementation with library-specific performance optimizations.
-.. Benchmarks were run on an Intel i9-9900K and NVIDIA RTX 2080.
+`Fig. 2c`_ and `Fig. 2d`_ display results, showing average execution time relative to NumPy.
 
 .. TODO (athan): update copy
-
-Another similar effort to rewrite code to support the array API is currently
-taking place in the SciPy library. `A demo pull request
-<https://github.com/tylerjereddy/scipy/pull/70>`__ translates the pure
-Python/NumPy `scipy.signal.welch()` function to use the array API.
-
-.. Both the scikit-learn and the SciPy changes were developed with the help of
-.. the strict minimal `numpy.array_api`_ implementation. This was necessary
-.. because the NumPy APIs used in the previous version of the code are not
-.. strictly disallowed by the standard, but using them would not be portable. The
-.. `numpy.array_api` implementation errors on any code that isn't explicitly
-.. required by the specification. By running the `LinearDiscriminantAnalysis`
-.. code against `numpy.array_api`, the scikit-learn developers were able to find
-.. which parts of the code used NumPy functionality that is not part of the
-.. standard.
-
-The resulting code can now be run against any array API conforming library.
-`Fig. 2`_ shows the resulting speedups vs. NumPy for
-`LinearDiscriminantAnalysis` and `scipy.signal.welch()` on Torch CPU, Torch
-GPU (CUDA), and CuPy backends. GPU backends give a significant speedup, but
-even Torch CPU can have up to 2x speedup over NumPy.
 
 `Fig. 2`_ additionally highlights an additional type of change, namely
 **making use of library specific performance optimizations**. The SciPy
