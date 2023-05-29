@@ -868,13 +868,13 @@ models. To ensure timing reproducibility and reduce timing noise, we repeated
 each benchmark ten times and computed the average execution time.
 
 `Fig. 2a`_ and `Fig. 2b`_ display results, showing average execution time
-relative to NumPy. When fitting an LDA model, we observe 1.9x higher throughput
-for PyTorch CPU, 7.9x for CuPy, and 45.1x for PyTorch GPU. When predicting
-class labels, we observe 2.5x higher throughput for PyTorch CPU, 24.6x for
-CuPy, and 44.9x for PyTorch GPU. In both benchmarks, using GPU execution models
-corresponded to significantly increased performance, thus supporting our
-hypothesis that scikit-learn can benefit from non-CPU-based execution models,
-as afforded by array API standard adoption.
+relative to NumPy. When fitting an LDA model (`Fig. 2a`_), we observe 1.9x
+higher throughput for PyTorch CPU, 7.9x for CuPy, and 45.1x for PyTorch GPU.
+When predicting class labels (`Fig. 2b`_), we observe 2.5x higher throughput
+for PyTorch CPU, 24.6x for CuPy, and 44.9x for PyTorch GPU. In both benchmarks,
+using GPU execution models corresponded to significantly increased performance,
+thus supporting our hypothesis that scikit-learn can benefit from non-CPU-based
+execution models, as afforded by array API standard adoption.
 
 SciPy
 -----
@@ -897,10 +897,10 @@ ran the benchmarks for the same backends, on the same hardware, and using the
 same analysis approach as the scikit-learn benchmarks discussed above.
 
 `Fig. 2c`_ and `Fig. 2d`_ display results, showing average execution time
-relative to NumPy. When using library-specific optimizations, we observe 1.4x
-higher throughput for PyTorch CPU, 51.5x for CuPy, and 78.5x for PyTorch GPU.
-When omitting library-specific optimizations, we observe a 12-25x **decreased**
-throughput across all non-NumPy backends.
+relative to NumPy. When using library-specific optimizations (`Fig. 2c`_), we
+observe 1.4x higher throughput for PyTorch CPU, 51.5x for CuPy, and 78.5x for
+PyTorch GPU. When omitting library-specific optimizations (`Fig. 2d`_), we
+observe a 12-25x **decreased** throughput across all non-NumPy backends.
 
 The source of the performance disparity is due to use of strided views in the
 optimized implementation. NumPy, CuPy, and PyTorch support the concept of
