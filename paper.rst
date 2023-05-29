@@ -547,7 +547,7 @@ array object interchange.
 ..    import torch
 
 ..    def some_function(x):
-..        # Convert input arrays to Torch tensors:
+..        # Convert input arrays to PyTorch tensors:
 ..        if not isinstance(x, torch.Tensor):
 ..            x = torch.from_dlpack(x)
 
@@ -934,4 +934,4 @@ Conclusion
 The Python array API standard specifies standardized APIs and behaviors for
 array and tensor objects and operations.
 
-TODO (athan): implications for broader ecosystem. Importance/significance of work. Future benefits.
+*TODO (athan): implications for broader ecosystem. Importance/significance of work. Future benefits.*
