@@ -48,7 +48,7 @@
 
 :author: Saul Shanabrook
 :email: s.shanabrook@gmail.com
-:institution: Amazon
+:institution:
 
 :author: Consortium for Python Data API Standards
 :email:
