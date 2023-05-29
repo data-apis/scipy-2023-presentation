@@ -46,6 +46,13 @@
 :email: zhasheng@apache.org
 :institution: Amazon
 
+:author: Thomas J. Fan
+:email: thomasjpfan@gmail.com
+:institution: Quansight
+
+:author: Saul Shanabrook
+:email: s.shanabrook@gmail.com
+
 :author: Consortium for Python Data API Standards
 :email:
 :institution: Consortium for Python Data API Standards
@@ -350,16 +357,15 @@ during design analysis. The sample of downstream libraries included SciPy
 :cite:`Virtanen2020a`, pandas :cite:`McKinney2011a`, Matplotlib
 :cite:`Hunter2007a`, xarray :cite:`Hoyer2017a`, scikit-learn
 :cite:`Pedregosa2011a`, and scikit-image :cite:`Vanderwalt2014a`, among others.
-Next, we instrumented downstream libraries in order to record Python array API
-calls :cite:`Consortium2020a`. After instrumentation, we collected stack traces
-while running downstream library test suites. We subsequently transformed trace
-data into structured JSON for subsequent analysis. From the structured data, we
-generated empirical APIs based on provided arguments and associated data types,
-noting which downstream library called which empirical API and at what
-frequency. We then derived a single inferred API which unifies the individual
-empirical API calling semantics. We organized the API results in human-readable
-form as type definition files and compared the inferred API to the publicly
-documented APIs obtained during design analysis.
+Next, we ran downstream library test suites with runtime instrumentation
+enabled. We recorded input arguments and return values for each API invocation
+by inspecting the bytecode stack at call time :cite:`Consortium2020a`. From the
+recorded data, we generated empirical APIs based on provided arguments and
+associated data types, noting which downstream library called which empirical
+API and at what frequency. We then derived a single inferred API which unifies
+the individual empirical API calling semantics. We organized the API results in
+human-readable form as type definition files and compared the inferred API to
+the publicly documented APIs obtained during design analysis.
 
 The following is an example inferred API for `numpy.arange`, with the docstring
 indicating the number of lines of code which invoked the function for each
@@ -537,17 +543,18 @@ The basis of this protocol is DLPack, an open in-memory structure for sharing
 tensors among frameworks :cite:`DLPack2023a`. DLPack is a standalone protocol
 with an ABI stable, header-only C implementation with cross hardware support.
 The array API standard builds on DLPack by specifying Python APIs for array
-object data interchange. Conforming array objects must support `__dlpack__` and
-`__dlpack_device__` magic methods for accessing array data and querying the
-array device. A standardized `from_dlpack()` API calls these methods to
-construct a new array object of the desired type using zero-copy semantics when
-possible. The combination of DLPack and standardized Python APIs thus provides a
-stable, widely adopted, and efficient means for array object interchange.
+object data interchange :cite:`DLPack2023b`. Conforming array objects must
+support `__dlpack__` and `__dlpack_device__` magic methods for accessing array
+data and querying the array device. A standardized `from_dlpack()` API calls
+these methods to construct a new array object of the desired type using
+zero-copy semantics when possible. The combination of DLPack and standardized
+Python APIs thus provides a stable, widely adopted, and efficient means for
+array object interchange.
 
 ..    import torch
 
 ..    def some_function(x):
-..        # Convert input arrays to Torch tensors:
+..        # Convert input arrays to PyTorch tensors:
 ..        if not isinstance(x, torch.Tensor):
 ..            x = torch.from_dlpack(x)
 
@@ -712,14 +719,17 @@ libraries :cite:`Consortium2023a`. The layer transparently intercepts
 API calls for any API which is not fully-compliant and polyfills non-compliant
 specification-defined behavior. For compliant APIs, it exposes the APIs
 directly, without interception, thus mitigating performance degradation risks
-due to redirection. To reduce barriers to adoption, the layer has a small, pure
-Python codebase with no hard dependencies and supports vendoring.
+due to redirection. To reduce barriers to adoption, the layer supports vendoring
+and has a small, pure Python codebase with no hard dependencies.
 
 While the Python array API standard facilitates array interoperability in
 theory, the compatibility layer does so in practice, helping array-consuming
 libraries decouple adoption of the standard from the release cycles of upstream
-array libraries. We expect the compatibility layer to have a significant impact
-in accelerating adoption among array-consuming libraries.
+array libraries. Currently, the layer provides shims for NumPy, CuPy, and
+PyTorch and aims to support additional array libraries in the future. By
+ensuring specification-compliant behavior, we expect the compatibility layer to
+have a significant impact in accelerating adoption among array-consuming
+libraries.
 
 Discussion
 ==========
@@ -761,6 +771,9 @@ to opt into performance improvements based on their constraints and hardware
 capabilities. To assess the impact of this change, we worked with maintainers
 of scikit-learn and SciPy to measure the performance implications of
 specification adoption (`Fig. 2`_).
+
+sckit-learn
+-----------
 
 scikit-learn is a machine learning library for use in Python. Its current
 implementation relies heavily on NumPy and SciPy and is a mixture of Python and
@@ -851,90 +864,76 @@ require such support, and, more generally, mixed-kind type promotion semantics
 To ensure portability, we must explicitly convert a boolean array to an integer
 array before calling `xp.sum()`.
 
-.. TODO (athan): discuss benchmarks 
+To test the performance implications of refactoring scikit-learn's LDA
+implementation, we first generated a random two-class classification problem
+having 400,000 samples and 300 features. We next devised two benchmarks, one
+for fitting an LDA model and a second for predicting class labels for each
+simulated sample. We then ran the benchmarks and measured execution time for
+NumPy, PyTorch, and CuPy backends on Intel i9-9900K and NVIDIA RTX 2080
+hardware. For PyTorch, we collected timings for both CPU and GPU execution
+models. To ensure timing reproducibility and reduce timing noise, we repeated
+each benchmark ten times and computed the average execution time.
 
+`Fig. 2a`_ and `Fig. 2b`_ display results, showing average execution time
+relative to NumPy. When fitting an LDA model (`Fig. 2a`_), we observe 1.9x
+higher throughput for PyTorch CPU, 7.9x for CuPy, and 45.1x for PyTorch GPU.
+When predicting class labels (`Fig. 2b`_), we observe 2.5x higher throughput
+for PyTorch CPU, 24.6x for CuPy, and 44.9x for PyTorch GPU. In both benchmarks,
+using GPU execution models corresponded to significantly increased performance,
+thus supporting our hypothesis that scikit-learn can benefit from non-CPU-based
+execution models, as afforded by array API standard adoption.
 
+SciPy
+-----
 
-.. TODO (athan): remove once text body is updated to included benchmark info
+SciPy is a collection of mathematical algorithms and convenience functions for
+numerical integration, optimization, interpolation, statistics, linear algebra,
+signal processing, and image processing, among others. Similar to scikit-learn,
+its current implementation relies heavily on NumPy. We thus sought to test
+whether SciPy could benefit from adopting the Python array API standard.
 
-.. Average timings for scikit-learn's `LinearDiscriminantAnalysis` `fit()` and
-.. `predict()` on a random classification with 400,000 samples and 300
-.. features, and `scipy.signal.welch()` on 50,000,000 data points. Times
-.. compare the averages from NumPy to Torch CPU, Torch GPU, and CuPy backends.
-.. The SciPy timings additionally compare a strictly portable implementation
-.. and an implementation with library-specific performance optimizations.
-.. Benchmarks were run on an Intel i9-9900K and NVIDIA RTX 2080.
+Following a similar approach to the sckit-learn benchmarks, we identified
+SciPy's signal processing APIs as being amenable to input arrays supporting
+alternative execution models and selected an API for estimating the power
+spectral density using Welch's method :cite:`Welch1967a` as a representative
+test case. We then generated a synthetic test signal having 50,000,000 data
+points. We next devised two benchmarks, one using library-specific
+optimizations and a second strictly using APIs in the array API standard. We
+ran the benchmarks for the same backends, on the same hardware, and using the
+same analysis approach as the scikit-learn benchmarks discussed above.
 
-.. TODO (athan): update copy
+`Fig. 2c`_ and `Fig. 2d`_ display results, showing average execution time
+relative to NumPy. When using library-specific optimizations (`Fig. 2c`_), we
+observe 1.4x higher throughput for PyTorch CPU, 51.5x for CuPy, and 78.5x for
+PyTorch GPU. When omitting library-specific optimizations (`Fig. 2d`_), we
+observe a 12-25x **decreased** throughput across all non-NumPy backends.
 
-Another similar effort to rewrite code to support the array API is currently
-taking place in the SciPy library. `A demo pull request
-<https://github.com/tylerjereddy/scipy/pull/70>`__ translates the pure
-Python/NumPy `scipy.signal.welch()` function to use the array API.
-
-.. Both the scikit-learn and the SciPy changes were developed with the help of
-.. the strict minimal `numpy.array_api`_ implementation. This was necessary
-.. because the NumPy APIs used in the previous version of the code are not
-.. strictly disallowed by the standard, but using them would not be portable. The
-.. `numpy.array_api` implementation errors on any code that isn't explicitly
-.. required by the specification. By running the `LinearDiscriminantAnalysis`
-.. code against `numpy.array_api`, the scikit-learn developers were able to find
-.. which parts of the code used NumPy functionality that is not part of the
-.. standard.
-
-The resulting code can now be run against any array API conforming library.
-`Fig. 2`_ shows the resulting speedups vs. NumPy for
-`LinearDiscriminantAnalysis` and `scipy.signal.welch()` on Torch CPU, Torch
-GPU (CUDA), and CuPy backends. GPU backends give a significant speedup, but
-even Torch CPU can have up to 2x speedup over NumPy.
-
-`Fig. 2`_ additionally highlights an additional type of change, namely
-**making use of library specific performance optimizations**. The SciPy
-`welch()` implementation uses an optimization involving stride tricks. Stride
-tricks have not been standardized in the array API since they are not
-available in some libraries (e.g., JAX). NumPy, CuPy, and Torch allow setting
-strides, but they do not use a uniform API to do so. An array API compatible
-implementation can be used, but it is slower, so it is used only as a fallback
-for libraries outside of NumPy, PyTorch, and CuPy. Indeed, it is significantly
-slower than even plain NumPy, with PyTorch CUDA taking 200 seconds to
-compute the result that takes 7 seconds with NumPy. The optimized
-implementation that uses stride tricks has more expected performance
-characteristics, with PyTorch CUDA and CuPy giving a near 40x speedup over
-NumPy. It is generally expected that many users of the array API may need to
-maintain similar such backend array library-specific performance optimizations
-to achieve the expected performance gains. This does imply a small extra
-maintenance burden for these libraries, but it only applies to specific
-scenarios not already covered by the array API where the performance benefits
-outweigh the costs.
+The source of the performance disparity is due to use of strided views in the
+optimized implementation. NumPy, CuPy, and PyTorch support the concept of
+strides, where a stride describes the number of bytes to move forward in memory
+to progress to the next position along an axis, and provide similar,
+non-standardized APIs for manipulating the internal data structure of an array.
+While one can use standardized APIs to achieve the same result, using stride
+"tricks" enables increased performance. This finding raises an important point.
+Namely, while the Python array API standard aims to reduce the need for
+library-specific code, it will never fully eliminate that need. Users of the
+standard may need to maintain similar library-specific performance
+optimizations to achieve maximal performance. We expect, however, that the
+maintenance burden should only apply for those scenarios in which the
+performance benefits significantly outweigh the maintenance costs.
 
 Future Work
 ===========
 
-.. TODO (athan): rework based on open questions
+*TODO (athan): rework based on open questions; also include tooling for tracking adoption (compatibility tables, test suite reporting, etc); Parallelization? Context manager? Device standardization? String dtypes? Support mixing array libraries? IO? stuff out of scope, but people need (e.g., SciPy dist)?*
 
-The focus of the consortium for 2023 is on implementation and adoption.
 
-NumPy 2.0, which is planned for release in late 2023, will have full array API
-support. This will include several small breaking changes to bring NumPy
-inline with the specification. This also includes, NEP 50, which fixes NumPy's
-type promotion by removing all value-based casting. A NEP for full array API
-specification support will be announced later this year.
-
-SciPy 2.0, which is also being planned, and will include full support for the
-array API across the different functions. For end users this means that they
-can use CuPy arrays or PyTorch tensors instead of NumPy arrays in SciPy
-functions, and they will just work as expected, performing the calculation
-with the underlying array library and returning an array from the same
-library.
-
-Scikit-learn has implemented array API specification support in its
-`LinearDiscriminantAnalysis` class and plans to add support to more functions.
 
 Work is underway on an array API compliance website. (*TODO (athan): compliance monitoring*)
 
-There is a similar effort underway under the Data APIs Consortium umbrella to
+Similar effort underway under the Data APIs Consortium umbrella to
 standardize a library author-focused API for Python dataframe libraries. This
-work will be discussed in a future paper and conference talk.
+work will be discussed in a future paper.
 
 Conclusion
 ==========
@@ -942,6 +941,4 @@ Conclusion
 The Python array API standard specifies standardized APIs and behaviors for
 array and tensor objects and operations.
 
-*TODO*
-
-.. TODO (athan): implications for broader ecosystem. Importance/significance of work. Future benefits.
+*TODO (athan): implications for broader ecosystem. Importance/significance of work. Future benefits.*
