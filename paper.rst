@@ -883,8 +883,7 @@ SciPy is a collection of mathematical algorithms and convenience functions for
 numerical integration, optimization, interpolation, statistics, linear algebra,
 signal processing, and image processing, among others. Similar to scikit-learn,
 its current implementation relies heavily on NumPy. We thus sought to test
-whether SciPy could similarly benefit from adopting the Python array API
-standard.
+whether SciPy could benefit from adopting the Python array API standard.
 
 Following a similar approach to the sckit-learn benchmarks, we identified
 SciPy's signal processing APIs as being amenable to input arrays supporting
@@ -921,20 +920,7 @@ Future Work
 
 .. TODO (athan): rework based on open questions; also include tooling for tracking adoption (compatibility tables, test suite reporting, etc)
 
-The focus of the consortium for 2023 is on implementation and adoption.
 
-NumPy 2.0, which is planned for release in late 2023, will have full array API
-support. This will include several small breaking changes to bring NumPy
-inline with the specification. This also includes, NEP 50, which fixes NumPy's
-type promotion by removing all value-based casting. A NEP for full array API
-specification support will be announced later this year.
-
-SciPy 2.0, which is also being planned, and will include full support for the
-array API across the different functions. For end users this means that they
-can use CuPy arrays or PyTorch tensors instead of NumPy arrays in SciPy
-functions, and they will just work as expected, performing the calculation
-with the underlying array library and returning an array from the same
-library.
 
 Scikit-learn has implemented array API specification support in its
 `LinearDiscriminantAnalysis` class and plans to add support to more functions.
