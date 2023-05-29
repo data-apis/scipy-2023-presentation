@@ -46,6 +46,10 @@
 :email: zhasheng@apache.org
 :institution: Amazon
 
+:author: Thomas J. Fan
+:email: thomasjpfan@gmail.com
+:institution: Quansight
+
 :author: Consortium for Python Data API Standards
 :email:
 :institution: Consortium for Python Data API Standards
