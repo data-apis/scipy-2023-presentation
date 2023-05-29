@@ -765,6 +765,9 @@ capabilities. To assess the impact of this change, we worked with maintainers
 of scikit-learn and SciPy to measure the performance implications of
 specification adoption (`Fig. 2`_).
 
+sckit-learn
+-----------
+
 scikit-learn is a machine learning library for use in Python. Its current
 implementation relies heavily on NumPy and SciPy and is a mixture of Python and
 Cython. Due to its dependence on NumPy for array computation, scikit-learn is
@@ -873,7 +876,16 @@ corresponded to significantly increased performance, thus supporting our
 hypothesis that scikit-learn can benefit from non-CPU-based execution models,
 as afforded by array API standard adoption.
 
+SciPy
+-----
 
+.. scikit-learn is a machine learning library for use in Python. Its current
+.. implementation relies heavily on NumPy and SciPy and is a mixture of Python and
+.. Cython. Due to its dependence on NumPy for array computation, scikit-learn is
+.. CPU-bound, and the library is unable to capture the benefits of GPU- and
+.. TPU-based execution models. By adopting the Python array API standard,
+.. scikit-learn can decouple its implementation from NumPy and support
+.. non-CPU-based execution, potentially enabling increased performance.
 
 .. TODO (athan): remove once text body is updated to included benchmark info
 
