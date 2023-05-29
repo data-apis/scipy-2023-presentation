@@ -354,8 +354,8 @@ during design analysis. The sample of downstream libraries included SciPy
 :cite:`Hunter2007a`, xarray :cite:`Hoyer2017a`, scikit-learn
 :cite:`Pedregosa2011a`, and scikit-image :cite:`Vanderwalt2014a`, among others.
 Next, we ran the tests of these downstream libraries with runtime instrumentation enabled.
-This allowed us to record every Python array API call and output
-this data as JSON :cite:`Consortium2020a`. From the structured data, we
+We recorded the inputs and outputs of each array API invocation as JSON by inspecting the bytecode stack
+at call time :cite:`Consortium2020a`. From the structured data, we
 generated empirical APIs based on provided arguments and associated data types,
 noting which downstream library called which empirical API and at what
 frequency. We then derived a single inferred API which unifies the individual
