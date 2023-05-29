@@ -879,32 +879,42 @@ as afforded by array API standard adoption.
 SciPy
 -----
 
-SciPy is a collection of mathematical algorithms and convenience functions for numerical integration, optimization, interpolation, statistics, linear algebra, signal processing, and image processing, among others. Similar to scikit-learn, its current implementation relies heavily on NumPy. We thus sought to test whether SciPy could similarly benefit from adopting the Python array API standard.
+SciPy is a collection of mathematical algorithms and convenience functions for
+numerical integration, optimization, interpolation, statistics, linear algebra,
+signal processing, and image processing, among others. Similar to scikit-learn,
+its current implementation relies heavily on NumPy. We thus sought to test
+whether SciPy could similarly benefit from adopting the Python array API
+standard.
 
-Following a similar approach to the sckit-learn benchmarks, we identified SciPy's signal processing APIs as being amenable to input arrays supporting alternative execution models and selected an API for estimating the power spectral density using Welch's method :cite:`Welch1967a` as a representative test case. We then generated a synthetic test signal having 50,000,000 data points. We next devised two benchmarks, one using library-specific optimizations and a second strictly using APIs in the array API standard. We ran the benchmarks for the same backends and on the same hardware and using the same analysis approach as the scikit-learn benchmarks discussed above.
+Following a similar approach to the sckit-learn benchmarks, we identified
+SciPy's signal processing APIs as being amenable to input arrays supporting
+alternative execution models and selected an API for estimating the power
+spectral density using Welch's method :cite:`Welch1967a` as a representative
+test case. We then generated a synthetic test signal having 50,000,000 data
+points. We next devised two benchmarks, one using library-specific
+optimizations and a second strictly using APIs in the array API standard. We
+ran the benchmarks for the same backends, on the same hardware, and using the
+same analysis approach as the scikit-learn benchmarks discussed above.
 
-`Fig. 2c`_ and `Fig. 2d`_ display results, showing average execution time relative to NumPy.
+`Fig. 2c`_ and `Fig. 2d`_ display results, showing average execution time
+relative to NumPy. When using library-specific optimizations, we observe 1.4x
+higher throughput for PyTorch CPU, 51.5x for CuPy, and 78.5x for PyTorch GPU.
+When omitting library-specific optimizations, we observe a 12-25x **decreased**
+throughput across all non-NumPy backends.
 
-.. TODO (athan): update copy
-
-`Fig. 2`_ additionally highlights an additional type of change, namely
-**making use of library specific performance optimizations**. The SciPy
-`welch()` implementation uses an optimization involving stride tricks. Stride
-tricks have not been standardized in the array API since they are not
-available in some libraries (e.g., JAX). NumPy, CuPy, and Torch allow setting
-strides, but they do not use a uniform API to do so. An array API compatible
-implementation can be used, but it is slower, so it is used only as a fallback
-for libraries outside of NumPy, PyTorch, and CuPy. Indeed, it is significantly
-slower than even plain NumPy, with PyTorch CUDA taking 200 seconds to
-compute the result that takes 7 seconds with NumPy. The optimized
-implementation that uses stride tricks has more expected performance
-characteristics, with PyTorch CUDA and CuPy giving a near 40x speedup over
-NumPy. It is generally expected that many users of the array API may need to
-maintain similar such backend array library-specific performance optimizations
-to achieve the expected performance gains. This does imply a small extra
-maintenance burden for these libraries, but it only applies to specific
-scenarios not already covered by the array API where the performance benefits
-outweigh the costs.
+The source of the performance disparity is due to use of strided views in the
+optimized implementation. NumPy, CuPy, and PyTorch support the concept of
+strides, where a stride describes the number of bytes to move forward in memory
+to progress to the next position along an axis, and provide similar, but
+non-standardized, APIs for manipulating the internal data structure of an array.
+While one can use standardized APIs to achieve the same result, using stride
+"tricks" enables increased performance. This finding raises an important point.
+Namely, while the Python array API standard aims to reduce the need for
+library-specific code, it will never fully eliminate that need. Users of the
+standard may need to maintain similar library-specific performance
+optimizations to achieve maximal performance. We expect, however, that the
+maintenance burden should only apply for those scenarios in which the
+performance benefits significantly outweigh the maintenance costs.
 
 Future Work
 ===========
