@@ -854,15 +854,30 @@ require such support, and, more generally, mixed-kind type promotion semantics
 To ensure portability, we must explicitly convert a boolean array to an integer
 array before calling `xp.sum()`.
 
-.. TODO (athan): discuss benchmarks 
+To test the performance implications of refactoring scikit-learn's LDA
+implementation, we first generated a random two-class classification problem,
+having 400,000 samples and 300 features. We next devised two benchmarks, one
+for fitting an LDA model and a second for predicting class labels for each
+simulated sample. We then ran benchmarks measuring execution time for NumPy,
+PyTorch, and CuPy backends on Intel i9-9900K and NVIDIA RTX 2080 hardware. For
+PyTorch, we collected timings for both CPU and GPU execution models. To ensure
+timing reproducibility and reduce timing noise, we repeated each benchmark ten
+times and computed the average execution time.
+
+`Fig. 2a`_ and `Fig. 2b`_ display results, showing average execution time
+relative to NumPy. When fitting an LDA model, we observe 1.9x higher throughput
+for PyTorch CPU, 7.9x for CuPy, and 45.1x for PyTorch GPU. When predicting
+class labels, we observe 2.5x higher throughput for PyTorch CPU, 24.6x for
+CuPy, and 44.9x for PyTorch GPU. In both benchmarks, using GPU execution models
+corresponded to significantly increased performance, thus supporting our
+hypothesis that scikit-learn can benefit from non-CPU-based execution models,
+as afforded by array API standard adoption.
 
 
 
 .. TODO (athan): remove once text body is updated to included benchmark info
 
-.. Average timings for scikit-learn's `LinearDiscriminantAnalysis` `fit()` and
-.. `predict()` on a random classification with 400,000 samples and 300
-.. features, and `scipy.signal.welch()` on 50,000,000 data points. Times
+.. Average timings for `scipy.signal.welch()` on 50,000,000 data points. Times
 .. compare the averages from NumPy to Torch CPU, Torch GPU, and CuPy backends.
 .. The SciPy timings additionally compare a strictly portable implementation
 .. and an implementation with library-specific performance optimizations.
