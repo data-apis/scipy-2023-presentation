@@ -50,6 +50,9 @@
 :author: Hyukjin Kwon
 :email: gurwls223@apache.org
 
+:author: Mario Lezcano-Casado
+:email: mlezcano@quansight.com
+
 :author: Consortium for Python Data API Standards
 :email:
 
@@ -113,6 +116,10 @@
 .. :author: Hyukjin Kwon
 .. :email: gurwls223@apache.org
 .. :institution: Databricks
+
+.. :author: Mario Lezcano-Casado
+.. :email: mlezcano@quansight.com
+.. :institution: Quansight
 
 .. :author: Consortium for Python Data API Standards
 .. :email:
