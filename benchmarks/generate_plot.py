@@ -10,7 +10,7 @@ repl = {
     "numpy": "NumPy",
     "cupy": "CuPy",
     "torch_cpu": "PyTorch\nCPU",
-    "torch_gpu": "PyTorch\nCUDA",
+    "torch_gpu": "PyTorch\nGPU",
 }
 scikit_learn_results["Backend"] = scikit_learn_results["Backend"].replace(repl)
 
