@@ -1,6 +1,11 @@
 .. Make single backticks produce code
 .. default-role:: code
 
+.. FIXME: note to authors: the conference rendering pipeline has a bug in
+.. which too many institutions generates a TeX counter error. Until this is
+.. resolved, add your name and e-mail below and ALSO add it again in the
+.. commented list which immediately follows.
+
 :author: Aaron Meurer
 :email: asmeurer@quansight.com
 :equal-contributor:
