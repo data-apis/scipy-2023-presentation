@@ -235,8 +235,6 @@ drafting specifications for array and dataframe APIs, which could then be
 adopted by existing array and dataframe libraries and by any new libraries
 which arise.
 
-.. TODO: This feels like it cuts off. Should we say something about 2020-now?
-
 Objectives
 ----------
 
