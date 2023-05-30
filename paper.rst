@@ -50,12 +50,12 @@
 :email: thomasjpfan@gmail.com
 :institution: Quansight
 
-:author: Saul Shanabrook
-:email: s.shanabrook@gmail.com
-
 :author: Hyukjin Kwon
 :email: gurwls223@apache.org
 :institution: Databricks
+
+:author: Saul Shanabrook
+:email: s.shanabrook@gmail.com
 
 :author: Consortium for Python Data API Standards
 :email:
