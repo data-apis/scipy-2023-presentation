@@ -976,15 +976,48 @@ performance benefits significantly outweigh the maintenance costs.
 Future Work
 ===========
 
-*TODO (athan): rework based on open questions; also include tooling for tracking adoption (compatibility tables, test suite reporting, etc); Parallelization? Context manager? Device standardization? String dtypes? Support mixing array libraries? IO? stuff out of scope, but people need (e.g., SciPy dist)?*
+Consortium work is comprised of three focus areas: standardization, adoption,
+and coordination.
 
+**Standardization**: Standardization is the core of Consortium efforts. The
+Python array API standard is a living standard, which is intended to evolve to
+reflect the needs and continued evolution of array libraries within the SPE. As
+such, we expect to continue working with array and array-consuming library
+maintainers to identify APIs and behaviors suitable for standardization.
 
+**Adoption**: In order to ensure the continued success and relevance of the
+Python array API standard, we work closely with maintainers of array and
+array-consuming libraries to facilitate adoption by soliciting feedback,
+addressing pain points, and resolving any specification ambiguities. In the
+immediate future, we plan to release additional tooling for tracking adoption
+and measuring specification compliance. For the former, we are collecting
+static compliance data and will publish compatibility tables as part of the
+array API standard publicly available on-line. For the latter, we are
+developing an automated test suite reporting system to gather array API test
+suite results from array libraries as part of their continuous integration
+pipelines. We expect these tools to be particularly valuable to array-consuming
+libraries in order to quickly assess API portability.
 
-Work is underway on an array API compliance website. (*TODO (athan): compliance monitoring*)
+**Coordination**: Providing a forum for coordination among array libraries (and
+their consumers) was the primary motivating factor behind Consortium formation
+and is the most important byproduct of Consortium efforts. By facilitating
+knowledge exchange among array library communities, the Consortium serves as a
+critical bulwark against further fragmentation and siloed technical stacks.
+Preventing such fragmentation is to the ultimate benefit of array library
+consumers and their communities. Additionally, coordination allows for
+orienting around a shared long-term outlook regarding future needs and possible
+solutions. A few areas and open questions in which are particularly keen to
+explore are the following: device standardization, extended data type support
+(including strings and datetimes), input-output (IO) APIs, support for mixing
+array libraries, parallelization, and optional extensions for deep learning,
+statistical computing, and more generally functionality which is out-of-scope,
+but needed in specific contexts.
 
-Similar effort underway under the Data APIs Consortium umbrella to
-standardize a library author-focused API for Python dataframe libraries. This
-work will be discussed in a future paper.
+We should also note that array API standardization is not the only
+standardization effort being spearheaded by the Consortium. We are also working
+to standardize APIs and behaviors for Python dataframe libraries, including an
+interchange protocol and a library-author focused dataframe object and
+associated set of APIs. This work will be discussed in a future paper.
 
 Conclusion
 ==========
