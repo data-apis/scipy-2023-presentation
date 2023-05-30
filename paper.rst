@@ -1015,8 +1015,8 @@ statistical computing, and more generally functionality which is out-of-scope,
 but needed in specific contexts.
 
 We should also note that array API standardization is not the only
-standardization effort being spearheaded by the Consortium. We are also working
-to standardize APIs and behaviors for Python dataframe libraries, including an
+standardization effort spearheaded by the Consortium. We are also working to
+standardize APIs and behaviors for Python dataframe libraries, including an
 interchange protocol and a library-author focused dataframe object and
 associated set of APIs. This work will be discussed in a future paper.
 
