@@ -291,6 +291,8 @@ have any attributes or methods beyond what is necessary for inspection (e.g.,
 shape, data type, and device) or for supporting operator overloading (i.e.,
 magic methods) [#]_.
 
+.. [#] Notably, array strides should be considered an implementation detail and should not be required as a public Python attribute.
+
 **No dependencies.** The standard and its implementations should not require
 any dependency outside of Python itself.
 
@@ -991,7 +993,3 @@ The Python array API standard specifies standardized APIs and behaviors for
 array and tensor objects and operations.
 
 *TODO (athan): implications for broader ecosystem. Importance/significance of work. Future benefits.*
-
-.. rubric:: Footnotes
-
-.. [#] Notably, array strides are considered an implementation detail and not exposed as a Python attribute.
