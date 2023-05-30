@@ -1023,8 +1023,39 @@ associated set of APIs. This work will be discussed in a future paper.
 Conclusion
 ==========
 
-We introduced the Consortium and the Python array API standard, which specifies standardized APIs and behaviors for array and tensor objects and operations. While developing an initial specification draft, we analyzed common array libraries in the SPE and determined a set of common APIs suitable for standardization. In consultation with array and array-consuming library maintainers, we derived 
+We introduced the Consortium and the Python array API standard, which specifies
+standardized APIs and behaviors for array and tensor objects and operations.
+In developing an initial specification draft, we analyzed common array
+libraries in the SPE and determined a set of common APIs suitable for
+standardization. In consultation with array and array-consuming library
+maintainers, we published two specification revisions codifying APIs and
+behavior for array objects and their interaction, array interchange, and
+array-aware functions for array creation and manipulation, statistical
+reduction, and linear algebra. In addition, we released tooling to facilitate
+adoption of the array API standard within the SPE: 1) a test suite for
+measuring specification compliance and 2) a compatibility layer to allow
+array-consuming libraries to adopt the standard without having to wait on
+upstream release cycles.
 
+We further explored performance implications of adopting the array API standard
+in two commonly-used array-consuming libraries: scikit-learn and SciPy. For the
+former, we found that adoption of the standard enabled scikit-learn to use
+GPU-based execution models, resulting in significantly increased performance.
+For the latter, we found similar performance gains; however, in order to
+realize the performance gains, we needed to use library-specific optimizations.
+This finding highlights a limitation of the standard. Namely, while the Python
+array API standard aims to reduce the need for library-specific code, it will
+never fully eliminate that need. Users of the standard may need to maintain
+similar library-specific performance optimizations to achieve maximal
+performance.
 
-
-*TODO (athan): implications for broader ecosystem. Importance/significance of work. Future benefits.*
+Our work demonstrates the usefulness of the Consortium and the array API
+standard in facilitating array interoperability within the SPE. In addition to
+shepherding standardization and promoting adoption of the array API standard,
+the Consortium provides a critical forum for coordinating efforts among array
+and array-consuming library maintainers. Such coordination is critical to the
+long-term success and viability of the SPE and its communities. Having
+established a blueprint for standardization methodology and process, the
+Consortium is also leading a similar effort to standardize Python dataframe
+APIs and behaviors, thus working to reduce fragmentation for the two
+fundamental data structures underpinning the SPE—arrays and dataframes.
