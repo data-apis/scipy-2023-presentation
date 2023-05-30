@@ -821,8 +821,8 @@ capabilities. To assess the impact of this change, we worked with maintainers
 of scikit-learn and SciPy to measure the performance implications of
 specification adoption (`Fig. 2`_).
 
-sckit-learn
------------
+scikit-learn
+------------
 
 scikit-learn is a machine learning library for use in Python. Its current
 implementation relies heavily on NumPy and SciPy and is a mixture of Python and
@@ -916,7 +916,7 @@ array before calling `xp.sum()`.
 To test the performance implications of refactoring scikit-learn's LDA
 implementation, we first generated a random two-class classification problem
 having 400,000 samples and 300 features. We next devised two benchmarks, one
-for fitting an LDA model and a second for predicting class labels for each
+for fitting an LDA model and the second for predicting class labels for each
 simulated sample. We then ran the benchmarks and measured execution time for
 NumPy, PyTorch, and CuPy backends on Intel i9-9900K and NVIDIA RTX 2080
 hardware. For PyTorch, we collected timings for both CPU and GPU execution
@@ -941,7 +941,7 @@ signal processing, and image processing, among others. Similar to scikit-learn,
 its current implementation relies heavily on NumPy. We thus sought to test
 whether SciPy could benefit from adopting the Python array API standard.
 
-Following a similar approach to the sckit-learn benchmarks, we identified
+Following a similar approach to the scikit-learn benchmarks, we identified
 SciPy's signal processing APIs as being amenable to input arrays supporting
 alternative execution models and selected an API for estimating the power
 spectral density using Welch's method :cite:`Welch1967a` as a representative
