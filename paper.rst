@@ -45,6 +45,10 @@
 :email: sgacha@quansight.com
 :institution: Quansight
 
+:author: Mario Lezcano-Casado
+:email: mlezcano@quansight.com
+:institution: Quansight
+
 :author: Thomas J. Fan
 :email: thomasjpfan@gmail.com
 :institution: Quansight
@@ -56,10 +60,6 @@
 :author: Hyukjin Kwon
 :email: gurwls223@apache.org
 :institution: Databricks
-
-:author: Mario Lezcano-Casado
-:email: mlezcano@quansight.com
-:institution: Quansight
 
 :author: Consortium for Python Data API Standards
 :email:
