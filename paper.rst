@@ -944,4 +944,4 @@ array and tensor objects and operations.
 
 .. rubric:: Footnotes
 
-.. [#] Notably, the array strides are considered an implementation detail and not exposed as a Python attribute.
+.. [#] Notably, array strides are considered an implementation detail and not exposed as a Python attribute.
