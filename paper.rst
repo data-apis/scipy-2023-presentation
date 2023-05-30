@@ -3,60 +3,60 @@
 
 :author: Aaron Meurer
 :email: asmeurer@quansight.com
-:institution: Quansight
+.. :institution: Quansight
 :equal-contributor:
 
 :author: Athan Reines
-:email: areines@quansight.com
-:institution: Quansight
+:email: kgryte@gmail.com
+.. :institution: Quansight
 :equal-contributor:
 
 :author: Ralf Gommers
 :email: ralf.gommers@gmail.com
-:institution: Quansight
+.. :institution: Quansight
 :equal-contributor:
 
 :author: Yao-Lung L. Fang
 :email: leof@nvidia.com
-:institution: NVIDIA Corporation
+.. :institution: NVIDIA Corporation
 :equal-contributor:
 
 :author: Matthew Barber
 :email: quitesimplymatt@gmail.com
-:institution: Quansight
+.. :institution: Quansight
 :equal-contributor:
 
 :author: Stephan Hoyer
 :email: shoyer@google.com
-:institution: Google
+.. :institution: Google
 
 :author: Andreas Müller
 :email: amueller@microsoft.com
-:institution: Microsoft
+.. :institution: Microsoft
 
 :author: Stephannie Jiménez Gacha
 :email: sgacha@quansight.com
-:institution: Quansight
+.. :institution: Quansight
 
 :author: Tyler Reddy
 :email: treddy@lanl.gov
-:institution: LANL
+.. :institution: LANL
 
 :author: Sheng Zha
 :email: zhasheng@apache.org
-:institution: Amazon
+.. :institution: Amazon
 
 :author: Thomas J. Fan
 :email: thomasjpfan@gmail.com
-:institution: Quansight
+.. :institution: Quansight
 
 :author: Saul Shanabrook
 :email: s.shanabrook@gmail.com
-:institution: FooBar
+.. :institution:
 
-:author: Jane Doe
-:email: jane@example.com
-:institution: FooBar
+:author: Hyukjin Kwon
+:email: gurwls223@apache.org
+.. :institution: Databricks
 
 :author: Consortium for Python Data API Standards
 :email: test@example.com
@@ -65,10 +65,6 @@
 :bibliography: bibliography
 
 .. Note: treat the Consortium as being equivalent to a PI (i.e., list it last without explicit equal contribution)
-
-.. :author: Hyukjin Kwon
-.. :email: gurwls223@apache.org
-.. :institution: Databricks
 
 ===========================================================================================
 Python Array API Standard: Toward Array Interoperability in the Scientific Python Ecosystem
