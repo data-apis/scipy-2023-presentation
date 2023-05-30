@@ -41,13 +41,16 @@
 
 :author: Saul Shanabrook
 :email: s.shanabrook@gmail.com
-:institution:
 
 :author: Hyukjin Kwon
 :email: gurwls223@apache.org
 
 :author: Consortium for Python Data API Standards
-:email: test@example.com
+:email:
+
+:bibliography: bibliography
+
+.. Note: treat the Consortium as being equivalent to a PI (i.e., list it last without explicit equal contribution)
 
 .. :author: Aaron Meurer
 .. :email: asmeurer@quansight.com
@@ -107,12 +110,8 @@
 .. :institution: Databricks
 
 .. :author: Consortium for Python Data API Standards
-.. :email: test@example.com
+.. :email:
 .. :institution: Consortium for Python Data API Standards
-
-:bibliography: bibliography
-
-.. Note: treat the Consortium as being equivalent to a PI (i.e., list it last without explicit equal contribution)
 
 ===========================================================================================
 Python Array API Standard: Toward Array Interoperability in the Scientific Python Ecosystem
