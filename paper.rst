@@ -50,10 +50,6 @@
 :email: thomasjpfan@gmail.com
 :institution: Quansight
 
-:author: Hyukjin Kwon
-:email: gurwls223@apache.org
-:institution: Databricks
-
 :author: Saul Shanabrook
 :email: s.shanabrook@gmail.com
 
@@ -64,6 +60,10 @@
 :bibliography: bibliography
 
 .. Note: treat the Consortium as being equivalent to a PI (i.e., list it last without explicit equal contribution)
+
+.. :author: Hyukjin Kwon
+.. :email: gurwls223@apache.org
+.. :institution: Databricks
 
 ===========================================================================================
 Python Array API Standard: Toward Array Interoperability in the Scientific Python Ecosystem
