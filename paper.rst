@@ -55,6 +55,7 @@
 
 :author: Jane Doe
 :email: jane@example.com
+:institution: FooBar
 
 :author: Consortium for Python Data API Standards
 :email:
