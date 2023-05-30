@@ -52,7 +52,7 @@
 
 :author: Saul Shanabrook
 :email: s.shanabrook@gmail.com
-:institution:
+:institution: FooBar
 
 :author: Jane Doe
 :email: jane@example.com
