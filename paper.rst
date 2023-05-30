@@ -53,6 +53,9 @@
 :author: Saul Shanabrook
 :email: s.shanabrook@gmail.com
 
+:author: Jane Doe
+:email: jane@example.com
+
 :author: Consortium for Python Data API Standards
 :email:
 :institution: Consortium for Python Data API Standards
