@@ -1,57 +1,65 @@
 .. Make single backticks produce code
 .. default-role:: code
 
-.. FIXME: note to authors: the conference rendering pipeline has a bug in
-.. which too many institutions generates a TeX counter error. Until this is
-.. resolved, add your name and e-mail below and ALSO add it again in the
-.. commented list which immediately follows.
-
 :author: Aaron Meurer
 :email: asmeurer@quansight.com
 :equal-contributor:
+:institution: Quansight
 
 :author: Athan Reines
 :email: kgryte@gmail.com
 :equal-contributor:
+:insitution: Quansight:
 
 :author: Ralf Gommers
 :email: ralf.gommers@gmail.com
 :equal-contributor:
+:insitution: Quansight
 
 :author: Yao-Lung L. Fang
 :email: leof@nvidia.com
 :equal-contributor:
+:institution: NVIDIA Corporation
 
 :author: Matthew Barber
 :email: quitesimplymatt@gmail.com
 :equal-contributor:
+:institution: Quansight
 
 :author: Stephan Hoyer
 :email: shoyer@google.com
+:institution: Google
 
 :author: Andreas Müller
 :email: amueller@microsoft.com
+:institution: Microsoft
 
 :author: Sheng Zha
 :email: zhasheng@apache.org
+:institution: Amazon
 
 :author: Saul Shanabrook
 :email: s.shanabrook@gmail.com
 
 :author: Stephannie Jiménez Gacha
 :email: sgacha@quansight.com
+:institution: Quansight
 
 :author: Thomas J. Fan
 :email: thomasjpfan@gmail.com
+:institution: Quansight
 
 :author: Tyler Reddy
 :email: treddy@lanl.gov
+:institution: LANL
 
 :author: Hyukjin Kwon
 :email: gurwls223@apache.org
+:institution: Databricks
 
 :author: Mario Lezcano-Casado
 :email: mlezcano@quansight.com
+:institution: Quansight
 
 :author: Consortium for Python Data API Standards
 :email:
@@ -59,71 +67,6 @@
 :bibliography: bibliography
 
 .. Note: treat the Consortium as being equivalent to a PI (i.e., list it last without explicit equal contribution)
-
-.. :author: Aaron Meurer
-.. :email: asmeurer@quansight.com
-.. :institution: Quansight
-.. :equal-contributor:
-
-.. :author: Athan Reines
-.. :email: kgryte@gmail.com
-.. :institution: Quansight
-.. :equal-contributor:
-
-.. :author: Ralf Gommers
-.. :email: ralf.gommers@gmail.com
-.. :institution: Quansight
-.. :equal-contributor:
-
-.. :author: Yao-Lung L. Fang
-.. :email: leof@nvidia.com
-.. :institution: NVIDIA Corporation
-.. :equal-contributor:
-
-.. :author: Matthew Barber
-.. :email: quitesimplymatt@gmail.com
-.. :institution: Quansight
-.. :equal-contributor:
-
-.. :author: Stephan Hoyer
-.. :email: shoyer@google.com
-.. :institution: Google
-
-.. :author: Andreas Müller
-.. :email: amueller@microsoft.com
-.. :institution: Microsoft
-
-.. :author: Sheng Zha
-.. :email: zhasheng@apache.org
-.. :institution: Amazon
-
-.. :author: Saul Shanabrook
-.. :email: s.shanabrook@gmail.com
-.. :institution:
-
-.. :author: Stephannie Jiménez Gacha
-.. :email: sgacha@quansight.com
-.. :institution: Quansight
-
-.. :author: Thomas J. Fan
-.. :email: thomasjpfan@gmail.com
-.. :institution: Quansight
-
-.. :author: Tyler Reddy
-.. :email: treddy@lanl.gov
-.. :institution: LANL
-
-.. :author: Hyukjin Kwon
-.. :email: gurwls223@apache.org
-.. :institution: Databricks
-
-.. :author: Mario Lezcano-Casado
-.. :email: mlezcano@quansight.com
-.. :institution: Quansight
-
-.. :author: Consortium for Python Data API Standards
-.. :email:
-.. :institution: Consortium for Python Data API Standards
 
 ===========================================================================================
 Python Array API Standard: Toward Array Interoperability in the Scientific Python Ecosystem
@@ -874,7 +817,7 @@ following code snippet showing source code modifications [#]_:
 
    - std = Xc.std(axis=0)
    + std = xp.std(Xc, axis=0)
-     
+
      std[std == 0] = 1.0
    - fac = 1.0 / (n_samples - n_classes)
    + fac = xp.asarray(1.0 / (n_samples - n_classes))
