@@ -36,7 +36,7 @@ y_min = 0
 y_max = 85
 y_pos = (0, 20, 40, 60, 80)
 ax1.set_title("scikit-learn\nLDA fit", fontsize=fontsize)
-ax1.set_title("(a)", loc='left', weight='bold', fontsize=fontsize+2)
+ax1.set_title("a", loc='left', y=1.07, x=-0.12, weight='bold', fontsize=fontsize+2)
 ax1.set_ylim(y_min, y_max)
 ax1.set_yticks(y_pos)
 ax1.bar_label(ax1.containers[0], fmt='%.1f')
@@ -45,7 +45,7 @@ sns.barplot(y="Speedup vs. NumPy", x="Backend",
             data=scikit_learn_results[scikit_learn_results["Method"] ==
                                       "predict"], ax=ax2, errorbar=None)
 ax2.set_title("scikit-learn\nLDA predict", fontsize=fontsize)
-ax2.set_title("(b)", loc='left', weight='bold', fontsize=fontsize+2)
+ax2.set_title("b", loc='left', y=1.07, x=-0.12, weight='bold', fontsize=fontsize+2)
 ax2.set_ylim(y_min, y_max)
 ax2.set_yticks(y_pos)
 ax2.bar_label(ax2.containers[0], fmt='%.1f')
@@ -65,7 +65,7 @@ scipy_results = scipy_results[scipy_results["Backend"] != "NumPy"]
 sns.barplot(data=scipy_results[~scipy_results["Strict"]], x="Backend",
             y="Speedup vs. NumPy", ax=ax3, errorbar=None)
 ax3.set_title("SciPy\nwelch (optimized)", fontsize=fontsize)
-ax3.set_title("(c)", loc='left', weight='bold', fontsize=fontsize+2)
+ax3.set_title("c", loc='left', y=1.07, x=-0.12, weight='bold', fontsize=fontsize+2)
 ax3.set_ylim(y_min, y_max)
 ax3.set_yticks(y_pos)
 ax3.bar_label(ax3.containers[0], fmt='%.1f')
@@ -74,7 +74,7 @@ sns.barplot(data=scipy_results[scipy_results["Strict"]], x="Backend",
             y="Speedup vs. NumPy", ax=ax4, errorbar=None)
 
 ax4.set_title("SciPy\nwelch (strict)", fontsize=fontsize)
-ax4.set_title("(d)", loc='left', weight='bold', fontsize=fontsize+2)
+ax4.set_title("d", loc='left', y=1.07, x=-0.12, weight='bold', fontsize=fontsize+2)
 ax4.set_ylim(0, 1)
 ax4.bar_label(ax4.containers[0], fmt='%.2f')
 
