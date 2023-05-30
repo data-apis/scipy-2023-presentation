@@ -27,20 +27,20 @@
 :author: Andreas Müller
 :email: amueller@microsoft.com
 
-:author: Stephannie Jiménez Gacha
-:email: sgacha@quansight.com
-
-:author: Tyler Reddy
-:email: treddy@lanl.gov
-
 :author: Sheng Zha
 :email: zhasheng@apache.org
+
+:author: Saul Shanabrook
+:email: s.shanabrook@gmail.com
+
+:author: Stephannie Jiménez Gacha
+:email: sgacha@quansight.com
 
 :author: Thomas J. Fan
 :email: thomasjpfan@gmail.com
 
-:author: Saul Shanabrook
-:email: s.shanabrook@gmail.com
+:author: Tyler Reddy
+:email: treddy@lanl.gov
 
 :author: Hyukjin Kwon
 :email: gurwls223@apache.org
@@ -85,25 +85,25 @@
 .. :email: amueller@microsoft.com
 .. :institution: Microsoft
 
-.. :author: Stephannie Jiménez Gacha
-.. :email: sgacha@quansight.com
-.. :institution: Quansight
-
-.. :author: Tyler Reddy
-.. :email: treddy@lanl.gov
-.. :institution: LANL
-
 .. :author: Sheng Zha
 .. :email: zhasheng@apache.org
 .. :institution: Amazon
+
+.. :author: Saul Shanabrook
+.. :email: s.shanabrook@gmail.com
+.. :institution:
+
+.. :author: Stephannie Jiménez Gacha
+.. :email: sgacha@quansight.com
+.. :institution: Quansight
 
 .. :author: Thomas J. Fan
 .. :email: thomasjpfan@gmail.com
 .. :institution: Quansight
 
-.. :author: Saul Shanabrook
-.. :email: s.shanabrook@gmail.com
-.. :institution:
+.. :author: Tyler Reddy
+.. :email: treddy@lanl.gov
+.. :institution: LANL
 
 .. :author: Hyukjin Kwon
 .. :email: gurwls223@apache.org
