@@ -59,7 +59,7 @@
 :institution: FooBar
 
 :author: Consortium for Python Data API Standards
-:email:
+:email: test@example.com
 :institution: Consortium for Python Data API Standards
 
 :bibliography: bibliography
