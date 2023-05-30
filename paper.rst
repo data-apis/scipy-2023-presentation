@@ -983,9 +983,9 @@ Consortium work is comprised of three focus areas: standardization, adoption,
 and coordination.
 
 **Standardization**: Standardization is the core of Consortium efforts. The
-Python array API standard is a living standard, which is intended to evolve to
-reflect the needs and continued evolution of array libraries within the SPE. As
-such, we expect to continue working with array and array-consuming library
+Python array API standard is a living standard, which should evolve to reflect
+the needs and continued evolution of array libraries within the SPE. As such,
+we expect to continue working with array and array-consuming library
 maintainers to identify and codify APIs and behaviors suitable for
 standardization.
 
