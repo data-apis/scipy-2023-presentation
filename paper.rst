@@ -53,6 +53,10 @@
 :author: Saul Shanabrook
 :email: s.shanabrook@gmail.com
 
+:author: Hyukjin Kwon
+:email: gurwls223@apache.org
+:institution: Databricks
+
 :author: Consortium for Python Data API Standards
 :email:
 :institution: Consortium for Python Data API Standards
