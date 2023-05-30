@@ -983,7 +983,8 @@ and coordination.
 Python array API standard is a living standard, which is intended to evolve to
 reflect the needs and continued evolution of array libraries within the SPE. As
 such, we expect to continue working with array and array-consuming library
-maintainers to identify APIs and behaviors suitable for standardization.
+maintainers to identify and codify APIs and behaviors suitable for
+standardization.
 
 **Adoption**: In order to ensure the continued success and relevance of the
 Python array API standard, we work closely with maintainers of array and
@@ -1006,10 +1007,10 @@ critical bulwark against further fragmentation and siloed technical stacks.
 Preventing such fragmentation is to the ultimate benefit of array library
 consumers and their communities. Additionally, coordination allows for
 orienting around a shared long-term outlook regarding future needs and possible
-solutions. A few areas and open questions in which are particularly keen to
-explore are the following: device standardization, extended data type support
-(including strings and datetimes), input-output (IO) APIs, support for mixing
-array libraries, parallelization, and optional extensions for deep learning,
+solutions. We are particularly keen to explore are the following areas and open
+questions: device standardization, extended data type support (including
+strings and datetimes), input-output (IO) APIs, support for mixing array
+libraries, parallelization, and optional extensions for deep learning,
 statistical computing, and more generally functionality which is out-of-scope,
 but needed in specific contexts.
 
@@ -1022,7 +1023,8 @@ associated set of APIs. This work will be discussed in a future paper.
 Conclusion
 ==========
 
-The Python array API standard specifies standardized APIs and behaviors for
-array and tensor objects and operations.
+We introduced the Consortium and the Python array API standard, which specifies standardized APIs and behaviors for array and tensor objects and operations. While developing an initial specification draft, we analyzed common array libraries in the SPE and determined a set of common APIs suitable for standardization. In consultation with array and array-consuming library maintainers, we derived 
+
+
 
 *TODO (athan): implications for broader ecosystem. Importance/significance of work. Future benefits.*
