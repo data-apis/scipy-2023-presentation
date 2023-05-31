@@ -28,8 +28,8 @@ sns.barplot(y="Speedup vs. NumPy", x="Backend",
                                       "fit"], ax=ax1, errorbar=None)
 
 y_min = 0
-y_max = 85
-y_pos = (0, 20, 40, 60, 80)
+y_max = 55
+y_pos = (0, 10, 20, 30, 40, 50)
 ax1.set_title("scikit-learn\nLDA fit", fontsize=fontsize)
 ax1.set_title("a", loc='left', y=1.07, x=-0.12, weight='bold', fontsize=fontsize+2)
 ax1.set_ylim(y_min, y_max)
