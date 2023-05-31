@@ -35,20 +35,29 @@ def allocate_arrays_scikit_learn(namespace):
 
 def allocate_array_scipy(namespace):
     size = 50_000_000
+
+    # Generate a random signal based on https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.welch.html#r34b375daf612-1
+    rng = np.random.default_rng()
+    fs = 10e3
+    amp = 2*np.sqrt(2)
+    freq = 1234.0
+    noise_power = 0.001 * fs / 2
+    time = np.arange(size) / fs
+    x = amp*np.sin(2*np.pi*freq*time)
+    x += rng.normal(scale=np.sqrt(noise_power), size=time.shape)
+    x = x.astype(np.float32)
+
     if namespace == "numpy":
-        x = np.zeros(size, dtype=np.float32)
+        pass
     elif namespace == "cupy":
-        x = cp.zeros(size, dtype=cp.float32)
+        x = cp.asarray(x, dtype=cp.float32)
     elif namespace == "torch_gpu":
-        torch.set_default_device("cuda")
-        x = torch.zeros(size, dtype=torch.float32)
+        x = torch.asarray(x, device='cuda', dtype=torch.float32)
     elif namespace == "torch_cpu":
-        torch.set_default_device("cpu")
-        x = torch.zeros(size, dtype=torch.float32)
+        x = torch.asarray(x, device='cpu', dtype=torch.float32)
     else:
         raise ValueError(f"unrecognized namespace requested for array backend: {namespace}")
-    x[0] = 1
-    x[8] = 1
+
     return x
 
 def sync(namespace):
