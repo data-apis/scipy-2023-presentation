@@ -19,11 +19,6 @@ means = scikit_learn_results.groupby(["Backend", "Method"]).mean()
 scikit_learn_results["Speedup vs. NumPy"] = scikit_learn_results.apply(lambda row: means.loc[("NumPy", row["Method"]), "Duration"]/row["Duration"], axis=1)
 scikit_learn_results = scikit_learn_results[scikit_learn_results["Backend"] != "NumPy"]
 
-# # Omit first (warmup) timing for each method
-# for backend in scikit_learn_results["Backend"].unique():
-#     for method in scikit_learn_results["Method"].unique():
-#         scikit_learn_results = scikit_learn_results.drop(scikit_learn_results[(scikit_learn_results["Backend"] == backend) & (scikit_learn_results["Method"] == method)].index[0])
-
 sns.set_theme(context="paper", font_scale=1.4)
 
 fig, (ax1, ax2, ax3, ax4) = plt.subplots(1, 4, figsize=(16, 5), constrained_layout=True)
