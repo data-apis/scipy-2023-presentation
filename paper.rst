@@ -878,7 +878,7 @@ hardware. For PyTorch, we collected timings for both CPU and GPU execution
 models. To ensure timing reproducibility and reduce timing noise, we repeated
 each benchmark ten times and computed the average execution time.
 
-.. [#] To ensure that observed performance is not an artifact of the generated dataset, we tested performance across multiple random dataset and did not observe a measurable difference across benchmark runs.
+.. [#] To ensure that observed performance is not an artifact of the generated dataset, we tested performance across multiple random datasets and did not observe a measurable difference across benchmark runs.
 
 `Fig. 2a`_ and `Fig. 2b`_ display results, showing average execution time
 relative to NumPy. When fitting an LDA model (`Fig. 2a`_), we observe 1.9x
