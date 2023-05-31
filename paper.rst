@@ -912,8 +912,8 @@ discussed above.
 
 `Fig. 2c`_ and `Fig. 2d`_ display results, showing average execution time
 relative to NumPy. When using library-specific optimizations (`Fig. 2c`_), we
-observe 1.4x higher throughput for PyTorch CPU, 51.5x for CuPy, and 78.5x for
-PyTorch GPU. When omitting library-specific optimizations (`Fig. 2d`_), we
+observe 1.4x higher throughput for PyTorch CPU, 51.6x for PyTorch GPU, and
+52.4x for CuPy. When omitting library-specific optimizations (`Fig. 2d`_), we
 observe a 12-25x **decreased** throughput across all non-NumPy backends.
 
 The source of the performance disparity is due to use of strided views in the
