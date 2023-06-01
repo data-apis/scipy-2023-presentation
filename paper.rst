@@ -107,7 +107,8 @@ machine learning :cite:`Pedregosa2011a`, and deep learning :cite:`Chen2015a`:cit
 New frameworks pushing forward the state of the art appear every year. One
 unintended consequence of all this activity has been fragmentation in the
 fundamental building blocks—multidimensional arrays :cite:`Vanderwalt2011a`
-(also known as tensors)—that underpin the scientific Python ecosystem (SPE).
+(also known as tensors)—that underpin the scientific Python ecosystem
+(hereafter referred to as "the ecosystem").
 
 This fragmentation comes with significant costs, from reinvention and
 re-implementation of arrays and associated application programming interfaces
@@ -283,7 +284,7 @@ functions should not be specified beyond the guidance included in IEEE 754 :cite
 **Universality.** Standardized APIs and behaviors should reflect common usage
 among a wide range of existing array libraries. Accordingly, with rare
 exception, only APIs and behaviors having existing implementations and broad
-support within the SPE may be considered candidates for standardization.
+support within the ecosystem may be considered candidates for standardization.
 
 
 Methods
@@ -306,7 +307,7 @@ decisions in empirical data and analysis.
 Design
 ------
 
-To understand API design of array libraries within the SPE, we first identified
+To understand API design of array libraries within the ecosystem, we first identified
 a representative sample of commonly used Python array libraries. The sample
 included the following libraries: NumPy, Dask Array, CuPy, MXNet, JAX,
 TensorFlow, and PyTorch. Next, we extracted public APIs for each library by
@@ -354,7 +355,7 @@ artifacts available on GitHub.
 Usage
 -----
 
-To understand usage patterns of array libraries within the SPE, we first
+To understand usage patterns of array libraries within the ecosystem, we first
 identified a representative sample of commonly used Python libraries
 ("downstream libraries") which consume the sample of array libraries identified
 during design analysis. The sample of downstream libraries included SciPy
@@ -654,7 +655,7 @@ Ecosystem Adoption
 
 Arrays are fundamental to scientific computing, data science, and machine
 learning. As a consequence, the Python array API standard has many
-stakeholders within the SPE. When establishing the Consortium, we thus sought
+stakeholders within the ecosystem. When establishing the Consortium, we thus sought
 participation from a diverse and representative cross-section of industry
 partners and maintainers of array and array-consuming libraries. In order to
 satisfy stakeholder needs, array library maintainers worked in close
@@ -663,7 +664,7 @@ API standardization process to identify key use cases and achieve consensus on
 standardized APIs and behaviors.
 
 Direct participation in the Consortium by array and array-consuming library
-maintainers has facilitated coordination across the SPE. In addition to the
+maintainers has facilitated coordination across the ecosystem. In addition to the
 `numpy.array_api`_ reference implementation :cite:`Meurer2021a`, several
 commonly used array libraries, including NumPy :cite:`berg2023a`, CuPy
 :cite:`Fang2021a`, Dask :cite:`White2022a`, MXNet :cite:`Yyc2021a`, PyTorch
@@ -682,7 +683,7 @@ Test Suite
 ----------
 
 To facilitate adoption of the Python array API standard by libraries within the
-SPE, we developed a test suite to measure specification compliance
+ecosystem, we developed a test suite to measure specification compliance
 :cite:`Consortium2022b`. The test suite covers all major aspects of the
 specification, such as broadcasting, type promotion, function signatures,
 special case handling, and expected return values.
@@ -759,7 +760,7 @@ Discussion
    compared to **a-c**.
 
 The principle aim of the Python array API standard is to facilitate
-interoperability of array libraries within the SPE. In achieving this aim,
+interoperability of array libraries within the ecosystem. In achieving this aim,
 array-consuming libraries, such as those for statistical computing, data
 science, and machine learning, can decouple their implementations from
 specific array libraries. Decoupling subsequently allows end users to use the
@@ -934,7 +935,7 @@ and coordination.
 
 **Standardization**: Standardization is the core of Consortium efforts. The
 Python array API standard is a living standard, which should evolve to reflect
-the needs and continued evolution of array libraries within the SPE. As such,
+the needs and continued evolution of array libraries within the ecosystem. As such,
 we expect to continue working with array and array-consuming library
 maintainers to identify and codify APIs and behaviors suitable for
 standardization.
@@ -979,13 +980,13 @@ Conclusion
 We introduced the Consortium and the Python array API standard, which specifies
 standardized APIs and behaviors for array and tensor objects and operations.
 In developing an initial specification draft, we analyzed common array
-libraries in the SPE and determined a set of common APIs suitable for
+libraries in the ecosystem and determined a set of common APIs suitable for
 standardization. In consultation with array and array-consuming library
 maintainers, we published two specification revisions codifying APIs and
 behavior for array objects and their interaction, array interchange, and
 array-aware functions for array creation and manipulation, statistical
 reduction, and linear algebra. In addition, we released tooling to facilitate
-adoption of the array API standard within the SPE: 1) a test suite for
+adoption of the array API standard within the ecosystem: 1) a test suite for
 measuring specification compliance and 2) a compatibility layer to allow
 array-consuming libraries to adopt the standard without having to wait on
 upstream release cycles.
@@ -1003,12 +1004,12 @@ similar library-specific performance optimizations to achieve maximal
 performance.
 
 Our work demonstrates the usefulness of the Consortium and the array API
-standard in facilitating array interoperability within the SPE. In addition to
+standard in facilitating array interoperability within the ecosystem. In addition to
 shepherding standardization and promoting adoption of the array API standard,
 the Consortium provides a critical forum for coordinating efforts among array
 and array-consuming library maintainers. Such coordination is critical to the
-long-term success and viability of the SPE and its communities. Having
+long-term success and viability of the ecosystem and its communities. Having
 established a blueprint for standardization methodology and process, the
 Consortium is also leading a similar effort to standardize Python dataframe
 APIs and behaviors, thus working to reduce fragmentation for the two
-fundamental data structures underpinning the SPE—arrays and dataframes.
+fundamental data structures underpinning the ecosystem—arrays and dataframes.
