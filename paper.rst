@@ -276,7 +276,7 @@ standardized APIs.
 
 **Extensibility.** Conforming array libraries may implement functionality
 which is not included in the array API standard. As a consequence, array
-consumers bear the responsibility for ensuring that their API usage is portable
+consumers bear responsibility for ensuring that their API usage is portable
 across specification-conforming array libraries.
 
 **Deference.** Where possible, the array API standard should defer to existing,
