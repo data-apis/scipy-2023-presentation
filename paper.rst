@@ -262,10 +262,10 @@ just-in-time (JIT) and ahead-of-time (AOT) compilation and graph-based
 optimization techniques, such as those used by PyTorch :cite:`Paszke2019a`, JAX
 :cite:`Bradbury2018a`, and TensorFlow :cite:`Abadi2016a`. APIs and behaviors
 not amenable to compilation, such as APIs returning arrays having
-data-dependent output shapes, should be specified as optional extensions.
-Moreover, copy-view mutation semantics, such as those currently supported by
-NumPy, should be considered an implementation detail and, thus, not suitable
-for standardization.
+data-dependent output shapes, should be specified as optional. Moreover,
+copy-view mutation semantics, such as those currently supported by NumPy,
+should be considered an implementation detail and, thus, not suitable for
+standardization.
 
 **Distributed support.** Standardized APIs and behaviors should be amenable to
 implementation in array libraries supporting distributed computing (e.g., Dask :cite:`Rocklin2015a`).
