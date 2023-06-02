@@ -1,0 +1,5 @@
+cupy==12.0.0
+numpy==1.24.3
+pytorch==2.0.0
+scikit-learn @ git+https://github.com/scikit-learn/scikit-learn.git@51bd5624ef1be64aabf1d586a288fceccbdd63a7
+scipy @ git+https://github.com/tylerjereddy/scipy@9dfa5bb71b74f3cf4a0d649a877308b166111596
