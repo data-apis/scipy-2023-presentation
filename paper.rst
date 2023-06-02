@@ -527,8 +527,8 @@ the promoted data type `float64`.
 
 In addition to type promotion, the array API standard specifies rules
 governing the automatic (and implicit) expansion of array dimensions to be of
-equal sizes (`Fig. 1d`_) via broadcasting semantics popularized by NumPy
-:cite:`Harris2020a`.
+equal sizes (`Fig. 1d`_). Standardized broadcasting semantics are the same as
+those popularized by NumPy :cite:`Harris2020a`.
 
 Interchange Protocol
 --------------------
