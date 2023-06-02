@@ -212,11 +212,11 @@ new array libraries, offer a concrete API that can be adopted as is. 4)
 Minimize the learning curve and friction for users as they switch between
 array libraries.
 
-We explicitly omitted three notable possible objectives. 1) Making array
+We explicitly omitted three notable possible objectives. 1) Make array
 libraries identical for the purpose of merging them. Different array libraries
 have different strengths (e.g., performance characteristics, hardware support,
 and tailored use cases, such as deep learning), and merging them into a single
-array library is neither practical nor realistic. 2) Implementing a backend or
+array library is neither practical nor realistic. 2) Implement a backend or
 runtime switching system in order to switch from one array library to another
 via a single setting or line of code. While potentially feasible, array
 consumers are likely to need to modify code in order to ensure optimal
