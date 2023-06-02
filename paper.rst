@@ -892,9 +892,6 @@ using GPU execution models corresponded to significantly increased performance,
 thus supporting our hypothesis that scikit-learn can benefit from non-CPU-based
 execution models, as afforded by array API standard adoption.
 
-These improvements to the LDA implementation are already merged and are
-planned for inclusion in the upcoming scikit-learn 1.3 release.
-
 SciPy
 -----
 
@@ -935,9 +932,6 @@ standard may need to maintain similar library-specific performance
 optimizations to achieve maximal performance. We expect, however, that the
 maintenance burden should only apply for those scenarios in which the
 performance benefits significantly outweigh the maintenance costs.
-
-While these improvements to SciPy are still experimental, the SciPy community
-plans to include them in future SciPy releases.
 
 Future Work
 ===========
