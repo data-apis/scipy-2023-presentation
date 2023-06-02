@@ -906,12 +906,12 @@ SciPy's signal processing APIs as being amenable to input arrays supporting
 alternative execution models and selected an API for estimating the power
 spectral density using Welch's method :cite:`Welch1967a` as a representative
 test case. We then generated a representative synthetic test signal (a 2 Vrms
-sine wave at 1234 Hz, corrupted by 0.001 :math:`\text{V}^2/\text{Hz}` of white noise sampled
-at 10 kHz) having 50,000,000 data points. We next devised two benchmarks, one
-using library-specific optimizations and a second strictly using APIs in the
-array API standard. We ran the benchmarks for the same backends, on the same
-hardware, and using the same analysis approach as the scikit-learn benchmarks
-discussed above.
+sine wave at 1234 Hz, corrupted by 0.001 :math:`\text{V}^2/\text{Hz}` of white
+noise sampled at 10 kHz) having 50,000,000 data points. We next devised two
+benchmarks, one using library-specific optimizations and a second strictly
+using APIs in the array API standard. We ran the benchmarks for the same
+backends, on the same hardware, and using the same analysis approach as the
+scikit-learn benchmarks discussed above.
 
 `Fig. 2c`_ and `Fig. 2d`_ display results, showing average execution time
 relative to NumPy. When using library-specific optimizations (`Fig. 2c`_), we
