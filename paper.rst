@@ -931,7 +931,7 @@ to progress to the next position along an axis, and provide similar,
 non-standardized APIs for manipulating the internal data structure of an array.
 While one can use standardized APIs to achieve the same result, using stride
 "tricks" enables increased performance. This finding raises an important point.
-Namely, while the Python array API standard aims to reduce the need for
+Namely, while the array API standard aims to reduce the need for
 library-specific code, it will never fully eliminate that need. Users of the
 standard may need to maintain similar library-specific performance
 optimizations to achieve maximal performance. We expect, however, that the
