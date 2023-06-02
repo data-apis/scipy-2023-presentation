@@ -372,10 +372,12 @@ which empirical API and at what frequency. We organized the API results in
 human-readable form as type definition files and compared the inferred API to
 the publicly documented APIs obtained during design analysis.
 
-The following are simplified examples of two inferred API signatures for
+The following is a simplified example of two inferred API signatures for
 `numpy.mean`, with the docstring indicating the number of lines of code which
 invoked the function for each downstream library when running downstream
-library test suites.
+library test suites. Based on the example, we can infer that invoking the
+function with an array input argument is a more common usage pattern among
+downstream libraries than invoking the function with a list of floats.
 
 .. code:: python
 
@@ -398,9 +400,6 @@ library test suites.
        usage.sklearn: 3
        usage.statsmodels: 9
        """
-
-This particular example suggests that support for array inputs is more
-heavily represented in downstream usage than support for list-of-floats inputs.
 
 As a final step, we ranked each API according to relative usage using the
 Dowdall positional voting system :cite:`Fraenkel2014a` (a variant of the Borda
