@@ -148,13 +148,13 @@ Consortium Overview
 History
 -------
 
-While initially the Python programming language was not explicitly designed
-for numerical computing, the language gained popularity in scientific and
-engineering communities soon after its release. The first array computing
-library for numerical and scientific computing in Python was Numeric,
-developed in the mid-1990s :cite:`Dubois1996a`:cite:`Harris2020a`. To better
-accommodate this library and its use cases, Python’s syntax was extended to
-include indexing syntax :cite:`Hugunin1995a`.
+While the Python programming language was not explicitly designed for numerical
+computing, the language gained popularity in scientific and engineering
+communities soon after its release. The first array computing library for
+numerical and scientific computing in Python was Numeric, developed in the
+mid-1990s :cite:`Dubois1996a`:cite:`Harris2020a`. To better accommodate this
+library and its use cases, Python’s syntax was extended to include indexing
+syntax :cite:`Hugunin1995a`.
 
 In the early 2000s, a similar library, Numarray, introduced a more flexible
 data structure :cite:`Greenfield2003a`. Numarray had faster operations for
