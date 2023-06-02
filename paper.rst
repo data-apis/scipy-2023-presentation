@@ -672,11 +672,11 @@ commonly used array libraries, including NumPy :cite:`berg2023a`, CuPy
 :cite:`Meier2021a`, and JAX :cite:`Vanderplas2023a`, have either adopted or
 are in the process of adopting the array API standard. Increased array library
 adoption has increased array interoperability, which, in turn, has encouraged
-array-consuming libraries to begin adopting the standard by decoupling their
-implementations from specific array libraries. The adoption by SciPy
-:cite:`Yashchuk2022a` and scikit-learn :cite:`Fan2022a` is outlined further in
-the `Discussion`_ section below. As array library adoption of the standard
-matures, we expect ecosystem adoption to accelerate.
+array-consuming libraries, such as SciPy :cite:`Yashchuk2022a` and
+scikit-learn :cite:`Fan2022a` (discussed below), to begin adopting the standard
+by decoupling their implementations from specific array libraries. As array
+library adoption of the standard matures, we expect ecosystem adoption to
+accelerate.
 
 Tooling
 =======
