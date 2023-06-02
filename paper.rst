@@ -782,7 +782,7 @@ specification adoption (`Fig. 2`_).
 scikit-learn
 ------------
 
-scikit-learn is a popular Python machine learning library. Its current
+scikit-learn is a widely-used Python machine learning library. Its current
 implementation relies heavily on NumPy and SciPy and is a mixture of Python and
 Cython. Due to its dependence on NumPy for array computation, scikit-learn is
 CPU-bound, and the library is unable to capture the benefits of GPU- and
