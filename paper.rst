@@ -175,7 +175,7 @@ fragmentation within the PyData array and dataframe ecosystem. These libraries
 often borrowed concepts from, or entirely copied, the APIs of older libraries
 such as NumPy, and then modified and evolved those APIs to address new needs
 and use cases. Although the communities of each library individually discussed
-interchange and interoperability, there was no general coordination among
+interchange and interoperability, no general coordination existed among
 libraries to avoid further fragmentation and to arrive at a common set of API
 standards until the founding of the Consortium.
 
@@ -188,14 +188,12 @@ and software is simply too great.
 
 In May 2020, an initial group of maintainers and industry stakeholders
 assembled to form the Consortium for Python Data API Standards and began
-drafting the draft of specifications for array and dataframe APIs, which could
+drafting specifications for array and dataframe APIs, which could
 then be adopted by existing array and dataframe libraries and by any new
 libraries which arise. The direct stakeholders of the standard are maintainers
-of Python array libraries. Indirect stakeholders include maintainers of
+of Python array libraries, but indirect stakeholders include maintainers of
 libraries which depend on array libraries (hereafter referred to as
-"array-consuming libraries"), authors of non-Python array libraries,
-developers of compilers and runtimes with array-specific functionality, and
-end users.
+"array-consuming libraries").
 
 Objectives
 ----------
@@ -210,7 +208,7 @@ art, and have clearly defined objectives against which continued success is
 measured.
 
 To this end, we established four objectives for the array API standard. 1)
-Make it possible for array-consuming libraries to accept and operate on arrays
+Allow array-consuming libraries to accept and operate on arrays
 from multiple different array libraries. 2) Establish a common set of
 standardized APIs and behaviors, enabling more sharing and code reuse. 3) For
 new array libraries, offer a concrete API that can be adopted as is. 4)
@@ -405,7 +403,7 @@ library test suites.
        """
 
 This particular example suggests that support for array inputs is more
-important in downstream usage than support for list-of-floats inputs.
+heavily represented in downstream usage than support for list-of-floats inputs.
 
 As a final step, we ranked each API according to relative usage using the
 Dowdall positional voting system :cite:`Fraenkel2014a` (a variant of the Borda
