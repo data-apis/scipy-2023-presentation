@@ -377,7 +377,7 @@ called which empirical API and at what frequency. We organized the API results
 in human-readable form as type definition files and compared the inferred API
 to the publicly documented APIs obtained during design analysis.
 
-The following are (simplified) examples of two inferred API signatures for
+The following are simplified examples of two inferred API signatures for
 `numpy.mean`, with the docstring indicating the number of lines of code which
 invoked the function for each downstream library when running downstream
 library test suites.
