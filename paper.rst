@@ -57,12 +57,12 @@
 :email: treddy@lanl.gov
 :institution: LANL
 
+:author: Alexandre Passos
+:email: alexandre.tp@gmail.com
+
 :author: Hyukjin Kwon
 :email: gurwls223@apache.org
 :institution: Databricks
-
-:author: Alexandre Passos
-:email: alexandre.tp@gmail.com
 
 :author: Consortium for Python Data API Standards
 :email:
