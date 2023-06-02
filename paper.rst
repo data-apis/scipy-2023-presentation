@@ -992,10 +992,9 @@ maintainers, we published two specification revisions codifying APIs and
 behaviors for array objects and their interaction, array interchange, and
 array-aware functions for array creation and manipulation, statistical
 reduction, and linear algebra. In addition, we released tooling to facilitate
-adoption of the array API standard within the ecosystem: 1) a test suite for
-measuring specification compliance and 2) a compatibility layer to allow
-array-consuming libraries to adopt the standard without having to wait on
-upstream release cycles.
+adoption of the array API standard: 1) a test suite for measuring specification
+compliance and 2) a compatibility layer to allow array-consuming libraries to
+adopt the standard without having to wait on upstream release cycles.
 
 We further explored performance implications of adopting the array API standard
 in two commonly-used array-consuming libraries: scikit-learn and SciPy. For the
