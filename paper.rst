@@ -429,7 +429,7 @@ Array API Standard
    The array data structure and fundamental concepts. **a)** An array data
    structure and its associated metadata fields. **b)** Indexing an array.
    Indexing operations may access individual elements or sub-arrays. Applying
-   a boolean mask is an optional indexing extension and may not be supported
+   a boolean mask is an optional indexing behavior and may not be supported
    by all conforming libraries. **c)** Vectorization obviates the need for
    explicit looping in user code by applying operations to multiple array
    elements. **d)** Broadcasting enables efficient computation by implicitly
