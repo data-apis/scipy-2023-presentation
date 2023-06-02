@@ -500,7 +500,7 @@ linear algebra, statistical reductions, and element-wise computation). Array
 indexing semantics extend built-in Python sequence `__getitem__()` indexing
 semantics to support element access across multiple dimensions (`Fig. 1b`_).
 Indexing an array using a boolean array (also known as "masking") is an
-optional standardized extension. The result of a mask operation is
+optional standardized behavior. The result of a mask operation is
 data-dependent and thus difficult to implement in array libraries relying on
 static analysis for graph-based optimization.
 
