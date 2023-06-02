@@ -367,10 +367,10 @@ Next, we ran downstream library test suites with runtime instrumentation
 enabled. We recorded input arguments and return values for each API invocation
 by inspecting the bytecode stack at call time :cite:`Consortium2020a`. From
 the recorded data, we generated inferred signatures for each function based on
-each combination of arguments and input types, noting which downstream library
-called which empirical API and at what frequency. We organized the API results
-in human-readable form as type definition files and compared the inferred API
-to the publicly documented APIs obtained during design analysis.
+provided arguments and associated types, noting which downstream library called
+which empirical API and at what frequency. We organized the API results in
+human-readable form as type definition files and compared the inferred API to
+the publicly documented APIs obtained during design analysis.
 
 The following are simplified examples of two inferred API signatures for
 `numpy.mean`, with the docstring indicating the number of lines of code which
