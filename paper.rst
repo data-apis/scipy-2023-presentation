@@ -629,8 +629,7 @@ vectorization, among others.
 **v2022.12**: This revision includes errata for the v2021.12 release and adds
 support for single- and double-precision complex floating-type data types,
 additional array-aware APIs, an optional extension for computing fast Fourier
-transforms. This latest version of the standard contains specifications for
-nearly 200 array functions and methods.
+transforms.
 
 For future revisions, we expect annual release cadences; however, array API
 standard consumers should not assume a fixed release schedule.
