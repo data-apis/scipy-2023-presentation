@@ -172,7 +172,7 @@ labeled tabular data :cite:`McKinney2011a`.
 Over the past 10 years, the rise of deep learning and the emergence of new
 hardware has led to a proliferation of new libraries and a corresponding
 fragmentation within the PyData array and dataframe ecosystem. These libraries
-often borrowed concepts from, or entirely copied, the APIs of older libraries
+often borrowed concepts from, or entirely copied, the APIs of older libraries,
 such as NumPy, and then modified and evolved those APIs to address new needs
 and use cases. Although the communities of each library individually discussed
 interchange and interoperability, no general coordination existed among
