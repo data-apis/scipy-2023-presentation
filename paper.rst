@@ -188,9 +188,9 @@ and software is simply too great.
 
 In May 2020, an initial group of maintainers and industry stakeholders
 assembled to form the Consortium for Python Data API Standards and began
-drafting specifications for array and dataframe APIs, which could
-then be adopted by existing array and dataframe libraries and by any new
-libraries which arise.
+drafting specifications for array and dataframe APIs, which could then be
+adopted by existing array and dataframe libraries and their dependents and by
+any new libraries which arise.
 
 Objectives
 ----------
