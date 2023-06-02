@@ -1008,12 +1008,12 @@ need. Users of the standard may need to maintain similar library-specific
 performance optimizations to achieve maximal performance.
 
 Our work demonstrates the usefulness of the Consortium and the array API
-standard in facilitating array interoperability within the ecosystem. In addition to
-shepherding standardization and promoting adoption of the array API standard,
-the Consortium provides a critical forum for coordinating efforts among array
-and array-consuming library maintainers. Such coordination is critical to the
-long-term success and viability of the ecosystem and its communities. Having
-established a blueprint for standardization methodology and process, the
-Consortium is also leading a similar effort to standardize Python dataframe
-APIs and behaviors, thus working to reduce fragmentation for the two
+standard in facilitating array interoperability within the ecosystem. In
+addition to shepherding standardization and promoting adoption of the array API
+standard, the Consortium provides a critical forum for coordinating efforts
+among array and array-consuming library maintainers. Such coordination is
+critical to the long-term success and viability of the ecosystem and its
+communities. Having established a blueprint for standardization methodology and
+process, the Consortium is also leading a similar effort to standardize Python
+dataframe APIs and behaviors, thus working to reduce fragmentation for the two
 fundamental data structures underpinning the ecosystem—arrays and dataframes.
