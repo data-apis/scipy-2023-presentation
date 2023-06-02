@@ -878,7 +878,7 @@ array before calling `xp.sum()`.
 
 To test the performance implications of refactoring scikit-learn's LDA
 implementation, we first generated a random two-class classification problem
-having 400,000 samples and 300 features. [#]_ We next devised two benchmarks, one
+having 4e5 samples and 300 features. [#]_ We next devised two benchmarks, one
 for fitting an LDA model and the second for predicting class labels for each
 simulated sample. We then ran the benchmarks and measured execution time for
 NumPy, PyTorch, and CuPy backends on Intel i9-9900K and NVIDIA RTX 2080
@@ -912,9 +912,9 @@ alternative execution models and selected an API for estimating the power
 spectral density using Welch's method :cite:`Welch1967a` as a representative
 test case. We then generated a representative synthetic test signal (a 2 Vrms
 sine wave at 1234 Hz, corrupted by 0.001 V :sup:`2`/Hz of white noise sampled at
-10 kHz) having 50,000,000 data points. We next devised two benchmarks, one
-using library-specific optimizations and a second strictly using APIs in the
-array API standard. We ran the benchmarks for the same backends, on the same
+10 kHz) having 5e7 data points. We next devised two benchmarks, one using
+library-specific optimizations and a second strictly using APIs in the array
+API standard. We ran the benchmarks for the same backends, on the same
 hardware, and using the same analysis approach as the scikit-learn benchmarks
 discussed above.
 
