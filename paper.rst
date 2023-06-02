@@ -153,7 +153,7 @@ computing, the language gained popularity in scientific and engineering
 communities soon after its release. The first array computing library for
 numerical and scientific computing in Python was Numeric, developed in the
 mid-1990s :cite:`Dubois1996a`:cite:`Harris2020a`. To better accommodate this
-library and its use cases, Python’s syntax was extended to include indexing
+library and its use cases, Python's syntax was extended to include indexing
 syntax :cite:`Hugunin1995a`.
 
 In the early 2000s, a similar library, Numarray, introduced a more flexible
@@ -162,7 +162,7 @@ large arrays, but slower operations for small arrays. Subsequently, both
 Numeric and Numarray coexisted to satisfy different use cases.
 
 In early 2005, the NumPy library unified Numeric and Numarray as a single
-array package by porting Numarray’s features to Numeric :cite:`Harris2020a`. This
+array package by porting Numarray's features to Numeric :cite:`Harris2020a`. This
 effort was largely successful and resolved the fragmentation at the time.
 For roughly a decade, NumPy was the only widely used array library. Building on
 NumPy, pandas was subsequently introduced in 2008 in order to address the need
