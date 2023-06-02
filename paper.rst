@@ -161,10 +161,10 @@ data structure :cite:`Greenfield2003a`. Numarray had faster operations for
 large arrays, but slower operations for small arrays. Subsequently, both
 Numeric and Numarray coexisted to satisfy different use cases.
 
-In early 2005, the NumPy library unified Numeric and Numarray as a single
-array package by porting Numarray's features to Numeric :cite:`Harris2020a`. This
-effort was largely successful and resolved the fragmentation at the time.
-For roughly a decade, NumPy was the only widely used array library. Building on
+In early 2005, the NumPy library unified Numeric and Numarray as a single array
+package by porting Numarray's features to Numeric :cite:`Harris2020a`. This
+effort was largely successful and resolved the fragmentation at the time. For
+roughly a decade, NumPy was the only widely used array library. Building on
 NumPy, pandas was subsequently introduced in 2008 in order to address the need
 for a high performance, flexible tool for performing quantitative analysis on
 labeled tabular data :cite:`McKinney2011a`.
