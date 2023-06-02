@@ -189,11 +189,13 @@ infeasible. Unlike in 2005, too many different use cases and varying
 stakeholders now exist. Furthermore, the speed of innovation of both hardware
 and software is simply too great.
 
-In May 2020, an initial group of maintainers and industry stakeholders
+In May 2020, an initial group of maintainers and industry stakeholders [#]_
 assembled to form the Consortium for Python Data API Standards and began
 drafting specifications for array and dataframe APIs, which could then be
 adopted by existing array and dataframe libraries and their dependents and by
 any new libraries which arise.
+
+.. [#] Direct stakeholders include the maintainers of Python array and dataframe libraries. Indirect stakeholders include maintainers of libraries which consume array and dataframe objects ("consuming libraries"), developers of compilers and runtimes with array- and dataframe-specific functionality, and end users, such as data scientists and application developers.
 
 Objectives
 ----------
