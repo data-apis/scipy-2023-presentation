@@ -190,10 +190,7 @@ In May 2020, an initial group of maintainers and industry stakeholders
 assembled to form the Consortium for Python Data API Standards and began
 drafting specifications for array and dataframe APIs, which could
 then be adopted by existing array and dataframe libraries and by any new
-libraries which arise. The direct stakeholders of the standard are maintainers
-of Python array libraries, but indirect stakeholders include maintainers of
-libraries which depend on array libraries (hereafter referred to as
-"array-consuming libraries").
+libraries which arise.
 
 Objectives
 ----------
