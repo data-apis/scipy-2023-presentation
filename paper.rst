@@ -244,8 +244,8 @@ notation.
 
 **Minimal array object.** The standard should not require that an array object
 have any attributes or methods beyond what is necessary for inspection
-(e.g., shape, data type, and device) [#]_ or for supporting operator overloading
-(i.e., magic methods).
+(e.g., shape, data type, and device) or for supporting operator overloading
+(i.e., magic methods). [#]_
 
 .. [#] Notably, array strides should be considered an implementation detail and should not be required as a public Python attribute.
 
