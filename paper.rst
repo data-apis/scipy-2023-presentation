@@ -175,9 +175,9 @@ fragmentation within the PyData array and dataframe ecosystem. These libraries
 often borrowed concepts from, or entirely copied, the APIs of older libraries,
 such as NumPy, and then modified and evolved those APIs to address new needs
 and use cases. Although the communities of each library individually discussed
-interchange and interoperability, no general coordination existed among
-libraries to avoid further fragmentation and to arrive at a common set of API
-standards until the founding of the Consortium.
+interchange and interoperability, no general coordination arose among libraries
+to avoid further fragmentation and to arrive at a common set of API standards
+until the founding of the Consortium.
 
 The genesis for the Consortium grew out of many conversations among maintainers
 during 2019-2020. During those conversations, it quickly became clear that any
