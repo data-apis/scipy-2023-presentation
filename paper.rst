@@ -444,9 +444,9 @@ array and tensor objects and operations. The scope of the standard includes
 defining, but is not limited to, the following: 1) a minimal array object; 2)
 semantics governing array interaction, including type promotion and
 broadcasting; 3) an interchange protocol for converting array objects
-originating from different array libraries; and 4) a set of required
-array-aware functions. We discuss each of these standardization areas in
-turn.
+originating from different array libraries; 4) a set of required array-aware
+functions; and 5) optional extensions for specialized APIs and array behaviors.
+We discuss each of these standardization areas in turn.
 
 Array Object
 ------------
@@ -590,6 +590,27 @@ device allocation, reshaping and manipulating existing arrays, performing
 statistical reductions across one, multiple, or all array axes (`Fig. 1e`_), and
 sorting array elements. Altogether, these APIs provide a robust and portable
 foundation for higher-order array operations and general array computation.
+
+Optional Extensions
+-------------------
+
+While a set of commonly used array-aware functions is sufficient for many
+array computation use cases, additional, more specialized, functionality may be
+warranted. For example, while most data visualization libraries are unlikely to
+explicitly rely on APIs for computing Fourier transforms, signal analysis
+libraries supporting spectral analysis of time series are likely to require
+Fourier transform APIs. To accommodate specialized APIs, the Python array API
+standard includes standardized optional extensions.
+
+An extension is defined as a coherent set of standardized functionality which
+is commonly implemented across many, but not all, array libraries. Due to
+implementation difficulty (or impracticality), limited general applicability, a
+desire to avoid significantly expanding API surface area beyond what is
+essential, or some combination of the above, requiring conforming array
+libraries to implement and maintain extended functionality beyond their target
+domain is not desirable. Extensions provide a means for conforming array
+libraries to opt-in to supporting standardized API subsets according to need
+and target audience.
 
 Specification Status
 ====================
