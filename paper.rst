@@ -661,13 +661,13 @@ Ecosystem Adoption
 ------------------
 
 Arrays are fundamental to scientific computing, data science, and machine
-learning. As a consequence, the Python array API standard has many
-stakeholders within the ecosystem. When establishing the Consortium, we thus sought
+learning. As a consequence, the Python array API standard has many stakeholders
+within the ecosystem. When establishing the Consortium, we thus sought
 participation from a diverse and representative cross-section of industry
-partners and maintainers of array and array-consuming libraries. In order to
-satisfy stakeholder needs, array library maintainers worked in close
-partnership with maintainers of array-consuming libraries throughout the array
-API standardization process to identify key use cases and achieve consensus on
+partners and maintainers of array and array-consuming libraries. To satisfy
+stakeholder needs, array library maintainers worked in close partnership with
+maintainers of array-consuming libraries throughout the array API
+standardization process to identify key use cases and achieve consensus on
 standardized APIs and behaviors.
 
 Direct participation in the Consortium by array and array-consuming library
