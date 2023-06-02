@@ -1004,15 +1004,14 @@ upstream release cycles.
 
 We further explored performance implications of adopting the array API standard
 in two commonly-used array-consuming libraries: scikit-learn and SciPy. For the
-former, we found that adoption of the standard enabled scikit-learn to use
-GPU-based execution models, resulting in significantly increased performance.
-For the latter, we found similar performance gains; however, in order to
-realize the performance gains, we needed to use library-specific optimizations.
-This finding highlights a limitation of the standard. Namely, while the Python
-array API standard aims to reduce the need for library-specific code, it will
-never fully eliminate that need. Users of the standard may need to maintain
-similar library-specific performance optimizations to achieve maximal
-performance.
+former, we found that adoption enabled scikit-learn to use GPU-based execution
+models, resulting in significantly increased performance. For the latter, we
+found similar performance gains; however, in order to realize the performance
+gains, we needed to use library-specific optimizations. This finding highlights
+a limitation of the standard. Namely, while the array API standard aims to
+reduce the need for library-specific code, it will never fully eliminate that
+need. Users of the standard may need to maintain similar library-specific
+performance optimizations to achieve maximal performance.
 
 Our work demonstrates the usefulness of the Consortium and the array API
 standard in facilitating array interoperability within the ecosystem. In addition to
