@@ -9,12 +9,12 @@
 :author: Athan Reines
 :email: kgryte@gmail.com
 :equal-contributor:
-:insitution: Quansight:
+:institution: Quansight
 
 :author: Ralf Gommers
 :email: ralf.gommers@gmail.com
 :equal-contributor:
-:insitution: Quansight
+:institution: Quansight
 
 :author: Yao-Lung L. Fang
 :email: leof@nvidia.com
@@ -75,7 +75,7 @@ Python Array API Standard: Toward Array Interoperability in the Scientific Pytho
 .. class:: abstract
 
    The Python array API standard specifies standardized application programming
-   interfaces (APIs) and behavior for array and tensor objects and operations
+   interfaces (APIs) and behaviors for array and tensor objects and operations
    as commonly found in libraries such as NumPy :cite:`Harris2020a`, PyTorch
    :cite:`Paszke2019a`, TensorFlow :cite:`Abadi2016a`, Dask :cite:`Rocklin2015a`,
    and CuPy :cite:`Okuta2017a`. The establishment and subsequent adoption of the
@@ -100,7 +100,7 @@ Python Array API Standard: Toward Array Interoperability in the Scientific Pytho
 Introduction
 ============
 
-Today, Python users have a wealth of choice for libraries and frameworks for
+Today, Python users have a wealth of choices for libraries and frameworks for
 numerical computing :cite:`Millman2011a`:cite:`Harris2020a`:cite:`Virtanen2020a`:cite:`Okuta2017a`:cite:`Rocklin2015a`:cite:`Vanderwalt2014a`:cite:`Hoyer2017a`:cite:`Abbasi2018a`,
 data science :cite:`Hunter2007a`:cite:`Perez2011a`:cite:`Seabold2010a`:cite:`Kluyver2016a`,
 machine learning :cite:`Pedregosa2011a`, and deep learning :cite:`Chen2015a`:cite:`Paszke2019a`:cite:`Abadi2016a`:cite:`Frostig2018a`.
@@ -114,7 +114,7 @@ This fragmentation comes with significant costs, from reinvention and
 re-implementation of arrays and associated application programming interfaces
 (APIs) to siloed technical stacks targeting only one array library to the
 proliferation of user guides providing guidance on how to convert between, and
-interoperate among, libraries. Too often, the APIs of each library are largely
+interoperate among, libraries. The APIs of each library are largely
 similar, but each have enough differences that end users have to relearn and
 rewrite code in order to work with multiple libraries. This process can be
 very painful as the transition is far from seamless and creates barriers for
@@ -148,12 +148,13 @@ Consortium Overview
 History
 -------
 
-While the Python programming language was not designed for numerical computing,
-the language gained initial popularity in the scientific and engineering
-community soon after its release. The first array computing library for
-numerical and scientific computing in Python was Numeric, developed in the mid-1990s :cite:`Dubois1996a`:cite:`Harris2020a`.
-To better accommodate this library and its use cases, Python’s syntax was
-extended to include indexing syntax :cite:`Hugunin1995a`.
+While initially the Python programming language was not explicitly designed
+for numerical computing, the language gained popularity in scientific and
+engineering communities soon after its release. The first array computing
+library for numerical and scientific computing in Python was Numeric,
+developed in the mid-1990s :cite:`Dubois1996a`:cite:`Harris2020a`. To better
+accommodate this library and its use cases, Python’s syntax was extended to
+include indexing syntax :cite:`Hugunin1995a`.
 
 In the early 2000s, a similar library, Numarray, introduced a more flexible
 data structure :cite:`Greenfield2003a`. Numarray had faster operations for
@@ -171,12 +172,12 @@ labeled tabular data :cite:`McKinney2011a`.
 Over the past 10 years, the rise of deep learning and the emergence of new
 hardware has led to a proliferation of new libraries and a corresponding
 fragmentation within the PyData array and dataframe ecosystem. These libraries
-often borrowed concepts from, or entirely copied, the APIs of older libraries,
+often borrowed concepts from, or entirely copied, the APIs of older libraries
 such as NumPy, and then modified and evolved those APIs to address new needs
-and use cases. While the communities of each library individually discussed
-interchange and interoperability, no process for coordination among libraries
-arose to avoid further fragmentation and to arrive at a common set of API
-standards, until the founding of the Consortium.
+and use cases. Although the communities of each library individually discussed
+interchange and interoperability, there was no general coordination among
+libraries to avoid further fragmentation and to arrive at a common set of API
+standards until the founding of the Consortium.
 
 The genesis for the Consortium grew out of many conversations among maintainers
 during 2019-2020. During those conversations, it quickly became clear that any
@@ -186,10 +187,15 @@ stakeholders now exist. Furthermore, the speed of innovation of both hardware
 and software is simply too great.
 
 In May 2020, an initial group of maintainers and industry stakeholders
-assembled to form the Consortium for Python Data API Standards to begin
-drafting specifications for array and dataframe APIs, which could then be
-adopted by existing array and dataframe libraries and by any new libraries
-which arise.
+assembled to form the Consortium for Python Data API Standards and began
+drafting the draft of specifications for array and dataframe APIs, which could
+then be adopted by existing array and dataframe libraries and by any new
+libraries which arise. The direct stakeholders of the standard are maintainers
+of Python array libraries. Indirect stakeholders include maintainers of
+libraries which depend on array libraries (hereafter referred to as
+"array-consuming libraries"), authors of non-Python array libraries,
+developers of compilers and runtimes with array-specific functionality, and
+end users.
 
 Objectives
 ----------
@@ -204,12 +210,12 @@ art, and have clearly defined objectives against which continued success is
 measured.
 
 To this end, we established four objectives for the array API standard. 1)
-Increase interoperability such that array-consuming libraries can accept and
-operate on any specification-conforming array library. 2) Reduce reinvention
-and facilitate code sharing by establishing a common set of standardized APIs
-and behavior. 3) Reduce barriers to array library creation by providing a set
-of APIs which can be adopted as is. 4) Reduce the learning curve and friction
-for users as they switch between array libraries.
+Make it possible for array-consuming libraries to accept and operate on arrays
+from multiple different array libraries. 2) Establish a common set of
+standardized APIs and behaviors, enabling more sharing and code reuse. 3) For
+new array libraries, offer a concrete API that can be adopted as is. 4)
+Minimize the learning curve and friction for users as they switch between
+array libraries.
 
 We explicitly omitted three notable possible objectives. 1) Making array
 libraries identical for the purpose of merging them. Different array libraries
@@ -219,8 +225,8 @@ array library is neither practical nor realistic. 2) Implementing a backend or
 runtime switching system in order to switch from one array library to another
 via a single setting or line of code. While potentially feasible, array
 consumers are likely to need to modify code in order to ensure optimal
-performance and behavior. 3) Support mixing multiple array libraries in
-function calls. Mixing array libraries requires defining hierarchies and
+performance and behavior. 3) Support mixing multiple array libraries in a
+single function call. Mixing array libraries requires defining hierarchies and
 specifying rules for device synchronization and data localization. Such rules
 are likely to be specific to individual use cases.
 
@@ -230,7 +236,8 @@ Design Principles
 In order to define the contours of the standardization process, we established
 the following design principles:
 
-**Pure functions.** Functional API design is the dominant pattern among array
+**Pure functions.** The standardized API should consist primarily of
+functions. Functional API design is the dominant pattern among array
 libraries, both in Python and in other frequently used programming languages
 supporting array computation, such as MATLAB :cite:`Moler2020a` and Julia
 :cite:`Bezanson2017a`. While method chaining and the fluent interface design
@@ -248,14 +255,14 @@ have any attributes [#]_ or methods beyond what is necessary for inspection
 .. [#] Notably, array strides should be considered an implementation detail and should not be required as a public Python attribute.
 
 **No dependencies.** The standard and its implementations should not require
-any dependency outside of Python itself.
+any dependencies outside of Python itself.
 
-**Accelerator support.** Standardized APIs and behavior should be possible to
+**Accelerator support.** Standardized APIs and behaviors should be possible to
 implement for both central processing units (CPUs) and hardware-accelerated
-devices, such as graphics processing units (GPUs), tensor processing units (TPUs),
-and field-programmable gate arrays (FPGAs).
+devices, such as graphics processing units (GPUs), tensor processing units
+(TPUs), and field-programmable gate arrays (FPGAs).
 
-**Compiler support.** Standardized APIs and behavior should be amenable to
+**Compiler support.** Standardized APIs and behaviors should be amenable to
 just-in-time (JIT) and ahead-of-time (AOT) compilation and graph-based
 optimization techniques, such as those used by PyTorch :cite:`Paszke2019a`, JAX
 :cite:`Bradbury2018a`, and TensorFlow :cite:`Abadi2016a`. APIs and behaviors
@@ -272,10 +279,10 @@ implementation in array libraries supporting distributed computing (e.g., Dask :
 naming conventions and design patterns should be consistent across
 standardized APIs.
 
-**Extensibility.** Conforming array libraries may implement functionality which
-is not included in the array API standard. As a consequence, array consumers
-should bear responsibility for ensuring that a given API is standardized and its
-usage is portable across specification-conforming array libraries.
+**Extensibility.** Conforming array libraries may implement functionality
+which is not included in the array API standard. As a consequence, array
+consumers bear the responsibility for ensuring that their API usage is portable
+across specification-conforming array libraries.
 
 **Deference.** Where possible, the array API standard should defer to existing,
 widely-used standards. For example, the accuracy and precision of numerical
@@ -307,13 +314,12 @@ decisions in empirical data and analysis.
 Design
 ------
 
-To understand API design of array libraries within the ecosystem, we first identified
-a representative sample of commonly used Python array libraries. The sample
-included the following libraries: NumPy, Dask Array, CuPy, MXNet, JAX,
-TensorFlow, and PyTorch. Next, we extracted public APIs for each library by
-analyzing module exports and scraping public web documentation. As an example
-of extracted API data, consider the following APIs for computing the arithmetic
-mean:
+To understand API design of array libraries within the ecosystem, we first
+identified a representative sample of commonly used Python array libraries.
+This sample included NumPy, Dask Array, CuPy, MXNet, JAX, TensorFlow, and
+PyTorch. Next, we extracted public APIs for each library by analyzing module
+exports and scraping public web documentation. As an example of extracted API
+data, consider the following APIs for computing the arithmetic mean:
 
 .. TODO (athan): line wrapping makes this block harder to grok, especially when inferring common kwargs; consider an alternative presentation
 
@@ -357,56 +363,58 @@ Usage
 
 To understand usage patterns of array libraries within the ecosystem, we first
 identified a representative sample of commonly used Python libraries
-("downstream libraries") which consume the sample of array libraries identified
-during design analysis. The sample of downstream libraries included SciPy
-:cite:`Virtanen2020a`, pandas :cite:`McKinney2011a`, Matplotlib
-:cite:`Hunter2007a`, xarray :cite:`Hoyer2017a`, scikit-learn
-:cite:`Pedregosa2011a`, and scikit-image :cite:`Vanderwalt2014a`, among others.
+("downstream libraries") which consume the aforementioned array libraries. The
+sample of downstream libraries included SciPy :cite:`Virtanen2020a`, pandas
+:cite:`McKinney2011a`, Matplotlib :cite:`Hunter2007a`, xarray
+:cite:`Hoyer2017a`, scikit-learn :cite:`Pedregosa2011a`, statsmodels
+:cite:`Seabold2010a`, and scikit-image :cite:`Vanderwalt2014a`, among others.
 Next, we ran downstream library test suites with runtime instrumentation
 enabled. We recorded input arguments and return values for each API invocation
-by inspecting the bytecode stack at call time :cite:`Consortium2020a`. From the
-recorded data, we generated empirical APIs based on provided arguments and
-associated data types, noting which downstream library called which empirical
-API and at what frequency. We then derived a single inferred API which unifies
-the individual empirical API calling semantics. We organized the API results in
-human-readable form as type definition files and compared the inferred API to
-the publicly documented APIs obtained during design analysis.
+by inspecting the bytecode stack at call time :cite:`Consortium2020a`. From
+the recorded data, we generated inferred signatures for each function based on
+each combination of arguments and input types, noting which downstream library
+called which empirical API and at what frequency. We organized the API results
+in human-readable form as type definition files and compared the inferred API
+to the publicly documented APIs obtained during design analysis.
 
-The following is an example inferred API for `numpy.arange`, with the docstring
-indicating the number of lines of code which invoked the function for each
-downstream library when running downstream library test suites.
+The following are (simplified) examples of two inferred API signatures for
+`numpy.mean`, with the docstring indicating the number of lines of code which
+invoked the function for each downstream library when running downstream
+library test suites.
 
 .. code:: python
 
-   def arange(
-     _0: object,
-     /,
-     *_args: object,
-     dtype: Union[type, str, numpy.dtype, None] = ...,
-     step: Union[int, float] = ...,
-     stop: int = ...,
-   ):
-     """
-     usage.dask: 347
-     usage.matplotlib: 359
-     usage.pandas: 894
-     usage.sample-usage: 4
-     usage.scipy: 1173
-     usage.skimage: 174
-     usage.sklearn: 373
-     usage.xarray: 666
-     ...
-     """
-     ...
+   @overload
+   def mean(a: numpy.ndarray):
+       """
+       usage.dask: 21
+       usage.matplotlib: 7
+       usage.scipy: 26
+       usage.skimage: 36
+       usage.sklearn: 130
+       usage.statsmodels: 45
+       usage.xarray: 1
+       """
 
-As a final step, we ranked each API in the common API subset obtained during
-design analysis according to relative usage using the Dowdall positional voting
-system :cite:`Fraenkel2014a` (a variant of the Borda count :cite:`Emerson2013a`
-that favors candidate APIs having high relative usage). From the rankings, we
-assigned standardization priorities, with higher ranking APIs taking precedence
-over lower ranking APIs, and extended the analysis to aggregated API categories
-(e.g., array creation, manipulation, statistics, etc.). All source code, usage
-data, and analysis are publicly available on GitHub :cite:`Consortium2020a`:cite:`Consortium2022c`.
+   @overload
+   def mean(a: List[float]):
+       """
+       usage.networkx: 6
+       usage.sklearn: 3
+       usage.statsmodels: 9
+       """
+
+This particular example suggests that support for array inputs is more
+important in downstream usage than support for list-of-floats inputs.
+
+As a final step, we ranked each API according to relative usage using the
+Dowdall positional voting system :cite:`Fraenkel2014a` (a variant of the Borda
+count :cite:`Emerson2013a` that favors candidate APIs having high relative
+usage). From the rankings, we assigned standardization priorities, with higher
+ranking APIs taking precedence over lower ranking APIs, and extended the
+analysis to aggregated API categories (e.g., array creation, manipulation,
+statistics, etc.). All source code, usage data, and analysis are publicly
+available on GitHub :cite:`Consortium2020a`:cite:`Consortium2022c`.
 
 .. TODO (athan): consider a figure showing the top 10 common API ranks (see Jupyter notebook for array API comparison).
 
@@ -471,23 +479,24 @@ corresponds to a one-dimensional array containing 10 elements. The shape
 five elements and whose outer dimension contains three elements. The shape `()`
 corresponds to a zero-dimensional array containing a single element.
 
-An array device specifies the location of array memory allocation. A conforming
-array object is assigned to a single logical device. To support array libraries
-supporting execution on different device types (e.g., CPUs, GPUs, TPUs, etc.),
-conforming libraries must provide standardized device APIs in order to
-coordinate execution location. The following example uses standardized
-device APIs to ensure execution occurs on the same device as the input.
+An array device specifies the location of array memory allocation. A
+conforming array object is assigned to a single logical device. To support
+array libraries supporting execution on different device types (e.g., CPUs,
+GPUs, TPUs, etc.), conforming libraries must provide standardized device APIs
+in order to coordinate execution location. The following example demonstrates
+how an array-consuming library might use standardized device APIs to ensure
+execution occurs on the same device as the input.
 
 .. code:: python
 
    def some_function(x):
-       # Retrieve a specification-compliant namespace
+       # Retrieve a standard-compliant namespace
        xp = x.__array_namespace__()
 
-       # Allocate a new array on the same device
+       # Allocate a new array on the same device as x
        y = xp.linspace(0, 2*xp.pi, 100, device=x.device)
 
-       # Perform computation
+       # Perform computation (on device)
        return xp.sin(y) * x
 
 To interact with array objects, one uses "indexing" to access sub-arrays and
@@ -522,12 +531,10 @@ the promoted data type `float64`.
    >>> y.dtype == xp.float64
    True
 
-In addition to type promotion, the array API standard specifies rules governing
-the automatic (and implicit) expansion of array dimensions to be of equal sizes
-(`Fig. 1d`_). Broadcasting confers two important advantages. First, broadcasting
-facilities user ergonomics by encouraging users to avoid unnecessary copying of
-array data. Second, implicit expansion enables more efficient computation
-through vectorization, reduced memory consumption, and cache locality.
+In addition to type promotion, the array API standard specifies rules
+governing the automatic (and implicit) expansion of array dimensions to be of
+equal sizes (`Fig. 1d`_) via broadcasting semantics popularized by NumPy
+:cite:`Harris2020a`.
 
 Interchange Protocol
 --------------------
@@ -983,7 +990,7 @@ In developing an initial specification draft, we analyzed common array
 libraries in the ecosystem and determined a set of common APIs suitable for
 standardization. In consultation with array and array-consuming library
 maintainers, we published two specification revisions codifying APIs and
-behavior for array objects and their interaction, array interchange, and
+behaviors for array objects and their interaction, array interchange, and
 array-aware functions for array creation and manipulation, statistical
 reduction, and linear algebra. In addition, we released tooling to facilitate
 adoption of the array API standard within the ecosystem: 1) a test suite for
