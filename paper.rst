@@ -759,7 +759,7 @@ Discussion
    labels using LDA. **c)** Estimating power spectral density using Welch's
    method and library-specific optimizations. **d)** Same as **c**, but using
    a strictly portable implementation. Note that **d** has a different
-   vertical axis scale than **a-c**.
+   vertical axis limits than **a-c**.
 
 The principle aim of the Python array API standard is to facilitate
 interoperability of array libraries within the ecosystem. In achieving this aim,
