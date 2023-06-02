@@ -609,10 +609,11 @@ broadcasting semantics, an optional linear algebra extension, and array-aware
 functions for array creation, manipulation, statistical reduction, and
 vectorization, among others.
 
-**v2022.12**: This revision included errata for the v2021.12 release and added
+**v2022.12**: This revision includes errata for the v2021.12 release and adds
 support for single- and double-precision complex floating-type data types,
 additional array-aware APIs, an optional extension for computing fast Fourier
-transforms.
+transforms. This latest version of the standard contains specifications for
+nearly 200 array functions and methods.
 
 For future revisions, we expect annual release cadences; however, array API
 standard consumers should not assume a fixed release schedule.
@@ -630,8 +631,8 @@ reference implementation. The implementation is strictly compliant (i.e., any
 non-portable usage triggers an exception) and is available as the
 `numpy.array_api` submodule (discussed in :cite:`Gommers2021a`). In general,
 we do not expect for users to rely on the reference implementation for
-production use cases due to performance considerations. Instead, the reference
-implementation is primarily useful as a means for testing whether array
+production use cases. Instead, the reference implementation is primarily
+useful for array-consuming libraries as a means for testing whether array
 library usage is guaranteed to be portable.
 
 Ecosystem Adoption
@@ -648,17 +649,18 @@ standardization process to identify key use cases and achieve consensus on
 standardized APIs and behaviors.
 
 Direct participation in the Consortium by array and array-consuming library
-maintainers has facilitated coordination across the ecosystem. In addition to the
-`numpy.array_api`_ reference implementation :cite:`Meurer2021a`, several
+maintainers has facilitated coordination across the ecosystem. In addition to
+the `numpy.array_api`_ reference implementation :cite:`Meurer2021a`, several
 commonly used array libraries, including NumPy :cite:`berg2023a`, CuPy
 :cite:`Fang2021a`, Dask :cite:`White2022a`, MXNet :cite:`Yyc2021a`, PyTorch
 :cite:`Meier2021a`, and JAX :cite:`Vanderplas2023a`, have either adopted or
 are in the process of adopting the array API standard. Increased array library
 adoption has increased array interoperability, which, in turn, has encouraged
-array-consuming libraries, such as SciPy :cite:`Yashchuk2022a` and
-scikit-learn :cite:`Fan2022a`, to adopt the standard by decoupling their
-implementations from specific array libraries. As array library adoption of
-the standard matures, we expect ecosystem adoption to accelerate.
+array-consuming libraries to begin adopting the standard by decoupling their
+implementations from specific array libraries. The adoption by SciPy
+:cite:`Yashchuk2022a` and scikit-learn :cite:`Fan2022a` is outlined further in
+the `Discussion`_ section below. As array library adoption of the standard
+matures, we expect ecosystem adoption to accelerate.
 
 Tooling
 =======
@@ -734,14 +736,14 @@ Discussion
    :figclass: wt
    :scale: 46%
 
-   Benchmarks measuring performance implications of adoption in array-consuming
-   libraries. Displayed timings are relative to NumPy. All benchmarks were run
-   on Intel i9-9900K and NVIDIA RTX 2080 hardware. **a)** Fitting a linear
-   discriminant analysis (LDA) model. **b)** Predicting class labels using LDA.
-   **c)** Estimating power spectral density using Welch's method and
-   library-specific optimizations. **d)** Same as **c**, but using a strictly
-   portable implementation. Note the change in limits along the vertical axis
-   compared to **a-c**.
+   Benchmarks measuring performance implications of adoption in
+   array-consuming libraries. Displayed timings are relative to NumPy. All
+   benchmarks were run on Intel i9-9900K and NVIDIA RTX 2080 hardware. **a)**
+   Fitting a linear discriminant analysis (LDA) model. **b)** Predicting class
+   labels using LDA. **c)** Estimating power spectral density using Welch's
+   method and library-specific optimizations. **d)** Same as **c**, but using
+   a strictly portable implementation. Note that **d** has a different
+   vertical axis scale than **a-c**.
 
 The principle aim of the Python array API standard is to facilitate
 interoperability of array libraries within the ecosystem. In achieving this aim,
@@ -764,7 +766,7 @@ specification adoption (`Fig. 2`_).
 scikit-learn
 ------------
 
-scikit-learn is a machine learning library for use in Python. Its current
+scikit-learn is a popular Python machine learning library. Its current
 implementation relies heavily on NumPy and SciPy and is a mixture of Python and
 Cython. Due to its dependence on NumPy for array computation, scikit-learn is
 CPU-bound, and the library is unable to capture the benefits of GPU- and
@@ -855,7 +857,7 @@ array before calling `xp.sum()`.
 
 To test the performance implications of refactoring scikit-learn's LDA
 implementation, we first generated a random two-class classification problem
-having 4e5 samples and 300 features. [#]_ We next devised two benchmarks, one
+having 400,000 samples and 300 features. [#]_ We next devised two benchmarks, one
 for fitting an LDA model and the second for predicting class labels for each
 simulated sample. We then ran the benchmarks and measured execution time for
 NumPy, PyTorch, and CuPy backends on Intel i9-9900K and NVIDIA RTX 2080
@@ -874,6 +876,9 @@ using GPU execution models corresponded to significantly increased performance,
 thus supporting our hypothesis that scikit-learn can benefit from non-CPU-based
 execution models, as afforded by array API standard adoption.
 
+These improvements to the LDA implementation are already merged and are
+planned for inclusion in the upcoming scikit-learn 1.3 release.
+
 SciPy
 -----
 
@@ -888,10 +893,10 @@ SciPy's signal processing APIs as being amenable to input arrays supporting
 alternative execution models and selected an API for estimating the power
 spectral density using Welch's method :cite:`Welch1967a` as a representative
 test case. We then generated a representative synthetic test signal (a 2 Vrms
-sine wave at 1234 Hz, corrupted by 0.001 V :sup:`2`/Hz of white noise sampled at
-10 kHz) having 5e7 data points. We next devised two benchmarks, one using
-library-specific optimizations and a second strictly using APIs in the array
-API standard. We ran the benchmarks for the same backends, on the same
+sine wave at 1234 Hz, corrupted by 0.001 :math:`\text{V}^2/\text{Hz}` of white noise sampled
+at 10 kHz) having 50,000,000 data points. We next devised two benchmarks, one
+using library-specific optimizations and a second strictly using APIs in the
+array API standard. We ran the benchmarks for the same backends, on the same
 hardware, and using the same analysis approach as the scikit-learn benchmarks
 discussed above.
 
@@ -914,6 +919,9 @@ standard may need to maintain similar library-specific performance
 optimizations to achieve maximal performance. We expect, however, that the
 maintenance burden should only apply for those scenarios in which the
 performance benefits significantly outweigh the maintenance costs.
+
+While these improvements to SciPy are still experimental, the SciPy community
+plans to include them in future SciPy releases.
 
 Future Work
 ===========
@@ -941,20 +949,20 @@ suite results from array libraries as part of their continuous integration
 pipelines. We expect these tools to be particularly valuable to array-consuming
 libraries in order to quickly assess API portability.
 
-**Coordination**: Providing a forum for coordination among array libraries (and
-their consumers) was the primary motivating factor behind Consortium formation
-and is the most important byproduct of Consortium efforts. By facilitating
-knowledge exchange among array library communities, the Consortium serves as a
-critical bulwark against further fragmentation and siloed technical stacks.
-Preventing such fragmentation is to the ultimate benefit of array library
-consumers and their communities. Additionally, coordination allows for
-orienting around a shared long-term outlook regarding future needs and possible
-solutions. We are particularly keen to explore the following areas and open
-questions: device standardization, extended data type support (including
-strings and datetimes), input-output (IO) APIs, support for mixing array
-libraries, parallelization, and optional extensions for deep learning,
-statistical computing, and more generally functionality which is out-of-scope,
-but needed in specific contexts.
+**Coordination**: Providing a forum for coordination among array libraries
+(and their consumers) was the primary motivating factor behind Consortium
+formation and is the most important byproduct of Consortium efforts. By
+facilitating knowledge exchange among array library communities, the
+Consortium serves as a critical bulwark against further fragmentation and
+siloed technical stacks. Preventing such fragmentation is to the ultimate
+benefit of array library consumers and their communities. Additionally,
+coordination allows for orienting around a shared long-term outlook regarding
+future needs and possible solutions. We are particularly keen to explore the
+following areas and open questions: device standardization, extended data type
+support (including strings and datetimes), input-output (IO) APIs, support for
+mixing array libraries, parallelization, and optional extensions for deep
+learning, statistical computing, and, more generally, functionality which is
+out-of-scope, but needed in specific contexts.
 
 We should also note that array API standardization is not the only
 standardization effort spearheaded by the Consortium. We are also working to
