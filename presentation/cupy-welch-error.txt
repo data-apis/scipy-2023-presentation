@@ -1,0 +1,15 @@
+>>> import scipy.signal
+>>> import cupy
+>>> x = cupy.zeros((50_000_000,))
+>>> x[10] = 1.
+>>> scipy.signal.welch(x)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "/home/aaronmeurer/anaconda3/envs/array-apis/lib/python3.10/site-packages/scipy/signal/_spectral_py.py", line 446, in welch
+    freqs, Pxx = csd(x, x, fs=fs, window=window, nperseg=nperseg,
+  File "/home/aaronmeurer/anaconda3/envs/array-apis/lib/python3.10/site-packages/scipy/signal/_spectral_py.py", line 580, in csd
+    freqs, _, Pxy = _spectral_helper(x, y, fs, window, nperseg, noverlap, nfft,
+  File "/home/aaronmeurer/anaconda3/envs/array-apis/lib/python3.10/site-packages/scipy/signal/_spectral_py.py", line 1729, in _spectral_helper
+    x = np.asarray(x)
+  File "cupy/_core/core.pyx", line 1480, in cupy._core.core._ndarray_base.__array__
+TypeError: Implicit conversion to a NumPy array is not allowed. Please use `.get()` to construct a NumPy array explicitly.
