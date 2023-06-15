@@ -21,6 +21,11 @@
 :equal-contributor:
 :institution: NVIDIA Corporation
 
+:author: John Kirkham
+:email: jkirkham@nvidia.com
+:equal-contributor:
+:institution: NVIDIA Corporation
+
 :author: Matthew Barber
 :email: quitesimplymatt@gmail.com
 :equal-contributor:
@@ -29,11 +34,6 @@
 :author: Stephan Hoyer
 :email: shoyer@google.com
 :institution: Google
-
-:author: John Kirkham
-:email: jkirkham@nvidia.com
-:equal-contributor:
-:institution: NVIDIA Corporation
 
 :author: Andreas Müller
 :email: amueller@microsoft.com
