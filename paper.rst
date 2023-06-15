@@ -30,6 +30,11 @@
 :email: shoyer@google.com
 :institution: Google
 
+:author: John Kirkham
+:email: jkirkham@nvidia.com
+:equal-contributor:
+:institution: NVIDIA Corporation
+
 :author: Andreas Müller
 :email: amueller@microsoft.com
 :institution: Microsoft
@@ -67,11 +72,6 @@
 :author: Travis Oliphant
 :email: travis@quansight.com
 :institution: Quansight
-
-:author: John Kirkham
-:email: jkirkham@nvidia.com
-:equal-contributor:
-:institution: NVIDIA Corporation
 
 :author: Consortium for Python Data API Standards
 :email:
