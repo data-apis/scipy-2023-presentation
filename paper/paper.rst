@@ -305,8 +305,8 @@ exception, only APIs and behaviors having existing implementations and broad
 support within the ecosystem may be considered candidates for standardization.
 
 
-Methods
-=======
+Methodology
+===========
 
 A foundational step in technical standardization is articulating a subset of
 established practices and defining those practices in unambiguous terms. To
