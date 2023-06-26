@@ -40,8 +40,8 @@ jobs:
       with:
         run: |
           python -m ensurepip
-          python -m pip install --upgrade pip
-          python -m pip install -r ${GITHUB_WORKSPACE}/scipy_proceedings/requirements.txt
+          sudo -H python -m pip install --upgrade pip
+          sudo -H python -m pip install -r ${GITHUB_WORKSPACE}/scipy_proceedings/requirements.txt
           cd ${GITHUB_WORKSPACE}/scipy_proceedings
           cp -R ${GITHUB_WORKSPACE}/scipy-2023-presentation/paper/ papers/01_arrayapi
           ./make_paper.sh papers/01_arrayapi/
