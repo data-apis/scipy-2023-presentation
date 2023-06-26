@@ -125,16 +125,16 @@ def main():
 
     if plot_type == "both":
         fig = plot("both")
-        fig.savefig("../assets/timings.pdf")
-        fig.savefig("../assets/timings.svg", format="svg")
+        fig.savefig("../paper/assets/timings.pdf")
+        fig.savefig("../paper/assets/timings.svg", format="svg")
     if plot_type == "scikit-learn":
         fig = plot("scikit-learn")
-        fig.savefig("../assets/scikit-learn_timings.pdf")
-        fig.savefig("../assets/scikit-learn_timings.svg", format="svg")
+        fig.savefig("../paper/assets/scikit-learn_timings.pdf")
+        fig.savefig("../paper/assets/scikit-learn_timings.svg", format="svg")
     if plot_type == "scipy":
         fig = plot("scipy")
-        fig.savefig("../assets/scipy_timings.pdf")
-        fig.savefig("../assets/scipy_timings.svg", format="svg")
+        fig.savefig("../paper/assets/scipy_timings.pdf")
+        fig.savefig("../paper/assets/scipy_timings.svg", format="svg")
 
 if __name__ == "__main__":
     main()
