@@ -86,18 +86,20 @@ Python Array API Standard: Toward Array Interoperability in the Scientific Pytho
 
 .. class:: abstract
 
-   The Python array API standard specifies standardized application programming
-   interfaces (APIs) and behaviors for array and tensor objects and operations
-   as commonly found in libraries such as NumPy :cite:`Harris2020a`, PyTorch
-   :cite:`Paszke2019a`, TensorFlow :cite:`Abadi2016a`, Dask :cite:`Rocklin2015a`,
-   and CuPy :cite:`Okuta2017a`. The establishment and subsequent adoption of the
-   standard aims to reduce ecosystem fragmentation and facilitate array library
-   interoperability in user code and among array-consuming libraries, such as
-   scikit-learn :cite:`Pedregosa2011a` and SciPy :cite:`Virtanen2020a`. A key
-   benefit of array interoperability for downstream consumers of the standard is
-   device agnosticism, whereby previously CPU-bound implementations can more
-   readily leverage hardware acceleration via graphics processing units (GPUs),
-   tensor processing units (TPUs), and other accelerator devices.
+   The Python array API standard specifies standardized application
+   programming interfaces (APIs) and behaviors for array and tensor objects
+   and operations as commonly found in libraries such as NumPy
+   :cite:`berg2023a`, CuPy :cite:`Fang2021a`, PyTorch :cite:`Meier2021a`, JAX
+   :cite:`Vanderplas2023a`,TensorFlow :cite:`Abadi2016a`, Dask
+   :cite:`White2022a`, and MXNet :cite:`Yyc2021a`. The establishment and
+   subsequent adoption of the standard aims to reduce ecosystem fragmentation
+   and facilitate array library interoperability in user code and among
+   array-consuming libraries, such as scikit-learn :cite:`Pedregosa2011a` and
+   SciPy :cite:`Virtanen2020a`. A key benefit of array interoperability for
+   downstream consumers of the standard is device agnosticism, whereby
+   previously CPU-bound implementations can more readily leverage hardware
+   acceleration via graphics processing units (GPUs), tensor processing units
+   (TPUs), and other accelerator devices.
 
    In this paper, we first introduce the Consortium for Python Data API
    Standards and define the scope of the array API standard. We then discuss
@@ -107,7 +109,7 @@ Python Array API Standard: Toward Array Interoperability in the Scientific Pytho
 
 .. class:: keywords
 
-   Python, Arrays, Tensors, NumPy, CuPy, PyTorch, JAX, Dask
+   Python, Arrays, Tensors, NumPy, CuPy, PyTorch, JAX, Tensorflow, Dask, MXNet
 
 Introduction
 ============
@@ -325,8 +327,8 @@ Design
 
 To understand API design of array libraries within the ecosystem, we first
 identified a representative sample of commonly used Python array libraries.
-This sample included NumPy, Dask Array, CuPy, MXNet, JAX, TensorFlow, and
-PyTorch. Next, we extracted public APIs for each library by analyzing module
+This sample included NumPy, CuPy, PyTorch, JAX, TensorFlow, Dask Array, and
+MXNet. Next, we extracted public APIs for each library by analyzing module
 exports and scraping public web documentation. As an example of extracted API
 data, consider the following APIs for computing the arithmetic mean:
 
@@ -338,14 +340,14 @@ data, consider the following APIs for computing the arithmetic mean:
        keepdims=<no value>)
    cupy.mean(a, axis=None, dtype=None, out=None,
        keepdims=False)
-   dask.array.mean(a, axis=None, dtype=None, out=None,
-       keepdims=False, split_every=None)
    jax.numpy.mean(a, axis=None, dtype=None, out=None,
-       keepdims=False)
-   mxnet.np.mean(a, axis=None, dtype=None, out=None,
        keepdims=False)
    tf.math.reduce_mean(input_tensor, axis=None,
        keepdims=False, name=None)
+   dask.array.mean(a, axis=None, dtype=None, out=None,
+       keepdims=False, split_every=None)
+   mxnet.np.mean(a, axis=None, dtype=None, out=None,
+       keepdims=False)
    torch.mean(input, dim, keepdim=False, out=None)
 
 We determined commonalities and differences by analyzing the intersection, and
@@ -682,15 +684,16 @@ Direct participation in the Consortium by array and array-consuming library
 maintainers has facilitated coordination across the ecosystem. In addition to
 the `numpy.array_api`_ reference implementation :cite:`Meurer2021a`, several
 commonly used array libraries, including NumPy :cite:`berg2023a`, CuPy
-:cite:`Fang2021a`, Dask :cite:`White2022a`, MXNet :cite:`Yyc2021a`, PyTorch
-:cite:`Meier2021a`, and JAX :cite:`Vanderplas2023a`, have either adopted or
-are in the process of adopting the array API standard. Increased array library
+:cite:`Fang2021a`, PyTorch :cite:`Meier2021a`, JAX
+:cite:`Vanderplas2023a`,TensorFlow :cite:`Abadi2016a`, Dask
+:cite:`White2022a`, and MXNet :cite:`Yyc2021a` have either adopted or are in
+the process of adopting the array API standard. Increased array library
 adoption has increased array interoperability, which, in turn, has encouraged
 array-consuming libraries, such as SciPy :cite:`Yashchuk2022a` and
-scikit-learn :cite:`Fan2022a` (discussed below), to begin adopting the standard
-by decoupling their implementations from specific array libraries. As array
-library adoption of the standard matures, we expect ecosystem adoption to
-accelerate.
+scikit-learn :cite:`Fan2022a` (discussed below), to begin adopting the
+standard by decoupling their implementations from specific array libraries. As
+array library adoption of the standard matures, we expect ecosystem adoption
+to accelerate.
 
 Tooling
 =======
