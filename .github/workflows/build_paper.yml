@@ -39,7 +39,6 @@ jobs:
       uses: xu-cheng/texlive-action/full@v1
       with:
         run: |
-          ls ${GITHUB_WORKSPACE}
           python -m ensurepip
           python -m pip install --upgrade pip
           python -m pip install -r ${GITHUB_WORKSPACE}/scipy_proceedings/requirements.txt
