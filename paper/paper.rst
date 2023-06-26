@@ -247,16 +247,16 @@ Design Principles
 In order to define the contours of the standardization process, we established
 the following design principles:
 
-**Pure functions.** The standardized API should consist primarily of
-functions. Functional API design is the dominant pattern among array
-libraries, both in Python and in other frequently used programming languages
-supporting array computation, such as MATLAB :cite:`Moler2020a` and Julia
-:cite:`Bezanson2017a`. While method chaining and the fluent interface design
-pattern are also relatively common, especially among array libraries supporting
-deferred execution and operator fusion, functional APIs are generally preferred.
-This mirrors design patterns used in underlying implementations, such as those
-written in C/C++ and Fortran, and more closely matches written mathematical
-notation.
+**Functions.** The standardized API should consist primarily of functions on
+the namespace (as opposed to methods on the array object). Function-based API
+design is the dominant pattern among array libraries, both in Python and in
+other frequently used programming languages supporting array computation, such
+as MATLAB :cite:`Moler2020a` and Julia :cite:`Bezanson2017a`. While method
+chaining and the fluent interface design pattern are also relatively common,
+especially among array libraries supporting deferred execution and operator
+fusion, function-based APIs are generally preferred. This mirrors design
+patterns used in underlying implementations, such as those written in C/C++
+and Fortran, and more closely matches written mathematical notation.
 
 **Minimal array object.** The standard should not require that an array object
 have any attributes or methods beyond what is necessary for inspection
@@ -869,9 +869,9 @@ APIs whose naming conventions differ from those in the array API standard. In
 this and similar cases, adoption requires conforming to the standardized
 conventions.
 
-**Functional APIs:** *(lines 14-15)* NumPy supports several array object methods
+**Functions:** *(lines 14-15)* NumPy supports several array object methods
 having no equivalent in the array API standard. To ensure portability, we
-refactored use of non-standardized methods in terms of standardized functional
+refactored use of non-standardized methods in terms of standardized function-based
 APIs.
 
 **Scalars:** *(lines 18-22)* NumPy often supports non-array input arguments, such
