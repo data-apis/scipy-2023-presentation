@@ -194,7 +194,7 @@ to avoid further fragmentation and to arrive at a common set of API standards
 until the founding of the Consortium.
 
 The genesis for the Consortium grew out of many conversations among maintainers
-during 2019-2020. During those conversations, it quickly became clear that any
+during 2019‒2020. During those conversations, it quickly became clear that any
 attempt to create a new reference library to address fragmentation was
 infeasible. Unlike in 2005, too many different use cases and varying
 stakeholders now exist. Furthermore, the speed of innovation of both hardware
@@ -224,7 +224,7 @@ To this end, we established four objectives for the array API standard. 1)
 Allow array-consuming libraries to accept and operate on arrays
 from multiple different array libraries. 2) Establish a common set of
 standardized APIs and behaviors, enabling more sharing and code reuse. 3) For
-new array libraries, offer a concrete API that can be adopted as is. 4)
+new array libraries, offer a concrete API that can be adopted as-is. 4)
 Minimize the learning curve and friction for users as they switch between
 array libraries.
 
@@ -901,10 +901,10 @@ each benchmark ten times and computed the average execution time.
 .. [#] To ensure that observed performance is not an artifact of the generated dataset, we tested performance across multiple random datasets and did not observe a measurable difference across benchmark runs.
 
 `Fig. 2a`_ and `Fig. 2b`_ display results, showing average execution time
-relative to NumPy. When fitting an LDA model (`Fig. 2a`_), we observe 1.9x
-higher throughput for PyTorch CPU, 7.9x for CuPy, and 45.1x for PyTorch GPU.
-When predicting class labels (`Fig. 2b`_), we observe 2.5x higher throughput
-for PyTorch CPU, 24.6x for CuPy, and 44.9x for PyTorch GPU. In both benchmarks,
+relative to NumPy. When fitting an LDA model (`Fig. 2a`_), we observe 1.9×
+higher throughput for PyTorch CPU, 7.9× for CuPy, and 45.1× for PyTorch GPU.
+When predicting class labels (`Fig. 2b`_), we observe 2.5× higher throughput
+for PyTorch CPU, 24.6× for CuPy, and 44.9× for PyTorch GPU. In both benchmarks,
 using GPU execution models corresponded to significantly increased performance,
 thus supporting our hypothesis that scikit-learn can benefit from non-CPU-based
 execution models, as afforded by array API standard adoption.
@@ -932,9 +932,9 @@ scikit-learn benchmarks discussed above.
 
 `Fig. 2c`_ and `Fig. 2d`_ display results, showing average execution time
 relative to NumPy. When using library-specific optimizations (`Fig. 2c`_), we
-observe 1.4x higher throughput for PyTorch CPU, 51.6x for PyTorch GPU, and
-52.4x for CuPy. When omitting library-specific optimizations (`Fig. 2d`_), we
-observe a 12-25x **decreased** throughput across all non-NumPy backends.
+observe 1.4× higher throughput for PyTorch CPU, 51.6× for PyTorch GPU, and
+52.4× for CuPy. When omitting library-specific optimizations (`Fig. 2d`_), we
+observe a 12-25× **decreased** throughput across all non-NumPy backends.
 
 The source of the performance disparity is due to use of strided views in the
 optimized implementation. NumPy, CuPy, and PyTorch support the concept of
