@@ -13,7 +13,7 @@ jobs:
       with:
         path: scipy_proceedings
         repository: scipy-conference/scipy_proceedings.git
-        ref: 2023
+        ref: 042d636c45c94340ab27c3f9f867e2fe059d63d2
     - name: Checkout scipy-2023-presentation
       uses: actions/checkout@v3
     - name: Set up Python ${{ matrix.python-version }}
