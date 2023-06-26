@@ -13,16 +13,16 @@ jobs:
       with:
         path: scipy_proceedings
         repository: scipy-conference/scipy_proceedings.git
-        ref: 2023
+        ref: 042d636c45c94340ab27c3f9f867e2fe059d63d2
     - name: Checkout scipy-2023-presentation
       uses: actions/checkout@v3
       with:
-        path: scipy_proceedings/papers/01_arrayapi/
+        path: scipy-2023-presentation
     - name: Set up Python ${{ matrix.python-version }}
       uses: actions/setup-python@v4
       with:
         python-version: 3.11
-        cache: 'pip' # caching pip dependencies
+        # cache: 'pip' # caching pip dependencies
 
     # This doesn't actually work with latex unfortunately
     # - name: Install apt dependencies
@@ -43,6 +43,7 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install -r ${GITHUB_WORKSPACE}/scipy_proceedings/requirements.txt
           cd ${GITHUB_WORKSPACE}/scipy_proceedings
+          cp -R ${GITHUB_WORKSPACE}/scipy-2023-presentation/paper/ papers/01_arrayapi
           ./make_paper.sh papers/01_arrayapi/
 
     # TODO: we could instead upload the paper to a branch on the repo using
