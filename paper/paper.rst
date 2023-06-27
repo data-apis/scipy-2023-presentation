@@ -521,7 +521,9 @@ semantics to support element access across multiple dimensions (`Fig. 1b`_).
 Indexing an array using a boolean array (also known as "masking") is an
 optional standardized behavior. The result of a mask operation is
 data-dependent and thus difficult to implement in array libraries relying on
-static analysis for graph-based optimization.
+static analysis for graph-based optimization. Integer array indexing (also
+known as "fancy indexing") is not standardized as of the v2022.12 version of
+the standard.
 
 Array Interaction
 -----------------
