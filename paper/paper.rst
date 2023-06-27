@@ -997,7 +997,10 @@ following areas and open questions: device standardization, extended data type
 support (including strings and datetimes), input-output (IO) APIs, support for
 mixing array libraries, parallelization, and optional extensions for deep
 learning, statistical computing, and, more generally, functionality which is
-out-of-scope, but needed in specific contexts.
+out-of-scope, but needed in specific contexts. The primary public
+communication channel for the standard is the `public issue tracker
+<https://github.com/data-apis/array-api/issues>`__ of the
+`data-apis/array-api` GitHub repository.
 
 We should also note that array API standardization is not the only
 standardization effort spearheaded by the Consortium. We are also working to
