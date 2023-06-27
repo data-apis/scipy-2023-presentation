@@ -523,7 +523,9 @@ optional standardized behavior. The result of a mask operation is
 data-dependent and thus difficult to implement in array libraries relying on
 static analysis for graph-based optimization. Integer array indexing (also
 known as "fancy indexing") is not standardized as of the v2022.12 version of
-the standard.
+the standard. In-place semantics via `__setitem__()` are supported, but the
+behavior is undefined if the operation would affect arrays other than the
+target array, such as the behavior in the presence of views.
 
 Array Interaction
 -----------------
