@@ -633,7 +633,8 @@ essential, or some combination of the above, requiring conforming array
 libraries to implement and maintain extended functionality beyond their target
 domain is not desirable. Extensions provide a means for conforming array
 libraries to opt-in to supporting standardized API subsets according to need
-and target audience.
+and target audience. An extension is implemented as a sub-namespace of the
+main array namespace.
 
 Specification Status
 ====================
