@@ -281,9 +281,9 @@ not amenable to compilation, such as APIs returning arrays having
 data-dependent output shapes or polymorphic return types, should either be
 omitted or specified as optional. In general, the shape, data type, and device
 of the return value from any function should be predictable from its input
-arguments. Moreover, copy-view mutation semantics, such as those currently
-supported by NumPy, should be considered an implementation detail and, thus,
-not suitable for standardization.
+arguments. [#]_
+
+.. [#] Copy-view mutation semantics, such as those currently supported by NumPy, should be considered an implementation detail and, thus, not suitable for standardization.
 
 **Distributed support.** Standardized APIs and behaviors should be amenable to
 implementation in array libraries supporting distributed computing (e.g., Dask :cite:`Rocklin2015a`).
