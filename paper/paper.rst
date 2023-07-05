@@ -997,7 +997,7 @@ mixing array libraries, parallelization, and optional extensions for deep
 learning, statistical computing, and, more generally, functionality which is
 out-of-scope, but needed in specific contexts. [#]_
 
-.. [#] To participate in Consortium efforts, consult the public issue tracker for the Array API Standard :cite:`Consortium2022a`.
+.. [#] To participate in Consortium efforts, consult the public issue tracker for the Python array API standard :cite:`Consortium2022a`.
 
 We should also note that array API standardization is not the only
 standardization effort spearheaded by the Consortium. We are also working to
