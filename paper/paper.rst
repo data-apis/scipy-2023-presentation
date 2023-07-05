@@ -89,9 +89,9 @@ Python Array API Standard: Toward Array Interoperability in the Scientific Pytho
    The Python array API standard specifies standardized application
    programming interfaces (APIs) and behaviors for array and tensor objects
    and operations as commonly found in libraries such as NumPy
-   :cite:`berg2023a`, CuPy :cite:`Fang2021a`, PyTorch :cite:`Meier2021a`, JAX
-   :cite:`Vanderplas2023a`,TensorFlow :cite:`Abadi2016a`, Dask
-   :cite:`White2022a`, and MXNet :cite:`Yyc2021a`. The establishment and
+   :cite:`Harris2020a`, CuPy :cite:`Okuta2017a`, PyTorch :cite:`Paszke2019a`, JAX
+   :cite:`Bradbury2018a`, TensorFlow :cite:`Abadi2016a`, Dask
+   :cite:`Rocklin2015a`, and MXNet :cite:`Chen2015a`. The establishment and
    subsequent adoption of the standard aims to reduce ecosystem fragmentation
    and facilitate array library interoperability in user code and among
    array-consuming libraries, such as scikit-learn :cite:`Pedregosa2011a` and
