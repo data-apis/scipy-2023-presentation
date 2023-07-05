@@ -1,6 +1,6 @@
 #!/bin/bash
 
-libraries=("numpy" "torch_cpu" "torch_gpu" "cupy")
+libraries=("numpy" "cupy" "torch_cpu" "torch_gpu")
 benchmark=$1
 
 if [[ "$benchmark" != "scikit-learn" && "$benchmark" != "scipy" ]]; then
