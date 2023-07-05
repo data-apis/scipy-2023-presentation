@@ -247,16 +247,16 @@ Design Principles
 In order to define the contours of the standardization process, we established
 the following design principles:
 
-**Functions.** The standardized API should consist primarily of functions on
-the namespace (as opposed to methods on the array object). Function-based API
-design is the dominant pattern among array libraries, both in Python and in
-other frequently used programming languages supporting array computation, such
-as MATLAB :cite:`Moler2020a` and Julia :cite:`Bezanson2017a`. While method
-chaining and the fluent interface design pattern are also relatively common,
-especially among array libraries supporting deferred execution and operator
-fusion, function-based APIs are generally preferred. This mirrors design
-patterns used in underlying implementations, such as those written in C/C++
-and Fortran, and more closely matches written mathematical notation.
+**Functions.** The standardized API should consist primarily of standalone
+functions. Function-based API design is the dominant pattern among array
+libraries, both in Python and in other frequently used programming languages
+supporting array computation, such as MATLAB :cite:`Moler2020a` and Julia
+:cite:`Bezanson2017a`. While method chaining and the fluent interface design
+pattern are also relatively common, especially among array libraries supporting
+deferred execution and operator fusion, function-based APIs are generally
+preferred. This mirrors design patterns used in underlying implementations,
+such as those written in C/C++ and Fortran, and more closely matches written
+mathematical notation.
 
 **Minimal array object.** The standard should not require that an array object
 have any attributes or methods beyond what is necessary for inspection
