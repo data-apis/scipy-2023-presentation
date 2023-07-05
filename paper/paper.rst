@@ -170,10 +170,10 @@ mid-1990s :cite:`Dubois1996a`:cite:`Harris2020a`. To better accommodate this
 library and its use cases, Python's syntax was extended to include indexing
 syntax :cite:`Hugunin1995a`.
 
-In the early 2000s, a similar library, Numarray, introduced a more flexible
-data structure :cite:`Greenfield2003a`. Numarray had faster operations for
-large arrays, but slower operations for small arrays. Subsequently, both
-Numeric and Numarray coexisted to satisfy different use cases.
+In the early 2000s, the Numarray library introduced a more flexible data
+structure :cite:`Greenfield2003a`. Numarray had faster operations for large
+arrays, but slower operations for small arrays. Subsequently, both Numeric and
+Numarray coexisted to satisfy different use cases.
 
 In early 2005, the NumPy library unified Numeric and Numarray as a single array
 package by porting Numarray's features to Numeric :cite:`Harris2020a`. This
