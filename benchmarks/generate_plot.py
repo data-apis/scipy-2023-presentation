@@ -14,6 +14,9 @@ def plot(plot_type):
         "torch_gpu": "PyTorch\nGPU",
     }
 
+    sns_params = {"axes.spines.right": False, "axes.spines.top": False}
+    sns.set_theme(context="paper", font_scale=1.4, style="ticks", rc=sns_params)
+
     if plot_type == "both":
         fig, (ax1, ax2, ax3, ax4) = plt.subplots(1, 4, figsize=(16, 5), constrained_layout=True)
     elif plot_type == "scikit-learn":
@@ -21,11 +24,9 @@ def plot(plot_type):
     elif plot_type == "scipy":
         fig, (ax3, ax4) = plt.subplots(1, 2, figsize=(8, 5), constrained_layout=True)
 
-    sns.set_theme(context="paper", font_scale=1.4)
-
     y_min = 0
     y_max = 55
-    y_pos = (0, 10, 20, 30, 40, 50)
+    y_pos = (0, 10, 20, 30, 40, 50, 60)
 
     if plot_type in ["both", "scikit-learn"]:
         scikit_learn_results = pd.read_csv("scikit-learn_timings.csv")
