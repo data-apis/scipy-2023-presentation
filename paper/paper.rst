@@ -911,7 +911,7 @@ When predicting class labels (`Fig. 2b`_), we observe 2.5× higher throughput
 for PyTorch CPU, 24.6× for CuPy, and 44.9× for PyTorch GPU. In both benchmarks,
 using GPU execution models corresponded to significantly increased performance,
 thus supporting our hypothesis that scikit-learn can benefit from non-CPU-based
-execution models, as afforded by array API standard adoption.
+execution models.
 
 SciPy
 -----
