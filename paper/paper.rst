@@ -857,11 +857,10 @@ source code modifications [#]_:
 .. Note: the following line break is intentional in order to force indentation
 
 
-**Indexing:** *(lines 3-6)* NumPy supports indexing semantics which are not
-supported in the array API standard. To be compliant with the standard, 1)
-boolean masks must be the sole index and cannot be combined with other indexing
-expressions, and 2) the number of provided single-axis indexing expressions
-must equal the number of dimensions.
+**Indexing:** *(lines 3-6)* NumPy supports non-standardized indexing semantics.
+To be compliant with the standard, 1) boolean masks must be the sole index and
+cannot be combined with other indexing expressions, and 2) the number of
+provided single-axis indexing expressions must equal the number of dimensions.
 
 **Non-standardized APIs:** *(lines 8-9)* NumPy supports several APIs having no
 equivalent in the array API standard; `np.dot()` is one such API. For
