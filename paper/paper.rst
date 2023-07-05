@@ -813,15 +813,15 @@ TPU-based execution models. By adopting the Python array API standard,
 scikit-learn can decouple its implementation from NumPy and support
 non-CPU-based execution, potentially enabling increased performance.
 
-To test this hypothesis, we first examined the scikit-learn codebase to
-identify APIs which rely primarily on NumPy for their implementation.
-scikit-learn estimators are one such set of APIs, having methods for model
-fitting, classification prediction, and data projection, which are amenable to
-input arrays supporting alternative execution models. Having identified
-potential API candidates, we selected the estimator class for linear
-discriminant analysis (LDA) as a representative test case. Refactoring the LDA
-implementation was illustrative in several respects, as demonstrated in the
-following code snippet showing source code modifications [#]_:
+To test this hypothesis, we examined the scikit-learn codebase to identify APIs
+which rely primarily on NumPy for their implementation. scikit-learn estimators
+are one such set of APIs, having methods for model fitting, classification
+prediction, and data projection, which are amenable to input arrays supporting
+alternative execution models. Having identified potential API candidates, we
+selected the estimator class for linear discriminant analysis (LDA) as a
+representative test case. Refactoring the LDA implementation was illustrative
+in several respects, as demonstrated in the following code snippet showing
+source code modifications [#]_:
 
 .. [#] Source code modifications reflect those required for NumPy version 1.24.3 and Python array API standard version 2022.12.
 
