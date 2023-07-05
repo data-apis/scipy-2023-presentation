@@ -127,12 +127,12 @@ fundamental building blocks—multidimensional arrays :cite:`Vanderwalt2011a`
 This fragmentation comes with significant costs, from reinvention and
 re-implementation of arrays and associated application programming interfaces
 (APIs) to siloed technical stacks targeting only one array library to the
-proliferation of user guides providing guidance on how to convert between, and
-interoperate among, libraries. The APIs of each library are largely
-similar, but each have enough differences that end users have to relearn and
-rewrite code in order to work with multiple libraries. This process can be
-very painful as the transition is far from seamless and creates barriers for
-libraries wanting to support multiple array library backends.
+proliferation of user guides providing guidance on how to convert between
+libraries. The APIs of each library are largely similar, but each have enough
+differences that end users have to relearn and rewrite code in order to work
+with multiple libraries. This process can be very painful as the transition is
+far from seamless and creates barriers for libraries wanting to support
+multiple array library backends.
 
 The Consortium for Python Data API Standards (hereafter referred to as "the
 Consortium" and "we") aims to address this problem by standardizing a
