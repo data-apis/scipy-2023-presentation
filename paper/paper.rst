@@ -518,13 +518,13 @@ linear algebra, statistical reductions, and element-wise computation). Array
 indexing semantics extend built-in Python sequence `__getitem__()` indexing
 semantics to support element access across multiple dimensions (`Fig. 1b`_). [#]_
 Indexing an array using a boolean array (also known as "masking") is an
-optional standardized behavior. The result of a mask operation is
+optional standardized behavior. [#]_ The result of a mask operation is
 data-dependent and thus difficult to implement in array libraries relying on
-static analysis for graph-based optimization. Integer array indexing (also
-known as "fancy indexing") is not standardized as of the v2022.12 version of
-the standard.
+static analysis for graph-based optimization.
 
 .. [#] The array API standard includes support for in-place operations via `__setitem__()`; however, behavior is undefined if an in-place operation would affect arrays other than the target array (e.g., in array libraries supporting multiple "views" of the same underlying memory).
+
+.. [#] While not currently supported, integer array indexing may be included in a future revision of the array API standard.
 
 Array Interaction
 -----------------
