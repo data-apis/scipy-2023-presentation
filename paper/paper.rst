@@ -119,10 +119,10 @@ numerical computing :cite:`Millman2011a`:cite:`Harris2020a`:cite:`Virtanen2020a`
 data science :cite:`Hunter2007a`:cite:`Perez2011a`:cite:`Seabold2010a`:cite:`Kluyver2016a`,
 machine learning :cite:`Pedregosa2011a`, and deep learning :cite:`Chen2015a`:cite:`Paszke2019a`:cite:`Abadi2016a`:cite:`Frostig2018a`.
 New frameworks pushing forward the state of the art appear every year. One
-unintended consequence of all this activity has been fragmentation in the
-fundamental building blocks—multidimensional arrays :cite:`Vanderwalt2011a`
-(also known as tensors)—that underpin the scientific Python ecosystem
-(hereafter referred to as "the ecosystem").
+consequence of all this activity has been fragmentation in the fundamental
+building blocks—multidimensional arrays :cite:`Vanderwalt2011a` (also known as
+tensors)—that underpin the scientific Python ecosystem (hereafter referred to
+as "the ecosystem").
 
 This fragmentation comes with significant costs, from reinvention and
 re-implementation of arrays and associated application programming interfaces
