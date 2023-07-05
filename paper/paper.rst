@@ -966,8 +966,7 @@ and coordination.
 Python array API standard is a living standard, which should evolve to reflect
 the needs and continued evolution of array libraries within the ecosystem. As such,
 we expect to continue working with array and array-consuming library
-maintainers to identify and codify APIs and behaviors suitable for
-standardization.
+maintainers to codify APIs and behaviors suitable for standardization.
 
 **Adoption**: In order to ensure the continued success and relevance of the
 Python array API standard, we work closely with maintainers of array and
