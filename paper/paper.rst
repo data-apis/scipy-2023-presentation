@@ -114,7 +114,7 @@ Python Array API Standard: Toward Array Interoperability in the Scientific Pytho
 Introduction
 ============
 
-Today, Python users have a wealth of choices for libraries and frameworks for
+Python users have a wealth of choices for libraries and frameworks for
 numerical computing :cite:`Millman2011a`:cite:`Harris2020a`:cite:`Virtanen2020a`:cite:`Okuta2017a`:cite:`Rocklin2015a`:cite:`Vanderwalt2014a`:cite:`Hoyer2017a`:cite:`Abbasi2018a`,
 data science :cite:`Hunter2007a`:cite:`Perez2011a`:cite:`Seabold2010a`:cite:`Kluyver2016a`,
 machine learning :cite:`Pedregosa2011a`, and deep learning :cite:`Chen2015a`:cite:`Paszke2019a`:cite:`Abadi2016a`:cite:`Frostig2018a`.
