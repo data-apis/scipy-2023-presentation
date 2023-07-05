@@ -719,12 +719,12 @@ Property-based testing is particularly convenient when authoring compliance
 tests, as the technique enables the direct translation of specification
 guidance into test code.
 
-The test suite is the first example known to these authors of a full-featured,
-standalone Python test suite capable of running against multiple different
-libraries. As part of our work, we upstreamed strategies to Hypothesis for
-generating arbitrary arrays from any conforming array library, thus allowing
-downstream array consumers to test against multiple array libraries and their
-associated hardware devices.
+The test suite is the first example known to these authors of a standalone
+Python test suite capable of running against multiple different libraries. As
+part of our work, we upstreamed strategies to Hypothesis for generating
+arbitrary arrays from any conforming array library, thus allowing downstream
+array consumers to test against multiple array libraries and their associated
+hardware devices.
 
 .. _array-api-compat:
 
