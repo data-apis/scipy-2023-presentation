@@ -714,10 +714,9 @@ special case handling, and expected return values.
 Underpinning the test suite is Hypothesis, a Python library for creating unit
 tests :cite:`MacIver2019a`. Hypothesis uses property-based testing, a technique
 for generating arbitrary data satisfying provided specifications and asserting
-the truth of some "property" that should be true for each input-output pair.
-Property-based testing is particularly convenient when authoring compliance
-tests, as the technique enables the direct translation of specification
-guidance into test code.
+the truth of some "property" that should be true. Property-based testing is
+particularly convenient when authoring compliance tests, as the technique
+enables the direct translation of specification guidance into test code.
 
 The test suite is the first example known to these authors of a Python test
 suite capable of running against multiple different libraries. As part of our
