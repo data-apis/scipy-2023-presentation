@@ -687,17 +687,16 @@ standardized APIs and behaviors.
 Direct participation in the Consortium by array and array-consuming library
 maintainers has facilitated coordination across the ecosystem. In addition to
 the `numpy.array_api`_ reference implementation :cite:`Meurer2021a`, several
-commonly used array libraries, including NumPy :cite:`berg2023a`, CuPy
-:cite:`Fang2021a`, PyTorch :cite:`Meier2021a`, JAX
-:cite:`Vanderplas2023a`, TensorFlow :cite:`Abadi2016a`, Dask
-:cite:`White2022a`, and MXNet :cite:`Yyc2021a` have either adopted or are in
-the process of adopting the array API standard. Increased array library
-adoption has increased array interoperability, which, in turn, has encouraged
-array-consuming libraries, such as SciPy :cite:`Yashchuk2022a` and
-scikit-learn :cite:`Fan2022a` (discussed below), to begin adopting the
-standard by decoupling their implementations from specific array libraries. As
-array library adoption of the standard matures, we expect ecosystem adoption
-to accelerate.
+commonly used array libraries, including NumPy :cite:`berg2023a`,
+CuPy :cite:`Fang2021a`, PyTorch :cite:`Meier2021a`, JAX :cite:`Vanderplas2023a`,
+TensorFlow :cite:`Abadi2016a`, Dask :cite:`White2022a`, and
+MXNet :cite:`Yyc2021a` have either adopted or are in the process of adopting the
+array API standard. Increased array library adoption has increased array
+interoperability, which, in turn, has encouraged array-consuming libraries,
+such as SciPy :cite:`Yashchuk2022a` and scikit-learn :cite:`Fan2022a`
+(discussed below), to begin adopting the standard by decoupling their
+implementations from specific array libraries. As array library adoption of
+the standard matures, we expect ecosystem adoption to accelerate.
 
 Tooling
 =======
