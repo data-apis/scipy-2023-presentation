@@ -328,11 +328,11 @@ Design
 ------
 
 To understand API design of array libraries within the ecosystem, we first
-identified a representative sample of commonly used Python array libraries.
-This sample included NumPy, CuPy, PyTorch, JAX, TensorFlow, Dask Array, and
-MXNet. Next, we extracted public APIs for each library by analyzing module
-exports and scraping public web documentation. As an example of extracted API
-data, consider the following APIs for computing the arithmetic mean:
+identified a representative sample of commonly used array libraries. This
+sample included NumPy, CuPy, PyTorch, JAX, TensorFlow, Dask, and MXNet. Next,
+we extracted public APIs for each library by analyzing module exports and
+scraping public web documentation. The following APIs for computing the
+arithmetic mean provide an example of extracted API data:
 
 .. TODO (athan): line wrapping makes this block harder to grok, especially when inferring common kwargs; consider an alternative presentation
 
