@@ -275,16 +275,15 @@ devices, such as graphics processing units (GPUs), tensor processing units
 
 **Compiler support.** Standardized APIs and behaviors should be amenable to
 just-in-time (JIT) and ahead-of-time (AOT) compilation and graph-based
-optimization techniques, such as those used by PyTorch :cite:`Paszke2019a`,
-JAX :cite:`Bradbury2018a`, and TensorFlow :cite:`Abadi2016a`. APIs and
-behaviors not amenable to compilation, such as APIs returning arrays having
-data-dependent output shapes, should be specified as optional. Some API
-patterns that are difficult for compilers can be avoided entirely, such as
-polymorphic return types. In general, the dtype, shape, and device of the
-return value from any function should be predictable statically from its
-inputs' dtypes, shapes, and devices. Moreover, copy-view mutation semantics,
-such as those currently supported by NumPy, should be considered an
-implementation detail and, thus, not suitable for standardization.
+optimization techniques, such as those used by PyTorch :cite:`Paszke2019a`, JAX
+:cite:`Bradbury2018a`, and TensorFlow :cite:`Abadi2016a`. APIs and behaviors
+not amenable to compilation, such as APIs returning arrays having
+data-dependent output shapes or polymorphic return types, should either be
+omitted or specified as optional. In general, the shape, data type, and device
+of the return value from any function should be predictable from its input
+arguments. Moreover, copy-view mutation semantics, such as those currently
+supported by NumPy, should be considered an implementation detail and, thus,
+not suitable for standardization.
 
 **Distributed support.** Standardized APIs and behaviors should be amenable to
 implementation in array libraries supporting distributed computing (e.g., Dask :cite:`Rocklin2015a`).
