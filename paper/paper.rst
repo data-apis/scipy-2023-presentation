@@ -279,9 +279,9 @@ optimization techniques, such as those used by PyTorch :cite:`Paszke2019a`, JAX
 :cite:`Bradbury2018a`, and TensorFlow :cite:`Abadi2016a`. APIs and behaviors
 not amenable to compilation, such as APIs returning arrays having
 data-dependent output shapes or polymorphic return types, should either be
-omitted or specified as optional. In general, the shape, data type, and device
-of the return value from any function should be predictable from its input
-arguments. [#]_
+omitted or specified as optional. [#]_ In general, the shape, data type, and
+device of the return value from any function should be predictable from its
+input arguments.
 
 .. [#] Copy-view mutation semantics, such as those currently supported by NumPy, should be considered an implementation detail and, thus, not suitable for standardization.
 
