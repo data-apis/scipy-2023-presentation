@@ -293,9 +293,9 @@ naming conventions and design patterns should be consistent across
 standardized APIs.
 
 **Extensibility.** Conforming array libraries may implement functionality
-which is not included in the array API standard. As a consequence, array
-consumers bear responsibility for ensuring that their API usage is portable
-across specification-conforming array libraries.
+which is not included in the array API standard. Array consumers thus bear
+responsibility for ensuring that their API usage is portable across
+specification-conforming array libraries.
 
 **Deference.** Where possible, the array API standard should defer to existing,
 widely-used standards. For example, the accuracy and precision of numerical
