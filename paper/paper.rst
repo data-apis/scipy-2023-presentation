@@ -211,14 +211,13 @@ any new libraries which arise.
 Objectives
 ----------
 
-Standardization efforts must maintain a delicate balance between codifying what
-already exists and maintaining relevance with respect to future innovation. The
-latter aspect is particularly fraught, as relevance requires anticipating
-future needs, technological advances, and emerging use cases. Accordingly, if a
+Standardization efforts must maintain a balance between codifying what already
+exists and maintaining relevance with respect to future innovation. The latter
+aspect is particularly fraught, as relevance requires anticipating future
+needs, technological advances, and emerging use cases. Accordingly, if a
 standard is to remain relevant, the standardization process must be
 conservative in its scope, thorough in its consideration of current and prior
-art, and have clearly defined objectives against which continued success is
-measured.
+art, and have clearly defined objectives against which success is measured.
 
 To this end, we established four objectives for the array API standard. 1)
 Allow array-consuming libraries to accept and operate on arrays
