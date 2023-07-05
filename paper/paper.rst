@@ -624,16 +624,15 @@ libraries supporting spectral analysis of time series are likely to require
 Fourier transform APIs. To accommodate specialized APIs, the Python array API
 standard includes standardized optional extensions.
 
-An extension is defined as a coherent set of standardized functionality which
-is commonly implemented across many, but not all, array libraries. Due to
-implementation difficulty (or impracticality), limited general applicability, a
-desire to avoid significantly expanding API surface area beyond what is
-essential, or some combination of the above, requiring conforming array
-libraries to implement and maintain extended functionality beyond their target
-domain is not desirable. Extensions provide a means for conforming array
-libraries to opt-in to supporting standardized API subsets according to need
-and target audience. An extension is implemented as a sub-namespace of the
-main array namespace.
+An extension is a sub-namespace of a main namespace and is defined as a
+coherent set of standardized functionality which is commonly implemented across
+many, but not all, array libraries. Due to implementation difficulty (or
+impracticality), limited general applicability, a desire to avoid significantly
+expanding API surface area beyond what is essential, or some combination of the
+above, requiring conforming array libraries to implement and maintain extended
+functionality beyond their target domain is not desirable. Extensions provide a
+means for conforming array libraries to opt-in to supporting standardized API
+subsets according to need and target audience.
 
 Specification Status
 ====================
