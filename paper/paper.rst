@@ -734,9 +734,9 @@ library APIs and behaviors with those specified in the Python array API
 standard, we recognize that co-evolution is not likely to always proceed in
 unison due to varying release cycles and competing priorities. Varying
 timelines for adoption and full-compliance present obstacles for array-consuming
-libraries, such as SciPy and scikit-learn, hoping to use the most recent
-standardized behavior, as such libraries are effectively blocked by the slowest
-array library release schedule.
+libraries hoping to use the most recent standardized behavior, as such
+libraries are effectively blocked by the slowest array library release
+schedule.
 
 To address this problem and facilitate adoption of the standard by
 array-consuming libraries, we developed a compatibility layer (named
