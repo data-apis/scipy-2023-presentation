@@ -983,7 +983,7 @@ facilitating knowledge exchange among array library communities, the
 Consortium serves as a critical bulwark against further fragmentation and
 siloed technical stacks. Preventing such fragmentation is to the ultimate
 benefit of array library consumers and their communities. Additionally,
-coordination allows for orienting around a shared long-term outlook regarding
+coordination allows for orienting around a shared long-term vision regarding
 future needs and possible solutions. We are particularly keen to explore the
 following areas and open questions: device standardization, extended data type
 support (including strings and datetimes), input-output (IO) APIs, support for
