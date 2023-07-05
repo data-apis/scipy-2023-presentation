@@ -898,7 +898,7 @@ To test the performance implications of refactoring scikit-learn's LDA
 implementation, we first generated a random two-class classification problem
 having 400,000 samples and 300 features. [#]_ We next devised two benchmarks, one
 for fitting an LDA model and the second for predicting class labels for each
-simulated sample. We then ran the benchmarks and measured execution time for
+simulated sample. We ran the benchmarks and measured execution time for
 NumPy, PyTorch, and CuPy backends on Intel i9-9900K and NVIDIA RTX 2080
 hardware. For PyTorch, we collected timings for both CPU and GPU execution
 models. To ensure timing reproducibility and reduce timing noise, we repeated
