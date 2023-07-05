@@ -343,6 +343,7 @@ data, consider the following APIs for computing the arithmetic mean:
        keepdims=<no value>)
    cupy.mean(a, axis=None, dtype=None, out=None,
        keepdims=False)
+   torch.mean(input, dim, keepdim=False, out=None)
    jax.numpy.mean(a, axis=None, dtype=None, out=None,
        keepdims=False)
    tf.math.reduce_mean(input_tensor, axis=None,
@@ -351,7 +352,6 @@ data, consider the following APIs for computing the arithmetic mean:
        keepdims=False, split_every=None)
    mxnet.np.mean(a, axis=None, dtype=None, out=None,
        keepdims=False)
-   torch.mean(input, dim, keepdim=False, out=None)
 
 We determined commonalities and differences by analyzing the intersection, and
 its complement, of available APIs across each array library. From the
