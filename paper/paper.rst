@@ -966,18 +966,18 @@ the needs and evolution of array libraries within the ecosystem. As such, we
 expect to continue working with array and array-consuming library maintainers
 to codify APIs and behaviors suitable for standardization.
 
-**Adoption**: In order to ensure the continued success and relevance of the
-Python array API standard, we work closely with maintainers of array and
-array-consuming libraries to facilitate adoption by soliciting feedback,
-addressing pain points, and resolving any specification ambiguities. In the
-immediate future, we plan to release additional tooling for tracking adoption
-and measuring specification compliance. For the former, we are collecting
-static compliance data and will publish compatibility tables as part of the
-array API standard publicly available on-line. For the latter, we are
-developing an automated test suite reporting system to gather array API test
-suite results from array libraries as part of their continuous integration
-pipelines. We expect these tools to be particularly valuable to array-consuming
-libraries in order to quickly assess API portability.
+**Adoption**: In order to ensure the success of the Python array API standard,
+we work closely with maintainers of array and array-consuming libraries to
+facilitate adoption by soliciting feedback, addressing pain points, and
+resolving any specification ambiguities. In the immediate future, we plan to
+release additional tooling for tracking adoption and measuring specification
+compliance. For the former, we are collecting static compliance data and will
+publish compatibility tables as part of the array API standard publicly
+available on-line. For the latter, we are developing an automated test suite
+reporting system to gather array API test suite results from array libraries as
+part of their continuous integration pipelines. We expect these tools to be
+particularly valuable to array-consuming libraries in order to quickly assess
+API portability.
 
 **Coordination**: Providing a forum for coordination among array libraries
 (and their consumers) was the primary motivating factor behind Consortium
