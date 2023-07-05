@@ -975,9 +975,9 @@ compliance. For the former, we are collecting static compliance data and will
 publish compatibility tables as part of the array API standard publicly
 available on-line. For the latter, we are developing an automated test suite
 reporting system to gather array API test suite results from array libraries as
-part of their continuous integration pipelines. We expect these tools to be
-particularly valuable to array-consuming libraries in order to quickly assess
-API portability.
+part of continuous integration. We expect these tools to be particularly
+valuable to array-consuming libraries in order to quickly assess API
+portability.
 
 **Coordination**: Providing a forum for coordination among array libraries
 (and their consumers) was the primary motivating factor behind Consortium
