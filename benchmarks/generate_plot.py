@@ -55,7 +55,7 @@ def plot(plot_type):
         ax2.set_title("b", loc='left', y=1.07, x=-0.12, weight='bold', fontsize=fontsize+2)
         ax2.set_ylim(y_min, y_max)
         ax2.set_yticks(y_pos)
-        ax2.bar_label(ax2.containers[0], fmt='%.1f')
+        ax2.bar_label(ax2.containers[0], fmt=r'$%.1f\times$')
 
         for ax in ax1, ax2:
             ax.set_xlabel("")
