@@ -46,7 +46,7 @@ def plot(plot_type):
         ax1.set_title("a", loc='left', y=1.07, x=-0.12, weight='bold', fontsize=fontsize+2)
         ax1.set_ylim(y_min, y_max)
         ax1.set_yticks(y_pos)
-        ax1.bar_label(ax1.containers[0], fmt='%.1f')
+        ax1.bar_label(ax1.containers[0], fmt=r'$%.1f\times$')
 
         sns.barplot(y="Speedup vs. NumPy", x="Backend",
                     data=scikit_learn_results[scikit_learn_results["Method"] ==
