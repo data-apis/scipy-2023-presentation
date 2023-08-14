@@ -24,5 +24,5 @@ To cite the paper, use
 
 ## SciPy Presentation
 
-Slides for the SciPy presentation are in [speakerdeck](https://speakerdeck.com/asmeurer/python-array-api-standard-toward-array-interoperability-in-the-scientific-python-ecosystem)
+Slides for the SciPy presentation can be found on [Speaker Deck](https://speakerdeck.com/asmeurer/python-array-api-standard-toward-array-interoperability-in-the-scientific-python-ecosystem)
 or in [this repo](presentation/Slides.pdf).
