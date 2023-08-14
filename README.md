@@ -1,8 +1,9 @@
 # SciPy 2023 Array API Presentation
 
-## Proceedings Paper
+This repo contains materials for the SciPy 2023 Data APIs Consortium
+presentation and proceedings paper.
 
-Materials for the SciPy 2023 Data APIs Consortium presentation and proceedings paper
+## Proceedings Paper
 
 The published proceedings paper can be found at
 https://conference.scipy.org/proceedings/scipy2023/aaron_meurer.html
